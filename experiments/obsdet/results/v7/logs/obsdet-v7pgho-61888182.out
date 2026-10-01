@@ -1,0 +1,97 @@
+certify.py: OK
+1369ffcae12b93aec06735259c146814  certify.py
+md5-withheld  tool.py
+md5-withheld  replay_pg.py
+md5-withheld  pg_setup.py
+0b919cdcae7d3cd2d3b085b26c342589  pg_cost.py
+952f142a85a219f7ba79fe829bc92766  pg_check.py
+[pg_setup] PostgreSQL 16.2 on x86_64-pc-linux-gnu,  shared_buffers 8GB
+california_schools_sf1: 3 tables, 29941 rows, keys 3/3: ok
+california_schools_perm42: 3 tables, 29941 rows, keys 3/3: ok
+card_games_sf1: 7 tables, 803451 rows, keys 6/6: ok
+card_games_perm42: 7 tables, 803451 rows, keys 6/6: ok
+codebase_community_sf1: 8 tables, 740646 rows, keys 8/8: ok
+codebase_community_perm42: 8 tables, 740646 rows, keys 8/8: ok
+debit_card_specializing_sf1: 6 tables, 423051 rows, keys 5/5: ok
+debit_card_specializing_perm42: 6 tables, 423051 rows, keys 5/5: ok
+formula_1_sf1: 14 tables, 514297 rows, keys 13/13: ok
+formula_1_perm42: 14 tables, 514297 rows, keys 13/13: ok
+thrombosis_prediction_sf1: 3 tables, 15952 rows, keys 2/2: ok
+thrombosis_prediction_perm42: 3 tables, 15952 rows, keys 2/2: ok
+student_club_sf1: 8 tables, 42511 rows, keys 8/8: ok
+student_club_perm42: 8 tables, 42511 rows, keys 8/8: ok
+superhero_sf1: 10 tables, 10614 rows, keys 8/8: ok
+superhero_perm42: 10 tables, 10614 rows, keys 8/8: ok
+toxicology_sf1: 4 tables, 49813 rows, keys 4/4: ok
+toxicology_perm42: 4 tables, 49813 rows, keys 4/4: ok
+european_football_2_sf1: 3 tables, 26001 rows, keys 3/3: ok
+european_football_2_perm42: 3 tables, 26001 rows, keys 3/3: ok
+financial_sf1: 6 tables, 16889 rows, keys 6/6: ok
+financial_perm42: 6 tables, 16889 rows, keys 6/6: ok
+pg_check: all ok
+0d0fcce41c54654e19b11d311d4e39f9  $PROJECT_ROOT/runs/obsdet/v7/cert_heldout_new_v7.jsonl
+california_schools done
+card_games done
+codebase_community done
+debit_card_specializing done
+european_football_2 done
+financial done
+formula_1 done
+student_club done
+superhero done
+thrombosis_prediction done
+PostgreSQL does not support IGNORE NULLS.
+toxicology done
+
+PostgreSQL certificates and policies; parallel plans chosen in the parallel-enabled setting:
+  raw       parallel planned 989, serial 131
+  smartlex  parallel planned 989, serial 131
+  certified parallel planned 968, serial 152
+
+policy x verdict: diverged / complete (censored: transpile error or not observed in every configuration)
+  raw       DET         0/187  censored 2
+  raw       NARROW      159/377  censored 8
+  raw       ALL         83/206  censored 0
+  raw       UNSUPPORTED 78/348  censored 10
+  smartlex  DET         0/187  censored 2
+  smartlex  NARROW      0/377  censored 8
+  smartlex  ALL         0/206  censored 0
+  smartlex  UNSUPPORTED 42/348  censored 10
+  certified DET         0/187  censored 2
+  certified NARROW      0/377  censored 8
+  certified ALL         0/206  censored 0
+  certified UNSUPPORTED 42/348  censored 10
+2b3a5b6ef490c4254a6f441328e0516a  $PROJECT_ROOT/runs/obsdet/v7/cert_td_new_v7.jsonl
+california_schools done
+card_games done
+codebase_community done
+debit_card_specializing done
+european_football_2 done
+Unsupported SHOW statement
+financial done
+formula_1 done
+student_club done
+superhero done
+thrombosis_prediction done
+toxicology done
+
+PostgreSQL certificates and policies; parallel plans chosen in the parallel-enabled setting:
+  raw       parallel planned 1142, serial 145
+  smartlex  parallel planned 1132, serial 155
+  certified parallel planned 1124, serial 163
+
+policy x verdict: diverged / complete (censored: transpile error or not observed in every configuration)
+  raw       DET         0/304  censored 4
+  raw       NARROW      221/462  censored 9
+  raw       ALL         80/213  censored 2
+  raw       UNSUPPORTED 61/295  censored 32
+  smartlex  DET         0/304  censored 4
+  smartlex  NARROW      0/461  censored 10
+  smartlex  ALL         0/213  censored 2
+  smartlex  UNSUPPORTED 32/295  censored 32
+  certified DET         0/304  censored 4
+  certified NARROW      0/461  censored 10
+  certified ALL         0/213  censored 2
+  certified UNSUPPORTED 32/295  censored 32
+waiting for server to shut down.... done
+server stopped

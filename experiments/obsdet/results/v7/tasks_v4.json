@@ -1,0 +1,5713 @@
+[
+ {
+  "task_id": "california_schools:62",
+  "question_id": 62,
+  "db_id": "california_schools",
+  "difficulty": "challenging",
+  "question": "For non-chartered schools in Los Angeles County with a free meal rate below 0.18%, provide details about each school including their enrollment, free meal count, exact free meal percentage, their rank within the county, and statistics about how many schools in the county fall into this low free meal category.",
+  "evidence": "non-chartered schools refer to Charter = 0; free meal rate = Free Meal Count (K-12) * 100 / Enrollment (K-12)",
+  "gold_sql_sqlite": "WITH SchoolStats AS (\n    SELECT \n        s.CDSCode,\n        s.School,\n        s.County,\n        s.District,\n        s.Charter,\n        f.`Free Meal Count (K-12)`,\n        f.`Enrollment (K-12)`,\n        CAST(f.`Free Meal Count (K-12)` AS REAL) * 100 / f.`Enrollment (K-12)` AS FreePercent,\n        f.`FRPM Count (K-12)`,\n        CAST(f.`FRPM Count (K-12)` AS REAL) * 100 / f.`Enrollment (K-12)` AS FRPMPercent,\n        CASE \n            WHEN CAST(f.`Free Meal Count (K-12)` AS REAL) * 100 / f.`Enrollment (K-12)` < 0.18 THEN 'Very Low'\n            WHEN CAST(f.`Free Meal Count (K-12)` AS REAL) * 100 / f.`Enrollment (K-12)` < 10 THEN 'Low'\n            WHEN CAST(f.`Free Meal Count (K-12)` AS REAL) * 100 / f.`Enrollment (K-12)` < 30 THEN 'Medium'\n            ELSE 'High'\n        END AS FreeCategory,\n        ROW_NUMBER() OVER (PARTITION BY s.County ORDER BY CAST(f.`Free Meal Count (K-12)` AS REAL) * 100 / f.`Enrollment (K-12)`) AS CountyRank\n    FROM \n        schools s\n    INNER JOIN \n        frpm f ON s.CDSCode = f.CDSCode\n    LEFT JOIN \n        satscores sat ON s.CDSCode = sat.cds\n    WHERE \n        s.Charter = 0\n        AND f.`Enrollment (K-12)` > 0\n),\nCountyStats AS (\n    SELECT\n        County,\n        COUNT(*) AS TotalSchools,\n        COUNT(CASE WHEN FreePercent < 0.18 THEN 1 END) AS LowFreeSchools,\n        AVG(FreePercent) AS AvgFreePercent,\n        MIN(FreePercent) AS MinFreePercent,\n        MAX(FreePercent) AS MaxFreePercent\n    FROM\n        SchoolStats\n    GROUP BY\n        County\n    HAVING\n        COUNT(CASE WHEN FreePercent < 0.18 THEN 1 END) > 0\n)\n\nSELECT\n    ss.CDSCode,\n    ss.School,\n    ss.District,\n    ss.County,\n    ss.`Enrollment (K-12)` AS Enrollment,\n    ss.`Free Meal Count (K-12)` AS FreeMealCount,\n    ROUND(ss.FreePercent, 4) AS FreePercentage,\n    ss.FreeCategory,\n    ss.CountyRank,\n    cs.TotalSchools,\n    cs.LowFreeSchools,\n    ROUND(cs.AvgFreePercent, 4) AS CountyAvgFreePercent,\n    ROUND(100.0 * cs.LowFreeSchools / cs.TotalSchools, 2) || '%' AS PctLowFreeInCounty,\n    (SELECT COUNT(*) FROM SchoolStats WHERE County = 'Los Angeles' AND FreePercent < 0.18) AS LATotalLowFree\nFROM\n    SchoolStats ss\nJOIN\n    CountyStats cs ON ss.County = cs.County\nWHERE\n    ss.County = 'Los Angeles'\n    AND ss.FreePercent < 0.18\nORDER BY\n    ss.FreePercent ASC;",
+  "gold_sql_duckdb": "WITH SchoolStats AS (SELECT s.CDSCode, s.School, s.County, s.District, s.Charter, f.\"Free Meal Count (K-12)\", f.\"Enrollment (K-12)\", CAST(f.\"Free Meal Count (K-12)\" AS REAL) * 100 / NULLIF(f.\"Enrollment (K-12)\", 0) AS FreePercent, f.\"FRPM Count (K-12)\", CAST(f.\"FRPM Count (K-12)\" AS REAL) * 100 / NULLIF(f.\"Enrollment (K-12)\", 0) AS FRPMPercent, CASE WHEN CAST(f.\"Free Meal Count (K-12)\" AS REAL) * 100 / NULLIF(f.\"Enrollment (K-12)\", 0) < 0.18 THEN 'Very Low' WHEN CAST(f.\"Free Meal Count (K-12)\" AS REAL) * 100 / NULLIF(f.\"Enrollment (K-12)\", 0) < 10 THEN 'Low' WHEN CAST(f.\"Free Meal Count (K-12)\" AS REAL) * 100 / NULLIF(f.\"Enrollment (K-12)\", 0) < 30 THEN 'Medium' ELSE 'High' END AS FreeCategory, ROW_NUMBER() OVER (PARTITION BY s.County ORDER BY CAST(f.\"Free Meal Count (K-12)\" AS REAL) * 100 / NULLIF(f.\"Enrollment (K-12)\", 0) NULLS FIRST) AS CountyRank FROM schools AS s INNER JOIN frpm AS f ON s.CDSCode = f.CDSCode LEFT JOIN satscores AS sat ON s.CDSCode = sat.cds WHERE s.Charter = 0 AND f.\"Enrollment (K-12)\" > 0), CountyStats AS (SELECT County, COUNT(*) AS TotalSchools, COUNT(CASE WHEN FreePercent < 0.18 THEN 1 END) AS LowFreeSchools, AVG(FreePercent) AS AvgFreePercent, MIN(FreePercent) AS MinFreePercent, MAX(FreePercent) AS MaxFreePercent FROM SchoolStats GROUP BY County HAVING COUNT(CASE WHEN FreePercent < 0.18 THEN 1 END) > 0) SELECT ss.CDSCode, ss.School, ss.District, ss.County, ss.\"Enrollment (K-12)\" AS Enrollment, ss.\"Free Meal Count (K-12)\" AS FreeMealCount, ROUND(ss.FreePercent, 4) AS FreePercentage, ss.FreeCategory, ss.CountyRank, cs.TotalSchools, cs.LowFreeSchools, ROUND(cs.AvgFreePercent, 4) AS CountyAvgFreePercent, ROUND(100.0 * cs.LowFreeSchools / NULLIF(cs.TotalSchools, 0), 2) || '%' AS PctLowFreeInCounty, (SELECT COUNT(*) FROM SchoolStats WHERE County = 'Los Angeles' AND FreePercent < 0.18) AS LATotalLowFree FROM SchoolStats AS ss JOIN CountyStats AS cs ON ss.County = cs.County WHERE ss.County = 'Los Angeles' AND ss.FreePercent < 0.18 ORDER BY ss.FreePercent ASC NULLS FIRST",
+  "gold_rows": [
+   [
+    "19753336020325",
+    "Aurelia Pennekamp Elementary",
+    "Manhattan Beach Unified",
+    "Los Angeles",
+    568,
+    1,
+    0.1761,
+    "Very Low",
+    4,
+    1865,
+    1,
+    61.2573,
+    "0.05%",
+    1
+   ]
+  ],
+  "gold_runtime": 0.019997425377368927,
+  "split": "td2"
+ },
+ {
+  "task_id": "california_schools:31",
+  "question_id": 31,
+  "db_id": "california_schools",
+  "difficulty": "challenging",
+  "question": "For the 10th and 11th largest schools by K-12 enrollment, provide a comprehensive profile including their enrollment statistics, free meal eligibility rates, location details, school type, grade spans offered, and SAT performance metrics.",
+  "evidence": "K-12 refers to students in grades 1 through 12; Eligible free rate for K-12 = Free Meal Count (K-12) / Enrollment (K-12); Charter schools have Charter = 1",
+  "gold_sql_sqlite": "WITH EnrollmentRanked AS (\n    SELECT \n        f.CDSCode,\n        f.`School Name`,\n        f.`District Name`,\n        f.`County Name`,\n        f.`Enrollment (K-12)`,\n        f.`Free Meal Count (K-12)`,\n        CAST(f.`Free Meal Count (K-12)` AS REAL) / f.`Enrollment (K-12)` AS EligibleFreeRate,\n        ROW_NUMBER() OVER (ORDER BY f.`Enrollment (K-12)` DESC) AS EnrollmentRank\n    FROM frpm f\n    WHERE f.`Enrollment (K-12)` > 0\n),\nSchoolDetails AS (\n    SELECT \n        s.CDSCode,\n        s.School,\n        s.City,\n        s.Charter,\n        s.GSoffered,\n        s.Website,\n        CASE \n            WHEN s.Charter = 1 THEN 'Charter School'\n            ELSE 'Regular School'\n        END AS SchoolType,\n        CASE\n            WHEN s.Latitude IS NOT NULL AND s.Longitude IS NOT NULL THEN 'Yes'\n            ELSE 'No'\n        END AS HasGeolocation\n    FROM schools s\n),\nSATPerformance AS (\n    SELECT\n        sat.cds,\n        sat.NumTstTakr,\n        sat.AvgScrRead,\n        sat.AvgScrMath,\n        sat.AvgScrWrite,\n        sat.NumGE1500,\n        CASE \n            WHEN sat.NumTstTakr > 0 THEN CAST(sat.NumGE1500 AS REAL) / sat.NumTstTakr\n            ELSE 0\n        END AS PercentageAbove1500\n    FROM satscores sat\n)\nSELECT \n    e.EnrollmentRank,\n    e.`School Name`,\n    e.`District Name`,\n    e.`County Name`,\n    e.`Enrollment (K-12)` AS TotalEnrollment,\n    e.`Free Meal Count (K-12)` AS FreeMealCount,\n    ROUND(e.EligibleFreeRate * 100, 2) || '%' AS EligibleFreeRate,\n    sd.City,\n    sd.SchoolType,\n    sd.GSoffered AS GradeSpan,\n    sd.Website,\n    COALESCE(sp.NumTstTakr, 0) AS SATTestTakers,\n    COALESCE(sp.AvgScrRead, 0) AS AvgReadingScore,\n    COALESCE(sp.AvgScrMath, 0) AS AvgMathScore,\n    COALESCE(sp.AvgScrWrite, 0) AS AvgWritingScore,\n    COALESCE(ROUND(sp.PercentageAbove1500 * 100, 2), 0) || '%' AS PercentAbove1500SAT\nFROM EnrollmentRanked e\nLEFT JOIN SchoolDetails sd ON e.CDSCode = sd.CDSCode\nLEFT JOIN SATPerformance sp ON e.CDSCode = sp.cds\nWHERE e.EnrollmentRank IN (10, 11)\nORDER BY e.EnrollmentRank;",
+  "gold_sql_duckdb": "WITH EnrollmentRanked AS (SELECT f.CDSCode, f.\"School Name\", f.\"District Name\", f.\"County Name\", f.\"Enrollment (K-12)\", f.\"Free Meal Count (K-12)\", CAST(f.\"Free Meal Count (K-12)\" AS REAL) / NULLIF(f.\"Enrollment (K-12)\", 0) AS EligibleFreeRate, ROW_NUMBER() OVER (ORDER BY f.\"Enrollment (K-12)\" DESC) AS EnrollmentRank FROM frpm AS f WHERE f.\"Enrollment (K-12)\" > 0), SchoolDetails AS (SELECT s.CDSCode, s.School, s.City, s.Charter, s.GSoffered, s.Website, CASE WHEN s.Charter = 1 THEN 'Charter School' ELSE 'Regular School' END AS SchoolType, CASE WHEN NOT s.Latitude IS NULL AND NOT s.Longitude IS NULL THEN 'Yes' ELSE 'No' END AS HasGeolocation FROM schools AS s), SATPerformance AS (SELECT sat.cds, sat.NumTstTakr, sat.AvgScrRead, sat.AvgScrMath, sat.AvgScrWrite, sat.NumGE1500, CASE WHEN sat.NumTstTakr > 0 THEN CAST(sat.NumGE1500 AS REAL) / NULLIF(sat.NumTstTakr, 0) ELSE 0 END AS PercentageAbove1500 FROM satscores AS sat) SELECT e.EnrollmentRank, e.\"School Name\", e.\"District Name\", e.\"County Name\", e.\"Enrollment (K-12)\" AS TotalEnrollment, e.\"Free Meal Count (K-12)\" AS FreeMealCount, ROUND(e.EligibleFreeRate * 100, 2) || '%' AS EligibleFreeRate, sd.City, sd.SchoolType, sd.GSoffered AS GradeSpan, sd.Website, COALESCE(sp.NumTstTakr, 0) AS SATTestTakers, COALESCE(sp.AvgScrRead, 0) AS AvgReadingScore, COALESCE(sp.AvgScrMath, 0) AS AvgMathScore, COALESCE(sp.AvgScrWrite, 0) AS AvgWritingScore, COALESCE(ROUND(sp.PercentageAbove1500 * 100, 2), 0) || '%' AS PercentAbove1500SAT FROM EnrollmentRanked AS e LEFT JOIN SchoolDetails AS sd ON e.CDSCode = sd.CDSCode LEFT JOIN SATPerformance AS sp ON e.CDSCode = sp.cds WHERE e.EnrollmentRank IN (10, 11) ORDER BY e.EnrollmentRank NULLS FIRST",
+  "gold_rows": [
+   [
+    10,
+    "El Camino Real Charter High",
+    "Los Angeles Unified",
+    "Los Angeles",
+    3868,
+    520,
+    "13.44%",
+    "Woodland Hills",
+    "Charter School",
+    "9-12",
+    "http://ecrchs.net",
+    428,
+    517,
+    532,
+    514,
+    "57.48%"
+   ],
+   [
+    11,
+    "Eleanor Roosevelt High",
+    "Corona-Norco Unified",
+    "Riverside",
+    3868,
+    1124,
+    "29.06%",
+    "Eastvale",
+    "Regular School",
+    "9-12",
+    "www.cnusd.k12.ca.us/erhs",
+    486,
+    486,
+    490,
+    486,
+    "44.86%"
+   ]
+  ],
+  "gold_runtime": 0.00974113680422306,
+  "split": "td2"
+ },
+ {
+  "task_id": "california_schools:33",
+  "question_id": 33,
+  "db_id": "california_schools",
+  "difficulty": "moderate",
+  "question": "If there are any, what are the websites address of the schools with a free meal count of 1,900-2,000 to students aged 5-17? Include the name of the school.",
+  "evidence": "",
+  "gold_sql_sqlite": "SELECT T2.Website, T1.`School Name` FROM frpm AS T1 INNER JOIN schools AS T2 ON T1.CDSCode = T2.CDSCode WHERE T1.`Free Meal Count (Ages 5-17)` BETWEEN 1900 AND 2000 AND T2.Website IS NOT NULL",
+  "gold_sql_duckdb": "SELECT T2.Website, T1.\"School Name\" FROM frpm AS T1 INNER JOIN schools AS T2 ON T1.CDSCode = T2.CDSCode WHERE T1.\"Free Meal Count (Ages 5-17)\" BETWEEN 1900 AND 2000 AND NOT T2.Website IS NULL",
+  "gold_rows": [
+   [
+    "http://lhs.lynwood.edlioschool.com/",
+    "Lynwood High"
+   ],
+   [
+    "www.auhsd.us/katella",
+    "Katella High"
+   ]
+  ],
+  "gold_runtime": 0.002037080004811287,
+  "split": "td2"
+ },
+ {
+  "task_id": "california_schools:80",
+  "question_id": 80,
+  "db_id": "california_schools",
+  "difficulty": "simple",
+  "question": "What is the school type of the school with the highest latitude? Indicate the name of the school as well as the latitude coordinates.",
+  "evidence": "",
+  "gold_sql_sqlite": "SELECT T1.`School Type`, T1.`School Name`, T2.Latitude FROM frpm AS T1 INNER JOIN schools AS T2 ON T1.CDSCode = T2.CDSCode ORDER BY T2.Latitude DESC, T1.CDSCode ASC LIMIT 1",
+  "gold_sql_duckdb": "SELECT T1.\"School Type\", T1.\"School Name\", T2.Latitude FROM frpm AS T1 INNER JOIN schools AS T2 ON T1.CDSCode = T2.CDSCode ORDER BY T2.Latitude DESC, T1.CDSCode ASC NULLS FIRST LIMIT 1",
+  "gold_rows": [
+   [
+    "High Schools (Public)",
+    "Leggett Valley High",
+    44.2193
+   ]
+  ],
+  "gold_runtime": 0.004807385616004467,
+  "split": "td2"
+ },
+ {
+  "task_id": "california_schools:53",
+  "question_id": 53,
+  "db_id": "california_schools",
+  "difficulty": "simple",
+  "question": "How many test takers are there at the school/s whose mailing city address is in Fresno?",
+  "evidence": "",
+  "gold_sql_sqlite": "SELECT SUM(T1.NumTstTakr) FROM satscores AS T1 INNER JOIN schools AS T2 ON T1.cds = T2.CDSCode WHERE T2.MailCity = 'Fresno'",
+  "gold_sql_duckdb": "SELECT SUM(T1.NumTstTakr) FROM satscores AS T1 INNER JOIN schools AS T2 ON T1.cds = T2.CDSCode WHERE T2.MailCity = 'Fresno'",
+  "gold_rows": [
+   [
+    6070
+   ]
+  ],
+  "gold_runtime": 0.0019678687676787376,
+  "split": "td2"
+ },
+ {
+  "task_id": "california_schools:58",
+  "question_id": 58,
+  "db_id": "california_schools",
+  "difficulty": "simple",
+  "question": "What is the phone number and extension number for the school with the zip code 95203-3704? Indicate the school's name.",
+  "evidence": "",
+  "gold_sql_sqlite": "SELECT Phone, Ext, School FROM schools WHERE Zip = '95203-3704'",
+  "gold_sql_duckdb": "SELECT Phone, Ext, School FROM schools WHERE Zip = '95203-3704'",
+  "gold_rows": [
+   [
+    "(209) 933-7470",
+    "2222",
+    "Spanos (Alex G.) Elementary"
+   ]
+  ],
+  "gold_runtime": 0.0012382101267576218,
+  "split": "td2"
+ },
+ {
+  "task_id": "california_schools:77",
+  "question_id": 77,
+  "db_id": "california_schools",
+  "difficulty": "challenging",
+  "question": "For schools in Los Angeles County that serve grades K-9, what are their poverty levels based on FRPM eligibility rates, and how do they perform on SAT tests? Include their charter status and rank them by FRPM percentage.",
+  "evidence": "Poverty level is categorized as High Poverty (\u226575% FRPM), Medium Poverty (50-74% FRPM), or Low Poverty (<50% FRPM). FRPM percentage = FRPM Count (Ages 5-17) / Enrollment (Ages 5-17) * 100. Charter status can be found in Charter field where 1 = Yes and 0 = No.",
+  "gold_sql_sqlite": "WITH SchoolStats AS (\n    SELECT \n        s.CDSCode,\n        s.School,\n        s.County,\n        s.GSserved,\n        s.Charter,\n        s.CharterNum,\n        s.City,\n        f.`FRPM Count (Ages 5-17)`,\n        f.`Enrollment (Ages 5-17)`,\n        f.`FRPM Count (Ages 5-17)` * 100.0 / f.`Enrollment (Ages 5-17)` AS FRPM_Percentage,\n        CASE \n            WHEN f.`FRPM Count (Ages 5-17)` * 100.0 / f.`Enrollment (Ages 5-17)` >= 75 THEN 'High Poverty'\n            WHEN f.`FRPM Count (Ages 5-17)` * 100.0 / f.`Enrollment (Ages 5-17)` >= 50 THEN 'Medium Poverty'\n            ELSE 'Low Poverty'\n        END AS Poverty_Level\n    FROM schools AS s\n    INNER JOIN frpm AS f ON s.CDSCode = f.CDSCode\n    WHERE s.County = 'Los Angeles' AND s.GSserved = 'K-9'\n),\nSAT_Performance AS (\n    SELECT \n        ss.cds,\n        ss.NumTstTakr,\n        ss.AvgScrRead,\n        ss.AvgScrMath,\n        ss.AvgScrWrite,\n        ss.AvgScrRead + ss.AvgScrMath + ss.AvgScrWrite AS Total_SAT_Score,\n        RANK() OVER (ORDER BY ss.AvgScrRead + ss.AvgScrMath + ss.AvgScrWrite DESC) AS SAT_Rank\n    FROM satscores AS ss\n    WHERE ss.rtype = 'S'\n)\nSELECT \n    ss.School,\n    ss.City,\n    ss.FRPM_Percentage AS \"Percent (%) Eligible FRPM (Ages 5-17)\",\n    ss.Poverty_Level,\n    CASE WHEN ss.Charter = 1 THEN 'Yes (' || ss.CharterNum || ')' ELSE 'No' END AS Is_Charter,\n    sp.NumTstTakr AS \"Number of SAT Test Takers\",\n    sp.AvgScrRead AS \"Avg Reading Score\",\n    sp.AvgScrMath AS \"Avg Math Score\",\n    sp.AvgScrWrite AS \"Avg Writing Score\",\n    sp.Total_SAT_Score AS \"Total SAT Score\",\n    sp.SAT_Rank AS \"SAT Ranking\",\n    ROUND(ss.`FRPM Count (Ages 5-17)`, 0) AS \"FRPM Count\",\n    ROUND(ss.`Enrollment (Ages 5-17)`, 0) AS \"Enrollment\"\nFROM SchoolStats ss\nLEFT JOIN SAT_Performance sp ON ss.CDSCode = sp.cds\nORDER BY ss.FRPM_Percentage DESC;",
+  "gold_sql_duckdb": "WITH SchoolStats AS (SELECT s.CDSCode, s.School, s.County, s.GSserved, s.Charter, s.CharterNum, s.City, f.\"FRPM Count (Ages 5-17)\", f.\"Enrollment (Ages 5-17)\", f.\"FRPM Count (Ages 5-17)\" * 100.0 / NULLIF(f.\"Enrollment (Ages 5-17)\", 0) AS FRPM_Percentage, CASE WHEN f.\"FRPM Count (Ages 5-17)\" * 100.0 / NULLIF(f.\"Enrollment (Ages 5-17)\", 0) >= 75 THEN 'High Poverty' WHEN f.\"FRPM Count (Ages 5-17)\" * 100.0 / NULLIF(f.\"Enrollment (Ages 5-17)\", 0) >= 50 THEN 'Medium Poverty' ELSE 'Low Poverty' END AS Poverty_Level FROM schools AS s INNER JOIN frpm AS f ON s.CDSCode = f.CDSCode WHERE s.County = 'Los Angeles' AND s.GSserved = 'K-9'), SAT_Performance AS (SELECT ss.cds, ss.NumTstTakr, ss.AvgScrRead, ss.AvgScrMath, ss.AvgScrWrite, ss.AvgScrRead + ss.AvgScrMath + ss.AvgScrWrite AS Total_SAT_Score, RANK() OVER (ORDER BY ss.AvgScrRead + ss.AvgScrMath + ss.AvgScrWrite DESC) AS SAT_Rank FROM satscores AS ss WHERE ss.rtype = 'S') SELECT ss.School, ss.City, ss.FRPM_Percentage AS \"Percent (%) Eligible FRPM (Ages 5-17)\", ss.Poverty_Level, CASE WHEN ss.Charter = 1 THEN 'Yes (' || ss.CharterNum || ')' ELSE 'No' END AS Is_Charter, sp.NumTstTakr AS \"Number of SAT Test Takers\", sp.AvgScrRead AS \"Avg Reading Score\", sp.AvgScrMath AS \"Avg Math Score\", sp.AvgScrWrite AS \"Avg Writing Score\", sp.Total_SAT_Score AS \"Total SAT Score\", sp.SAT_Rank AS \"SAT Ranking\", ROUND(ss.\"FRPM Count (Ages 5-17)\", 0) AS \"FRPM Count\", ROUND(ss.\"Enrollment (Ages 5-17)\", 0) AS \"Enrollment\" FROM SchoolStats AS ss LEFT JOIN SAT_Performance AS sp ON ss.CDSCode = sp.cds ORDER BY ss.FRPM_Percentage DESC",
+  "gold_rows": [
+   [
+    "The Accelerated",
+    "Los Angeles",
+    97.6389,
+    "High Poverty",
+    "Yes (0045)",
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    703,
+    720
+   ],
+   [
+    "White Oak Elementary",
+    "Westlake Village",
+    3.7559,
+    "Low Poverty",
+    "No",
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    16,
+    426
+   ]
+  ],
+  "gold_runtime": 0.004219634458422661,
+  "split": "td2"
+ },
+ {
+  "task_id": "california_schools:60",
+  "question_id": 60,
+  "db_id": "california_schools",
+  "difficulty": "challenging",
+  "question": "For all partially virtual charter schools in San Joaquin County, provide a comprehensive analysis including their enrollment statistics, poverty levels based on free and reduced-price meal eligibility, SAT performance metrics, and rank them by enrollment size within the county.",
+  "evidence": "Partially virtual schools have Virtual = 'P'; Charter schools have Charter = 1; Poverty levels are categorized based on FRPM percentage: over 75% is High Poverty, 50-75% is Medium-High Poverty, 25-50% is Medium-Low Poverty, and under 25% is Low Poverty.",
+  "gold_sql_sqlite": "WITH CharterSchoolStats AS (\n    SELECT \n        s.CDSCode,\n        s.Website,\n        s.School,\n        s.County,\n        s.Charter,\n        s.Virtual,\n        s.CharterNum,\n        s.FundingType,\n        f.`Enrollment (K-12)` AS TotalEnrollment,\n        f.`FRPM Count (K-12)` AS FRPMCount,\n        f.`Percent (%) Eligible FRPM (K-12)` AS FRPMPercentage,\n        CASE \n            WHEN f.`Percent (%) Eligible FRPM (K-12)` > 0.75 THEN 'High Poverty'\n            WHEN f.`Percent (%) Eligible FRPM (K-12)` > 0.50 THEN 'Medium-High Poverty'\n            WHEN f.`Percent (%) Eligible FRPM (K-12)` > 0.25 THEN 'Medium-Low Poverty'\n            ELSE 'Low Poverty'\n        END AS PovertyLevel,\n        RANK() OVER (PARTITION BY s.County ORDER BY f.`Enrollment (K-12)` DESC) AS EnrollmentRank\n    FROM \n        schools s\n    LEFT JOIN \n        frpm f ON s.CDSCode = f.CDSCode\n    WHERE \n        s.County = 'San Joaquin' \n        AND s.Virtual = 'P' \n        AND s.Charter = 1\n)\nSELECT \n    cs.School AS SchoolName,\n    cs.Website,\n    cs.CharterNum AS CharterNumber,\n    cs.FundingType,\n    cs.TotalEnrollment,\n    cs.FRPMCount,\n    ROUND(cs.FRPMPercentage * 100, 2) || '%' AS FRPMPercentage,\n    cs.PovertyLevel,\n    cs.EnrollmentRank,\n    COALESCE(sat.NumTstTakr, 0) AS SATTestTakers,\n    COALESCE(sat.AvgScrRead, 0) AS AvgReadingScore,\n    COALESCE(sat.AvgScrMath, 0) AS AvgMathScore,\n    COALESCE(sat.AvgScrWrite, 0) AS AvgWritingScore,\n    COALESCE(sat.NumGE1500, 0) AS StudentsOver1500,\n    CASE \n        WHEN sat.NumTstTakr > 0 THEN ROUND((CAST(sat.NumGE1500 AS REAL) / sat.NumTstTakr) * 100, 2) || '%'\n        ELSE '0%'\n    END AS PercentOver1500\nFROM \n    CharterSchoolStats cs\nLEFT JOIN \n    satscores sat ON cs.CDSCode = sat.cds\nORDER BY \n    cs.EnrollmentRank, \n    cs.TotalEnrollment DESC;",
+  "gold_sql_duckdb": "WITH CharterSchoolStats AS (SELECT s.CDSCode, s.Website, s.School, s.County, s.Charter, s.Virtual, s.CharterNum, s.FundingType, f.\"Enrollment (K-12)\" AS TotalEnrollment, f.\"FRPM Count (K-12)\" AS FRPMCount, f.\"Percent (%) Eligible FRPM (K-12)\" AS FRPMPercentage, CASE WHEN f.\"Percent (%) Eligible FRPM (K-12)\" > 0.75 THEN 'High Poverty' WHEN f.\"Percent (%) Eligible FRPM (K-12)\" > 0.50 THEN 'Medium-High Poverty' WHEN f.\"Percent (%) Eligible FRPM (K-12)\" > 0.25 THEN 'Medium-Low Poverty' ELSE 'Low Poverty' END AS PovertyLevel, RANK() OVER (PARTITION BY s.County ORDER BY f.\"Enrollment (K-12)\" DESC) AS EnrollmentRank FROM schools AS s LEFT JOIN frpm AS f ON s.CDSCode = f.CDSCode WHERE s.County = 'San Joaquin' AND s.Virtual = 'P' AND s.Charter = 1) SELECT cs.School AS SchoolName, cs.Website, cs.CharterNum AS CharterNumber, cs.FundingType, cs.TotalEnrollment, cs.FRPMCount, ROUND(cs.FRPMPercentage * 100, 2) || '%' AS FRPMPercentage, cs.PovertyLevel, cs.EnrollmentRank, COALESCE(sat.NumTstTakr, 0) AS SATTestTakers, COALESCE(sat.AvgScrRead, 0) AS AvgReadingScore, COALESCE(sat.AvgScrMath, 0) AS AvgMathScore, COALESCE(sat.AvgScrWrite, 0) AS AvgWritingScore, COALESCE(sat.NumGE1500, 0) AS StudentsOver1500, CASE WHEN sat.NumTstTakr > 0 THEN ROUND((CAST(sat.NumGE1500 AS REAL) / NULLIF(sat.NumTstTakr, 0)) * 100, 2) || '%' ELSE '0%' END AS PercentOver1500 FROM CharterSchoolStats AS cs LEFT JOIN satscores AS sat ON cs.CDSCode = sat.cds ORDER BY cs.EnrollmentRank NULLS FIRST, cs.TotalEnrollment DESC",
+  "gold_rows": [
+   [
+    "Rio Valley Charter",
+    "www.riovalley.org",
+    "1229",
+    "Directly funded",
+    262,
+    167,
+    "63.74%",
+    "Medium-High Poverty",
+    1,
+    2,
+    0,
+    0,
+    0,
+    0,
+    null
+   ],
+   [
+    "be.tech",
+    "www.mantecausd.net",
+    "1408",
+    "Locally funded",
+    77,
+    43,
+    "55.84%",
+    "Medium-High Poverty",
+    2,
+    0,
+    0,
+    0,
+    0,
+    0,
+    "0%"
+   ]
+  ],
+  "gold_runtime": 0.004021041095256805,
+  "split": "td2"
+ },
+ {
+  "task_id": "california_schools:41",
+  "question_id": 41,
+  "db_id": "california_schools",
+  "difficulty": "simple",
+  "question": "List the names of virtual schools that are among the top 5 in their respective counties based on average reading scores.",
+  "evidence": "Exclusively virtual refers to Virtual = 'F'; respective counties means PARTITION BY County",
+  "gold_sql_sqlite": "SELECT School FROM (SELECT T2.School,T1.AvgScrRead, RANK() OVER (PARTITION BY T2.County ORDER BY T1.AvgScrRead DESC) AS rnk FROM satscores AS T1 INNER JOIN schools AS T2 ON T1.cds = T2.CDSCode WHERE T2.Virtual = 'F' ) ranked_schools WHERE rnk <= 5",
+  "gold_sql_duckdb": "SELECT School FROM (SELECT T2.School, T1.AvgScrRead, RANK() OVER (PARTITION BY T2.County ORDER BY T1.AvgScrRead DESC) AS rnk FROM satscores AS T1 INNER JOIN schools AS T2 ON T1.cds = T2.CDSCode WHERE T2.Virtual = 'F') AS ranked_schools WHERE rnk <= 5",
+  "gold_rows": [
+   [
+    "Insight School of California"
+   ],
+   [
+    "California Virtual Academy @ Sutter"
+   ],
+   [
+    "California Connections Academy@Central"
+   ],
+   [
+    "Oasis High (Alternative)"
+   ],
+   [
+    "San Diego Virtual"
+   ],
+   [
+    "Academy of Arts and Sciences"
+   ],
+   [
+    "RAI Online Charter"
+   ],
+   [
+    "California Virtual Academy @ San Mateo"
+   ],
+   [
+    "Rivercrest Preparatory"
+   ],
+   [
+    "Riverside Virtual"
+   ],
+   [
+    "Southern California Online Academy"
+   ],
+   [
+    "California Virtual Academy @ Jamestown"
+   ],
+   [
+    "California Connections Academy @ Ripon"
+   ],
+   [
+    "California Virtual Academy @ San Joaquin"
+   ],
+   [
+    "Renew Virtual Academy K12 #1"
+   ],
+   [
+    "Delta Home Charter"
+   ],
+   [
+    "Valley View Charter Prep"
+   ],
+   [
+    "Delta Charter Online"
+   ],
+   [
+    "Capistrano Connections Academy"
+   ],
+   [
+    "California Preparatory Academy"
+   ],
+   [
+    "California Virtual Academy @ Sonoma"
+   ],
+   [
+    "Academy of Arts and Sciences: Sonoma"
+   ],
+   [
+    "Dunlap Leadership Academy"
+   ],
+   [
+    "Academy of Arts and Sciences: Fresno"
+   ],
+   [
+    "California Virtual Academy @ Los Angeles"
+   ],
+   [
+    "Insight @ Los Angeles"
+   ],
+   [
+    "Los Angeles County Online High"
+   ],
+   [
+    "Desert Sands Charter"
+   ],
+   [
+    "iQ Academy California-Los Angeles"
+   ],
+   [
+    "Academy of Arts and Sciences: Los Angeles (9-12)"
+   ],
+   [
+    "SIATech Academy South"
+   ],
+   [
+    "California Virtual Academy @ Kings"
+   ],
+   [
+    "National University Academy, Armona"
+   ],
+   [
+    "Academy of Arts and Sciences: Thousand Oaks & Simi Valley"
+   ]
+  ],
+  "gold_runtime": 0.003307865932583809,
+  "split": "td2"
+ },
+ {
+  "task_id": "california_schools:29",
+  "question_id": 29,
+  "db_id": "california_schools",
+  "difficulty": "simple",
+  "question": "When did the first-through-twelfth-grade school with the largest enrollment open?",
+  "evidence": "K-12 means First-through-twelfth-grade",
+  "gold_sql_sqlite": "SELECT T2.OpenDate FROM frpm AS T1 INNER JOIN schools AS T2 ON T1.CDSCode = T2.CDSCode ORDER BY T1.`Enrollment (K-12)` DESC LIMIT 1",
+  "gold_sql_duckdb": "SELECT T2.OpenDate FROM frpm AS T1 INNER JOIN schools AS T2 ON T1.CDSCode = T2.CDSCode ORDER BY T1.\"Enrollment (K-12)\" DESC LIMIT 1",
+  "gold_rows": [
+   [
+    "2006-08-29"
+   ]
+  ],
+  "gold_runtime": 0.0031699035316705704,
+  "split": "td2"
+ },
+ {
+  "task_id": "card_games:499",
+  "question_id": 499,
+  "db_id": "card_games",
+  "difficulty": "moderate",
+  "question": "How many translations of the name of the set \"Tenth Edition\"?",
+  "evidence": "set \"Tenth Edition\" refers to name = 'Tenth Edition'",
+  "gold_sql_sqlite": "SELECT COUNT(DISTINCT T2.translation) FROM sets AS T1 INNER JOIN set_translations AS T2 ON T2.setCode = T1.code WHERE T1.name = 'Tenth Edition'",
+  "gold_sql_duckdb": "SELECT COUNT(DISTINCT T2.translation) FROM sets AS T1 INNER JOIN set_translations AS T2 ON T2.setCode = T1.code WHERE T1.name = 'Tenth Edition'",
+  "gold_rows": [
+   [
+    9
+   ]
+  ],
+  "gold_runtime": 0.15260468516498804,
+  "split": "td2"
+ },
+ {
+  "task_id": "card_games:459",
+  "question_id": 459,
+  "db_id": "card_games",
+  "difficulty": "moderate",
+  "question": "Which card costs more converted mana, \"Serra Angel\" or \"Shrine Keeper\"?",
+  "evidence": "\"Serra Angel\" refers to name = 'Serra Angel'; \"Shrine Keeper\" refers to name = 'Shrine Keeper'; card costs more converted mana when the value of convertedManaCost is greater",
+  "gold_sql_sqlite": "SELECT name FROM cards WHERE name IN ('Serra Angel', 'Shrine Keeper') ORDER BY convertedManaCost DESC LIMIT 1",
+  "gold_sql_duckdb": "SELECT name FROM cards WHERE name IN ('Serra Angel', 'Shrine Keeper') ORDER BY convertedManaCost DESC LIMIT 1",
+  "gold_rows": [
+   [
+    "Serra Angel"
+   ]
+  ],
+  "gold_runtime": 0.14815436210483313,
+  "split": "td2"
+ },
+ {
+  "task_id": "card_games:354",
+  "question_id": 354,
+  "db_id": "card_games",
+  "difficulty": "simple",
+  "question": "How many types of cards does the artist Aaron Boyd illustrated about card art?",
+  "evidence": "'Aaron Boyd' is artist;",
+  "gold_sql_sqlite": "SELECT COUNT(type) FROM cards WHERE artist = 'Aaron Boyd'",
+  "gold_sql_duckdb": "SELECT COUNT(type) FROM cards WHERE artist = 'Aaron Boyd'",
+  "gold_rows": [
+   [
+    12
+   ]
+  ],
+  "gold_runtime": 0.019997921772301197,
+  "split": "td2"
+ },
+ {
+  "task_id": "card_games:516",
+  "question_id": 516,
+  "db_id": "card_games",
+  "difficulty": "moderate",
+  "question": "How many cards did Volkan Ba\u00c7\u00b5a illustrated whose foreign language is in French?",
+  "evidence": "Volkan Ba\u00c7\u00b5a refers to artist = 'Volkan Ba\u01f5a'; foreign language is in French refers to language = 'French'",
+  "gold_sql_sqlite": "SELECT COUNT(T1.id) FROM cards AS T1 INNER JOIN foreign_data AS T2 ON T2.uuid = T1.uuid WHERE T1.artist = 'Volkan Ba\u01f5a' AND T2.language = 'French'",
+  "gold_sql_duckdb": "SELECT COUNT(T1.id) FROM cards AS T1 INNER JOIN foreign_data AS T2 ON T2.uuid = T1.uuid WHERE T1.artist = 'Volkan Ba\u01f5a' AND T2.language = 'French'",
+  "gold_rows": [
+   [
+    174
+   ]
+  ],
+  "gold_runtime": 0.192088158801198,
+  "split": "td2"
+ },
+ {
+  "task_id": "card_games:389",
+  "question_id": 389,
+  "db_id": "card_games",
+  "difficulty": "simple",
+  "question": "List down the name of cards with original types of Creature - Elf and the date of rulings for these cards.",
+  "evidence": "Creature - Elf is the originalType;",
+  "gold_sql_sqlite": "SELECT T1.id, T2.date FROM cards AS T1 INNER JOIN rulings AS T2 ON T1.uuid = T2.uuid WHERE T1.originalType = 'Creature - Elf'",
+  "gold_sql_duckdb": "SELECT T1.id, T2.date FROM cards AS T1 INNER JOIN rulings AS T2 ON T1.uuid = T2.uuid WHERE T1.originalType = 'Creature - Elf'",
+  "gold_rows": [
+   [
+    240,
+    "2007-05-01"
+   ],
+   [
+    242,
+    "2004-10-04"
+   ],
+   [
+    242,
+    "2005-08-01"
+   ],
+   [
+    247,
+    "2004-10-04"
+   ],
+   [
+    258,
+    "2004-10-04"
+   ],
+   [
+    258,
+    "2007-07-15"
+   ],
+   [
+    434,
+    "2007-05-01"
+   ],
+   [
+    3108,
+    "2007-05-01"
+   ],
+   [
+    3478,
+    "2007-05-01"
+   ],
+   [
+    3478,
+    "2009-10-01"
+   ],
+   [
+    3504,
+    "2004-10-04"
+   ],
+   [
+    3520,
+    "2004-10-04"
+   ],
+   [
+    3835,
+    "2007-05-01"
+   ],
+   [
+    3835,
+    "2009-10-01"
+   ],
+   [
+    3843,
+    "2004-10-04"
+   ],
+   [
+    3880,
+    "2004-10-04"
+   ],
+   [
+    7903,
+    "2004-10-04"
+   ],
+   [
+    7903,
+    "2004-10-04"
+   ],
+   [
+    7965,
+    "2004-10-04"
+   ],
+   [
+    14440,
+    "2008-08-01"
+   ],
+   [
+    14445,
+    "2008-10-01"
+   ],
+   [
+    14445,
+    "2008-10-01"
+   ],
+   [
+    14445,
+    "2008-10-01"
+   ],
+   [
+    14445,
+    "2008-10-01"
+   ],
+   [
+    14452,
+    "2016-06-08"
+   ],
+   [
+    14453,
+    "2004-10-04"
+   ],
+   [
+    14453,
+    "2004-10-04"
+   ],
+   [
+    23473,
+    "2008-08-01"
+   ],
+   [
+    23473,
+    "2009-10-01"
+   ],
+   [
+    23474,
+    "2004-10-04"
+   ],
+   [
+    23474,
+    "2004-10-04"
+   ],
+   [
+    27368,
+    "2008-10-01"
+   ],
+   [
+    27368,
+    "2008-10-01"
+   ],
+   [
+    27368,
+    "2008-10-01"
+   ],
+   [
+    27368,
+    "2008-10-01"
+   ],
+   [
+    27375,
+    "2004-10-04"
+   ],
+   [
+    27381,
+    "2016-06-08"
+   ],
+   [
+    36686,
+    "2004-10-04"
+   ],
+   [
+    36686,
+    "2004-10-04"
+   ],
+   [
+    36692,
+    "2007-05-01"
+   ],
+   [
+    36697,
+    "2016-06-08"
+   ],
+   [
+    36700,
+    "2004-10-04"
+   ],
+   [
+    37367,
+    "2013-09-20"
+   ],
+   [
+    40407,
+    "2004-10-04"
+   ],
+   [
+    40417,
+    "2008-08-01"
+   ],
+   [
+    47757,
+    "2004-10-04"
+   ],
+   [
+    47888,
+    "2008-08-01"
+   ],
+   [
+    47896,
+    "2020-06-23"
+   ],
+   [
+    47907,
+    "2007-05-01"
+   ]
+  ],
+  "gold_runtime": 0.04180487059056759,
+  "split": "td2"
+ },
+ {
+  "task_id": "card_games:374",
+  "question_id": 374,
+  "db_id": "card_games",
+  "difficulty": "simple",
+  "question": "How many black border cards are only available on mtgo?",
+  "evidence": "black border card refers to borderColor = black; available on mtgo refers to availability = mtgo;\n\nadd quotes for string = 'black' and = 'mtgo'",
+  "gold_sql_sqlite": "SELECT COUNT(id) FROM cards WHERE availability = 'mtgo' AND borderColor = 'black'",
+  "gold_sql_duckdb": "SELECT COUNT(id) FROM cards WHERE availability = 'mtgo' AND borderColor = 'black'",
+  "gold_rows": [
+   [
+    3697
+   ]
+  ],
+  "gold_runtime": 0.0013073496520519257,
+  "split": "td2"
+ },
+ {
+  "task_id": "card_games:424",
+  "question_id": 424,
+  "db_id": "card_games",
+  "difficulty": "simple",
+  "question": "What proportion of cards do not have a text box with a normal layout?",
+  "evidence": "do not have a text box refers to isTextless = 1; proportion refers to DIVIDE(COUNT(Textless = 1 and layout = 'normal'),COUNT(Textless))*100",
+  "gold_sql_sqlite": "SELECT CAST(SUM(CASE WHEN isTextless = 1 AND layout = 'normal' THEN 1 ELSE 0 END) AS REAL) * 100 / COUNT(*)\nFROM cards;",
+  "gold_sql_duckdb": "SELECT CAST(SUM(CASE WHEN isTextless = 1 AND layout = 'normal' THEN 1 ELSE 0 END) AS REAL) * 100 / NULLIF(COUNT(*), 0) FROM cards",
+  "gold_rows": [
+   [
+    0.2024
+   ]
+  ],
+  "gold_runtime": 0.0020972909405827522,
+  "split": "td2"
+ },
+ {
+  "task_id": "card_games:487",
+  "question_id": 487,
+  "db_id": "card_games",
+  "difficulty": "challenging",
+  "question": "What is the percentage of incredibly powerful cards in the set Coldsnap?",
+  "evidence": "incredibly powerful cards refers to cardKingdomFoilId is not null AND cardKingdomId is not null; Coldsnap is the name of a card set",
+  "gold_sql_sqlite": "SELECT CAST(SUM(CASE WHEN T1.cardKingdomFoilId IS NOT NULL AND T1.cardKingdomId IS NOT NULL THEN 1 ELSE 0 END) AS REAL) * 100 / COUNT(T1.id) FROM cards AS T1 INNER JOIN sets AS T2 ON T2.code = T1.setCode WHERE T2.name = 'Coldsnap'",
+  "gold_sql_duckdb": "SELECT CAST(SUM(CASE WHEN NOT T1.cardKingdomFoilId IS NULL AND NOT T1.cardKingdomId IS NULL THEN 1 ELSE 0 END) AS REAL) * 100 / NULLIF(COUNT(T1.id), 0) FROM cards AS T1 INNER JOIN sets AS T2 ON T2.code = T1.setCode WHERE T2.name = 'Coldsnap'",
+  "gold_rows": [
+   [
+    100
+   ]
+  ],
+  "gold_runtime": 0.004224419593811035,
+  "split": "td2"
+ },
+ {
+  "task_id": "card_games:400",
+  "question_id": 400,
+  "db_id": "card_games",
+  "difficulty": "simple",
+  "question": "Lists the set code of all cards translated into Spanish.",
+  "evidence": "",
+  "gold_sql_sqlite": "SELECT setCode FROM set_translations WHERE language = 'Spanish'",
+  "gold_sql_duckdb": "SELECT setCode FROM set_translations WHERE language = 'Spanish'",
+  "gold_rows": [
+   [
+    "10E"
+   ],
+   [
+    "4ED"
+   ],
+   [
+    "5DN"
+   ],
+   [
+    "5ED"
+   ],
+   [
+    "6ED"
+   ],
+   [
+    "7ED"
+   ],
+   [
+    "8ED"
+   ],
+   [
+    "9ED"
+   ],
+   [
+    "AER"
+   ],
+   [
+    "AKH"
+   ],
+   [
+    "ALA"
+   ],
+   [
+    "APC"
+   ],
+   [
+    "ARB"
+   ],
+   [
+    "ARC"
+   ],
+   [
+    "BFZ"
+   ],
+   [
+    "BNG"
+   ],
+   [
+    "BOK"
+   ],
+   [
+    "BRB"
+   ],
+   [
+    "BTD"
+   ],
+   [
+    "C13"
+   ],
+   [
+    "C14"
+   ],
+   [
+    "C15"
+   ],
+   [
+    "C16"
+   ],
+   [
+    "C17"
+   ],
+   [
+    "CHK"
+   ],
+   [
+    "CHR"
+   ],
+   [
+    "CM1"
+   ],
+   [
+    "CMD"
+   ],
+   [
+    "CN2"
+   ],
+   [
+    "CNS"
+   ],
+   [
+    "CON"
+   ],
+   [
+    "CSP"
+   ],
+   [
+    "DD1"
+   ],
+   [
+    "DD2"
+   ],
+   [
+    "DDC"
+   ],
+   [
+    "DDD"
+   ],
+   [
+    "DDE"
+   ],
+   [
+    "DDF"
+   ],
+   [
+    "DDG"
+   ],
+   [
+    "DDH"
+   ],
+   [
+    "DDI"
+   ],
+   [
+    "DDJ"
+   ],
+   [
+    "DDK"
+   ],
+   [
+    "DDL"
+   ],
+   [
+    "DDM"
+   ],
+   [
+    "DDN"
+   ],
+   [
+    "DDO"
+   ],
+   [
+    "DDP"
+   ],
+   [
+    "DDQ"
+   ],
+   [
+    "DDR"
+   ],
+   [
+    "DIS"
+   ],
+   [
+    "DKM"
+   ],
+   [
+    "DOM"
+   ],
+   [
+    "DST"
+   ],
+   [
+    "DTK"
+   ],
+   [
+    "ELD"
+   ],
+   [
+    "EMA"
+   ],
+   [
+    "EMN"
+   ],
+   [
+    "EVE"
+   ],
+   [
+    "EXO"
+   ],
+   [
+    "FRF"
+   ],
+   [
+    "FUT"
+   ],
+   [
+    "GPT"
+   ],
+   [
+    "GTC"
+   ],
+   [
+    "HML"
+   ],
+   [
+    "ICE"
+   ],
+   [
+    "IKO"
+   ],
+   [
+    "JOU"
+   ],
+   [
+    "JUD"
+   ],
+   [
+    "KLD"
+   ],
+   [
+    "KTK"
+   ],
+   [
+    "LGN"
+   ],
+   [
+    "LRW"
+   ],
+   [
+    "M10"
+   ],
+   [
+    "M14"
+   ],
+   [
+    "M15"
+   ],
+   [
+    "M20"
+   ],
+   [
+    "M21"
+   ],
+   [
+    "MBS"
+   ],
+   [
+    "MM2"
+   ],
+   [
+    "MMA"
+   ],
+   [
+    "MMQ"
+   ],
+   [
+    "MOR"
+   ],
+   [
+    "MRD"
+   ],
+   [
+    "ODY"
+   ],
+   [
+    "OGW"
+   ],
+   [
+    "ONS"
+   ],
+   [
+    "ORI"
+   ],
+   [
+    "PC2"
+   ],
+   [
+    "PCA"
+   ],
+   [
+    "PCY"
+   ],
+   [
+    "PD2"
+   ],
+   [
+    "PLC"
+   ],
+   [
+    "RAV"
+   ],
+   [
+    "RIX"
+   ],
+   [
+    "RNA"
+   ],
+   [
+    "RTR"
+   ],
+   [
+    "SCG"
+   ],
+   [
+    "SHM"
+   ],
+   [
+    "SOI"
+   ],
+   [
+    "SOK"
+   ],
+   [
+    "STH"
+   ],
+   [
+    "THB"
+   ],
+   [
+    "THS"
+   ],
+   [
+    "TMP"
+   ],
+   [
+    "TOR"
+   ],
+   [
+    "TPR"
+   ],
+   [
+    "TSP"
+   ],
+   [
+    "UDS"
+   ],
+   [
+    "ULG"
+   ],
+   [
+    "USG"
+   ],
+   [
+    "V09"
+   ],
+   [
+    "V10"
+   ],
+   [
+    "V11"
+   ],
+   [
+    "V12"
+   ],
+   [
+    "V13"
+   ],
+   [
+    "V14"
+   ],
+   [
+    "V15"
+   ],
+   [
+    "V16"
+   ],
+   [
+    "WAR"
+   ],
+   [
+    "WTH"
+   ]
+  ],
+  "gold_runtime": 0.0005325404927134514,
+  "split": "td2"
+ },
+ {
+  "task_id": "card_games:517",
+  "question_id": 517,
+  "db_id": "card_games",
+  "difficulty": "moderate",
+  "question": "How many distinct rare enchantment Abundance cards have at least one legal play format?",
+  "evidence": "rare refers to rarity = 'rare'; enchantment card refers to types = 'Enchantment'; Abundance cards refers to name = 'Abundance'; at least one legal format refers to status = 'Legal'",
+  "gold_sql_sqlite": "SELECT COUNT(DISTINCT T1.id) FROM cards AS T1 INNER JOIN legalities AS T2 ON T2.uuid = T1.uuid WHERE T1.rarity = 'rare' AND T1.types = 'Enchantment' AND T1.name = 'Abundance' AND T2.status = 'Legal'",
+  "gold_sql_duckdb": "SELECT COUNT(DISTINCT T1.id) FROM cards AS T1 INNER JOIN legalities AS T2 ON T2.uuid = T1.uuid WHERE T1.rarity = 'rare' AND T1.types = 'Enchantment' AND T1.name = 'Abundance' AND T2.status = 'Legal'",
+  "gold_rows": [
+   [
+    5
+   ]
+  ],
+  "gold_runtime": 0.07110271416604519,
+  "split": "td2"
+ },
+ {
+  "task_id": "card_games:457",
+  "question_id": 457,
+  "db_id": "card_games",
+  "difficulty": "simple",
+  "question": "Please list the websites where I can purchase the cards that have the promotional type of \"bundle\".",
+  "evidence": "promotional type of \"bundle\" refers to promoTypes = 'bundle'; websites refers to purchaseUrls",
+  "gold_sql_sqlite": "SELECT DISTINCT purchaseUrls FROM cards WHERE promoTypes = 'bundle'",
+  "gold_sql_duckdb": "SELECT DISTINCT purchaseUrls FROM cards WHERE promoTypes = 'bundle'",
+  "gold_rows": [
+   [
+    "{'cardKingdomFoil': 'https://mtgjson.com/links/a38cfe08d940ddb5', 'cardmarket': 'https://mtgjson.com/links/28e6303cf1c21f26', 'tcgplayer': 'https://mtgjson.com/links/a029b7ffac8c8475'}"
+   ],
+   [
+    "{'cardKingdom': 'https://mtgjson.com/links/88bf4baa16ae1e7b', 'cardKingdomFoil': 'https://mtgjson.com/links/417543b3564936ea', 'tcgplayer': 'https://mtgjson.com/links/cc618485bbe5f3ac'}"
+   ],
+   [
+    "{'cardKingdom': 'https://mtgjson.com/links/aa48503382a6c5ca', 'cardKingdomFoil': 'https://mtgjson.com/links/9e4c48cc55b05f0c', 'tcgplayer': 'https://mtgjson.com/links/c99539677dd3cfb9'}"
+   ],
+   [
+    "{'cardKingdomFoil': 'https://mtgjson.com/links/6d489473746ddc6c', 'cardmarket': 'https://mtgjson.com/links/e14c5adb10ba8ecd', 'tcgplayer': 'https://mtgjson.com/links/516cae21b508444b'}"
+   ],
+   [
+    "{'cardKingdom': 'https://mtgjson.com/links/1880b37447ce45de', 'cardKingdomFoil': 'https://mtgjson.com/links/ca7452d85d349e76', 'tcgplayer': 'https://mtgjson.com/links/bde413266737f925'}"
+   ],
+   [
+    "{'cardKingdom': 'https://mtgjson.com/links/7d3aa1c9dd41b84c', 'cardKingdomFoil': 'https://mtgjson.com/links/0b3787ce471cf48a', 'tcgplayer': 'https://mtgjson.com/links/0e3502e8d1da1fcf'}"
+   ],
+   [
+    "{'cardKingdomFoil': 'https://mtgjson.com/links/3bae4d1eddb7ee48', 'cardmarket': 'https://mtgjson.com/links/32159e850c5c7051', 'tcgplayer': 'https://mtgjson.com/links/732ad744c63a7047'}"
+   ],
+   [
+    "{'cardKingdomFoil': 'https://mtgjson.com/links/1e38771472f1404c', 'cardmarket': 'https://mtgjson.com/links/63f47ef1e28a88a0', 'tcgplayer': 'https://mtgjson.com/links/2f68a75af1c76daf'}"
+   ],
+   [
+    "{'cardKingdomFoil': 'https://mtgjson.com/links/fbac9656bf64fbb9', 'cardmarket': 'https://mtgjson.com/links/258b42ef68e3edd4', 'tcgplayer': 'https://mtgjson.com/links/81f229eb07bb7205'}"
+   ],
+   [
+    "{'cardKingdomFoil': 'https://mtgjson.com/links/c7b2529fff20e768', 'cardmarket': 'https://mtgjson.com/links/7e6bf16908b7608c', 'tcgplayer': 'https://mtgjson.com/links/ad765b504a5d53f9'}"
+   ],
+   [
+    "{'cardKingdom': 'https://mtgjson.com/links/58bcd4e13d34bc1c', 'cardKingdomFoil': 'https://mtgjson.com/links/7c10979c1403f144', 'tcgplayer': 'https://mtgjson.com/links/1f077a708eef8f24'}"
+   ],
+   [
+    "{'cardKingdomFoil': 'https://mtgjson.com/links/c38f731d9156a68c', 'tcgplayer': 'https://mtgjson.com/links/ac93de3a61548ef1'}"
+   ]
+  ],
+  "gold_runtime": 0.05993805453181267,
+  "split": "td2"
+ },
+ {
+  "task_id": "card_games:521",
+  "question_id": 521,
+  "db_id": "card_games",
+  "difficulty": "challenging",
+  "question": "Among the cards whose version of frame style is 1997, what is the status of the card illustrated by D. Alexander Gregory in legacy play format that has sensitive content?",
+  "evidence": "version of frame style is 1997 refers to frameVersion = '1997'; illustrated by D. Alexander Gregory refers to artist = 'D. Alexander Gregory'; sensitive content refers to hasContentWarning = 1; legacy play format refers to format = 'legacy'; status of the card refers to status",
+  "gold_sql_sqlite": "SELECT DISTINCT T2.status FROM cards AS T1 INNER JOIN legalities AS T2 ON T2.uuid = T1.uuid WHERE T1.frameVersion = 1997 AND T1.hasContentWarning = 1 AND T1.artist = 'D. Alexander Gregory' AND T2.format = 'legacy'",
+  "gold_sql_duckdb": "SELECT DISTINCT T2.status FROM cards AS T1 INNER JOIN legalities AS T2 ON T2.uuid = T1.uuid WHERE T1.frameVersion = 1997 AND T1.hasContentWarning = 1 AND T1.artist = 'D. Alexander Gregory' AND T2.format = 'legacy'",
+  "gold_rows": [
+   [
+    "Banned"
+   ]
+  ],
+  "gold_runtime": 0.0034173503518104553,
+  "split": "td2"
+ },
+ {
+  "task_id": "card_games:399",
+  "question_id": 399,
+  "db_id": "card_games",
+  "difficulty": "simple",
+  "question": "Lists all types of cards available in arena.",
+  "evidence": "all types refer to subtypes and supertypes\n\navailble in arena refers to availability = 'arena'",
+  "gold_sql_sqlite": "SELECT DISTINCT subtypes, supertypes FROM cards WHERE availability = 'arena' AND subtypes IS NOT NULL AND supertypes IS NOT NULL",
+  "gold_sql_duckdb": "SELECT DISTINCT subtypes, supertypes FROM cards WHERE availability = 'arena' AND NOT subtypes IS NULL AND NOT supertypes IS NULL",
+  "gold_rows": [
+   [
+    "Liliana",
+    "Legendary"
+   ],
+   [
+    "Human,Warrior",
+    "Legendary"
+   ],
+   [
+    "Human,Soldier",
+    "Legendary"
+   ],
+   [
+    "Shrine",
+    "Legendary"
+   ],
+   [
+    "Vehicle",
+    "Legendary"
+   ],
+   [
+    "Ral",
+    "Legendary"
+   ],
+   [
+    "Vraska",
+    "Legendary"
+   ],
+   [
+    "Elder,Dinosaur",
+    "Legendary"
+   ],
+   [
+    "Merfolk,Wizard",
+    "Legendary"
+   ],
+   [
+    "Human,Wizard",
+    "Legendary"
+   ],
+   [
+    "Gideon",
+    "Legendary"
+   ],
+   [
+    "Sphinx",
+    "Legendary"
+   ],
+   [
+    "Human,Cleric",
+    "Legendary"
+   ],
+   [
+    "Minotaur,Warrior",
+    "Legendary"
+   ],
+   [
+    "Mountain",
+    "Basic"
+   ],
+   [
+    "Dwarf,Advisor",
+    "Legendary"
+   ],
+   [
+    "Aetherborn,Vampire",
+    "Legendary"
+   ],
+   [
+    "Human,Pirate",
+    "Legendary"
+   ],
+   [
+    "Dwarf,Pilot",
+    "Legendary"
+   ],
+   [
+    "Dovin",
+    "Legendary"
+   ],
+   [
+    "Human,Advisor",
+    "Legendary"
+   ],
+   [
+    "Elf,Warrior",
+    "Legendary"
+   ],
+   [
+    "Chandra",
+    "Legendary"
+   ],
+   [
+    "Zombie,Minotaur,Warrior",
+    "Legendary"
+   ],
+   [
+    "Aetherborn,Rogue",
+    "Legendary"
+   ],
+   [
+    "Elf,Druid",
+    "Legendary"
+   ],
+   [
+    "Ajani",
+    "Legendary"
+   ],
+   [
+    "Frog,Horror",
+    "Legendary"
+   ],
+   [
+    "God",
+    "Legendary"
+   ],
+   [
+    "Jace",
+    "Legendary"
+   ],
+   [
+    "Demon",
+    "Legendary"
+   ],
+   [
+    "Bolas",
+    "Legendary"
+   ],
+   [
+    "Nissa",
+    "Legendary"
+   ],
+   [
+    "Samut",
+    "Legendary"
+   ],
+   [
+    "Forest",
+    "Basic"
+   ],
+   [
+    "Island",
+    "Basic"
+   ],
+   [
+    "Plains",
+    "Basic"
+   ],
+   [
+    "Swamp",
+    "Basic"
+   ],
+   [
+    "Eldrazi",
+    "Legendary"
+   ],
+   [
+    "Vedalken,Artificer",
+    "Legendary"
+   ],
+   [
+    "Human,Artificer",
+    "Legendary"
+   ],
+   [
+    "Saheeli",
+    "Legendary"
+   ],
+   [
+    "Tezzeret",
+    "Legendary"
+   ],
+   [
+    "Thopter",
+    "Legendary"
+   ],
+   [
+    "Teferi",
+    "Legendary"
+   ],
+   [
+    "Zombie,Dragon",
+    "Legendary"
+   ]
+  ],
+  "gold_runtime": 0.016600715927779675,
+  "split": "td2"
+ },
+ {
+  "task_id": "card_games:344",
+  "question_id": 344,
+  "db_id": "card_games",
+  "difficulty": "moderate",
+  "question": "List all the mythic rarity print cards banned in gladiator format.",
+  "evidence": "mythic rarity printing refers to rarity = 'mythic'; card banned refers to status = 'Banned'; in gladiator format refers to format = 'gladiator';",
+  "gold_sql_sqlite": "SELECT DISTINCT T1.id FROM cards AS T1 INNER JOIN legalities AS T2 ON T1.uuid = T2.uuid WHERE T2.format = 'gladiator' AND T2.status = 'Banned' AND T1.rarity = 'mythic'",
+  "gold_sql_duckdb": "SELECT DISTINCT T1.id FROM cards AS T1 INNER JOIN legalities AS T2 ON T1.uuid = T2.uuid WHERE T2.format = 'gladiator' AND T2.status = 'Banned' AND T1.rarity = 'mythic'",
+  "gold_rows": [
+   [
+    17983
+   ],
+   [
+    38736
+   ],
+   [
+    38737
+   ],
+   [
+    18058
+   ],
+   [
+    29523
+   ]
+  ],
+  "gold_runtime": 0.004446499049663544,
+  "split": "td2"
+ },
+ {
+  "task_id": "card_games:456",
+  "question_id": 456,
+  "db_id": "card_games",
+  "difficulty": "simple",
+  "question": "What's the list of all types for the card \"Molimo, Maro-Sorcerer\"?",
+  "evidence": "card \"Molimo, Maro-Sorcerer\" refers to name = 'Molimo, Maro-Sorcerer'; list of all types refers to subtypes,supertypes, types",
+  "gold_sql_sqlite": "SELECT DISTINCT subtypes, supertypes, types FROM cards WHERE name = 'Molimo, Maro-Sorcerer'",
+  "gold_sql_duckdb": "SELECT DISTINCT subtypes, supertypes, types FROM cards WHERE name = 'Molimo, Maro-Sorcerer'",
+  "gold_rows": [
+   [
+    "Elemental",
+    "Legendary",
+    "Creature"
+   ]
+  ],
+  "gold_runtime": 0.003272715024650097,
+  "split": "td2"
+ },
+ {
+  "task_id": "card_games:428",
+  "question_id": 428,
+  "db_id": "card_games",
+  "difficulty": "simple",
+  "question": "What is the name of set number 5 and its translation?",
+  "evidence": "set number 5 refers to id = 5",
+  "gold_sql_sqlite": "SELECT T1.name, T2.translation FROM sets AS T1 INNER JOIN set_translations AS T2 ON T1.code = T2.setCode WHERE T2.id = 5 GROUP BY T1.name, T2.translation",
+  "gold_sql_duckdb": "SELECT T1.name, T2.translation FROM sets AS T1 INNER JOIN set_translations AS T2 ON T1.code = T2.setCode WHERE T2.id = 5 GROUP BY T1.name, T2.translation",
+  "gold_rows": [
+   [
+    "Tenth Edition",
+    "Set Base Decima Edizione"
+   ]
+  ],
+  "gold_runtime": 0.0011863848194479942,
+  "split": "td2"
+ },
+ {
+  "task_id": "card_games:486",
+  "question_id": 486,
+  "db_id": "card_games",
+  "difficulty": "moderate",
+  "question": "What is the percentage of the cards with a converted mana cost of 7 in the set Coldsnap?",
+  "evidence": "converted mana cost of 7 refers to convertedManaCost = 7; card set Coldsnap refers to name = 'Coldsnap'; percentage = DIVIDE(SUM(convertedManaCost = 7), SUM(convertedManaCost))*100",
+  "gold_sql_sqlite": "SELECT CAST(SUM(CASE WHEN T1.convertedManaCost = 7 THEN 1 ELSE 0 END) AS REAL) * 100 / COUNT(T1.id) FROM cards AS T1 INNER JOIN sets AS T2 ON T2.code = T1.setCode WHERE T2.name = 'Coldsnap'",
+  "gold_sql_duckdb": "SELECT CAST(SUM(CASE WHEN T1.convertedManaCost = 7 THEN 1 ELSE 0 END) AS REAL) * 100 / NULLIF(COUNT(T1.id), 0) FROM cards AS T1 INNER JOIN sets AS T2 ON T2.code = T1.setCode WHERE T2.name = 'Coldsnap'",
+  "gold_rows": [
+   [
+    7.7419
+   ]
+  ],
+  "gold_runtime": 0.001598495990037918,
+  "split": "td2"
+ },
+ {
+  "task_id": "card_games:360",
+  "question_id": 360,
+  "db_id": "card_games",
+  "difficulty": "moderate",
+  "question": "What are the languages available for the set that card 'Angel of Mercy' is in?",
+  "evidence": "Angel of Mercy' is the name of card;",
+  "gold_sql_sqlite": "SELECT DISTINCT\n  s.`language`\nFROM cards AS c\nJOIN set_translations AS s ON s.setCode = c.setCode\nWHERE c.name = 'Angel of Mercy'",
+  "gold_sql_duckdb": "SELECT DISTINCT s.\"language\" FROM cards AS c JOIN set_translations AS s ON s.setCode = c.setCode WHERE c.name = 'Angel of Mercy'",
+  "gold_rows": [
+   [
+    "Japanese"
+   ],
+   [
+    "Korean"
+   ],
+   [
+    "Spanish"
+   ],
+   [
+    "Chinese Simplified"
+   ],
+   [
+    "Portuguese (Brazil)"
+   ],
+   [
+    "Russian"
+   ],
+   [
+    "Italian"
+   ],
+   [
+    "Chinese Traditional"
+   ],
+   [
+    "French"
+   ],
+   [
+    "German"
+   ]
+  ],
+  "gold_runtime": 0.003100493922829628,
+  "split": "td2"
+ },
+ {
+  "task_id": "codebase_community:562",
+  "question_id": 562,
+  "db_id": "codebase_community",
+  "difficulty": "simple",
+  "question": "For the post which got 1910 view counts, how many comments does it get?",
+  "evidence": "",
+  "gold_sql_sqlite": "SELECT COUNT(T1.Id) FROM posts AS T1 INNER JOIN comments AS T2 ON T1.Id = T2.PostId WHERE T1.ViewCount = 1910",
+  "gold_sql_duckdb": "SELECT COUNT(T1.Id) FROM posts AS T1 INNER JOIN comments AS T2 ON T1.Id = T2.PostId WHERE T1.ViewCount = 1910",
+  "gold_rows": [
+   [
+    1
+   ]
+  ],
+  "gold_runtime": 0.03735636733472347,
+  "split": "td2"
+ },
+ {
+  "task_id": "codebase_community:695",
+  "question_id": 695,
+  "db_id": "codebase_community",
+  "difficulty": "simple",
+  "question": "How many users were awarded with 'Citizen Patrol' badge?",
+  "evidence": "'Citizen Patrol' is the name of the badge;",
+  "gold_sql_sqlite": "SELECT COUNT(DISTINCT UserId) FROM badges WHERE Name = 'Citizen Patrol'",
+  "gold_sql_duckdb": "SELECT COUNT(DISTINCT UserId) FROM badges WHERE Name = 'Citizen Patrol'",
+  "gold_rows": [
+   [
+    656
+   ]
+  ],
+  "gold_runtime": 0.001984149217605591,
+  "split": "td2"
+ },
+ {
+  "task_id": "codebase_community:648",
+  "question_id": 648,
+  "db_id": "codebase_community",
+  "difficulty": "simple",
+  "question": "Provide the users' display names and available website URLs of the post with favorite count of more than 150.",
+  "evidence": "favorite count of more than 150 refers to FavoriteCount > 150;",
+  "gold_sql_sqlite": "SELECT T1.DisplayName, T1.WebsiteUrl FROM users AS T1 INNER JOIN posts AS T2 ON T1.Id = T2.OwnerUserId WHERE T2.FavoriteCount > 150",
+  "gold_sql_duckdb": "SELECT T1.DisplayName, T1.WebsiteUrl FROM users AS T1 INNER JOIN posts AS T2 ON T1.Id = T2.OwnerUserId WHERE T2.FavoriteCount > 150",
+  "gold_rows": [
+   [
+    "claws",
+    null
+   ],
+   [
+    "Fabian Fagerholm",
+    "http://www.cs.helsinki.fi/fabian.fagerholm/"
+   ]
+  ],
+  "gold_runtime": 0.12259639799594879,
+  "split": "td2"
+ },
+ {
+  "task_id": "codebase_community:684",
+  "question_id": 684,
+  "db_id": "codebase_community",
+  "difficulty": "simple",
+  "question": "Identify the percentage of teenage users.",
+  "evidence": "teenage users are defined as those with age between 13 and 18 years old;",
+  "gold_sql_sqlite": "SELECT CAST(SUM(IIF(Age BETWEEN 13 AND 18, 1, 0)) AS REAL) * 100 / COUNT(Id) FROM users",
+  "gold_sql_duckdb": "SELECT CAST(SUM(CASE WHEN Age BETWEEN 13 AND 18 THEN 1 ELSE 0 END) AS REAL) * 100 / NULLIF(COUNT(Id), 0) FROM users",
+  "gold_rows": [
+   [
+    0.1562
+   ]
+  ],
+  "gold_runtime": 0.03155493550002575,
+  "split": "td2"
+ },
+ {
+  "task_id": "codebase_community:584",
+  "question_id": 584,
+  "db_id": "codebase_community",
+  "difficulty": "moderate",
+  "question": "Write all the comments left by users who edited the post titled 'Why square the difference instead of taking the absolute value in standard deviation?'",
+  "evidence": "\"Why square the difference instead of taking the absolute value in standard deviation?\" is the Title of post;",
+  "gold_sql_sqlite": "SELECT T2.Comment FROM posts AS T1 INNER JOIN postHistory AS T2 ON T1.Id = T2.PostId WHERE T1.Title = 'Why square the difference instead of taking the absolute value in standard deviation?'",
+  "gold_sql_duckdb": "SELECT T2.Comment FROM posts AS T1 INNER JOIN postHistory AS T2 ON T1.Id = T2.PostId WHERE T1.Title = 'Why square the difference instead of taking the absolute value in standard deviation?'",
+  "gold_rows": [
+   [
+    ""
+   ],
+   [
+    ""
+   ],
+   [
+    ""
+   ],
+   [
+    "edited title"
+   ],
+   [
+    "TeXified the formulas."
+   ],
+   [
+    "deleted 5 characters in body; edited title"
+   ],
+   [
+    "deleted 5 characters in body; edited title"
+   ],
+   [
+    "edited title"
+   ]
+  ],
+  "gold_runtime": 0.12578368186950684,
+  "split": "td2"
+ },
+ {
+  "task_id": "codebase_community:636",
+  "question_id": 636,
+  "db_id": "codebase_community",
+  "difficulty": "simple",
+  "question": "How many negative comments did Neil McGuigan get in his posts?",
+  "evidence": "Negative comment refers to score < 60; DisplayName = 'Neil McGuigan';",
+  "gold_sql_sqlite": "SELECT COUNT(T3.Id) FROM users AS T1 INNER JOIN posts AS T2 ON T1.Id = T2.OwnerUserId INNER JOIN comments AS T3 ON T2.Id = T3.PostId WHERE T1.DisplayName = 'Neil McGuigan' AND T3.Score < 60",
+  "gold_sql_duckdb": "SELECT COUNT(T3.Id) FROM users AS T1 INNER JOIN posts AS T2 ON T1.Id = T2.OwnerUserId INNER JOIN comments AS T3 ON T2.Id = T3.PostId WHERE T1.DisplayName = 'Neil McGuigan' AND T3.Score < 60",
+  "gold_rows": [
+   [
+    136
+   ]
+  ],
+  "gold_runtime": 0.040619008243083954,
+  "split": "td2"
+ },
+ {
+  "task_id": "codebase_community:578",
+  "question_id": 578,
+  "db_id": "codebase_community",
+  "difficulty": "moderate",
+  "question": "Which user made a post titled 'Understanding what Dassault iSight is doing?' and how much is the reputation of the user?",
+  "evidence": "user refers to DisplayName",
+  "gold_sql_sqlite": "SELECT T1.DisplayName, T1.Reputation FROM users AS T1 INNER JOIN posts AS T2 ON T1.Id = T2.OwnerUserId WHERE T2.Title = 'Understanding what Dassault iSight is doing?'",
+  "gold_sql_duckdb": "SELECT T1.DisplayName, T1.Reputation FROM users AS T1 INNER JOIN posts AS T2 ON T1.Id = T2.OwnerUserId WHERE T2.Title = 'Understanding what Dassault iSight is doing?'",
+  "gold_rows": [
+   [
+    "Hendy",
+    146
+   ]
+  ],
+  "gold_runtime": 0.004218533635139465,
+  "split": "td2"
+ },
+ {
+  "task_id": "codebase_community:659",
+  "question_id": 659,
+  "db_id": "codebase_community",
+  "difficulty": "simple",
+  "question": "How many tags have post count between 5,000 to 7,000?",
+  "evidence": "post count between 5,000 to 7,000 refers to Count BETWEEN 5000 and 7000;",
+  "gold_sql_sqlite": "SELECT COUNT(Id) FROM tags WHERE Count BETWEEN 5000 AND 7000",
+  "gold_sql_duckdb": "SELECT COUNT(Id) FROM tags WHERE Count BETWEEN 5000 AND 7000",
+  "gold_rows": [
+   [
+    1
+   ]
+  ],
+  "gold_runtime": 0.028568077832460403,
+  "split": "td2"
+ },
+ {
+  "task_id": "codebase_community:559",
+  "question_id": 559,
+  "db_id": "codebase_community",
+  "difficulty": "simple",
+  "question": "Indicate the creation date of the maximum number of votes.",
+  "evidence": "the creation date with the highest number of votes",
+  "gold_sql_sqlite": "SELECT CreationDate \nFROM votes \nGROUP BY CreationDate \nORDER BY COUNT(Id) DESC, CreationDate ASC \nLIMIT 1",
+  "gold_sql_duckdb": "SELECT CreationDate FROM votes GROUP BY CreationDate ORDER BY COUNT(Id) DESC, CreationDate ASC NULLS FIRST LIMIT 1",
+  "gold_rows": [
+   [
+    "2010-07-20"
+   ]
+  ],
+  "gold_runtime": 0.0011519305408000946,
+  "split": "td2"
+ },
+ {
+  "task_id": "codebase_community:598",
+  "question_id": 598,
+  "db_id": "codebase_community",
+  "difficulty": "challenging",
+  "question": "What is the percentage difference of student badges given during 2010 and 2011?",
+  "evidence": "student badges refers to badge's name = 'Student'; during 2010 refers to Year(Date) = 2010; during 2011 refers to Year(Date) = 2011; percentage difference = Subtract (Divide(Count(Name where Year(Date) = 2010), Count (Name)) *100, Divide(Count(Name where Year(Date) = 2011), Count(Name)) * 100)",
+  "gold_sql_sqlite": "SELECT CAST(SUM(IIF(STRFTIME('%Y', Date) = '2010', 1, 0)) AS REAL) * 100 / COUNT(Id) - CAST(SUM(IIF(STRFTIME('%Y', Date) = '2011', 1, 0)) AS REAL) * 100 / COUNT(Id) FROM badges WHERE Name = 'Student'",
+  "gold_sql_duckdb": "SELECT CAST(SUM(CASE WHEN STRFTIME(CAST(Date AS TIMESTAMP), '%Y') = '2010' THEN 1 ELSE 0 END) AS REAL) * 100 / NULLIF(COUNT(Id), 0) - CAST(SUM(CASE WHEN STRFTIME(CAST(Date AS TIMESTAMP), '%Y') = '2011' THEN 1 ELSE 0 END) AS REAL) * 100 / NULLIF(COUNT(Id), 0) FROM badges WHERE Name = 'Student'",
+  "gold_rows": [
+   [
+    -9.544
+   ]
+  ],
+  "gold_runtime": 0.0031448323279619217,
+  "split": "td2"
+ },
+ {
+  "task_id": "codebase_community:678",
+  "question_id": 678,
+  "db_id": "codebase_community",
+  "difficulty": "simple",
+  "question": "Which post by Harvey Motulsky has the most views? Please give the id and title of this post.",
+  "evidence": "DisplayName = 'Harvey Motulsky'; the most views refer to MAX(ViewCount);",
+  "gold_sql_sqlite": "SELECT T2.Id, T2.Title FROM users AS T1 INNER JOIN posts AS T2 ON T1.Id = T2.OwnerUserId WHERE T1.DisplayName = 'Harvey Motulsky' ORDER BY T2.ViewCount DESC LIMIT 1",
+  "gold_sql_duckdb": "SELECT T2.Id, T2.Title FROM users AS T1 INNER JOIN posts AS T2 ON T1.Id = T2.OwnerUserId WHERE T1.DisplayName = 'Harvey Motulsky' ORDER BY T2.ViewCount DESC LIMIT 1",
+  "gold_rows": [
+   [
+    109,
+    "Power of Holm's multiple comparison testing compared to others"
+   ]
+  ],
+  "gold_runtime": 0.004575924016535282,
+  "split": "td2"
+ },
+ {
+  "task_id": "codebase_community:605",
+  "question_id": 605,
+  "db_id": "codebase_community",
+  "difficulty": "simple",
+  "question": "How many users obtained the \"Announcer\" badge?",
+  "evidence": "\"Announcer\" is the Name of badge; user refers to UserId",
+  "gold_sql_sqlite": "SELECT COUNT(id) FROM badges WHERE Name = 'Announcer'",
+  "gold_sql_duckdb": "SELECT COUNT(id) FROM badges WHERE Name = 'Announcer'",
+  "gold_rows": [
+   [
+    207
+   ]
+  ],
+  "gold_runtime": 0.0009723501279950142,
+  "split": "td2"
+ },
+ {
+  "task_id": "codebase_community:707",
+  "question_id": 707,
+  "db_id": "codebase_community",
+  "difficulty": "moderate",
+  "question": "Among the posts with views ranging from 100 to 150, what is the comment with the highest score?",
+  "evidence": "comment with the highest score refers to Text where MAX(Score);",
+  "gold_sql_sqlite": "SELECT Text FROM comments WHERE PostId IN ( SELECT Id FROM posts WHERE ViewCount BETWEEN 100 AND 150 ) ORDER BY Score DESC LIMIT 1",
+  "gold_sql_duckdb": "SELECT Text FROM comments WHERE PostId IN (SELECT Id FROM posts WHERE ViewCount BETWEEN 100 AND 150) ORDER BY Score DESC LIMIT 1",
+  "gold_rows": [
+   [
+    "Welcome to Cross Validated David P, for more information about the site and how to ask questions, you can check out the [FAQ](http://stats.stackexchange.com/faq). Is your question just about whether the calculation is right or wrong (it is wrong, with the numbers you give on your second line the result of the operation is 0.187, rounded)? Otherwise, yes, a percentage can be as close to zero as you can imagine because it is bounded between 0 and 100 and continuous on that interval."
+   ]
+  ],
+  "gold_runtime": 0.7090248866006732,
+  "split": "td2"
+ },
+ {
+  "task_id": "codebase_community:581",
+  "question_id": 581,
+  "db_id": "codebase_community",
+  "difficulty": "moderate",
+  "question": "Who is the editor of the post titled 'Open source tools for visualizing multi-dimensional data?'",
+  "evidence": "An editor of a post is the last person who edited it; 'Open source tools for visualizing multi-dimensional data?' is the exact title of the post",
+  "gold_sql_sqlite": "SELECT T2.DisplayName FROM posts AS T1 INNER JOIN users AS T2 ON T1.LastEditorUserId = T2.Id WHERE T1.Title = 'Open source tools for visualizing multi-dimensional data?'",
+  "gold_sql_duckdb": "SELECT T2.DisplayName FROM posts AS T1 INNER JOIN users AS T2 ON T1.LastEditorUserId = T2.Id WHERE T1.Title = 'Open source tools for visualizing multi-dimensional data?'",
+  "gold_rows": [
+   [
+    "naught101"
+   ]
+  ],
+  "gold_runtime": 0.005524068139493465,
+  "split": "td2"
+ },
+ {
+  "task_id": "codebase_community:583",
+  "question_id": 583,
+  "db_id": "codebase_community",
+  "difficulty": "simple",
+  "question": "What is the total score of the posts edited by Yevgeny and include the user's website URL.",
+  "evidence": "\"Yevgeny\" is the DisplayName; edited refers to LastEditorUserId",
+  "gold_sql_sqlite": "SELECT SUM(T1.Score), T2.WebsiteUrl FROM posts AS T1 INNER JOIN users AS T2 ON T1.LastEditorUserId = T2.Id WHERE T2.DisplayName = 'Yevgeny' GROUP BY T2.WebsiteUrl",
+  "gold_sql_duckdb": "SELECT SUM(T1.Score), T2.WebsiteUrl FROM posts AS T1 INNER JOIN users AS T2 ON T1.LastEditorUserId = T2.Id WHERE T2.DisplayName = 'Yevgeny' GROUP BY T2.WebsiteUrl",
+  "gold_rows": [
+   [
+    34,
+    "http://www.cquotient.com"
+   ]
+  ],
+  "gold_runtime": 0.0030416715890169144,
+  "split": "td2"
+ },
+ {
+  "task_id": "codebase_community:677",
+  "question_id": 677,
+  "db_id": "codebase_community",
+  "difficulty": "simple",
+  "question": "How many posts did Jay Stevens have in 2010?",
+  "evidence": "DisplayName = 'Jay Stevens'; in 2010 refers to YEAR(CreationDate) = 2010;",
+  "gold_sql_sqlite": "SELECT COUNT(T1.Id) FROM users AS T1 INNER JOIN posts AS T2 ON T1.Id = T2.OwnerUserId WHERE STRFTIME('%Y', T2.CreaionDate) = '2010' AND T1.DisplayName = 'Jay Stevens'",
+  "gold_sql_duckdb": "SELECT COUNT(T1.Id) FROM users AS T1 INNER JOIN posts AS T2 ON T1.Id = T2.OwnerUserId WHERE STRFTIME(CAST(T2.CreaionDate AS TIMESTAMP), '%Y') = '2010' AND T1.DisplayName = 'Jay Stevens'",
+  "gold_rows": [
+   [
+    3
+   ]
+  ],
+  "gold_runtime": 0.0022590840235352516,
+  "split": "td2"
+ },
+ {
+  "task_id": "codebase_community:594",
+  "question_id": 594,
+  "db_id": "codebase_community",
+  "difficulty": "simple",
+  "question": "Which user created post ID 1 and what is the reputation of this user?",
+  "evidence": "The creator of a post is its owner.",
+  "gold_sql_sqlite": "SELECT u.DisplayName, u.Reputation\nFROM posts AS p\nINNER JOIN users AS u ON p.OwnerUserId = u.Id\nWHERE p.Id = 1;",
+  "gold_sql_duckdb": "SELECT u.DisplayName, u.Reputation FROM posts AS p INNER JOIN users AS u ON p.OwnerUserId = u.Id WHERE p.Id = 1",
+  "gold_rows": [
+   [
+    "csgillespie",
+    6764
+   ]
+  ],
+  "gold_runtime": 0.001233493909239769,
+  "split": "td2"
+ },
+ {
+  "task_id": "codebase_community:689",
+  "question_id": 689,
+  "db_id": "codebase_community",
+  "difficulty": "simple",
+  "question": "Identify the display name and location of the user, who was the last to edit the post with ID 183.",
+  "evidence": "last to edit refers to MAX(LastEditDate);",
+  "gold_sql_sqlite": "SELECT T2.DisplayName, T2.Location FROM posts AS T1 INNER JOIN users AS T2 ON T1.OwnerUserId = T2.Id WHERE T1.Id = 183 ORDER BY T1.LastEditDate DESC LIMIT 1",
+  "gold_sql_duckdb": "SELECT T2.DisplayName, T2.Location FROM posts AS T1 INNER JOIN users AS T2 ON T1.OwnerUserId = T2.Id WHERE T1.Id = 183 ORDER BY T1.LastEditDate DESC LIMIT 1",
+  "gold_rows": [
+   [
+    "Vitor De Mario",
+    "Rio de Janeiro"
+   ]
+  ],
+  "gold_runtime": 0.014617946930229664,
+  "split": "td2"
+ },
+ {
+  "task_id": "codebase_community:660",
+  "question_id": 660,
+  "db_id": "codebase_community",
+  "difficulty": "simple",
+  "question": "What is the owner user id of the most valuable post?",
+  "evidence": "the most valuable post refers to the post with most favorite count;",
+  "gold_sql_sqlite": "SELECT OwnerUserId FROM posts WHERE FavoriteCount = ( SELECT MAX(FavoriteCount) FROM posts )",
+  "gold_sql_duckdb": "SELECT OwnerUserId FROM posts WHERE FavoriteCount = (SELECT MAX(FavoriteCount) FROM posts)",
+  "gold_rows": [
+   [
+    890
+   ]
+  ],
+  "gold_runtime": 0.001435607671737671,
+  "split": "td2"
+ },
+ {
+  "task_id": "codebase_community:587",
+  "question_id": 587,
+  "db_id": "codebase_community",
+  "difficulty": "moderate",
+  "question": "Calculate the average view count of each post tagged as 'humor' and list the title and the comment of each post.",
+  "evidence": "tagged as  'humor' refers to tag = '<humor>'; comment of the post refers to Text; average view count = AVG(ViewCount)",
+  "gold_sql_sqlite": "SELECT AVG(T2.ViewCount), T2.Title, T1.Text FROM comments AS T1 INNER JOIN posts AS T2 ON T2.Id = T1.PostId  WHERE T2.Tags = '<humor>' GROUP BY T2.Title, T1.Text ",
+  "gold_sql_duckdb": "SELECT AVG(T2.ViewCount), T2.Title, T1.Text FROM comments AS T1 INNER JOIN posts AS T2 ON T2.Id = T1.PostId WHERE T2.Tags = '<humor>' GROUP BY T2.Title, T1.Text",
+  "gold_rows": [
+   [
+    64481,
+    "What is your favorite \"data analysis\" cartoon?",
+    "@Sharpie, feel free to close or reopen according to your feelings! I agree with Shane, a bit is ok, but not too much. For example, this question already included a funny cartoon. The jokes question not really a funny joke...."
+   ],
+   [
+    64481,
+    "What is your favorite \"data analysis\" cartoon?",
+    "These cartoons are useful too; they can be included in a lecture on a particular topic where you are trying to explain a concept (e.g. correlation/causation above).  A little humor can help to keep an audience engaged."
+   ],
+   [
+    64481,
+    "What is your favorite \"data analysis\" cartoon?",
+    "I do have to ask though- how come cartoons are in and jokes are out?"
+   ],
+   [
+    64481,
+    "What is your favorite \"data analysis\" cartoon?",
+    "This question is awesome! it's basically a best of list of xckd and dilbert"
+   ],
+   [
+    64481,
+    "What is your favorite \"data analysis\" cartoon?",
+    "@sharpie: are jokes out?  We obviously don't want the entire site to be humor, but everyone benefits from a little educational humor in small doses."
+   ],
+   [
+    64481,
+    "What is your favorite \"data analysis\" cartoon?",
+    "Could we clarify the problem with hotlinking referenced in the P.S.? Might need to fix some of these answers, if it's worth worrying about."
+   ],
+   [
+    288,
+    "So how many staticians *does* it take to screw in a lightbulb?",
+    "Probably better asked on meta.  People feel like they have to downvote it because it is an off-topic question.  But then the downvotes make it look like staticians have no sense of humor :("
+   ],
+   [
+    288,
+    "So how many staticians *does* it take to screw in a lightbulb?",
+    "@Jason Punyon in particular gets a humorless downvote for removing my \"verboten\" tag! ;-)"
+   ],
+   [
+    64481,
+    "What is your favorite \"data analysis\" cartoon?",
+    "Also my question on the source of a statistical quote was closed too. See here.http://stats.stackexchange.com/questions/15739/who-said-tell-a-story-with-the-data"
+   ]
+  ],
+  "gold_runtime": 0.024439250119030476,
+  "split": "td2"
+ },
+ {
+  "task_id": "debit_card_specializing:1520",
+  "question_id": 1520,
+  "db_id": "debit_card_specializing",
+  "difficulty": "moderate",
+  "question": "For the customer who paid 124.05 in 2012/8/24, how much did he/she spend during the January of 2012? And what is the date and expenses exactly?",
+  "evidence": "expense and consumption have similar meanings",
+  "gold_sql_sqlite": "SELECT T1.CustomerID, T2.Date, T2.Consumption FROM transactions_1k AS T1 INNER JOIN yearmonth AS T2 ON T1.CustomerID = T2.CustomerID WHERE T1.Date = '2012-08-24' AND T1.Price = 124.05 AND T2.Date = '201201'",
+  "gold_sql_duckdb": "SELECT T1.CustomerID, T2.Date, T2.Consumption FROM transactions_1k AS T1 INNER JOIN yearmonth AS T2 ON T1.CustomerID = T2.CustomerID WHERE T1.Date = '2012-08-24' AND T1.Price = 124.05 AND T2.Date = '201201'",
+  "gold_rows": [
+   [
+    7630,
+    "201201",
+    24953.81
+   ],
+   [
+    40333,
+    "201201",
+    4084.9
+   ]
+  ],
+  "gold_runtime": 0.0034611299633979797,
+  "split": "td2"
+ },
+ {
+  "task_id": "debit_card_specializing:1511",
+  "question_id": 1511,
+  "db_id": "debit_card_specializing",
+  "difficulty": "simple",
+  "question": "For the customers who paid with euros, what is their average total price of the transactions?",
+  "evidence": "",
+  "gold_sql_sqlite": "SELECT AVG(T1.Price) FROM transactions_1k AS T1 INNER JOIN customers AS T2 ON T1.CustomerID = T2.CustomerID WHERE T2.Currency = 'EUR'",
+  "gold_sql_duckdb": "SELECT AVG(T1.Price) FROM transactions_1k AS T1 INNER JOIN customers AS T2 ON T1.CustomerID = T2.CustomerID WHERE T2.Currency = 'EUR'",
+  "gold_rows": [
+   [
+    23.1898
+   ]
+  ],
+  "gold_runtime": 0.0018732193857431412,
+  "split": "td2"
+ },
+ {
+  "task_id": "debit_card_specializing:1514",
+  "question_id": 1514,
+  "db_id": "debit_card_specializing",
+  "difficulty": "simple",
+  "question": "What kind of currency did the customer paid at 16:25:00 in 2012/8/24?",
+  "evidence": "'2012/8/24' can be represented by '2012-08-24';",
+  "gold_sql_sqlite": "SELECT DISTINCT T3.Currency FROM transactions_1k AS T1 INNER JOIN gasstations AS T2 ON T1.GasStationID = T2.GasStationID INNER JOIN customers AS T3 ON T1.CustomerID = T3.CustomerID WHERE T1.Date = '2012-08-24' AND T1.Time = '16:25:00'",
+  "gold_sql_duckdb": "SELECT DISTINCT T3.Currency FROM transactions_1k AS T1 INNER JOIN gasstations AS T2 ON T1.GasStationID = T2.GasStationID INNER JOIN customers AS T3 ON T1.CustomerID = T3.CustomerID WHERE T1.Date = '2012-08-24' AND T1.Time = '16:25:00'",
+  "gold_rows": [
+   [
+    "CZK"
+   ]
+  ],
+  "gold_runtime": 0.0023900726810097694,
+  "split": "td2"
+ },
+ {
+  "task_id": "debit_card_specializing:1528",
+  "question_id": 1528,
+  "db_id": "debit_card_specializing",
+  "difficulty": "simple",
+  "question": "What is the percentage of \"premium\" against the overall segment in Country = \"SVK\"?",
+  "evidence": "",
+  "gold_sql_sqlite": "SELECT CAST(SUM(IIF(Country = 'SVK' AND Segment = 'Premium', 1, 0)) AS FLOAT) * 100 / SUM(IIF(Country = 'SVK', 1, 0)) FROM gasstations",
+  "gold_sql_duckdb": "SELECT CAST(SUM(CASE WHEN Country = 'SVK' AND Segment = 'Premium' THEN 1 ELSE 0 END) AS REAL) * 100 / NULLIF(SUM(CASE WHEN Country = 'SVK' THEN 1 ELSE 0 END), 0) FROM gasstations",
+  "gold_rows": [
+   [
+    35.6818
+   ]
+  ],
+  "gold_runtime": 0.0011114925146102905,
+  "split": "td2"
+ },
+ {
+  "task_id": "debit_card_specializing:1497",
+  "question_id": 1497,
+  "db_id": "debit_card_specializing",
+  "difficulty": "simple",
+  "question": "Which SME customer consumed the least in June 2012?",
+  "evidence": "June 2012 refers to yearmonth.date = '201206'",
+  "gold_sql_sqlite": "SELECT T1.CustomerID FROM customers AS T1 INNER JOIN yearmonth AS T2 ON T1.CustomerID = T2.CustomerID WHERE T2.Date = '201206' AND T1.Segment = 'SME' GROUP BY T1.CustomerID ORDER BY SUM(T2.Consumption) ASC LIMIT 1",
+  "gold_sql_duckdb": "SELECT T1.CustomerID FROM customers AS T1 INNER JOIN yearmonth AS T2 ON T1.CustomerID = T2.CustomerID WHERE T2.Date = '201206' AND T1.Segment = 'SME' GROUP BY T1.CustomerID ORDER BY SUM(T2.Consumption) ASC NULLS FIRST LIMIT 1",
+  "gold_rows": [
+   [
+    27338
+   ]
+  ],
+  "gold_runtime": 0.005440963432192802,
+  "split": "td2"
+ },
+ {
+  "task_id": "debit_card_specializing:1494",
+  "question_id": 1494,
+  "db_id": "debit_card_specializing",
+  "difficulty": "simple",
+  "question": "What percentage of Slovakian gas stations are premium?",
+  "evidence": "Percentage of premium gas station = (Total of premium gas station in Slovakia / Total of gas station in Slovakia) * 100%.",
+  "gold_sql_sqlite": "SELECT CAST(SUM(IIF(Segment = 'Premium', 1, 0)) AS FLOAT) * 100 / COUNT(GasStationID) FROM gasstations WHERE Country = 'SVK'",
+  "gold_sql_duckdb": "SELECT CAST(SUM(CASE WHEN Segment = 'Premium' THEN 1 ELSE 0 END) AS REAL) * 100 / NULLIF(COUNT(GasStationID), 0) FROM gasstations WHERE Country = 'SVK'",
+  "gold_rows": [
+   [
+    35.6818
+   ]
+  ],
+  "gold_runtime": 0.0009288955479860306,
+  "split": "td2"
+ },
+ {
+  "task_id": "debit_card_specializing:1476",
+  "question_id": 1476,
+  "db_id": "debit_card_specializing",
+  "difficulty": "challenging",
+  "question": "What was the difference in gas consumption between CZK-paying customers and EUR-paying customers in 2012?",
+  "evidence": "Year 2012 can be presented as Between 201201 And 201212; The first 4 strings of the Date values in the yearmonth table can represent year; Difference in Consumption = CZK customers consumption in 2012 - EUR customers consumption in 2012",
+  "gold_sql_sqlite": "SELECT SUM(IIF(T1.Currency = 'CZK', T2.Consumption, 0)) - SUM(IIF(T1.Currency = 'EUR', T2.Consumption, 0)) FROM customers AS T1 INNER JOIN yearmonth AS T2 ON T1.CustomerID = T2.CustomerID WHERE SUBSTR(T2.Date, 1, 4) = '2012'",
+  "gold_sql_duckdb": "SELECT SUM(CASE WHEN T1.Currency = 'CZK' THEN T2.Consumption ELSE 0 END) - SUM(CASE WHEN T1.Currency = 'EUR' THEN T2.Consumption ELSE 0 END) FROM customers AS T1 INNER JOIN yearmonth AS T2 ON T1.CustomerID = T2.CustomerID WHERE SUBSTRING(T2.Date, 1, 4) = '2012'",
+  "gold_rows": [
+   [
+    402524570.17
+   ]
+  ],
+  "gold_runtime": 0.005489028058946133,
+  "split": "td2"
+ },
+ {
+  "task_id": "debit_card_specializing:1523",
+  "question_id": 1523,
+  "db_id": "debit_card_specializing",
+  "difficulty": "simple",
+  "question": "Which country was the card owner of No.667467 in?",
+  "evidence": "",
+  "gold_sql_sqlite": "SELECT T2.Country FROM transactions_1k AS T1 INNER JOIN gasstations AS T2 ON T1.GasStationID = T2.GasStationID WHERE T1.CardID = '667467'",
+  "gold_sql_duckdb": "SELECT T2.Country FROM transactions_1k AS T1 INNER JOIN gasstations AS T2 ON T1.GasStationID = T2.GasStationID WHERE T1.CardID = '667467'",
+  "gold_rows": [
+   [
+    "CZE"
+   ]
+  ],
+  "gold_runtime": 0.0009055333212018013,
+  "split": "td2"
+ },
+ {
+  "task_id": "debit_card_specializing:1521",
+  "question_id": 1521,
+  "db_id": "debit_card_specializing",
+  "difficulty": "moderate",
+  "question": "For all the transactions happened during 8:00-9:00 in 2012/8/26, how many happened in CZE?",
+  "evidence": "Czech Republic can be represented as the Country value in the gasstations table is 'CZE'; '2012/8/26' can be represented by '2012-08-26'; during 8:00-9:00 can be represented as Time BETWEEN '08:00:00' AND '09:00:00'",
+  "gold_sql_sqlite": "SELECT COUNT(T1.TransactionID) FROM transactions_1k AS T1 INNER JOIN gasstations AS T2 ON T1.GasStationID = T2.GasStationID WHERE T1.Date = '2012-08-26' AND T1.Time BETWEEN '08:00:00' AND '09:00:00' AND T2.Country = 'CZE'",
+  "gold_sql_duckdb": "SELECT COUNT(T1.TransactionID) FROM transactions_1k AS T1 INNER JOIN gasstations AS T2 ON T1.GasStationID = T2.GasStationID WHERE T1.Date = '2012-08-26' AND T1.Time BETWEEN '08:00:00' AND '09:00:00' AND T2.Country = 'CZE'",
+  "gold_rows": [
+   [
+    14
+   ]
+  ],
+  "gold_runtime": 0.0012293606996536255,
+  "split": "td2"
+ },
+ {
+  "task_id": "financial:133",
+  "question_id": 133,
+  "db_id": "financial",
+  "difficulty": "simple",
+  "question": "In 1996, which districts have the highest unemployment rate? List their branch location and district name.",
+  "evidence": "A2 refers to district names; A13 refers to unemploymant rate in 1996",
+  "gold_sql_sqlite": "SELECT district_id, A2 FROM district WHERE A13 = (SELECT A13 FROM district ORDER BY A13 DESC LIMIT 1)",
+  "gold_sql_duckdb": "SELECT district_id, A2 FROM district WHERE A13 = (SELECT A13 FROM district ORDER BY A13 DESC LIMIT 1)",
+  "gold_rows": [
+   [
+    39,
+    "Most"
+   ]
+  ],
+  "gold_runtime": 0.001865101046860218,
+  "split": "td2"
+ },
+ {
+  "task_id": "financial:93",
+  "question_id": 93,
+  "db_id": "financial",
+  "difficulty": "moderate",
+  "question": "How many male customers who are living in North Bohemia have average salary greater than 8000?",
+  "evidence": "Male means that gender = 'M'; A3 refers to region; A11 pertains to average salary.",
+  "gold_sql_sqlite": "SELECT COUNT(T1.client_id)\nFROM client AS T1\nINNER JOIN district AS T2 ON T1.district_id = T2.district_id\nWHERE T1.gender = 'M' AND T2.A3 = 'north Bohemia' AND T2.A11 > 8000;",
+  "gold_sql_duckdb": "SELECT COUNT(T1.client_id) FROM client AS T1 INNER JOIN district AS T2 ON T1.district_id = T2.district_id WHERE T1.gender = 'M' AND T2.A3 = 'north Bohemia' AND T2.A11 > 8000",
+  "gold_rows": [
+   [
+    280
+   ]
+  ],
+  "gold_runtime": 0.001556267961859703,
+  "split": "td2"
+ },
+ {
+  "task_id": "financial:172",
+  "question_id": 172,
+  "db_id": "financial",
+  "difficulty": "simple",
+  "question": "How many owner and disponent dispositions are there from account number 1 to account number 10?",
+  "evidence": "",
+  "gold_sql_sqlite": "SELECT SUM(type = 'OWNER') , SUM(type = 'DISPONENT') FROM disp WHERE account_id BETWEEN 1 AND 10",
+  "gold_sql_duckdb": "SELECT SUM(type = 'OWNER'), SUM(type = 'DISPONENT') FROM disp WHERE account_id BETWEEN 1 AND 10",
+  "gold_rows": [
+   [
+    10,
+    3
+   ]
+  ],
+  "gold_runtime": 0.0011300789192318916,
+  "split": "td2"
+ },
+ {
+  "task_id": "financial:94",
+  "question_id": 94,
+  "db_id": "financial",
+  "difficulty": "challenging",
+  "question": "List out the account numbers of female clients who are oldest and has lowest average salary, calculate the gap between this lowest average salary with the highest average salary?",
+  "evidence": "Female means gender = 'F'; A11 refers to average salary; Gap = highest average salary - lowest average salary; If the person A's birthdate > B's birthdate, it means that person B is order than person A.",
+  "gold_sql_sqlite": "SELECT T1.account_id,\n       (SELECT MAX(A11) - MIN(A11) FROM district)\nFROM account AS T1\nINNER JOIN district AS T2 ON T1.district_id = T2.district_id\nINNER JOIN disp AS T3 ON T1.account_id = T3.account_id\nINNER JOIN client AS T4 ON T3.client_id = T4.client_id\nWHERE T2.district_id = (\n  SELECT district_id FROM client WHERE gender = 'F' ORDER BY birth_date ASC LIMIT 1\n)\nORDER BY T2.A11 DESC\nLIMIT 1;",
+  "gold_sql_duckdb": "SELECT T1.account_id, (SELECT MAX(A11) - MIN(A11) FROM district) FROM account AS T1 INNER JOIN district AS T2 ON T1.district_id = T2.district_id INNER JOIN disp AS T3 ON T1.account_id = T3.account_id INNER JOIN client AS T4 ON T3.client_id = T4.client_id WHERE T2.district_id = (SELECT district_id FROM client WHERE gender = 'F' ORDER BY birth_date ASC NULLS FIRST LIMIT 1) ORDER BY T2.A11 DESC LIMIT 1",
+  "gold_rows": [
+   [
+    6,
+    4431
+   ]
+  ],
+  "gold_runtime": 0.005416786298155785,
+  "split": "td2"
+ },
+ {
+  "task_id": "financial:168",
+  "question_id": 168,
+  "db_id": "financial",
+  "difficulty": "moderate",
+  "question": "What percentage of clients who opened their accounts in the district with an average salary of over 10000 are women?",
+  "evidence": "Female refers to gender = 'F'; Woman and female are closed; Average salary can be found in A11",
+  "gold_sql_sqlite": "SELECT CAST(SUM(T2.gender = 'F') AS REAL) * 100 / COUNT(T2.client_id)\nFROM district AS T1\nINNER JOIN client AS T2 ON T1.district_id = T2.district_id\nWHERE T1.A11 > 10000;",
+  "gold_sql_duckdb": "SELECT CAST(SUM(T2.gender = 'F') AS REAL) * 100 / NULLIF(COUNT(T2.client_id), 0) FROM district AS T1 INNER JOIN client AS T2 ON T1.district_id = T2.district_id WHERE T1.A11 > 10000",
+  "gold_rows": [
+   [
+    49.61
+   ]
+  ],
+  "gold_runtime": 0.001401929184794426,
+  "split": "td2"
+ },
+ {
+  "task_id": "financial:167",
+  "question_id": 167,
+  "db_id": "financial",
+  "difficulty": "simple",
+  "question": "List all the clients' IDs whose junior credit cards were issued after 1996.",
+  "evidence": "After 1996 means date > = '1997-01-01",
+  "gold_sql_sqlite": "SELECT T2.client_id FROM card AS T1 INNER JOIN disp AS T2 ON T1.disp_id = T2.disp_id WHERE T1.type = 'junior' AND T1.issued >= '1997-01-01'",
+  "gold_sql_duckdb": "SELECT T2.client_id FROM card AS T1 INNER JOIN disp AS T2 ON T1.disp_id = T2.disp_id WHERE T1.type = 'junior' AND T1.issued >= '1997-01-01'",
+  "gold_rows": [
+   [
+    60
+   ],
+   [
+    167
+   ],
+   [
+    174
+   ],
+   [
+    221
+   ],
+   [
+    264
+   ],
+   [
+    378
+   ],
+   [
+    429
+   ],
+   [
+    451
+   ],
+   [
+    504
+   ],
+   [
+    519
+   ],
+   [
+    626
+   ],
+   [
+    667
+   ],
+   [
+    731
+   ],
+   [
+    786
+   ],
+   [
+    826
+   ],
+   [
+    900
+   ],
+   [
+    906
+   ],
+   [
+    996
+   ],
+   [
+    1168
+   ],
+   [
+    1211
+   ],
+   [
+    1382
+   ],
+   [
+    1390
+   ],
+   [
+    1440
+   ],
+   [
+    1500
+   ],
+   [
+    1736
+   ],
+   [
+    1819
+   ],
+   [
+    1947
+   ],
+   [
+    2005
+   ],
+   [
+    2038
+   ],
+   [
+    2065
+   ],
+   [
+    2121
+   ],
+   [
+    2138
+   ],
+   [
+    2277
+   ],
+   [
+    2287
+   ],
+   [
+    2425
+   ],
+   [
+    2488
+   ],
+   [
+    2538
+   ],
+   [
+    2540
+   ],
+   [
+    2592
+   ],
+   [
+    2662
+   ],
+   [
+    2888
+   ],
+   [
+    2948
+   ],
+   [
+    3066
+   ],
+   [
+    3102
+   ],
+   [
+    3104
+   ],
+   [
+    3183
+   ],
+   [
+    3233
+   ],
+   [
+    3257
+   ],
+   [
+    3319
+   ],
+   [
+    3348
+   ],
+   [
+    3627
+   ],
+   [
+    3636
+   ],
+   [
+    3640
+   ],
+   [
+    3689
+   ],
+   [
+    3766
+   ],
+   [
+    3787
+   ],
+   [
+    3813
+   ],
+   [
+    3846
+   ],
+   [
+    3938
+   ],
+   [
+    3981
+   ],
+   [
+    3985
+   ],
+   [
+    4018
+   ],
+   [
+    4061
+   ],
+   [
+    4081
+   ],
+   [
+    4091
+   ],
+   [
+    4094
+   ],
+   [
+    4171
+   ],
+   [
+    4246
+   ],
+   [
+    4265
+   ],
+   [
+    4382
+   ],
+   [
+    4495
+   ],
+   [
+    4533
+   ],
+   [
+    4587
+   ],
+   [
+    4639
+   ],
+   [
+    4651
+   ],
+   [
+    4674
+   ],
+   [
+    4740
+   ],
+   [
+    4764
+   ],
+   [
+    4808
+   ],
+   [
+    4823
+   ],
+   [
+    4941
+   ],
+   [
+    4944
+   ],
+   [
+    4976
+   ],
+   [
+    5013
+   ],
+   [
+    6567
+   ],
+   [
+    6789
+   ],
+   [
+    7959
+   ],
+   [
+    8217
+   ],
+   [
+    8359
+   ],
+   [
+    8506
+   ],
+   [
+    9457
+   ],
+   [
+    10798
+   ],
+   [
+    11683
+   ],
+   [
+    13089
+   ],
+   [
+    13406
+   ],
+   [
+    13750
+   ]
+  ],
+  "gold_runtime": 0.0013731615617871284,
+  "split": "td2"
+ },
+ {
+  "task_id": "financial:184",
+  "question_id": 184,
+  "db_id": "financial",
+  "difficulty": "simple",
+  "question": "How many female customers have a junior credit card?",
+  "evidence": "Female refers to gender = 'F'",
+  "gold_sql_sqlite": "SELECT COUNT(T1.client_id) FROM client AS T1 INNER JOIN disp AS T2 ON T1.client_id = T2.client_id INNER JOIN card AS T3 ON T2.disp_id = T3.disp_id WHERE T1.gender = 'F' AND T3.type = 'junior'",
+  "gold_sql_duckdb": "SELECT COUNT(T1.client_id) FROM client AS T1 INNER JOIN disp AS T2 ON T1.client_id = T2.client_id INNER JOIN card AS T3 ON T2.disp_id = T3.disp_id WHERE T1.gender = 'F' AND T3.type = 'junior'",
+  "gold_rows": [
+   [
+    71
+   ]
+  ],
+  "gold_runtime": 0.0016721822321414948,
+  "split": "td2"
+ },
+ {
+  "task_id": "financial:98",
+  "question_id": 98,
+  "db_id": "financial",
+  "difficulty": "moderate",
+  "question": "Among the accounts who have approved loan date in 1997, list out the accounts that have the lowest approved amount and choose weekly issuance statement.",
+  "evidence": "'POPLATEK TYDNE' stands for weekly issuance",
+  "gold_sql_sqlite": "SELECT T2.account_id FROM loan AS T1 INNER JOIN account AS T2 ON T1.account_id = T2.account_id WHERE STRFTIME('%Y', T1.date) = '1997' AND T2.frequency = 'POPLATEK TYDNE' ORDER BY T1.amount LIMIT 1",
+  "gold_sql_duckdb": "SELECT T2.account_id FROM loan AS T1 INNER JOIN account AS T2 ON T1.account_id = T2.account_id WHERE STRFTIME(CAST(T1.date AS TIMESTAMP), '%Y') = '1997' AND T2.frequency = 'POPLATEK TYDNE' ORDER BY T1.amount NULLS FIRST LIMIT 1",
+  "gold_rows": [
+   [
+    176
+   ]
+  ],
+  "gold_runtime": 0.0016414690762758255,
+  "split": "td2"
+ },
+ {
+  "task_id": "financial:132",
+  "question_id": 132,
+  "db_id": "financial",
+  "difficulty": "simple",
+  "question": "What is the average loan amount by male borrowers?",
+  "evidence": "Male refers to gender = 'M'",
+  "gold_sql_sqlite": "SELECT AVG(T4.amount) FROM client AS T1 INNER JOIN disp AS T2 ON T1.client_id = T2.client_id INNER JOIN account AS T3 ON T2.account_id = T3.account_id INNER JOIN loan AS T4 ON T3.account_id = T4.account_id WHERE T1.gender = 'M'",
+  "gold_sql_duckdb": "SELECT AVG(T4.amount) FROM client AS T1 INNER JOIN disp AS T2 ON T1.client_id = T2.client_id INNER JOIN account AS T3 ON T2.account_id = T3.account_id INNER JOIN loan AS T4 ON T3.account_id = T4.account_id WHERE T1.gender = 'M'",
+  "gold_rows": [
+   [
+    149609.1805
+   ]
+  ],
+  "gold_runtime": 0.002388840541243553,
+  "split": "td2"
+ },
+ {
+  "task_id": "financial:149",
+  "question_id": 149,
+  "db_id": "financial",
+  "difficulty": "challenging",
+  "question": "Please list the account types that are not eligible for loans, and the average income of residents in the district where the account is located exceeds $8000 but is no more than $9000.",
+  "evidence": "A11 represents the average salary; Salary and income share the similar meanings; when the account type = 'OWNER', it's eligible for loans",
+  "gold_sql_sqlite": "SELECT DISTINCT T3.type FROM district AS T1 INNER JOIN account AS T2 ON T1.district_id = T2.district_id INNER JOIN disp AS T3 ON T2.account_id = T3.account_id WHERE T3.type != 'OWNER' AND T1.A11 BETWEEN 8000 AND 9000",
+  "gold_sql_duckdb": "SELECT DISTINCT T3.type FROM district AS T1 INNER JOIN account AS T2 ON T1.district_id = T2.district_id INNER JOIN disp AS T3 ON T2.account_id = T3.account_id WHERE T3.type <> 'OWNER' AND T1.A11 BETWEEN 8000 AND 9000",
+  "gold_rows": [
+   [
+    "DISPONENT"
+   ]
+  ],
+  "gold_runtime": 0.002181067131459713,
+  "split": "td2"
+ },
+ {
+  "task_id": "formula_1:1017",
+  "question_id": 1017,
+  "db_id": "formula_1",
+  "difficulty": "moderate",
+  "question": "Please list the location coordinates of the circuits whose lap record is 1:29.488.",
+  "evidence": "lap records means the fastest time recorded which refers to time; coordinates are expressed as latitude and longitude which refers to (lat, lng)",
+  "gold_sql_sqlite": "SELECT T3.lat, T3.lng FROM lapTimes AS T1 INNER JOIN races AS T2 on T1.raceId = T2.raceId INNER JOIN circuits AS T3 on T2.circuitId = T3.circuitId WHERE T1.time = '1:29.488'",
+  "gold_sql_duckdb": "SELECT T3.lat, T3.lng FROM lapTimes AS T1 INNER JOIN races AS T2 ON T1.raceId = T2.raceId INNER JOIN circuits AS T3 ON T2.circuitId = T3.circuitId WHERE T1.time = '1:29.488'",
+  "gold_rows": [
+   [
+    41.57,
+    2.2611
+   ],
+   [
+    40.9517,
+    29.405
+   ],
+   [
+    43.7347,
+    7.4206
+   ],
+   [
+    47.5789,
+    19.2486
+   ],
+   [
+    45.6156,
+    9.2811
+   ],
+   [
+    44.3439,
+    11.7167
+   ],
+   [
+    28.3487,
+    77.5331
+   ],
+   [
+    40.9517,
+    29.405
+   ],
+   [
+    45.6156,
+    9.2811
+   ],
+   [
+    28.3487,
+    77.5331
+   ],
+   [
+    45.6156,
+    9.2811
+   ],
+   [
+    45.6156,
+    9.2811
+   ]
+  ],
+  "gold_runtime": 0.05477597564458847,
+  "split": "td2"
+ },
+ {
+  "task_id": "formula_1:922",
+  "question_id": 922,
+  "db_id": "formula_1",
+  "difficulty": "simple",
+  "question": "What time did the the 2010's Formula_1 race took place on the Abu Dhabi Circuit?",
+  "evidence": "",
+  "gold_sql_sqlite": "SELECT T2.date, T2.time FROM circuits AS T1 INNER JOIN races AS T2 ON T2.circuitID = T1.circuitId WHERE T2.year = 2010 AND T2.name = 'Abu Dhabi Grand Prix'",
+  "gold_sql_duckdb": "SELECT T2.date, T2.time FROM circuits AS T1 INNER JOIN races AS T2 ON T2.circuitID = T1.circuitId WHERE T2.year = 2010 AND T2.name = 'Abu Dhabi Grand Prix'",
+  "gold_rows": [
+   [
+    "2010-11-14",
+    "13:00:00"
+   ]
+  ],
+  "gold_runtime": 0.0009819502010941505,
+  "split": "td2"
+ },
+ {
+  "task_id": "formula_1:1012",
+  "question_id": 1012,
+  "db_id": "formula_1",
+  "difficulty": "simple",
+  "question": "What was the position of the circuits during Lewis Hamilton's fastest lap in a Formula_1 race?",
+  "evidence": "fastest lap refers to MIN(time)",
+  "gold_sql_sqlite": "SELECT T1.position\nFROM lapTimes AS T1\nINNER JOIN drivers AS T2 ON T1.driverId = T2.driverId\nWHERE T2.forename = 'Lewis' AND T2.surname = 'Hamilton'\nORDER BY T1.time ASC\nLIMIT 1;",
+  "gold_sql_duckdb": "SELECT T1.position FROM lapTimes AS T1 INNER JOIN drivers AS T2 ON T1.driverId = T2.driverId WHERE T2.forename = 'Lewis' AND T2.surname = 'Hamilton' ORDER BY T1.time ASC NULLS FIRST LIMIT 1",
+  "gold_rows": [
+   [
+    5
+   ]
+  ],
+  "gold_runtime": 0.0020916564390063286,
+  "split": "td2"
+ },
+ {
+  "task_id": "formula_1:950",
+  "question_id": 950,
+  "db_id": "formula_1",
+  "difficulty": "simple",
+  "question": "Please list the constructor names with 0 points at race 291.",
+  "evidence": "race at 291 refers to raceID = 291;",
+  "gold_sql_sqlite": "SELECT T2.name\nFROM constructorStandings AS T1\nINNER JOIN constructors AS T2 ON T1.constructorId = T2.constructorId\nWHERE T1.points = 0 AND T1.raceId = 291;",
+  "gold_sql_duckdb": "SELECT T2.name FROM constructorStandings AS T1 INNER JOIN constructors AS T2 ON T1.constructorId = T2.constructorId WHERE T1.points = 0 AND T1.raceId = 291",
+  "gold_rows": [
+   [
+    "Jordan"
+   ],
+   [
+    "Minardi"
+   ],
+   [
+    "Ligier"
+   ],
+   [
+    "Larrousse"
+   ],
+   [
+    "Brabham"
+   ],
+   [
+    "Dallara"
+   ]
+  ],
+  "gold_runtime": 0.0013524126261472702,
+  "split": "td2"
+ },
+ {
+  "task_id": "formula_1:964",
+  "question_id": 964,
+  "db_id": "formula_1",
+  "difficulty": "simple",
+  "question": "List out the code for drivers who have nationality in America.",
+  "evidence": "nationality = 'American'",
+  "gold_sql_sqlite": "SELECT code\nFROM drivers\nWHERE Nationality = 'American';",
+  "gold_sql_duckdb": "SELECT code FROM drivers WHERE Nationality = 'American'",
+  "gold_rows": [
+   [
+    "SPE"
+   ],
+   [
+    null
+   ],
+   [
+    null
+   ],
+   [
+    null
+   ],
+   [
+    null
+   ],
+   [
+    null
+   ],
+   [
+    null
+   ],
+   [
+    null
+   ],
+   [
+    null
+   ],
+   [
+    null
+   ],
+   [
+    null
+   ],
+   [
+    null
+   ],
+   [
+    null
+   ],
+   [
+    null
+   ],
+   [
+    null
+   ],
+   [
+    null
+   ],
+   [
+    null
+   ],
+   [
+    null
+   ],
+   [
+    null
+   ],
+   [
+    null
+   ],
+   [
+    null
+   ],
+   [
+    null
+   ],
+   [
+    null
+   ],
+   [
+    null
+   ],
+   [
+    null
+   ],
+   [
+    null
+   ],
+   [
+    null
+   ],
+   [
+    null
+   ],
+   [
+    null
+   ],
+   [
+    null
+   ],
+   [
+    null
+   ],
+   [
+    null
+   ],
+   [
+    null
+   ],
+   [
+    null
+   ],
+   [
+    null
+   ],
+   [
+    null
+   ],
+   [
+    null
+   ],
+   [
+    null
+   ],
+   [
+    null
+   ],
+   [
+    null
+   ],
+   [
+    null
+   ],
+   [
+    null
+   ],
+   [
+    null
+   ],
+   [
+    null
+   ],
+   [
+    null
+   ],
+   [
+    null
+   ],
+   [
+    null
+   ],
+   [
+    null
+   ],
+   [
+    null
+   ],
+   [
+    null
+   ],
+   [
+    null
+   ],
+   [
+    null
+   ],
+   [
+    null
+   ],
+   [
+    null
+   ],
+   [
+    null
+   ],
+   [
+    null
+   ],
+   [
+    null
+   ],
+   [
+    null
+   ],
+   [
+    null
+   ],
+   [
+    null
+   ],
+   [
+    null
+   ],
+   [
+    null
+   ],
+   [
+    null
+   ],
+   [
+    null
+   ],
+   [
+    null
+   ],
+   [
+    null
+   ],
+   [
+    null
+   ],
+   [
+    null
+   ],
+   [
+    null
+   ],
+   [
+    null
+   ],
+   [
+    null
+   ],
+   [
+    null
+   ],
+   [
+    null
+   ],
+   [
+    null
+   ],
+   [
+    null
+   ],
+   [
+    null
+   ],
+   [
+    null
+   ],
+   [
+    null
+   ],
+   [
+    null
+   ],
+   [
+    null
+   ],
+   [
+    null
+   ],
+   [
+    null
+   ],
+   [
+    null
+   ],
+   [
+    null
+   ],
+   [
+    null
+   ],
+   [
+    null
+   ],
+   [
+    null
+   ],
+   [
+    null
+   ],
+   [
+    null
+   ],
+   [
+    null
+   ],
+   [
+    null
+   ],
+   [
+    null
+   ],
+   [
+    null
+   ],
+   [
+    null
+   ],
+   [
+    null
+   ],
+   [
+    null
+   ],
+   [
+    null
+   ],
+   [
+    null
+   ],
+   [
+    null
+   ],
+   [
+    null
+   ],
+   [
+    null
+   ],
+   [
+    null
+   ],
+   [
+    null
+   ],
+   [
+    null
+   ],
+   [
+    null
+   ],
+   [
+    null
+   ],
+   [
+    null
+   ],
+   [
+    null
+   ],
+   [
+    null
+   ],
+   [
+    null
+   ],
+   [
+    null
+   ],
+   [
+    null
+   ],
+   [
+    null
+   ],
+   [
+    null
+   ],
+   [
+    null
+   ],
+   [
+    null
+   ],
+   [
+    null
+   ],
+   [
+    null
+   ],
+   [
+    null
+   ],
+   [
+    null
+   ],
+   [
+    null
+   ],
+   [
+    null
+   ],
+   [
+    null
+   ],
+   [
+    null
+   ],
+   [
+    null
+   ],
+   [
+    null
+   ],
+   [
+    null
+   ],
+   [
+    null
+   ],
+   [
+    null
+   ],
+   [
+    null
+   ],
+   [
+    null
+   ],
+   [
+    null
+   ],
+   [
+    null
+   ],
+   [
+    null
+   ],
+   [
+    null
+   ],
+   [
+    null
+   ],
+   [
+    null
+   ],
+   [
+    null
+   ],
+   [
+    null
+   ],
+   [
+    null
+   ],
+   [
+    null
+   ],
+   [
+    null
+   ],
+   [
+    null
+   ],
+   [
+    null
+   ],
+   [
+    null
+   ],
+   [
+    null
+   ],
+   [
+    null
+   ],
+   [
+    null
+   ],
+   [
+    null
+   ],
+   [
+    null
+   ],
+   [
+    null
+   ],
+   [
+    null
+   ],
+   [
+    null
+   ],
+   [
+    null
+   ],
+   [
+    null
+   ],
+   [
+    null
+   ],
+   [
+    "RSS"
+   ]
+  ],
+  "gold_runtime": 0.0004927916452288628,
+  "split": "td2"
+ },
+ {
+  "task_id": "formula_1:1014",
+  "question_id": 1014,
+  "db_id": "formula_1",
+  "difficulty": "challenging",
+  "question": "Please list the lap records for the circuits in Italy.",
+  "evidence": "A circuit\u2019s lap record is the fastest lap time recorded at that circuit.",
+  "gold_sql_sqlite": "WITH per AS (\n  SELECT c.name AS circuit_name,\n         res.fastestLapTime,\n         (CAST(SUBSTR(res.fastestLapTime, 1, INSTR(res.fastestLapTime, ':') - 1) AS REAL) * 60)\n         + CAST(SUBSTR(res.fastestLapTime, INSTR(res.fastestLapTime, ':') + 1,\n                        INSTR(res.fastestLapTime, '.') - INSTR(res.fastestLapTime, ':') - 1) AS REAL)\n         + CAST(SUBSTR(res.fastestLapTime, INSTR(res.fastestLapTime, '.') + 1) AS REAL) / 1000.0 AS secs\n  FROM results AS res\n  JOIN races AS r ON res.raceId = r.raceId\n  JOIN circuits AS c ON r.circuitId = c.circuitId\n  WHERE c.country = 'Italy' AND res.fastestLapTime IS NOT NULL\n), min_per AS (\n  SELECT circuit_name, MIN(secs) AS min_secs\n  FROM per\n  GROUP BY circuit_name\n)\nSELECT p.circuit_name, p.fastestLapTime AS lap_record\nFROM per AS p\nJOIN min_per AS m\n  ON p.circuit_name = m.circuit_name AND p.secs = m.min_secs\nORDER BY p.circuit_name ASC;",
+  "gold_sql_duckdb": "WITH per AS (SELECT c.name AS circuit_name, res.fastestLapTime, (CAST(SUBSTRING(res.fastestLapTime, 1, STRPOS(res.fastestLapTime, ':') - 1) AS REAL) * 60) + CAST(SUBSTRING(res.fastestLapTime, STRPOS(res.fastestLapTime, ':') + 1, STRPOS(res.fastestLapTime, '.') - STRPOS(res.fastestLapTime, ':') - 1) AS REAL) + CAST(SUBSTRING(res.fastestLapTime, STRPOS(res.fastestLapTime, '.') + 1) AS REAL) / NULLIF(1000.0, 0) AS secs FROM results AS res JOIN races AS r ON res.raceId = r.raceId JOIN circuits AS c ON r.circuitId = c.circuitId WHERE c.country = 'Italy' AND NOT res.fastestLapTime IS NULL), min_per AS (SELECT circuit_name, MIN(secs) AS min_secs FROM per GROUP BY circuit_name) SELECT p.circuit_name, p.fastestLapTime AS lap_record FROM per AS p JOIN min_per AS m ON p.circuit_name = m.circuit_name AND p.secs = m.min_secs ORDER BY p.circuit_name ASC NULLS FIRST",
+  "gold_rows": [
+   [
+    "Autodromo Enzo e Dino Ferrari",
+    "1:20.411"
+   ],
+   [
+    "Autodromo Nazionale di Monza",
+    "1:21.046"
+   ]
+  ],
+  "gold_runtime": 0.004419511184096336,
+  "split": "td2"
+ },
+ {
+  "task_id": "formula_1:916",
+  "question_id": 916,
+  "db_id": "formula_1",
+  "difficulty": "simple",
+  "question": "Please list the surnames of all the Italian drivers.",
+  "evidence": "Italian refers to nationality = 'italian'",
+  "gold_sql_sqlite": "SELECT surname FROM drivers WHERE nationality = 'Italian'",
+  "gold_sql_duckdb": "SELECT surname FROM drivers WHERE nationality = 'Italian'",
+  "gold_rows": [
+   [
+    "Trulli"
+   ],
+   [
+    "Fisichella"
+   ],
+   [
+    "Liuzzi"
+   ],
+   [
+    "Pantano"
+   ],
+   [
+    "Bruni"
+   ],
+   [
+    "Badoer"
+   ],
+   [
+    "Zanardi"
+   ],
+   [
+    "Larini"
+   ],
+   [
+    "Sospiri"
+   ],
+   [
+    "Morbidelli"
+   ],
+   [
+    "Montermini"
+   ],
+   [
+    "Lavaggi"
+   ],
+   [
+    "Schiattarella"
+   ],
+   [
+    "Martini"
+   ],
+   [
+    "Papis"
+   ],
+   [
+    "Tarquini"
+   ],
+   [
+    "Alboreto"
+   ],
+   [
+    "de Cesaris"
+   ],
+   [
+    "Patrese"
+   ],
+   [
+    "Barbazza"
+   ],
+   [
+    "Capelli"
+   ],
+   [
+    "Apicella"
+   ],
+   [
+    "Naspetti"
+   ],
+   [
+    "Modena"
+   ],
+   [
+    "Amati"
+   ],
+   [
+    "Caffi"
+   ],
+   [
+    "Bertaggia"
+   ],
+   [
+    "Pirro"
+   ],
+   [
+    "Nannini"
+   ],
+   [
+    "Barilla"
+   ],
+   [
+    "Langes"
+   ],
+   [
+    "Giacomelli"
+   ],
+   [
+    "Ghinzani"
+   ],
+   [
+    "Fabi"
+   ],
+   [
+    "de Angelis"
+   ],
+   [
+    "Baldi"
+   ],
+   [
+    "Fabi"
+   ],
+   [
+    "Paletti"
+   ],
+   [
+    "Gabbiani"
+   ],
+   [
+    "Stohr"
+   ],
+   [
+    "Francia"
+   ],
+   [
+    "Brambilla"
+   ],
+   [
+    "Merzario"
+   ],
+   [
+    "Brancatelli"
+   ],
+   [
+    "Leoni"
+   ],
+   [
+    "Colombo"
+   ],
+   [
+    "Franchi"
+   ],
+   [
+    "Zorzi"
+   ],
+   [
+    "Lombardi"
+   ],
+   [
+    "Pesenti-Rossi"
+   ],
+   [
+    "Facetti"
+   ],
+   [
+    "Galli"
+   ],
+   [
+    "de Adamich"
+   ],
+   [
+    "Giunti"
+   ],
+   [
+    "Scarfiotti"
+   ],
+   [
+    "Bandini"
+   ],
+   [
+    "Baghetti"
+   ],
+   [
+    "Russo"
+   ],
+   [
+    "Bussinello"
+   ],
+   [
+    "Vaccarella"
+   ],
+   [
+    "Bassi"
+   ],
+   [
+    "Brambilla"
+   ],
+   [
+    "Lippi"
+   ],
+   [
+    "Abate"
+   ],
+   [
+    "Starrabba"
+   ],
+   [
+    "Prinoth"
+   ],
+   [
+    "Scarlatti"
+   ],
+   [
+    "Natili"
+   ],
+   [
+    "Pirocchi"
+   ],
+   [
+    "Boffa"
+   ],
+   [
+    "Munaron"
+   ],
+   [
+    "Cabianca"
+   ],
+   [
+    "Drogo"
+   ],
+   [
+    "de Filippis"
+   ],
+   [
+    "Musso"
+   ],
+   [
+    "Gerini"
+   ],
+   [
+    "Piotti"
+   ],
+   [
+    "Taramazzo"
+   ],
+   [
+    "Perdisa"
+   ],
+   [
+    "Castellotti"
+   ],
+   [
+    "Maglioli"
+   ],
+   [
+    "Villoresi"
+   ],
+   [
+    "Scotti"
+   ],
+   [
+    "Taruffi"
+   ],
+   [
+    "Farina"
+   ],
+   [
+    "Mantovani"
+   ],
+   [
+    "Ascari"
+   ],
+   [
+    "de Riu"
+   ],
+   [
+    "Bonetto"
+   ],
+   [
+    "Carini"
+   ],
+   [
+    "Comotti"
+   ],
+   [
+    "Dusio"
+   ],
+   [
+    "Rol"
+   ],
+   [
+    "Sanesi"
+   ],
+   [
+    "Fagioli"
+   ],
+   [
+    "Biondetti"
+   ],
+   [
+    "Pagani"
+   ],
+   [
+    "Serafini"
+   ],
+   [
+    "Giovinazzi"
+   ]
+  ],
+  "gold_runtime": 0.00045988522469997406,
+  "split": "td2"
+ },
+ {
+  "task_id": "formula_1:1008",
+  "question_id": 1008,
+  "db_id": "formula_1",
+  "difficulty": "simple",
+  "question": "During which lap did Lewis Hamilton take a pit stop during the 2011 Australian Grand Prix?",
+  "evidence": "",
+  "gold_sql_sqlite": "SELECT T1.lap FROM pitStops AS T1 INNER JOIN drivers AS T2 on T1.driverId = T2.driverId INNER JOIN races AS T3 on T1.raceId = T3.raceId WHERE T2.forename = 'Lewis' AND T2.surname = 'Hamilton' AND T3.year = 2011 AND T3.name = 'Australian Grand Prix'",
+  "gold_sql_duckdb": "SELECT T1.lap FROM pitStops AS T1 INNER JOIN drivers AS T2 ON T1.driverId = T2.driverId INNER JOIN races AS T3 ON T1.raceId = T3.raceId WHERE T2.forename = 'Lewis' AND T2.surname = 'Hamilton' AND T3.year = 2011 AND T3.name = 'Australian Grand Prix'",
+  "gold_rows": [
+   [
+    36
+   ],
+   [
+    16
+   ]
+  ],
+  "gold_runtime": 0.0018685711547732353,
+  "split": "td2"
+ },
+ {
+  "task_id": "formula_1:860",
+  "question_id": 860,
+  "db_id": "formula_1",
+  "difficulty": "simple",
+  "question": "For the driver who had the Q2 time as 0:01:40 in the qualifying race No. 355, what is his nationality?",
+  "evidence": "race number refers to raceId;",
+  "gold_sql_sqlite": "SELECT DISTINCT T2.nationality FROM qualifying AS T1 INNER JOIN drivers AS T2 ON T2.driverId = T1.driverId WHERE T1.raceId = 355 AND T1.q2 LIKE '1:40%'",
+  "gold_sql_duckdb": "SELECT DISTINCT T2.nationality FROM qualifying AS T1 INNER JOIN drivers AS T2 ON T2.driverId = T1.driverId WHERE T1.raceId = 355 AND T1.q2 LIKE '1:40%'",
+  "gold_rows": [
+   [
+    "Russian"
+   ],
+   [
+    "British"
+   ],
+   [
+    "German"
+   ],
+   [
+    "Brazilian"
+   ],
+   [
+    "Polish"
+   ],
+   [
+    "Australian"
+   ],
+   [
+    "Spanish"
+   ],
+   [
+    "Japanese"
+   ]
+  ],
+  "gold_runtime": 0.001589769497513771,
+  "split": "td2"
+ },
+ {
+  "task_id": "formula_1:937",
+  "question_id": 937,
+  "db_id": "formula_1",
+  "difficulty": "simple",
+  "question": "What's the finish time for the driver who ranked second in 2008's AustChineseralian Grand Prix?",
+  "evidence": "finish time refers to time; Chinese Grand Prix refers to races.name = 'Chinese Grand Prix';",
+  "gold_sql_sqlite": "SELECT T1.time FROM results AS T1 INNER JOIN races AS T2 on T1.raceId = T2.raceId WHERE T1.rank = 2 AND T2.name = 'Chinese Grand Prix' AND T2.year = 2008",
+  "gold_sql_duckdb": "SELECT T1.time FROM results AS T1 INNER JOIN races AS T2 ON T1.raceId = T2.raceId WHERE T1.rank = 2 AND T2.name = 'Chinese Grand Prix' AND T2.year = 2008",
+  "gold_rows": [
+   [
+    "+16.445"
+   ]
+  ],
+  "gold_runtime": 0.0009178239852190018,
+  "split": "td2"
+ },
+ {
+  "task_id": "formula_1:984",
+  "question_id": 984,
+  "db_id": "formula_1",
+  "difficulty": "simple",
+  "question": "What is the website of the constructor who tallied the most total wins.",
+  "evidence": "introduction website refers to url;",
+  "gold_sql_sqlite": "SELECT T1.url FROM constructors AS T1 INNER JOIN constructorStandings AS T2 on T1.constructorId = T2.constructorId ORDER BY T2.wins DESC, T2.constructorId ASC LIMIT 1",
+  "gold_sql_duckdb": "SELECT T1.url FROM constructors AS T1 INNER JOIN constructorStandings AS T2 ON T1.constructorId = T2.constructorId ORDER BY T2.wins DESC, T2.constructorId ASC NULLS FIRST LIMIT 1",
+  "gold_rows": [
+   [
+    "http://en.wikipedia.org/wiki/Mercedes-Benz_in_Formula_One"
+   ]
+  ],
+  "gold_runtime": 0.0014348849654197693,
+  "split": "td2"
+ },
+ {
+  "task_id": "formula_1:985",
+  "question_id": 985,
+  "db_id": "formula_1",
+  "difficulty": "simple",
+  "question": "Among the drivers who participated in the French Grand Prix, who has the slowest time in the 3rd lap.",
+  "evidence": "slowest time refers to Max(time);",
+  "gold_sql_sqlite": "SELECT T1.driverId\nFROM lapTimes AS T1\nINNER JOIN races AS T2 ON T1.raceId = T2.raceId\nWHERE T2.name = 'French Grand Prix' AND T1.lap = 3\nORDER BY T1.time DESC\nLIMIT 1;",
+  "gold_sql_duckdb": "SELECT T1.driverId FROM lapTimes AS T1 INNER JOIN races AS T2 ON T1.raceId = T2.raceId WHERE T2.name = 'French Grand Prix' AND T1.lap = 3 ORDER BY T1.time DESC LIMIT 1",
+  "gold_rows": [
+   [
+    15
+   ]
+  ],
+  "gold_runtime": 0.0019078748300671577,
+  "split": "td2"
+ },
+ {
+  "task_id": "formula_1:925",
+  "question_id": 925,
+  "db_id": "formula_1",
+  "difficulty": "simple",
+  "question": "Please give the link of the website that shows more information about the circuits the Spanish Grand Prix used in 2009.",
+  "evidence": "link of the website refers to url",
+  "gold_sql_sqlite": "SELECT T1.url FROM circuits AS T1 INNER JOIN races AS T2 ON T2.circuitID = T1.circuitId WHERE T2.year = 2009 AND T2.name = 'Spanish Grand Prix'",
+  "gold_sql_duckdb": "SELECT T1.url FROM circuits AS T1 INNER JOIN races AS T2 ON T2.circuitID = T1.circuitId WHERE T2.year = 2009 AND T2.name = 'Spanish Grand Prix'",
+  "gold_rows": [
+   [
+    "http://en.wikipedia.org/wiki/Circuit_de_Barcelona-Catalunya"
+   ]
+  ],
+  "gold_runtime": 0.0008481303229928017,
+  "split": "td2"
+ },
+ {
+  "task_id": "formula_1:969",
+  "question_id": 969,
+  "db_id": "formula_1",
+  "difficulty": "simple",
+  "question": "How many British drivers who were born in 1980?",
+  "evidence": "born in 1980 refers to year(dob) = 1980;",
+  "gold_sql_sqlite": "SELECT COUNT(driverId) FROM drivers WHERE nationality = 'British' AND STRFTIME('%Y', dob) = '1980'",
+  "gold_sql_duckdb": "SELECT COUNT(driverId) FROM drivers WHERE nationality = 'British' AND STRFTIME(CAST(dob AS TIMESTAMP), '%Y') = '1980'",
+  "gold_rows": [
+   [
+    1
+   ]
+  ],
+  "gold_runtime": 0.0006560785695910454,
+  "split": "td2"
+ },
+ {
+  "task_id": "formula_1:867",
+  "question_id": 867,
+  "db_id": "formula_1",
+  "difficulty": "simple",
+  "question": "For the driver who set the fastest lap speed in race No.933, where does he come from?",
+  "evidence": "fastest lap speed refers to MAX(fastestLapSpeed);",
+  "gold_sql_sqlite": "SELECT T1.nationality FROM drivers AS T1 INNER JOIN results AS T2 ON T2.driverId = T1.driverId WHERE T2.raceId = 933 AND T2.fastestLapTime IS NOT NULL ORDER BY T2.fastestLapSpeed DESC LIMIT 1",
+  "gold_sql_duckdb": "SELECT T1.nationality FROM drivers AS T1 INNER JOIN results AS T2 ON T2.driverId = T1.driverId WHERE T2.raceId = 933 AND NOT T2.fastestLapTime IS NULL ORDER BY T2.fastestLapSpeed DESC LIMIT 1",
+  "gold_rows": [
+   [
+    "German"
+   ]
+  ],
+  "gold_runtime": 0.0013854559510946274,
+  "split": "td2"
+ },
+ {
+  "task_id": "formula_1:948",
+  "question_id": 948,
+  "db_id": "formula_1",
+  "difficulty": "simple",
+  "question": "What are the maximum points of British constructors?",
+  "evidence": "",
+  "gold_sql_sqlite": "SELECT MAX(T1.points) FROM constructorStandings AS T1 INNER JOIN constructors AS T2 on T1.constructorId = T2.constructorId WHERE T2.nationality = 'British'",
+  "gold_sql_duckdb": "SELECT MAX(T1.points) FROM constructorStandings AS T1 INNER JOIN constructors AS T2 ON T1.constructorId = T2.constructorId WHERE T2.nationality = 'British'",
+  "gold_rows": [
+   [
+    497
+   ]
+  ],
+  "gold_runtime": 0.0011687101796269417,
+  "split": "td2"
+ },
+ {
+  "task_id": "formula_1:855",
+  "question_id": 855,
+  "db_id": "formula_1",
+  "difficulty": "simple",
+  "question": "Where can I find the information about the races held on Sepang International Circuit?",
+  "evidence": "information about races refers to url;",
+  "gold_sql_sqlite": "SELECT DISTINCT T1.url FROM circuits AS T1 INNER JOIN races AS T2 ON T2.circuitID = T1.circuitId WHERE T1.name = 'Sepang International Circuit'",
+  "gold_sql_duckdb": "SELECT DISTINCT T1.url FROM circuits AS T1 INNER JOIN races AS T2 ON T2.circuitID = T1.circuitId WHERE T1.name = 'Sepang International Circuit'",
+  "gold_rows": [
+   [
+    "http://en.wikipedia.org/wiki/Sepang_International_Circuit"
+   ]
+  ],
+  "gold_runtime": 0.0011583631858229637,
+  "split": "td2"
+ },
+ {
+  "task_id": "formula_1:904",
+  "question_id": 904,
+  "db_id": "formula_1",
+  "difficulty": "moderate",
+  "question": "State the race and year of race in which Michael Schumacher had his fastest lap.",
+  "evidence": "fastest lap refers to min(milliseconds); Michael Schumacher refers to the full name of the driver; Full name of the driver refers to drivers.forename and drivers.surname;",
+  "gold_sql_sqlite": "SELECT T1.name, T1.year FROM races AS T1 INNER JOIN lapTimes AS T2 ON T2.raceId = T1.raceId INNER JOIN drivers AS T3 ON T3.driverId = T2.driverId WHERE T3.forename = 'Michael' AND T3.surname = 'Schumacher' ORDER BY T2.milliseconds ASC LIMIT 1",
+  "gold_sql_duckdb": "SELECT T1.name, T1.year FROM races AS T1 INNER JOIN lapTimes AS T2 ON T2.raceId = T1.raceId INNER JOIN drivers AS T3 ON T3.driverId = T2.driverId WHERE T3.forename = 'Michael' AND T3.surname = 'Schumacher' ORDER BY T2.milliseconds ASC NULLS FIRST LIMIT 1",
+  "gold_rows": [
+   [
+    "Austrian Grand Prix",
+    2003
+   ]
+  ],
+  "gold_runtime": 0.0031380075961351395,
+  "split": "td2"
+ },
+ {
+  "task_id": "student_club:1436",
+  "question_id": 1436,
+  "db_id": "student_club",
+  "difficulty": "simple",
+  "question": "Please provide links to events for members who have paid more than 50 dollar.",
+  "evidence": "have paid more than 50 dollar refers to cost > 50",
+  "gold_sql_sqlite": "SELECT DISTINCT T3.link_to_event FROM expense AS T1 INNER JOIN member AS T2 ON T1.link_to_member = T2.member_id INNER JOIN attendance AS T3 ON T2.member_id = T3.link_to_member WHERE T1.cost > 50",
+  "gold_sql_duckdb": "SELECT DISTINCT T3.link_to_event FROM expense AS T1 INNER JOIN member AS T2 ON T1.link_to_member = T2.member_id INNER JOIN attendance AS T3 ON T2.member_id = T3.link_to_member WHERE T1.cost > 50",
+  "gold_rows": [
+   [
+    "recI43CzsZ0Q625ma"
+   ],
+   [
+    "recIuIXdbLe5j5vCA"
+   ],
+   [
+    "reczhS8wix6Kzbp9P"
+   ],
+   [
+    "recmbOVHSyzXQZpQr"
+   ],
+   [
+    "recoVo6dFSzG1ypX7"
+   ],
+   [
+    "recsgSUqFCJqekzL5"
+   ],
+   [
+    "recvCUOytx5jPw7kh"
+   ],
+   [
+    "rec2N69DMcrqN9PJC"
+   ],
+   [
+    "rec5XDvJLyxDsGZWc"
+   ],
+   [
+    "recEVTik3MlqbvLFi"
+   ],
+   [
+    "recGxVCwaLW3mDIa3"
+   ],
+   [
+    "recLKj8BbTNqxFbTb"
+   ],
+   [
+    "recLrY8kyOR1PcZeF"
+   ],
+   [
+    "recggMW2eyCYceNcy"
+   ],
+   [
+    "reckYL4xtQWpkTJ8k"
+   ],
+   [
+    "recykdvf4LgsyA3wZ"
+   ],
+   [
+    "reciRZdAqNIKuMC96"
+   ]
+  ],
+  "gold_runtime": 0.0032833898440003395,
+  "split": "td2"
+ },
+ {
+  "task_id": "student_club:1362",
+  "question_id": 1362,
+  "db_id": "student_club",
+  "difficulty": "simple",
+  "question": "How many cities are there in Orange County, Virginia?",
+  "evidence": "Orange County is the county name, Virginia is the state name",
+  "gold_sql_sqlite": "SELECT COUNT(city) FROM zip_code WHERE county = 'Orange County' AND state = 'Virginia'",
+  "gold_sql_duckdb": "SELECT COUNT(city) FROM zip_code WHERE county = 'Orange County' AND state = 'Virginia'",
+  "gold_rows": [
+   [
+    7
+   ]
+  ],
+  "gold_runtime": 0.0020711375400424004,
+  "split": "td2"
+ },
+ {
+  "task_id": "student_club:1404",
+  "question_id": 1404,
+  "db_id": "student_club",
+  "difficulty": "moderate",
+  "question": "Identify the type of expenses and their total value approved for 'October Meeting' event.",
+  "evidence": "total value refers to SUM(cost); 'October Meeting' is an event name;",
+  "gold_sql_sqlite": "SELECT T3.expense_description, SUM(T3.cost) \nFROM event AS T1 \nINNER JOIN budget AS T2 ON T1.event_id = T2.link_to_event \nINNER JOIN expense AS T3 ON T2.budget_id = T3.link_to_budget \nWHERE T1.event_name = 'October Meeting' AND T3.approved = 'true'\nGROUP BY T3.expense_description",
+  "gold_sql_duckdb": "SELECT T3.expense_description, SUM(T3.cost) FROM event AS T1 INNER JOIN budget AS T2 ON T1.event_id = T2.link_to_event INNER JOIN expense AS T3 ON T2.budget_id = T3.link_to_budget WHERE T1.event_name = 'October Meeting' AND T3.approved = 'true' GROUP BY T3.expense_description",
+  "gold_rows": [
+   [
+    "Water, chips, cookies",
+    69.33
+   ],
+   [
+    "Posters",
+    54.25
+   ],
+   [
+    "Pizza",
+    51.81
+   ]
+  ],
+  "gold_runtime": 0.002415671944618225,
+  "split": "td2"
+ },
+ {
+  "task_id": "student_club:1333",
+  "question_id": 1333,
+  "db_id": "student_club",
+  "difficulty": "simple",
+  "question": "What is the hometown city and state of the Student Club President?",
+  "evidence": "'President' is a position of Student Club;",
+  "gold_sql_sqlite": "SELECT T2.city, T2.state FROM member AS T1 INNER JOIN zip_code AS T2 ON T1.zip = T2.zip_code WHERE T1.position = 'President'",
+  "gold_sql_duckdb": "SELECT T2.city, T2.state FROM member AS T1 INNER JOIN zip_code AS T2 ON T1.zip = T2.zip_code WHERE T1.position = 'President'",
+  "gold_rows": [
+   [
+    "South Plainfield",
+    "New Jersey"
+   ]
+  ],
+  "gold_runtime": 0.0010908739641308784,
+  "split": "td2"
+ },
+ {
+  "task_id": "student_club:1425",
+  "question_id": 1425,
+  "db_id": "student_club",
+  "difficulty": "simple",
+  "question": "In the College of Agriculture and Applied Sciences, how many majors are under the department of School of Applied Sciences, Technology and Education?",
+  "evidence": "",
+  "gold_sql_sqlite": "SELECT COUNT(major_id) FROM major WHERE department = 'School of Applied Sciences, Technology and Education' AND college = 'College of Agriculture and Applied Sciences'",
+  "gold_sql_duckdb": "SELECT COUNT(major_id) FROM major WHERE department = 'School of Applied Sciences, Technology and Education' AND college = 'College of Agriculture and Applied Sciences'",
+  "gold_rows": [
+   [
+    21
+   ]
+  ],
+  "gold_runtime": 0.0007354170083999634,
+  "split": "td2"
+ },
+ {
+  "task_id": "student_club:1411",
+  "question_id": 1411,
+  "db_id": "student_club",
+  "difficulty": "simple",
+  "question": "State what kind of expenses that Sacha Harrison incurred?",
+  "evidence": "kind of expenses refers to expense_description; Sacha Harrison is the full name; full name refers to first_name, last_name;",
+  "gold_sql_sqlite": "SELECT T2.expense_description FROM member AS T1 INNER JOIN expense AS T2 ON T1.member_id = T2.link_to_member WHERE T1.first_name = 'Sacha' AND T1.last_name = 'Harrison'",
+  "gold_sql_duckdb": "SELECT T2.expense_description FROM member AS T1 INNER JOIN expense AS T2 ON T1.member_id = T2.link_to_member WHERE T1.first_name = 'Sacha' AND T1.last_name = 'Harrison'",
+  "gold_rows": [
+   [
+    "Post Cards, Posters"
+   ],
+   [
+    "Posters"
+   ],
+   [
+    "Water, chips, cookies"
+   ],
+   [
+    "Posters"
+   ],
+   [
+    "Water, chips, cookies"
+   ],
+   [
+    "Pizza"
+   ],
+   [
+    "Water, chips, cookies"
+   ],
+   [
+    "Travel Mug"
+   ],
+   [
+    "Alumni Glass"
+   ],
+   [
+    "Posters"
+   ],
+   [
+    "Travel Mug"
+   ],
+   [
+    "Bakery - Donuts, muffins"
+   ]
+  ],
+  "gold_runtime": 0.0009186780080199242,
+  "split": "td2"
+ },
+ {
+  "task_id": "student_club:1332",
+  "question_id": 1332,
+  "db_id": "student_club",
+  "difficulty": "moderate",
+  "question": "How much did the Student_Club members spend on food in the September Meeting?",
+  "evidence": "amount spent refers to spent; spend on food in September Meeting refers to category = 'Food' where event_name = 'September Meeting'",
+  "gold_sql_sqlite": "SELECT T2.spent FROM event AS T1 INNER JOIN budget AS T2 ON T1.event_id = T2.link_to_event WHERE T1.event_name = 'September Meeting' AND T2.category = 'Food'",
+  "gold_sql_duckdb": "SELECT T2.spent FROM event AS T1 INNER JOIN budget AS T2 ON T1.event_id = T2.link_to_event WHERE T1.event_name = 'September Meeting' AND T2.category = 'Food'",
+  "gold_rows": [
+   [
+    101.94
+   ]
+  ],
+  "gold_runtime": 0.0009399158880114555,
+  "split": "td2"
+ },
+ {
+  "task_id": "student_club:1356",
+  "question_id": 1356,
+  "db_id": "student_club",
+  "difficulty": "simple",
+  "question": "Which department was the President of the club in?",
+  "evidence": "'President' is a position of Student Club",
+  "gold_sql_sqlite": "SELECT T2.department FROM member AS T1 INNER JOIN major AS T2 ON T1.link_to_major = T2.major_id WHERE T1.position = 'President'",
+  "gold_sql_duckdb": "SELECT T2.department FROM member AS T1 INNER JOIN major AS T2 ON T1.link_to_major = T2.major_id WHERE T1.position = 'President'",
+  "gold_rows": [
+   [
+    "Liberal Arts Program"
+   ]
+  ],
+  "gold_runtime": 0.0008292626589536667,
+  "split": "td2"
+ },
+ {
+  "task_id": "student_club:1394",
+  "question_id": 1394,
+  "db_id": "student_club",
+  "difficulty": "simple",
+  "question": "How many members of the Student_Club have major in 'Physics Teaching'?",
+  "evidence": "'Physics Teaching' is the major_name;",
+  "gold_sql_sqlite": "SELECT COUNT(T2.member_id) FROM major AS T1 INNER JOIN member AS T2 ON T1.major_id = T2.link_to_major WHERE T1.major_name = 'Physics Teaching'",
+  "gold_sql_duckdb": "SELECT COUNT(T2.member_id) FROM major AS T1 INNER JOIN member AS T2 ON T1.major_id = T2.link_to_major WHERE T1.major_name = 'Physics Teaching'",
+  "gold_rows": [
+   [
+    1
+   ]
+  ],
+  "gold_runtime": 0.00089243333786726,
+  "split": "td2"
+ },
+ {
+  "task_id": "student_club:1355",
+  "question_id": 1355,
+  "db_id": "student_club",
+  "difficulty": "simple",
+  "question": "Where is the hometown state for \"Sacha Harrison\"?",
+  "evidence": "hometown state refers to state;",
+  "gold_sql_sqlite": "SELECT T2.state FROM member AS T1 INNER JOIN zip_code AS T2 ON T1.zip = T2.zip_code WHERE T1.first_name = 'Sacha' AND T1.last_name = 'Harrison'",
+  "gold_sql_duckdb": "SELECT T2.state FROM member AS T1 INNER JOIN zip_code AS T2 ON T1.zip = T2.zip_code WHERE T1.first_name = 'Sacha' AND T1.last_name = 'Harrison'",
+  "gold_rows": [
+   [
+    "New Jersey"
+   ]
+  ],
+  "gold_runtime": 0.0009862463921308517,
+  "split": "td2"
+ },
+ {
+  "task_id": "student_club:1345",
+  "question_id": 1345,
+  "db_id": "student_club",
+  "difficulty": "simple",
+  "question": "How many majors are there in \"College of Humanities and Social Sciences\"?",
+  "evidence": "",
+  "gold_sql_sqlite": "SELECT COUNT(major_name) FROM major WHERE college = 'College of Humanities and Social Sciences'",
+  "gold_sql_duckdb": "SELECT COUNT(major_name) FROM major WHERE college = 'College of Humanities and Social Sciences'",
+  "gold_rows": [
+   [
+    24
+   ]
+  ],
+  "gold_runtime": 0.0004853028804063797,
+  "split": "td2"
+ },
+ {
+  "task_id": "student_club:1395",
+  "question_id": 1395,
+  "db_id": "student_club",
+  "difficulty": "moderate",
+  "question": "How many members did attend the event 'Community Theater' in 2019?",
+  "evidence": "event 'Community Theater' in 2019 refers to event_name = 'Community Theater' where YEAR(event_date) = 2019",
+  "gold_sql_sqlite": "SELECT COUNT(T2.link_to_member) FROM event AS T1 INNER JOIN attendance AS T2 ON T1.event_id = T2.link_to_event WHERE T1.event_name = 'Community Theater' AND SUBSTR(T1.event_date, 1, 4) = '2019'",
+  "gold_sql_duckdb": "SELECT COUNT(T2.link_to_member) FROM event AS T1 INNER JOIN attendance AS T2 ON T1.event_id = T2.link_to_event WHERE T1.event_name = 'Community Theater' AND SUBSTRING(T1.event_date, 1, 4) = '2019'",
+  "gold_rows": [
+   [
+    17
+   ]
+  ],
+  "gold_runtime": 0.0009929323568940163,
+  "split": "td2"
+ },
+ {
+  "task_id": "student_club:1449",
+  "question_id": 1449,
+  "db_id": "student_club",
+  "difficulty": "moderate",
+  "question": "What is the name and major of members who had to spend more than a hundred dollars on an expense?",
+  "evidence": "full name refers to first_name, last_name; major of members refers to major_name; spend more than a hundred dollars on an expense refers to cost > 100",
+  "gold_sql_sqlite": "SELECT DISTINCT T1.first_name, T1.last_name, T2.major_name FROM member AS T1 INNER JOIN major AS T2 ON T2.major_id = T1.link_to_major INNER JOIN expense AS T3 ON T1.member_id = T3.link_to_member WHERE T3.cost > 100",
+  "gold_sql_duckdb": "SELECT DISTINCT T1.first_name, T1.last_name, T2.major_name FROM member AS T1 INNER JOIN major AS T2 ON T2.major_id = T1.link_to_major INNER JOIN expense AS T3 ON T1.member_id = T3.link_to_member WHERE T3.cost > 100",
+  "gold_rows": [
+   [
+    "Elijah",
+    "Allen",
+    "Elementary Education"
+   ],
+   [
+    "Sacha",
+    "Harrison",
+    "Liberal Arts"
+   ]
+  ],
+  "gold_runtime": 0.0018382016569375992,
+  "split": "td2"
+ },
+ {
+  "task_id": "student_club:1453",
+  "question_id": 1453,
+  "db_id": "student_club",
+  "difficulty": "moderate",
+  "question": "List the name of events with less than average parking cost.",
+  "evidence": "name of events refers to event_name; less than average parking cost refers to cost < DIVIDE(SUM(cost), COUNT(event_id)) where category = 'Parking'",
+  "gold_sql_sqlite": "SELECT T1.event_name FROM event AS T1 INNER JOIN budget AS T2 ON T1.event_id = T2.link_to_event INNER JOIN expense AS T3 ON T2.budget_id = T3.link_to_budget WHERE T2.category = 'Parking' AND T3.cost < (SELECT AVG(cost) FROM expense)",
+  "gold_sql_duckdb": "SELECT T1.event_name FROM event AS T1 INNER JOIN budget AS T2 ON T1.event_id = T2.link_to_event INNER JOIN expense AS T3 ON T2.budget_id = T3.link_to_budget WHERE T2.category = 'Parking' AND T3.cost < (SELECT AVG(cost) FROM expense)",
+  "gold_rows": [
+   [
+    "October Speaker"
+   ],
+   [
+    "September Speaker"
+   ],
+   [
+    "November Speaker"
+   ]
+  ],
+  "gold_runtime": 0.0018896562978625298,
+  "split": "td2"
+ },
+ {
+  "task_id": "student_club:1398",
+  "question_id": 1398,
+  "db_id": "student_club",
+  "difficulty": "moderate",
+  "question": "Name the event with the highest amount spent on advertisement.",
+  "evidence": "advertisement refers to category = 'Advertisement'; highest amount spent refers to the maximum value in the spent column for advertisement category",
+  "gold_sql_sqlite": "SELECT T2.event_name FROM budget AS T1 INNER JOIN event AS T2 ON T1.link_to_event = T2.event_id WHERE T1.category = 'Advertisement' ORDER BY T1.spent DESC, T2.event_id ASC LIMIT 1",
+  "gold_sql_duckdb": "SELECT T2.event_name FROM budget AS T1 INNER JOIN event AS T2 ON T1.link_to_event = T2.event_id WHERE T1.category = 'Advertisement' ORDER BY T1.spent DESC, T2.event_id ASC NULLS FIRST LIMIT 1",
+  "gold_rows": [
+   [
+    "Yearly Kickoff"
+   ]
+  ],
+  "gold_runtime": 0.001229940913617611,
+  "split": "td2"
+ },
+ {
+  "task_id": "student_club:1387",
+  "question_id": 1387,
+  "db_id": "student_club",
+  "difficulty": "moderate",
+  "question": "Which student has been entrusted to manage the budget for the Yearly Kickoff?",
+  "evidence": "name of students means the full name; full name refers to first_name, last_name;'Yearly Kickoff' is an event name;",
+  "gold_sql_sqlite": "SELECT T4.first_name, T4.last_name FROM event AS T1 INNER JOIN budget AS T2 ON T1.event_id = T2.link_to_event INNER JOIN expense AS T3 ON T2.budget_id = T3.link_to_budget INNER JOIN member AS T4 ON T3.link_to_member = T4.member_id WHERE T1.event_name = 'Yearly Kickoff'",
+  "gold_sql_duckdb": "SELECT T4.first_name, T4.last_name FROM event AS T1 INNER JOIN budget AS T2 ON T1.event_id = T2.link_to_event INNER JOIN expense AS T3 ON T2.budget_id = T3.link_to_budget INNER JOIN member AS T4 ON T3.link_to_member = T4.member_id WHERE T1.event_name = 'Yearly Kickoff'",
+  "gold_rows": [
+   [
+    "Sacha",
+    "Harrison"
+   ],
+   [
+    "Elijah",
+    "Allen"
+   ],
+   [
+    "Sacha",
+    "Harrison"
+   ],
+   [
+    "Elijah",
+    "Allen"
+   ]
+  ],
+  "gold_runtime": 0.0016023069620132446,
+  "split": "td2"
+ },
+ {
+  "task_id": "superhero:725",
+  "question_id": 725,
+  "db_id": "superhero",
+  "difficulty": "simple",
+  "question": "How many superheroes are published by Marvel Comics?",
+  "evidence": "published by Marvel Comics refers to publisher_name = 'Marvel Comics'",
+  "gold_sql_sqlite": "SELECT COUNT(T1.id) FROM superhero AS T1 INNER JOIN publisher AS T2 ON T1.publisher_id = T2.id WHERE T2.publisher_name = 'Marvel Comics'",
+  "gold_sql_duckdb": "SELECT COUNT(T1.id) FROM superhero AS T1 INNER JOIN publisher AS T2 ON T1.publisher_id = T2.id WHERE T2.publisher_name = 'Marvel Comics'",
+  "gold_rows": [
+   [
+    387
+   ]
+  ],
+  "gold_runtime": 0.0016335248947143555,
+  "split": "td2"
+ },
+ {
+  "task_id": "superhero:838",
+  "question_id": 838,
+  "db_id": "superhero",
+  "difficulty": "simple",
+  "question": "Provide the full name of the superhero named Alien.",
+  "evidence": "",
+  "gold_sql_sqlite": "SELECT full_name FROM superhero WHERE superhero_name = 'Alien'",
+  "gold_sql_duckdb": "SELECT full_name FROM superhero WHERE superhero_name = 'Alien'",
+  "gold_rows": [
+   [
+    "Xenomorph"
+   ]
+  ],
+  "gold_runtime": 0.00048098526895046234,
+  "split": "td2"
+ },
+ {
+  "task_id": "superhero:794",
+  "question_id": 794,
+  "db_id": "superhero",
+  "difficulty": "moderate",
+  "question": "Which hero was the fastest?",
+  "evidence": "The fastest hero is the one with the highest speed value.",
+  "gold_sql_sqlite": "SELECT T1.superhero_name FROM superhero AS T1 INNER JOIN hero_attribute AS T2 ON T1.id = T2.hero_id INNER JOIN attribute AS T3 ON T2.attribute_id = T3.id WHERE T3.attribute_name = 'Speed' ORDER BY T2.attribute_value DESC, T1.id ASC LIMIT 1",
+  "gold_sql_duckdb": "SELECT T1.superhero_name FROM superhero AS T1 INNER JOIN hero_attribute AS T2 ON T1.id = T2.hero_id INNER JOIN attribute AS T3 ON T2.attribute_id = T3.id WHERE T3.attribute_name = 'Speed' ORDER BY T2.attribute_value DESC, T1.id ASC NULLS FIRST LIMIT 1",
+  "gold_rows": [
+   [
+    "Air-Walker"
+   ]
+  ],
+  "gold_runtime": 0.0021343985572457314,
+  "split": "td2"
+ },
+ {
+  "task_id": "superhero:761",
+  "question_id": 761,
+  "db_id": "superhero",
+  "difficulty": "moderate",
+  "question": "Among the male superheroes, list the super hero names of superheroes with weight greater than the 79% average weight of all superheroes.",
+  "evidence": "super hero names refers to superhero_name;male superheros refers to gender = 'Male';Calculation = weight_kg > MULTIPLY(AVG(weight_kg), 0.79)",
+  "gold_sql_sqlite": "SELECT T1.superhero_name FROM superhero AS T1 INNER JOIN gender AS T2 ON T1.gender_id = T2.id WHERE T2.gender = 'Male' AND T1.weight_kg * 100 > ( SELECT AVG(weight_kg) FROM superhero ) * 79",
+  "gold_sql_duckdb": "SELECT T1.superhero_name FROM superhero AS T1 INNER JOIN gender AS T2 ON T1.gender_id = T2.id WHERE T2.gender = 'Male' AND T1.weight_kg * 100 > (SELECT AVG(weight_kg) FROM superhero) * 79",
+  "gold_rows": [
+   [
+    "King Kong"
+   ]
+  ],
+  "gold_runtime": 0.0014653196558356285,
+  "split": "td2"
+ },
+ {
+  "task_id": "superhero:812",
+  "question_id": 812,
+  "db_id": "superhero",
+  "difficulty": "simple",
+  "question": "List down at least five full names of superheroes with blue eyes.",
+  "evidence": "blue eyes refers to colour.colour = 'Blue' WHERE eye_colour_id = colour.id; Name of superheroes refers to superhero_name;",
+  "gold_sql_sqlite": "SELECT T1.superhero_name FROM superhero AS T1 INNER JOIN colour AS T2 ON T1.eye_colour_id = T2.id WHERE T2.colour = 'Blue' LIMIT 5",
+  "gold_sql_duckdb": "SELECT T1.superhero_name FROM superhero AS T1 INNER JOIN colour AS T2 ON T1.eye_colour_id = T2.id WHERE T2.colour = 'Blue' LIMIT 5",
+  "gold_rows": [
+   [
+    "Abe Sapien"
+   ],
+   [
+    "Abin Sur"
+   ],
+   [
+    "Abraxas"
+   ],
+   [
+    "Absorbing Man"
+   ],
+   [
+    "Adam Monroe"
+   ]
+  ],
+  "gold_runtime": 0.0010773874819278717,
+  "split": "td2"
+ },
+ {
+  "task_id": "superhero:810",
+  "question_id": 810,
+  "db_id": "superhero",
+  "difficulty": "simple",
+  "question": "What is the most common race of the superhero with maximum attribute value?",
+  "evidence": "maximum attribute value refers to MAX(attribute_value);most common race refers to race with MAX(COUNT(*))",
+  "gold_sql_sqlite": "SELECT r.race\nFROM superhero s\nJOIN hero_attribute ha ON s.id = ha.hero_id\nJOIN race r ON s.race_id = r.id\nWHERE ha.attribute_value = (SELECT MAX(attribute_value) FROM hero_attribute)\nGROUP BY r.race \nORDER BY COUNT(*) DESC\nLIMIT 1;",
+  "gold_sql_duckdb": "SELECT r.race FROM superhero AS s JOIN hero_attribute AS ha ON s.id = ha.hero_id JOIN race AS r ON s.race_id = r.id WHERE ha.attribute_value = (SELECT MAX(attribute_value) FROM hero_attribute) GROUP BY r.race ORDER BY COUNT(*) DESC LIMIT 1",
+  "gold_rows": [
+   [
+    "Human"
+   ]
+  ],
+  "gold_runtime": 0.002628762274980545,
+  "split": "td2"
+ },
+ {
+  "task_id": "superhero:819",
+  "question_id": 819,
+  "db_id": "superhero",
+  "difficulty": "challenging",
+  "question": "In superheroes with missing weight data, calculate the difference between the number of superheroes with blue eyes and no eye color.",
+  "evidence": "missing weight data refers to weight_kg = 0 OR T1.weight_kg = NULL; difference = SUBTRACT(SUM(colour.id = 7), SUM(colour.id = 1)); blue eyes refers to eye_colour_id WHERE colour.id = 7; no eye color refers to eye_colour_id WHERE colour.id = 1;",
+  "gold_sql_sqlite": "SELECT\n  SUM(CASE WHEN T2.id = 7 THEN 1 ELSE 0 END) -\n  SUM(CASE WHEN T2.id = 1 THEN 1 ELSE 0 END)\nFROM superhero AS T1\nINNER JOIN colour AS T2 ON T1.eye_colour_id = T2.id\nWHERE T1.weight_kg = 0 OR T1.weight_kg IS NULL;",
+  "gold_sql_duckdb": "SELECT SUM(CASE WHEN T2.id = 7 THEN 1 ELSE 0 END) - SUM(CASE WHEN T2.id = 1 THEN 1 ELSE 0 END) FROM superhero AS T1 INNER JOIN colour AS T2 ON T1.eye_colour_id = T2.id WHERE T1.weight_kg = 0 OR T1.weight_kg IS NULL",
+  "gold_rows": [
+   [
+    -122
+   ]
+  ],
+  "gold_runtime": 0.001202145591378212,
+  "split": "td2"
+ },
+ {
+  "task_id": "superhero:784",
+  "question_id": 784,
+  "db_id": "superhero",
+  "difficulty": "simple",
+  "question": "Provide the full names of vampire heroes.",
+  "evidence": "vampire heroes refers to race = 'Vampire';",
+  "gold_sql_sqlite": "SELECT T1.full_name FROM superhero AS T1 INNER JOIN race AS T2 ON T1.race_id = T2.id WHERE T2.race = 'Vampire'",
+  "gold_sql_duckdb": "SELECT T1.full_name FROM superhero AS T1 INNER JOIN race AS T2 ON T1.race_id = T2.id WHERE T2.race = 'Vampire'",
+  "gold_rows": [
+   [
+    "Liam"
+   ],
+   [
+    "Eric Brooks"
+   ]
+  ],
+  "gold_runtime": 0.0007727444171905518,
+  "split": "td2"
+ },
+ {
+  "task_id": "superhero:776",
+  "question_id": 776,
+  "db_id": "superhero",
+  "difficulty": "simple",
+  "question": "Provide the hero name and race of Charles Chandler.",
+  "evidence": "hero name refers to superhero_name; Charles Chandler is the full name of superhero;",
+  "gold_sql_sqlite": "SELECT T1.superhero_name, T2.race FROM superhero AS T1 INNER JOIN race AS T2 ON T1.race_id = T2.id WHERE T1.full_name = 'Charles Chandler'",
+  "gold_sql_duckdb": "SELECT T1.superhero_name, T2.race FROM superhero AS T1 INNER JOIN race AS T2 ON T1.race_id = T2.id WHERE T1.full_name = 'Charles Chandler'",
+  "gold_rows": [
+   [
+    "3-D Man",
+    "-"
+   ]
+  ],
+  "gold_runtime": 0.0007812567055225372,
+  "split": "td2"
+ },
+ {
+  "task_id": "superhero:788",
+  "question_id": 788,
+  "db_id": "superhero",
+  "difficulty": "challenging",
+  "question": "How many percent of female heroes were published by Marvel Comics?",
+  "evidence": "percent = MULTIPLY(DIVIDE(SUM(gender = 'Female' WHERE publisher_name = 'Marvel Comics'), COUNT(publisher_name = 'Marvel Comics')), 100); female heroes refers to gender = 'Female'; Marvel Comics refers to publisher_name = 'Marvel Comics';",
+  "gold_sql_sqlite": "SELECT CAST(COUNT(CASE WHEN T2.publisher_name = 'Marvel Comics' THEN 1 ELSE NULL END) AS REAL) * 100 / COUNT(T1.id) FROM superhero AS T1 INNER JOIN publisher AS T2 ON T1.publisher_id = T2.id INNER JOIN gender AS T3 ON T1.gender_id = T3.id WHERE T3.gender = 'Female'",
+  "gold_sql_duckdb": "SELECT CAST(COUNT(CASE WHEN T2.publisher_name = 'Marvel Comics' THEN 1 ELSE NULL END) AS REAL) * 100 / NULLIF(COUNT(T1.id), 0) FROM superhero AS T1 INNER JOIN publisher AS T2 ON T1.publisher_id = T2.id INNER JOIN gender AS T3 ON T1.gender_id = T3.id WHERE T3.gender = 'Female'",
+  "gold_rows": [
+   [
+    54.9505
+   ]
+  ],
+  "gold_runtime": 0.001498010940849781,
+  "split": "td2"
+ },
+ {
+  "task_id": "superhero:737",
+  "question_id": 737,
+  "db_id": "superhero",
+  "difficulty": "simple",
+  "question": "What is Copycat's race?",
+  "evidence": "Copycat is the superhero_name;",
+  "gold_sql_sqlite": "SELECT T2.race FROM superhero AS T1 INNER JOIN race AS T2 ON T1.race_id = T2.id WHERE T1.superhero_name = 'Copycat'",
+  "gold_sql_duckdb": "SELECT T2.race FROM superhero AS T1 INNER JOIN race AS T2 ON T1.race_id = T2.id WHERE T1.superhero_name = 'Copycat'",
+  "gold_rows": [
+   [
+    "Mutant"
+   ]
+  ],
+  "gold_runtime": 0.0007487181574106216,
+  "split": "td2"
+ },
+ {
+  "task_id": "superhero:739",
+  "question_id": 739,
+  "db_id": "superhero",
+  "difficulty": "moderate",
+  "question": "What are the names of the superheroes with the power of death touch?",
+  "evidence": "name of superheroes refers to refers to superhero_name; the power of death touch refers to power_name = 'Death Touch'",
+  "gold_sql_sqlite": "SELECT T1.superhero_name FROM superhero AS T1 INNER JOIN hero_power AS T2 ON T1.id = T2.hero_id INNER JOIN superpower AS T3 ON T2.power_id = T3.id WHERE T3.power_name = 'Death Touch'",
+  "gold_sql_duckdb": "SELECT T1.superhero_name FROM superhero AS T1 INNER JOIN hero_power AS T2 ON T1.id = T2.hero_id INNER JOIN superpower AS T3 ON T2.power_id = T3.id WHERE T3.power_name = 'Death Touch'",
+  "gold_rows": [
+   [
+    "Black Flash"
+   ],
+   [
+    "Blackwulf"
+   ],
+   [
+    "Hela"
+   ],
+   [
+    "Living Tribunal"
+   ],
+   [
+    "One-Above-All"
+   ],
+   [
+    "Poison Ivy"
+   ],
+   [
+    "Spectre"
+   ]
+  ],
+  "gold_runtime": 0.0016324864700436592,
+  "split": "td2"
+ },
+ {
+  "task_id": "superhero:733",
+  "question_id": 733,
+  "db_id": "superhero",
+  "difficulty": "moderate",
+  "question": "How many gold-eyed superheroes did Marvel Comics publish?",
+  "evidence": "gold-eyed refers to colour = 'Gold' where eye_colour_id = colour.id; superheroes that Marvel Comics published refers to publisher_name = 'Marvel Comics'",
+  "gold_sql_sqlite": "SELECT COUNT(T1.id) FROM superhero AS T1 INNER JOIN publisher AS T2 ON T1.publisher_id = T2.id INNER JOIN colour AS T3 ON T1.eye_colour_id = T3.id WHERE T2.publisher_name = 'Marvel Comics' AND T3.colour = 'Gold'",
+  "gold_sql_duckdb": "SELECT COUNT(T1.id) FROM superhero AS T1 INNER JOIN publisher AS T2 ON T1.publisher_id = T2.id INNER JOIN colour AS T3 ON T1.eye_colour_id = T3.id WHERE T2.publisher_name = 'Marvel Comics' AND T3.colour = 'Gold'",
+  "gold_rows": [
+   [
+    2
+   ]
+  ],
+  "gold_runtime": 0.001088269054889679,
+  "split": "td2"
+ },
+ {
+  "task_id": "superhero:785",
+  "question_id": 785,
+  "db_id": "superhero",
+  "difficulty": "simple",
+  "question": "Describe the names of neutral alignment superheroes.",
+  "evidence": "names of superheroes refers to superhero_name; neutral alignment refers to alignment = 'Neutral';",
+  "gold_sql_sqlite": "SELECT T1.superhero_name FROM superhero AS T1 INNER JOIN alignment AS T2 ON T1.alignment_id = T2.id WHERE T2.alignment = 'Neutral'",
+  "gold_sql_duckdb": "SELECT T1.superhero_name FROM superhero AS T1 INNER JOIN alignment AS T2 ON T1.alignment_id = T2.id WHERE T2.alignment = 'Neutral'",
+  "gold_rows": [
+   [
+    "Ares"
+   ],
+   [
+    "Bizarro"
+   ],
+   [
+    "Black Flash"
+   ],
+   [
+    "Brundlefly"
+   ],
+   [
+    "Captain Cold"
+   ],
+   [
+    "Copycat"
+   ],
+   [
+    "Deadpool"
+   ],
+   [
+    "Deathstroke"
+   ],
+   [
+    "Etrigan"
+   ],
+   [
+    "Galactus"
+   ],
+   [
+    "Gladiator"
+   ],
+   [
+    "Indigo"
+   ],
+   [
+    "Juggernaut"
+   ],
+   [
+    "Living Tribunal"
+   ],
+   [
+    "Lobo"
+   ],
+   [
+    "Lucifer Morningstar"
+   ],
+   [
+    "Man-Bat"
+   ],
+   [
+    "One-Above-All"
+   ],
+   [
+    "Phantom Stranger"
+   ],
+   [
+    "Raven"
+   ],
+   [
+    "Red Hood"
+   ],
+   [
+    "Red Hulk"
+   ],
+   [
+    "Robin VI"
+   ],
+   [
+    "Sandman"
+   ],
+   [
+    "Sinestro"
+   ],
+   [
+    "The Comedian"
+   ],
+   [
+    "The Presence"
+   ],
+   [
+    "Toad"
+   ]
+  ],
+  "gold_runtime": 0.001039670780301094,
+  "split": "td2"
+ },
+ {
+  "task_id": "superhero:740",
+  "question_id": 740,
+  "db_id": "superhero",
+  "difficulty": "moderate",
+  "question": "How many female superheroes have a strength value of 100?",
+  "evidence": "female refers to gender = 'Female'; strength value of 100 refers to attribute_name = 'Strength' AND attribute_value = 100",
+  "gold_sql_sqlite": "SELECT COUNT(T1.id) FROM superhero AS T1 INNER JOIN hero_attribute AS T2 ON T1.id = T2.hero_id INNER JOIN attribute AS T3 ON T2.attribute_id = T3.id INNER JOIN gender AS T4 ON T1.gender_id = T4.id WHERE T3.attribute_name = 'Strength' AND T2.attribute_value = 100 AND T4.gender = 'Female'",
+  "gold_sql_duckdb": "SELECT COUNT(T1.id) FROM superhero AS T1 INNER JOIN hero_attribute AS T2 ON T1.id = T2.hero_id INNER JOIN attribute AS T3 ON T2.attribute_id = T3.id INNER JOIN gender AS T4 ON T1.gender_id = T4.id WHERE T3.attribute_name = 'Strength' AND T2.attribute_value = 100 AND T4.gender = 'Female'",
+  "gold_rows": [
+   [
+    12
+   ]
+  ],
+  "gold_runtime": 0.0015287119895219803,
+  "split": "td2"
+ },
+ {
+  "task_id": "superhero:770",
+  "question_id": 770,
+  "db_id": "superhero",
+  "difficulty": "simple",
+  "question": "What is the eyes colour of Abraham Sapien?",
+  "evidence": "eye colour refers to colour.colour where eye_colour_id = colour.id; Abraham Sapien is the full name of superhero;",
+  "gold_sql_sqlite": "SELECT T2.colour FROM superhero AS T1 INNER JOIN colour AS T2 ON T1.eye_colour_id = T2.id WHERE T1.full_name = 'Abraham Sapien'",
+  "gold_sql_duckdb": "SELECT T2.colour FROM superhero AS T1 INNER JOIN colour AS T2 ON T1.eye_colour_id = T2.id WHERE T1.full_name = 'Abraham Sapien'",
+  "gold_rows": [
+   [
+    "Blue"
+   ]
+  ],
+  "gold_runtime": 0.0007671527564525604,
+  "split": "td2"
+ },
+ {
+  "task_id": "thrombosis_prediction:1270",
+  "question_id": 1270,
+  "db_id": "thrombosis_prediction",
+  "difficulty": "challenging",
+  "question": "Among the patients who has a normal anti-scl70, how many of them are female and does not have any symptom?",
+  "evidence": "normal anti-scl70 refers to negative test results; female refers to female sex; patients without symptoms have no recorded symptoms; when counting patients across multiple test records, each patient should only be counted once",
+  "gold_sql_sqlite": "SELECT COUNT(DISTINCT T1.ID) FROM Patient AS T1 INNER JOIN Laboratory AS T2 ON T1.ID = T2.ID INNER JOIN Examination AS T3 ON T3.ID = T2.ID WHERE (T2.SC170 = 'negative' OR T2.SC170 = '0') AND T1.SEX = 'F' AND T3.Symptoms IS NULL",
+  "gold_sql_duckdb": "SELECT COUNT(DISTINCT T1.ID) FROM Patient AS T1 INNER JOIN Laboratory AS T2 ON T1.ID = T2.ID INNER JOIN Examination AS T3 ON T3.ID = T2.ID WHERE (T2.SC170 = 'negative' OR T2.SC170 = '0') AND T1.SEX = 'F' AND T3.Symptoms IS NULL",
+  "gold_rows": [
+   [
+    2
+   ]
+  ],
+  "gold_runtime": 0.003790711984038353,
+  "split": "td2"
+ },
+ {
+  "task_id": "thrombosis_prediction:1272",
+  "question_id": 1272,
+  "db_id": "thrombosis_prediction",
+  "difficulty": "moderate",
+  "question": "Which patient is the first patient with an abnormal anti-SSA to come to the hospital? Please give his or her ID.",
+  "evidence": "first patient refers to ID with MIN(`First Date`); abnormal anti-SSA refers to SSA NOT IN('negative', '0');",
+  "gold_sql_sqlite": "SELECT T1.ID FROM Patient AS T1 INNER JOIN Laboratory AS T2 ON T1.ID = T2.ID WHERE T1.`First Date` IS NOT NULL AND T2.SSA NOT IN ('negative', '0') ORDER BY T1.`First Date` ASC LIMIT 1",
+  "gold_sql_duckdb": "SELECT T1.ID FROM Patient AS T1 INNER JOIN Laboratory AS T2 ON T1.ID = T2.ID WHERE NOT T1.\"First Date\" IS NULL AND NOT T2.SSA IN ('negative', '0') ORDER BY T1.\"First Date\" ASC NULLS FIRST LIMIT 1",
+  "gold_rows": [
+   [
+    4413615
+   ]
+  ],
+  "gold_runtime": 0.0016931761056184769,
+  "split": "td2"
+ },
+ {
+  "task_id": "thrombosis_prediction:1300",
+  "question_id": 1300,
+  "db_id": "thrombosis_prediction",
+  "difficulty": "moderate",
+  "question": "What is the disease name of the patient who has the highest level of triglyceride within the normal range?",
+  "evidence": "disease name refers to Diagnosis; highest level of triglyceride within the normal range refers to MAX(TG < 200);",
+  "gold_sql_sqlite": "SELECT T1.Diagnosis FROM Examination AS T1 INNER JOIN Laboratory AS T2 ON T1.ID = T2.ID WHERE T2.TG < 200 ORDER BY T2.TG DESC LIMIT 1",
+  "gold_sql_duckdb": "SELECT T1.Diagnosis FROM Examination AS T1 INNER JOIN Laboratory AS T2 ON T1.ID = T2.ID WHERE T2.TG < 200 ORDER BY T2.TG DESC LIMIT 1",
+  "gold_rows": [
+   [
+    "SLE"
+   ]
+  ],
+  "gold_runtime": 0.0015860497951507568,
+  "split": "td2"
+ },
+ {
+  "task_id": "thrombosis_prediction:1216",
+  "question_id": 1216,
+  "db_id": "thrombosis_prediction",
+  "difficulty": "simple",
+  "question": "Sort in descending order all patients by birthday for male patient with albumin not within range.",
+  "evidence": "male = SEX = 'M'; albumin not within range refers to ALB < = 3.5 or ALB > = 5.5",
+  "gold_sql_sqlite": "SELECT DISTINCT T1.ID FROM Patient AS T1 INNER JOIN Laboratory AS T2 ON T1.ID = T2.ID WHERE T1.SEX = 'M' AND (T2.ALB <= 3.5 OR T2.ALB >= 5.5) ORDER BY T1.Birthday DESC",
+  "gold_sql_duckdb": "SELECT DISTINCT T1.ID FROM Patient AS T1 INNER JOIN Laboratory AS T2 ON T1.ID = T2.ID WHERE T1.SEX = 'M' AND (T2.ALB <= 3.5 OR T2.ALB >= 5.5) ORDER BY T1.Birthday DESC",
+  "gold_rows": [
+   [
+    3362815
+   ],
+   [
+    4007151
+   ],
+   [
+    5119703
+   ],
+   [
+    4934716
+   ],
+   [
+    5092228
+   ],
+   [
+    4865142
+   ],
+   [
+    4432946
+   ],
+   [
+    5408290
+   ],
+   [
+    444499
+   ],
+   [
+    2307640
+   ],
+   [
+    3182521
+   ],
+   [
+    5181621
+   ],
+   [
+    4792459
+   ],
+   [
+    57266
+   ],
+   [
+    4618443
+   ]
+  ],
+  "gold_runtime": 0.0020414041355252266,
+  "split": "td2"
+ },
+ {
+  "task_id": "thrombosis_prediction:1224",
+  "question_id": 1224,
+  "db_id": "thrombosis_prediction",
+  "difficulty": "simple",
+  "question": "What is the highest total bilirubin level recorded? List out the patient details with ID, sex and birthday with that index.",
+  "evidence": "the highest total bilirubin refers to MAX(T-BIL)",
+  "gold_sql_sqlite": "SELECT T2.`T-BIL`, T1.ID, T1.SEX, T1.Birthday FROM Patient AS T1 INNER JOIN Laboratory AS T2 ON T1.ID = T2.ID ORDER BY T2.`T-BIL` DESC LIMIT 1",
+  "gold_sql_duckdb": "SELECT T2.\"T-BIL\", T1.ID, T1.SEX, T1.Birthday FROM Patient AS T1 INNER JOIN Laboratory AS T2 ON T1.ID = T2.ID ORDER BY T2.\"T-BIL\" DESC LIMIT 1",
+  "gold_rows": [
+   [
+    7.9,
+    2931207,
+    "F",
+    "1959-01-05"
+   ]
+  ],
+  "gold_runtime": 0.0019027609378099442,
+  "split": "td2"
+ },
+ {
+  "task_id": "thrombosis_prediction:1307",
+  "question_id": 1307,
+  "db_id": "thrombosis_prediction",
+  "difficulty": "challenging",
+  "question": "Please list the patient's ID if he or she has an abnormal level of red blood cell and is followed at the outpatient clinic.",
+  "evidence": "RBC < = 3.5 or RBC > = 6.0 means the patient has an abnormal level of red blood cell; 3.5 < RBC < 6.0 means the patient has a normal level of red blood cell; followed at the outpatient clinic refers to Admission = '-';",
+  "gold_sql_sqlite": "SELECT DISTINCT T1.ID FROM Patient AS T1 INNER JOIN Laboratory AS T2 ON T1.ID = T2.ID WHERE (T2.RBC <= 3.5 OR T2.RBC >= 6) AND T1.Admission = '-'",
+  "gold_sql_duckdb": "SELECT DISTINCT T1.ID FROM Patient AS T1 INNER JOIN Laboratory AS T2 ON T1.ID = T2.ID WHERE (T2.RBC <= 3.5 OR T2.RBC >= 6) AND T1.Admission = '-'",
+  "gold_rows": [
+   [
+    3545964
+   ],
+   [
+    3561498
+   ],
+   [
+    4416959
+   ],
+   [
+    4466840
+   ],
+   [
+    4632825
+   ],
+   [
+    4915498
+   ],
+   [
+    1711181
+   ],
+   [
+    2931207
+   ],
+   [
+    5122312
+   ],
+   [
+    3310582
+   ],
+   [
+    3362815
+   ],
+   [
+    4417978
+   ],
+   [
+    4471732
+   ],
+   [
+    4632519
+   ],
+   [
+    4862013
+   ],
+   [
+    30609
+   ],
+   [
+    58139
+   ],
+   [
+    1043570
+   ],
+   [
+    1124385
+   ],
+   [
+    1755350
+   ],
+   [
+    3182521
+   ],
+   [
+    71417
+   ],
+   [
+    525998
+   ],
+   [
+    619178
+   ],
+   [
+    1557464
+   ],
+   [
+    4840422
+   ],
+   [
+    5063068
+   ],
+   [
+    5117606
+   ],
+   [
+    528900
+   ],
+   [
+    1180510
+   ],
+   [
+    2256652
+   ],
+   [
+    2276582
+   ],
+   [
+    2307640
+   ],
+   [
+    2355809
+   ],
+   [
+    5303768
+   ]
+  ],
+  "gold_runtime": 0.0019798902794718742,
+  "split": "td2"
+ },
+ {
+  "task_id": "thrombosis_prediction:1228",
+  "question_id": 1228,
+  "db_id": "thrombosis_prediction",
+  "difficulty": "simple",
+  "question": "Provide list of patients and their diagnosis with triglyceride (TG) index greater than 100 of the normal range?",
+  "evidence": "triglyceride (TG) index greater than 100 of the normal range refers to TG > 300;",
+  "gold_sql_sqlite": "SELECT DISTINCT T1.ID, T1.Diagnosis FROM Patient AS T1 INNER JOIN Laboratory AS T2 ON T1.ID = T2.ID WHERE T2.TG > 300",
+  "gold_sql_duckdb": "SELECT DISTINCT T1.ID, T1.Diagnosis FROM Patient AS T1 INNER JOIN Laboratory AS T2 ON T1.ID = T2.ID WHERE T2.TG > 300",
+  "gold_rows": [
+   [
+    287861,
+    "PSS"
+   ],
+   [
+    1618929,
+    "PN"
+   ],
+   [
+    2933261,
+    "SLE"
+   ],
+   [
+    4927381,
+    "SLE"
+   ],
+   [
+    5126587,
+    "DM (amyopathic)"
+   ],
+   [
+    5176755,
+    "RA"
+   ],
+   [
+    1491832,
+    "DM"
+   ],
+   [
+    1923445,
+    "SLE, PSS, MCTD"
+   ],
+   [
+    2307640,
+    "SLE"
+   ],
+   [
+    2370675,
+    "SLE, SJS"
+   ],
+   [
+    3182521,
+    "DM"
+   ],
+   [
+    3418071,
+    "SLE"
+   ],
+   [
+    4643816,
+    "PSS"
+   ],
+   [
+    4843434,
+    "SLE"
+   ],
+   [
+    5092228,
+    "RA"
+   ],
+   [
+    5093771,
+    "SLE, ITP"
+   ],
+   [
+    5174645,
+    "RA"
+   ],
+   [
+    5296268,
+    "Adult STILL"
+   ],
+   [
+    5300381,
+    "PM, SJS"
+   ],
+   [
+    5302954,
+    "SLE"
+   ],
+   [
+    57266,
+    "RA"
+   ],
+   [
+    940737,
+    "SJS, MCTD, AORTITIS"
+   ],
+   [
+    1137040,
+    "SLE susp"
+   ],
+   [
+    3353383,
+    "PM\u001dPSS\u001dRA"
+   ],
+   [
+    4466420,
+    "SJS"
+   ],
+   [
+    4472142,
+    "APS"
+   ],
+   [
+    4632548,
+    "SLE"
+   ],
+   [
+    4915498,
+    "MCTD, SJS"
+   ],
+   [
+    5123360,
+    "PMR"
+   ],
+   [
+    5186147,
+    "PM/DM"
+   ],
+   [
+    5441886,
+    "SLE, SJS"
+   ],
+   [
+    5452747,
+    "DM, SJS, RA"
+   ],
+   [
+    2315140,
+    "SLE"
+   ],
+   [
+    4652830,
+    "DM"
+   ],
+   [
+    4840422,
+    "SLE, APS\u001dAPS"
+   ],
+   [
+    4884792,
+    "AORTITIS"
+   ],
+   [
+    5164396,
+    "SLE"
+   ],
+   [
+    5181621,
+    "RA"
+   ],
+   [
+    5184284,
+    "SLE"
+   ]
+  ],
+  "gold_runtime": 0.0016754977405071259,
+  "split": "td2"
+ },
+ {
+  "task_id": "toxicology:246",
+  "question_id": 246,
+  "db_id": "toxicology",
+  "difficulty": "moderate",
+  "question": "List the bond type and the bond ID of the atom 45.",
+  "evidence": "bond ID of atom 45 refers to SUBSTR(atom_id, 7, 2) + 0 = 45; double bond refers to bond_type = ' = '; single bond refers to bond_type = '-'; triple bond refers to bond_type = '#';",
+  "gold_sql_sqlite": "SELECT T1.bond_type, T1.bond_id FROM bond AS T1 INNER JOIN connected AS T2 ON T1.bond_id = T2.bond_id WHERE SUBSTR(T2.atom_id, 7, 2) = '45'",
+  "gold_sql_duckdb": "SELECT T1.bond_type, T1.bond_id FROM bond AS T1 INNER JOIN connected AS T2 ON T1.bond_id = T2.bond_id WHERE SUBSTRING(T2.atom_id, 7, 2) = '45'",
+  "gold_rows": [
+   [
+    "-",
+    "TR006_45_46"
+   ],
+   [
+    "-",
+    "TR006_45_47"
+   ],
+   [
+    "-",
+    "TR021_29_45"
+   ],
+   [
+    "-",
+    "TR030_3_45"
+   ],
+   [
+    "-",
+    "TR039_19_45"
+   ],
+   [
+    "-",
+    "TR043_12_45"
+   ],
+   [
+    "-",
+    "TR059_44_45"
+   ],
+   [
+    "-",
+    "TR059_45_46"
+   ],
+   [
+    "-",
+    "TR059_45_91"
+   ],
+   [
+    "-",
+    "TR059_45_92"
+   ],
+   [
+    "-",
+    "TR060_1_45"
+   ],
+   [
+    "-",
+    "TR067_34_45"
+   ],
+   [
+    "-",
+    "TR072_44_45"
+   ],
+   [
+    "-",
+    "TR120_19_45"
+   ],
+   [
+    "-",
+    "TR124_20_45"
+   ],
+   [
+    "-",
+    "TR125_23_45"
+   ],
+   [
+    "-",
+    "TR131_43_45"
+   ],
+   [
+    "-",
+    "TR152_42_45"
+   ],
+   [
+    "-",
+    "TR152_45_46"
+   ],
+   [
+    "-",
+    "TR152_45_47"
+   ],
+   [
+    "-",
+    "TR175_12_45"
+   ],
+   [
+    "-",
+    "TR193_3_45"
+   ],
+   [
+    "-",
+    "TR212_16_45"
+   ],
+   [
+    "-",
+    "TR217_20_45"
+   ],
+   [
+    "=",
+    "TR225_38_45"
+   ],
+   [
+    "-",
+    "TR225_39_45"
+   ],
+   [
+    "-",
+    "TR225_45_68"
+   ],
+   [
+    "-",
+    "TR235_23_45"
+   ],
+   [
+    "-",
+    "TR252_44_45"
+   ],
+   [
+    "-",
+    "TR252_45_62"
+   ],
+   [
+    "-",
+    "TR252_45_63"
+   ],
+   [
+    "-",
+    "TR252_45_64"
+   ],
+   [
+    "-",
+    "TR274_15_45"
+   ],
+   [
+    "-",
+    "TR296_33_45"
+   ],
+   [
+    "-",
+    "TR301_24_45"
+   ],
+   [
+    "-",
+    "TR302_15_45"
+   ],
+   [
+    "-",
+    "TR305_9_45"
+   ],
+   [
+    "-",
+    "TR307_43_45"
+   ],
+   [
+    "-",
+    "TR307_45_56"
+   ],
+   [
+    "-",
+    "TR307_45_57"
+   ],
+   [
+    "-",
+    "TR307_45_58"
+   ],
+   [
+    "-",
+    "TR315_20_45"
+   ],
+   [
+    "=",
+    "TR317_41_45"
+   ],
+   [
+    "-",
+    "TR318_44_45"
+   ],
+   [
+    "-",
+    "TR320_27_45"
+   ],
+   [
+    "-",
+    "TR327_37_45"
+   ],
+   [
+    "-",
+    "TR338_28_45"
+   ],
+   [
+    "-",
+    "TR338_45_109"
+   ],
+   [
+    "-",
+    "TR340_35_45"
+   ],
+   [
+    "-",
+    "TR344_25_45"
+   ],
+   [
+    "-",
+    "TR348_33_45"
+   ],
+   [
+    "-",
+    "TR358_27_45"
+   ],
+   [
+    "-",
+    "TR364_22_45"
+   ],
+   [
+    "-",
+    "TR387_34_45"
+   ],
+   [
+    "-",
+    "TR397_42_45"
+   ],
+   [
+    "=",
+    "TR397_45_51"
+   ],
+   [
+    "-",
+    "TR397_45_79"
+   ],
+   [
+    "-",
+    "TR405_44_45"
+   ],
+   [
+    "-",
+    "TR411_23_45"
+   ],
+   [
+    "-",
+    "TR426_16_45"
+   ],
+   [
+    "-",
+    "TR427_27_45"
+   ],
+   [
+    "-",
+    "TR429_31_45"
+   ],
+   [
+    "-",
+    "TR430_40_45"
+   ],
+   [
+    "=",
+    "TR430_44_45"
+   ],
+   [
+    "-",
+    "TR430_45_46"
+   ],
+   [
+    "-",
+    "TR433_25_45"
+   ],
+   [
+    "-",
+    "TR435_19_45"
+   ],
+   [
+    "-",
+    "TR438_10_45"
+   ],
+   [
+    "-",
+    "TR445_44_45"
+   ],
+   [
+    "-",
+    "TR446_19_45"
+   ],
+   [
+    "-",
+    "TR480_14_45"
+   ],
+   [
+    "-",
+    "TR481_11_45"
+   ],
+   [
+    "-",
+    "TR485_18_45"
+   ],
+   [
+    "-",
+    "TR496_10_45"
+   ],
+   [
+    "-",
+    "TR496_45_100"
+   ],
+   [
+    "-",
+    "TR496_45_101"
+   ],
+   [
+    "-",
+    "TR496_45_99"
+   ]
+  ],
+  "gold_runtime": 0.004099094308912754,
+  "split": "td2"
+ },
+ {
+  "task_id": "toxicology:281",
+  "question_id": 281,
+  "db_id": "toxicology",
+  "difficulty": "challenging",
+  "question": "Tally the toxicology element of the 4th atom of each molecule that was carcinogenic.",
+  "evidence": "label = '+' means molecules are carcinogenic; 4th atom of each molecule refers to substr(atom_id, 7, 1) = '4'; ",
+  "gold_sql_sqlite": "SELECT DISTINCT T1.element \nFROM atom AS T1 \nINNER JOIN molecule AS T2 ON T1.molecule_id = T2.molecule_id \nWHERE T2.label = '+' \nAND SUBSTR(T1.atom_id, 7, 1) = '4'",
+  "gold_sql_duckdb": "SELECT DISTINCT T1.element FROM atom AS T1 INNER JOIN molecule AS T2 ON T1.molecule_id = T2.molecule_id WHERE T2.label = '+' AND SUBSTRING(T1.atom_id, 7, 1) = '4'",
+  "gold_rows": [
+   [
+    "cl"
+   ],
+   [
+    "na"
+   ],
+   [
+    "br"
+   ],
+   [
+    "n"
+   ],
+   [
+    "s"
+   ],
+   [
+    "h"
+   ],
+   [
+    "o"
+   ],
+   [
+    "f"
+   ],
+   [
+    "c"
+   ]
+  ],
+  "gold_runtime": 0.0026713674888014793,
+  "split": "td2"
+ },
+ {
+  "task_id": "toxicology:293",
+  "question_id": 293,
+  "db_id": "toxicology",
+  "difficulty": "simple",
+  "question": "How many atoms belong to the molecule labeled with carcinogenic compounds?",
+  "evidence": "label = '+' mean molecules are carcinogenic;",
+  "gold_sql_sqlite": "SELECT COUNT(T1.atom_id) FROM atom AS T1 INNER JOIN molecule AS T2 ON T1.molecule_id = T2.molecule_id WHERE T2.label = '+'",
+  "gold_sql_duckdb": "SELECT COUNT(T1.atom_id) FROM atom AS T1 INNER JOIN molecule AS T2 ON T1.molecule_id = T2.molecule_id WHERE T2.label = '+'",
+  "gold_rows": [
+   [
+    3692
+   ]
+  ],
+  "gold_runtime": 0.0013559674844145775,
+  "split": "td2"
+ },
+ {
+  "task_id": "toxicology:295",
+  "question_id": 295,
+  "db_id": "toxicology",
+  "difficulty": "simple",
+  "question": "How many atoms belong to the molecule that element is hydrogen and labeled with carcinogenic compound?",
+  "evidence": "label = '+' mean molecules are carcinogenic; hydrogen refers to element = h'",
+  "gold_sql_sqlite": "SELECT COUNT(T1.atom_id) AS atomnums_h FROM atom AS T1 INNER JOIN molecule AS T2 ON T1.molecule_id = T2.molecule_id WHERE T2.label = '+' AND T1.element = 'h'",
+  "gold_sql_duckdb": "SELECT COUNT(T1.atom_id) AS atomnums_h FROM atom AS T1 INNER JOIN molecule AS T2 ON T1.molecule_id = T2.molecule_id WHERE T2.label = '+' AND T1.element = 'h'",
+  "gold_rows": [
+   [
+    1569
+   ]
+  ],
+  "gold_runtime": 0.0013992572203278542,
+  "split": "td2"
+ },
+ {
+  "task_id": "toxicology:296",
+  "question_id": 296,
+  "db_id": "toxicology",
+  "difficulty": "simple",
+  "question": "Indicate the molecule id is belonging to the TR000_1_2 bond that has the first atom named TR000_1.",
+  "evidence": "",
+  "gold_sql_sqlite": "SELECT T2.molecule_id, T2.bond_id, T1.atom_id FROM connected AS T1 INNER JOIN bond AS T2 ON T1.bond_id = T2.bond_id WHERE T1.atom_id = 'TR000_1' AND T2.bond_id = 'TR000_1_2'",
+  "gold_sql_duckdb": "SELECT T2.molecule_id, T2.bond_id, T1.atom_id FROM connected AS T1 INNER JOIN bond AS T2 ON T1.bond_id = T2.bond_id WHERE T1.atom_id = 'TR000_1' AND T2.bond_id = 'TR000_1_2'",
+  "gold_rows": [
+   [
+    "TR000",
+    "TR000_1_2",
+    "TR000_1"
+   ]
+  ],
+  "gold_runtime": 0.0017762649804353714,
+  "split": "td2"
+ },
+ {
+  "task_id": "toxicology:225",
+  "question_id": 225,
+  "db_id": "toxicology",
+  "difficulty": "simple",
+  "question": "Please list top five molecules that have double bonds in alphabetical order.",
+  "evidence": "double bond refers to bond_type = ' = ';",
+  "gold_sql_sqlite": "SELECT DISTINCT T.molecule_id FROM bond AS T WHERE T.bond_type = '=' ORDER BY T.molecule_id LIMIT 5",
+  "gold_sql_duckdb": "SELECT DISTINCT T.molecule_id FROM bond AS T WHERE T.bond_type = '=' ORDER BY T.molecule_id NULLS FIRST LIMIT 5",
+  "gold_rows": [
+   [
+    "TR001"
+   ],
+   [
+    "TR002"
+   ],
+   [
+    "TR004"
+   ],
+   [
+    "TR005"
+   ],
+   [
+    "TR006"
+   ]
+  ],
+  "gold_runtime": 0.0010303696617484093,
+  "split": "td2"
+ },
+ {
+  "task_id": "toxicology:230",
+  "question_id": 230,
+  "db_id": "toxicology",
+  "difficulty": "challenging",
+  "question": "What are the elements of molecule TR060 and its label?",
+  "evidence": "TR060 is the molecule id; ",
+  "gold_sql_sqlite": "SELECT DISTINCT T1.element, T2.label FROM atom AS T1 INNER JOIN molecule AS T2 ON T1.molecule_id = T2.molecule_id WHERE T2.molecule_id = 'TR060'",
+  "gold_sql_duckdb": "SELECT DISTINCT T1.element, T2.label FROM atom AS T1 INNER JOIN molecule AS T2 ON T1.molecule_id = T2.molecule_id WHERE T2.molecule_id = 'TR060'",
+  "gold_rows": [
+   [
+    "c",
+    "-"
+   ],
+   [
+    "h",
+    "-"
+   ],
+   [
+    "o",
+    "-"
+   ],
+   [
+    "cl",
+    "-"
+   ],
+   [
+    "n",
+    "-"
+   ]
+  ],
+  "gold_runtime": 0.0014126962050795555,
+  "split": "td2"
+ },
+ {
+  "task_id": "toxicology:227",
+  "question_id": 227,
+  "db_id": "toxicology",
+  "difficulty": "simple",
+  "question": "What is the percentage of molecules that are carcinogenic? Please provide your answer as a percentage with three decimal places.",
+  "evidence": "label = '+' mean molecules are carcinogenic; percentage = DIVIDE(SUM(label = '+'), COUNT(molecule_id)) as percent",
+  "gold_sql_sqlite": "SELECT ROUND(CAST(COUNT(CASE WHEN T.label = '+' THEN T.molecule_id ELSE NULL END) AS REAL) * 100 / COUNT(T.molecule_id),3) FROM molecule t",
+  "gold_sql_duckdb": "SELECT ROUND(CAST(COUNT(CASE WHEN T.label = '+' THEN T.molecule_id ELSE NULL END) AS REAL) * 100 / NULLIF(COUNT(T.molecule_id), 0), 3) FROM molecule AS t",
+  "gold_rows": [
+   [
+    44.315
+   ]
+  ],
+  "gold_runtime": 0.0007587112486362457,
+  "split": "td2"
+ },
+ {
+  "task_id": "toxicology:312",
+  "question_id": 312,
+  "db_id": "toxicology",
+  "difficulty": "simple",
+  "question": "What is the carcinogenic label for bond TR001_2_4?",
+  "evidence": "label = '+' mean molecules are carcinogenic",
+  "gold_sql_sqlite": "SELECT DISTINCT T2.label FROM atom AS T1 INNER JOIN molecule AS T2 ON T1.molecule_id = T2.molecule_id INNER JOIN bond AS T3 ON T2.molecule_id = T3.molecule_id WHERE T3.bond_id = 'TR001_2_4'",
+  "gold_sql_duckdb": "SELECT DISTINCT T2.label FROM atom AS T1 INNER JOIN molecule AS T2 ON T1.molecule_id = T2.molecule_id INNER JOIN bond AS T3 ON T2.molecule_id = T3.molecule_id WHERE T3.bond_id = 'TR001_2_4'",
+  "gold_rows": [
+   [
+    "+"
+   ]
+  ],
+  "gold_runtime": 0.0018049171194434166,
+  "split": "td2"
+ },
+ {
+  "task_id": "toxicology:219",
+  "question_id": 219,
+  "db_id": "toxicology",
+  "difficulty": "challenging",
+  "question": "What is the percentage of carcinogenic molecules in triple type bonds?",
+  "evidence": "label = '+' mean molecules are carcinogenic; triple bond refers to bond_type = '#'; percentage = DIVIDE(SUM(bond_type = '#') * 100, COUNT(bond_id)) as percent where label = '+'",
+  "gold_sql_sqlite": "SELECT CAST(COUNT(DISTINCT CASE WHEN T2.label = '+' THEN T2.molecule_id ELSE NULL END) AS REAL) * 100 / COUNT(DISTINCT T2.molecule_id) FROM atom AS T1 INNER JOIN molecule AS T2 ON T1.molecule_id = T2.molecule_id INNER JOIN bond AS T3 ON T2.molecule_id = T3.molecule_id WHERE T3.bond_type = '#'",
+  "gold_sql_duckdb": "SELECT CAST(COUNT(DISTINCT CASE WHEN T2.label = '+' THEN T2.molecule_id ELSE NULL END) AS REAL) * 100 / NULLIF(COUNT(DISTINCT T2.molecule_id), 0) FROM atom AS T1 INNER JOIN molecule AS T2 ON T1.molecule_id = T2.molecule_id INNER JOIN bond AS T3 ON T2.molecule_id = T3.molecule_id WHERE T3.bond_type = '#'",
+  "gold_rows": [
+   [
+    66.6667
+   ]
+  ],
+  "gold_runtime": 0.0022588837891817093,
+  "split": "td2"
+ },
+ {
+  "task_id": "toxicology:236",
+  "question_id": 236,
+  "db_id": "toxicology",
+  "difficulty": "moderate",
+  "question": "What are the bond type and the atoms of the bond ID of TR001_6_9?",
+  "evidence": "atoms refer to atom_id or atom_id2",
+  "gold_sql_sqlite": "SELECT T1.bond_type, T2.atom_id, T2.atom_id2 FROM bond AS T1 INNER JOIN connected AS T2 ON T1.bond_id = T2.bond_id WHERE T2.bond_id = 'TR001_6_9'",
+  "gold_sql_duckdb": "SELECT T1.bond_type, T2.atom_id, T2.atom_id2 FROM bond AS T1 INNER JOIN connected AS T2 ON T1.bond_id = T2.bond_id WHERE T2.bond_id = 'TR001_6_9'",
+  "gold_rows": [
+   [
+    "-",
+    "TR001_6",
+    "TR001_9"
+   ],
+   [
+    "-",
+    "TR001_9",
+    "TR001_6"
+   ]
+  ],
+  "gold_runtime": 0.001665978692471981,
+  "split": "td2"
+ },
+ {
+  "task_id": "toxicology:299",
+  "question_id": 299,
+  "db_id": "toxicology",
+  "difficulty": "simple",
+  "question": "Is molecule TR124 carcinogenic?",
+  "evidence": "label = '+' mean molecules are carcinogenic;",
+  "gold_sql_sqlite": "SELECT T.label FROM molecule AS T WHERE T.molecule_id = 'TR124'",
+  "gold_sql_duckdb": "SELECT T.label FROM molecule AS T WHERE T.molecule_id = 'TR124'",
+  "gold_rows": [
+   [
+    "-"
+   ]
+  ],
+  "gold_runtime": 0.0004125405102968216,
+  "split": "td2"
+ },
+ {
+  "task_id": "toxicology:322",
+  "question_id": 322,
+  "db_id": "toxicology",
+  "difficulty": "challenging",
+  "question": "What is the element of toxicology for the atom with the ID of TR000_1?",
+  "evidence": "atom with ID refers to atom_id; element = 'cl' means Chlorine; element = 'c' means Carbon; element = 'h' means Hydrogen; element = 'o' means Oxygen, element = 's' means Sulfur; element = 'n' means Nitrogen, element = 'p' means Phosphorus, element = 'na' means Sodium, element = 'br' means Bromine, element = 'f' means Fluorine; element = 'i' means Iodine; element = 'sn' means Tin; element = 'pb' means Lead; element = 'te' means Tellurium; element = 'ca' means Calcium",
+  "gold_sql_sqlite": "SELECT T.element FROM atom AS T WHERE T.atom_id = 'TR000_1'",
+  "gold_sql_duckdb": "SELECT T.element FROM atom AS T WHERE T.atom_id = 'TR000_1'",
+  "gold_rows": [
+   [
+    "cl"
+   ]
+  ],
+  "gold_runtime": 0.0006303563714027405,
+  "split": "td2"
+ },
+ {
+  "task_id": "toxicology:307",
+  "question_id": 307,
+  "db_id": "toxicology",
+  "difficulty": "challenging",
+  "question": "Name the atoms' elements that form bond TR000_2_3.",
+  "evidence": "element = 'cl' means Chlorine; element = 'c' means Carbon; element = 'h' means Hydrogen; element = 'o' means Oxygen, element = 's' means Sulfur; element = 'n' means Nitrogen, element = 'p' means Phosphorus, element = 'na' means Sodium, element = 'br' means Bromine, element = 'f' means Fluorine; element = 'i' means Iodine; element = 'sn' means Tin; element = 'pb' means Lead; element = 'te' means Tellurium; element = 'ca' means Calcium",
+  "gold_sql_sqlite": "SELECT T2.element FROM connected AS T1 INNER JOIN atom AS T2 ON T1.atom_id = T2.atom_id WHERE T1.bond_id = 'TR000_2_3'",
+  "gold_sql_duckdb": "SELECT T2.element FROM connected AS T1 INNER JOIN atom AS T2 ON T1.atom_id = T2.atom_id WHERE T1.bond_id = 'TR000_2_3'",
+  "gold_rows": [
+   [
+    "c"
+   ],
+   [
+    "cl"
+   ]
+  ],
+  "gold_runtime": 0.0015858961269259453,
+  "split": "td2"
+ },
+ {
+  "task_id": "toxicology:302",
+  "question_id": 302,
+  "db_id": "toxicology",
+  "difficulty": "challenging",
+  "question": "Name the elements that comprise the atoms of bond TR001_2_4.",
+  "evidence": "element = 'cl' means Chlorine; element = 'c' means Carbon; element = 'h' means Hydrogen; element = 'o' means Oxygen, element = 's' means Sulfur; element = 'n' means Nitrogen, element = 'p' means Phosphorus, element = 'na' means Sodium, element = 'br' means Bromine, element = 'f' means Fluorine; element = 'i' means Iodine; element = 'sn' means Tin; element = 'pb' means Lead; element = 'te' means Tellurium; element = 'ca' means Calcium",
+  "gold_sql_sqlite": "SELECT DISTINCT T1.element FROM atom AS T1 INNER JOIN connected AS T2 ON T1.atom_id = T2.atom_id WHERE T2.bond_id = 'TR001_2_4'",
+  "gold_sql_duckdb": "SELECT DISTINCT T1.element FROM atom AS T1 INNER JOIN connected AS T2 ON T1.atom_id = T2.atom_id WHERE T2.bond_id = 'TR001_2_4'",
+  "gold_rows": [
+   [
+    "c"
+   ]
+  ],
+  "gold_runtime": 0.0018520979210734367,
+  "split": "td2"
+ },
+ {
+  "task_id": "toxicology:221",
+  "question_id": 221,
+  "db_id": "toxicology",
+  "difficulty": "simple",
+  "question": "What are the atoms that are bonded in the molecule TR001 with the bond ID of TR001_2_6?",
+  "evidence": "TR001 is the molecule id; TR001_2_6 is the bond id",
+  "gold_sql_sqlite": "SELECT SUBSTR(T.bond_id, 1, 7) AS atom_id1 , T.molecule_id || SUBSTR(T.bond_id, 8, 2) AS atom_id2 FROM bond AS T WHERE T.molecule_id = 'TR001' AND T.bond_id = 'TR001_2_6'",
+  "gold_sql_duckdb": "SELECT SUBSTRING(T.bond_id, 1, 7) AS atom_id1, T.molecule_id || SUBSTRING(T.bond_id, 8, 2) AS atom_id2 FROM bond AS T WHERE T.molecule_id = 'TR001' AND T.bond_id = 'TR001_2_6'",
+  "gold_rows": [
+   [
+    "TR001_2",
+    "TR001_6"
+   ]
+  ],
+  "gold_runtime": 0.0006848517805337906,
+  "split": "td2"
+ },
+ {
+  "task_id": "codebase_community:547",
+  "question_id": 547,
+  "db_id": "codebase_community",
+  "difficulty": "simple",
+  "question": "Among the posts owned by an elder user, how many of them have a score of over 19?",
+  "evidence": "elder users refers to Age > 65; Score of over 19 refers to Score > = 20",
+  "gold_sql_sqlite": "SELECT COUNT(T1.Id) FROM posts AS T1 INNER JOIN users AS T2 ON T1.OwnerUserId = T2.Id WHERE T1.Score >= 20 AND T2.Age > 65",
+  "gold_sql_duckdb": "SELECT COUNT(T1.Id) FROM posts AS T1 INNER JOIN users AS T2 ON T1.OwnerUserId = T2.Id WHERE T1.Score >= 20 AND T2.Age > 65",
+  "gold_rows": [
+   [
+    1
+   ]
+  ],
+  "gold_runtime": 0.0022348035126924515,
+  "split": "td2"
+ },
+ {
+  "task_id": "card_games:488",
+  "question_id": 488,
+  "db_id": "card_games",
+  "difficulty": "simple",
+  "question": "What's the code for the set which was released on 2017/7/14?",
+  "evidence": "released on 2017/7/14 refers to releaseDate = '2017-07-14'",
+  "gold_sql_sqlite": "SELECT code FROM sets WHERE releaseDate = '2017-07-14' GROUP BY releaseDate, code",
+  "gold_sql_duckdb": "SELECT code FROM sets WHERE releaseDate = '2017-07-14' GROUP BY releaseDate, code",
+  "gold_rows": [
+   [
+    "HOU"
+   ],
+   [
+    "PHOU"
+   ]
+  ],
+  "gold_runtime": 0.0012722201645374298,
+  "split": "td2"
+ },
+ {
+  "task_id": "formula_1:982",
+  "question_id": 982,
+  "db_id": "formula_1",
+  "difficulty": "simple",
+  "question": "How many American drivers have puncture status.",
+  "evidence": "puncture status refers to status = Puncture;",
+  "gold_sql_sqlite": "SELECT COUNT(T1.driverId) FROM drivers AS T1 INNER JOIN results AS T2 on T1.driverId = T2.driverId INNER JOIN status AS T3 on T2.statusId = T3.statusId WHERE T3.status = 'Puncture' AND T1.nationality = 'American'",
+  "gold_sql_duckdb": "SELECT COUNT(T1.driverId) FROM drivers AS T1 INNER JOIN results AS T2 ON T1.driverId = T2.driverId INNER JOIN status AS T3 ON T2.statusId = T3.statusId WHERE T3.status = 'Puncture' AND T1.nationality = 'American'",
+  "gold_rows": [
+   [
+    1
+   ]
+  ],
+  "gold_runtime": 0.0015590377151966095,
+  "split": "td2"
+ },
+ {
+  "task_id": "student_club:1406",
+  "question_id": 1406,
+  "db_id": "student_club",
+  "difficulty": "simple",
+  "question": "Among the budgets for Food, which one has the highest budgeted amount?",
+  "evidence": "MAX(amount) where category = 'Food'",
+  "gold_sql_sqlite": "SELECT budget_id \nFROM budget \nWHERE category = 'Food' \n  AND amount = (SELECT MAX(amount) FROM budget WHERE category = 'Food')",
+  "gold_sql_duckdb": "SELECT budget_id FROM budget WHERE category = 'Food' AND amount = (SELECT MAX(amount) FROM budget WHERE category = 'Food')",
+  "gold_rows": [
+   [
+    "recca5tkvdQgoLKZz"
+   ]
+  ],
+  "gold_runtime": 0.0011516669765114784,
+  "split": "td2"
+ },
+ {
+  "task_id": "superhero:827",
+  "question_id": 827,
+  "db_id": "superhero",
+  "difficulty": "moderate",
+  "question": "What is the average height of a non-human superhero in Dark Horse Comics?",
+  "evidence": "average = AVG(height_cm); non-human superhero refers to race <> 'Human'; Dark Horse Comics refers to publisher_name = 'Dark Horse Comics';",
+  "gold_sql_sqlite": "SELECT AVG(T1.height_cm) FROM superhero AS T1 INNER JOIN publisher AS T2 ON T1.publisher_id = T2.id INNER JOIN race AS T3 ON T1.race_id = T3.id WHERE T2.publisher_name = 'Dark Horse Comics' AND T3.race != 'Human'",
+  "gold_sql_duckdb": "SELECT AVG(T1.height_cm) FROM superhero AS T1 INNER JOIN publisher AS T2 ON T1.publisher_id = T2.id INNER JOIN race AS T3 ON T1.race_id = T3.id WHERE T2.publisher_name = 'Dark Horse Comics' AND T3.race <> 'Human'",
+  "gold_rows": [
+   [
+    109
+   ]
+  ],
+  "gold_runtime": 0.0012800367549061775,
+  "split": "td2"
+ },
+ {
+  "task_id": "toxicology:330",
+  "question_id": 330,
+  "db_id": "toxicology",
+  "difficulty": "challenging",
+  "question": "Calculate the percentage of carcinogenic molecules with triple bonded Hidrogen atoms.",
+  "evidence": "hydrogen refers to element = 'h'; label = '+' mean molecules are carcinogenic; triple bond refers to bond_type = '#'; percentage = DIVIDE(SUM(label = '+'), COUNT(molecule_id)) * 100.0 where element = 'h' AND bond_type = '#';",
+  "gold_sql_sqlite": "SELECT CAST(SUM(CASE WHEN T1.label = '+' THEN 1 ELSE 0 END) AS REAL) * 100 / COUNT(DISTINCT T1.molecule_id) FROM molecule AS T1 INNER JOIN atom AS T2 ON T1.molecule_id = T2.molecule_id INNER JOIN bond AS T3 ON T1.molecule_id = T3.molecule_id WHERE T3.bond_type = '#' AND T2.element = 'h'",
+  "gold_sql_duckdb": "SELECT CAST(SUM(CASE WHEN T1.label = '+' THEN 1 ELSE 0 END) AS REAL) * 100 / NULLIF(COUNT(DISTINCT T1.molecule_id), 0) FROM molecule AS T1 INNER JOIN atom AS T2 ON T1.molecule_id = T2.molecule_id INNER JOIN bond AS T3 ON T1.molecule_id = T3.molecule_id WHERE T3.bond_type = '#' AND T2.element = 'h'",
+  "gold_rows": [
+   [
+    100
+   ]
+  ],
+  "gold_runtime": 0.0027992278337478638,
+  "split": "td2"
+ },
+ {
+  "task_id": "california_schools:45",
+  "question_id": 45,
+  "db_id": "california_schools",
+  "difficulty": "challenging",
+  "question": "For schools administered by Ricci Ulrich, provide a comprehensive performance analysis including their SAT scores in all three sections, total SAT score, rankings compared to other schools, FRPM eligibility rate, test participation rate, and how their writing scores compare to their district average.",
+  "evidence": "FRPM stands for Free or Reduced Price Meal. Test participation rate = (Number of Test Takers / Enrollment) * 100.",
+  "gold_sql_sqlite": "WITH SchoolStats AS (\n    SELECT \n        s.CDSCode,\n        s.School,\n        s.AdmFName1,\n        s.AdmLName1,\n        sat.AvgScrWrite,\n        sat.AvgScrRead,\n        sat.AvgScrMath,\n        sat.NumTstTakr,\n        f.`Enrollment (K-12)`,\n        f.`Percent (%) Eligible FRPM (K-12)` * 100 AS FRPMPercentage,\n        (sat.AvgScrWrite + sat.AvgScrRead + sat.AvgScrMath) AS TotalSATScore,\n        RANK() OVER (ORDER BY sat.AvgScrWrite DESC) AS WriteScoreRank,\n        RANK() OVER (ORDER BY (sat.AvgScrWrite + sat.AvgScrRead + sat.AvgScrMath) DESC) AS TotalScoreRank\n    FROM schools s\n    INNER JOIN satscores sat ON s.CDSCode = sat.cds\n    LEFT JOIN frpm f ON s.CDSCode = f.CDSCode\n    WHERE s.AdmFName1 = 'Ricci' AND s.AdmLName1 = 'Ulrich'\n),\nDistrictAverages AS (\n    SELECT \n        s.District,\n        AVG(sat.AvgScrWrite) AS DistrictAvgWriteScore,\n        AVG(sat.AvgScrRead) AS DistrictAvgReadScore,\n        AVG(sat.AvgScrMath) AS DistrictAvgMathScore\n    FROM schools s\n    INNER JOIN satscores sat ON s.CDSCode = sat.cds\n    GROUP BY s.District\n)\n\nSELECT \n    ss.School,\n    ss.AvgScrWrite,\n    ss.AvgScrRead,\n    ss.AvgScrMath,\n    ss.TotalSATScore,\n    ss.NumTstTakr,\n    ss.`Enrollment (K-12)`,\n    ss.FRPMPercentage,\n    ss.WriteScoreRank,\n    ss.TotalScoreRank,\n    da.DistrictAvgWriteScore,\n    CASE \n        WHEN ss.AvgScrWrite > da.DistrictAvgWriteScore THEN 'Above District Average'\n        WHEN ss.AvgScrWrite = da.DistrictAvgWriteScore THEN 'Equal to District Average'\n        ELSE 'Below District Average'\n    END AS ComparisonToDistrictAvg,\n    ROUND((ss.AvgScrWrite - da.DistrictAvgWriteScore), 2) AS DifferenceFromDistrictAvg,\n    ROUND((ss.NumTstTakr * 100.0 / ss.`Enrollment (K-12)`), 2) AS PercentageTakingSAT\nFROM SchoolStats ss\nLEFT JOIN schools s ON ss.CDSCode = s.CDSCode\nLEFT JOIN DistrictAverages da ON s.District = da.District\nORDER BY ss.AvgScrWrite DESC;",
+  "gold_sql_duckdb": "WITH SchoolStats AS (SELECT s.CDSCode, s.School, s.AdmFName1, s.AdmLName1, sat.AvgScrWrite, sat.AvgScrRead, sat.AvgScrMath, sat.NumTstTakr, f.\"Enrollment (K-12)\", f.\"Percent (%) Eligible FRPM (K-12)\" * 100 AS FRPMPercentage, (sat.AvgScrWrite + sat.AvgScrRead + sat.AvgScrMath) AS TotalSATScore, RANK() OVER (ORDER BY sat.AvgScrWrite DESC) AS WriteScoreRank, RANK() OVER (ORDER BY (sat.AvgScrWrite + sat.AvgScrRead + sat.AvgScrMath) DESC) AS TotalScoreRank FROM schools AS s INNER JOIN satscores AS sat ON s.CDSCode = sat.cds LEFT JOIN frpm AS f ON s.CDSCode = f.CDSCode WHERE s.AdmFName1 = 'Ricci' AND s.AdmLName1 = 'Ulrich'), DistrictAverages AS (SELECT s.District, AVG(sat.AvgScrWrite) AS DistrictAvgWriteScore, AVG(sat.AvgScrRead) AS DistrictAvgReadScore, AVG(sat.AvgScrMath) AS DistrictAvgMathScore FROM schools AS s INNER JOIN satscores AS sat ON s.CDSCode = sat.cds GROUP BY s.District) SELECT ss.School, ss.AvgScrWrite, ss.AvgScrRead, ss.AvgScrMath, ss.TotalSATScore, ss.NumTstTakr, ss.\"Enrollment (K-12)\", ss.FRPMPercentage, ss.WriteScoreRank, ss.TotalScoreRank, da.DistrictAvgWriteScore, CASE WHEN ss.AvgScrWrite > da.DistrictAvgWriteScore THEN 'Above District Average' WHEN ss.AvgScrWrite = da.DistrictAvgWriteScore THEN 'Equal to District Average' ELSE 'Below District Average' END AS ComparisonToDistrictAvg, ROUND((ss.AvgScrWrite - da.DistrictAvgWriteScore), 2) AS DifferenceFromDistrictAvg, ROUND((ss.NumTstTakr * 100.0 / NULLIF(ss.\"Enrollment (K-12)\", 0)), 2) AS PercentageTakingSAT FROM SchoolStats AS ss LEFT JOIN schools AS s ON ss.CDSCode = s.CDSCode LEFT JOIN DistrictAverages AS da ON s.District = da.District ORDER BY ss.AvgScrWrite DESC",
+  "gold_rows": [
+   [
+    "Buchanan High",
+    507,
+    522,
+    524,
+    1553,
+    330,
+    2601,
+    23.6832,
+    1,
+    1,
+    493.1667,
+    "Above District Average",
+    13.83,
+    12.69
+   ]
+  ],
+  "gold_runtime": 0.006689921952784061,
+  "split": "td2"
+ },
+ {
+  "task_id": "financial:192",
+  "question_id": 192,
+  "db_id": "financial",
+  "difficulty": "moderate",
+  "question": "What is the average amount of loan which are still on running contract with statement issuance after each transaction?",
+  "evidence": "status = 'C' stands for running contract, OK so far; status = 'D' stands for running contract, client in debt. 'POPLATEK PO OBRATU' stands for issuance after transaction",
+  "gold_sql_sqlite": "SELECT AVG(T2.amount) FROM account AS T1 INNER JOIN loan AS T2 ON T1.account_id = T2.account_id WHERE T2.status IN ('C', 'D') AND T1.frequency = 'POPLATEK PO OBRATU'",
+  "gold_sql_duckdb": "SELECT AVG(T2.amount) FROM account AS T1 INNER JOIN loan AS T2 ON T1.account_id = T2.account_id WHERE T2.status IN ('C', 'D') AND T1.frequency = 'POPLATEK PO OBRATU'",
+  "gold_rows": [
+   [
+    192836.5714
+   ]
+  ],
+  "gold_runtime": 0.0014460152015089989,
+  "split": "td2"
+ },
+ {
+  "task_id": "debit_card_specializing:1477",
+  "question_id": 1477,
+  "db_id": "debit_card_specializing",
+  "difficulty": "simple",
+  "question": "Which year recorded the most gas use paid in EUR?",
+  "evidence": "",
+  "gold_sql_sqlite": "SELECT SUBSTRING(T2.Date, 1, 4) FROM customers AS T1 INNER JOIN yearmonth AS T2 ON T1.CustomerID = T2.CustomerID WHERE T1.Currency = 'EUR' GROUP BY SUBSTRING(T2.Date, 1, 4) ORDER BY SUM(T2.Consumption) DESC LIMIT 1",
+  "gold_sql_duckdb": "SELECT SUBSTRING(T2.Date, 1, 4) FROM customers AS T1 INNER JOIN yearmonth AS T2 ON T1.CustomerID = T2.CustomerID WHERE T1.Currency = 'EUR' GROUP BY SUBSTRING(T2.Date, 1, 4) ORDER BY SUM(T2.Consumption) DESC LIMIT 1",
+  "gold_rows": [
+   [
+    "2013"
+   ]
+  ],
+  "gold_runtime": 0.003140825778245926,
+  "split": "td2"
+ },
+ {
+  "task_id": "thrombosis_prediction:1283",
+  "question_id": 1283,
+  "db_id": "thrombosis_prediction",
+  "difficulty": "simple",
+  "question": "For the patients with the normal glutamic pylvic transaminase level, how many of them are male?",
+  "evidence": "normal glutamic pylvic transaminase level refers to GOT < 60; male refers to Sex = 'M';",
+  "gold_sql_sqlite": "SELECT COUNT(DISTINCT T1.ID) FROM Patient AS T1 INNER JOIN Laboratory AS T2 ON T1.ID = T2.ID WHERE T2.GOT < 60 AND T1.SEX = 'M'",
+  "gold_sql_duckdb": "SELECT COUNT(DISTINCT T1.ID) FROM Patient AS T1 INNER JOIN Laboratory AS T2 ON T1.ID = T2.ID WHERE T2.GOT < 60 AND T1.SEX = 'M'",
+  "gold_rows": [
+   [
+    45
+   ]
+  ],
+  "gold_runtime": 0.0017744051292538643,
+  "split": "td2"
+ }
+]

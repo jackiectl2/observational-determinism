@@ -1,0 +1,110 @@
+{
+ "certify_md5": "7626553a38a7b0dcf648b4d665c540bd",
+ "reps": 5,
+ "n_probes": 1015,
+ "duckdb_ms": {
+  "n": 1015,
+  "median_ms": 2.611,
+  "p90_ms": 4.357,
+  "p99_ms": 8.765,
+  "max_ms": 45.506,
+  "mean_ms": 2.972
+ },
+ "postgres_ms": {
+  "n": 1015,
+  "median_ms": 2.624,
+  "p90_ms": 4.381,
+  "p99_ms": 8.845,
+  "max_ms": 46.105,
+  "mean_ms": 3.005
+ },
+ "smartlex_ms": {
+  "n": 1015,
+  "median_ms": 0.922,
+  "p90_ms": 1.639,
+  "p99_ms": 2.949,
+  "max_ms": 4.265,
+  "mean_ms": 1.03
+ },
+ "duckdb_ms_by_verdict": {
+  "ALL": {
+   "n": 177,
+   "median_ms": 2.513,
+   "p90_ms": 3.712,
+   "p99_ms": 8.029,
+   "max_ms": 12.704,
+   "mean_ms": 2.612
+  },
+  "DET": {
+   "n": 166,
+   "median_ms": 1.615,
+   "p90_ms": 3.002,
+   "p99_ms": 3.741,
+   "max_ms": 3.755,
+   "mean_ms": 1.845
+  },
+  "NARROW": {
+   "n": 511,
+   "median_ms": 3.178,
+   "p90_ms": 4.92,
+   "p99_ms": 14.002,
+   "max_ms": 45.506,
+   "mean_ms": 3.631
+  },
+  "UNSUPPORTED": {
+   "n": 161,
+   "median_ms": 2.468,
+   "p90_ms": 4.008,
+   "p99_ms": 4.952,
+   "max_ms": 5.617,
+   "mean_ms": 2.439
+  }
+ },
+ "key_validation_sf1": {
+  "california_schools": {
+   "keys": 3,
+   "seconds": 0.0599
+  },
+  "card_games": {
+   "keys": 6,
+   "seconds": 0.2851
+  },
+  "codebase_community": {
+   "keys": 8,
+   "seconds": 0.2928
+  },
+  "debit_card_specializing": {
+   "keys": 5,
+   "seconds": 0.0488
+  },
+  "european_football_2": {
+   "keys": 3,
+   "seconds": 0.0063
+  },
+  "financial": {
+   "keys": 6,
+   "seconds": 0.0089
+  },
+  "formula_1": {
+   "keys": 13,
+   "seconds": 0.1242
+  },
+  "student_club": {
+   "keys": 8,
+   "seconds": 0.0275
+  },
+  "superhero": {
+   "keys": 8,
+   "seconds": 0.0107
+  },
+  "thrombosis_prediction": {
+   "keys": 2,
+   "seconds": 0.0045
+  },
+  "toxicology": {
+   "keys": 4,
+   "seconds": 0.0126
+  }
+ },
+ "key_validation_sf1_total_seconds": 0.881
+}

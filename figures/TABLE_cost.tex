@@ -1,0 +1,8 @@
+\begin{tabular}{@{}lrrrrrrr@{}}
+\toprule
+Engine (scale, $n$) & Raw & Smart-lex & Certified & Certified vs smart-lex [95\% CI] & Median ratio & Top-5 left out & LIMIT class (ratio [CI], $n$) \\
+\midrule
+DuckDB ($\times$100 / $\times$30, 986) & 48.1\,s & 44.6\,s & 42.8\,s & $-4.2$\% [$-10.2$\%, $+0.9$\%] & 1.00 & $+0.0$\% & 0.96 [0.87, 1.09], 176 \\
+PostgreSQL ($\times$10, 962) & 111.7\,s & 132.7\,s & 246.9\,s & $+86.1$\% [$+8.5$\%, $+212.4$\%] & 1.00 & $+6.6$\% & 0.86 [0.75, 1.02], 171 \\
+\bottomrule
+\end{tabular}

@@ -1,0 +1,2 @@
+results/final/e4_v5_qwen3_8b: 71/150 tasks with >=1 withheld preview; median 2 (max 6) among them; hybrid-correct -> strict-wrong 1, hybrid-wrong -> strict-correct 3
+results/final/e4_v5_phi4: 56/150 tasks with >=1 withheld preview; median 2.0 (max 8) among them; hybrid-correct -> strict-wrong 7, hybrid-wrong -> strict-correct 0

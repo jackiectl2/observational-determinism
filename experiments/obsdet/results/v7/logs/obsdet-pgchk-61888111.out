@@ -1,0 +1,13 @@
+1369ffcae12b93aec06735259c146814  certify.py
+md5-withheld  tool.py
+md5-withheld  replay_pg.py
+md5-withheld  pg_setup.py
+0b919cdcae7d3cd2d3b085b26c342589  pg_cost.py
+c4a92d8a31390d1dc29da96e92e590e0  pg_check.py
+[pg_setup] PostgreSQL 16.2 on x86_64-pc-linux-gnu,  shared_buffers 8GB
+Traceback (most recent call last):
+  File "$PROJECT_ROOT/code/obsdet_v7/pg_check.py", line 12, in <module>
+    import psycopg
+ModuleNotFoundError: No module named 'psycopg'
+waiting for server to shut down.... done
+server stopped

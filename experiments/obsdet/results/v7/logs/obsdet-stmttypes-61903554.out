@@ -1,0 +1,179 @@
+{
+ "probes": {
+  "SELECT 1": [
+   "SELECT"
+  ],
+  "WITH x AS (SELECT 1) SELECT * FROM x": [
+   "SELECT"
+  ],
+  "FROM users LIMIT 1": [
+   "SELECT"
+  ],
+  "VALUES (1)": [
+   "SELECT"
+  ],
+  "TABLE users": [
+   "SELECT"
+  ],
+  "DESCRIBE users": [
+   "SELECT"
+  ],
+  "SHOW TABLES": [
+   "SELECT"
+  ],
+  "SHOW users": [
+   "SELECT"
+  ],
+  "SUMMARIZE users": [
+   "SELECT"
+  ],
+  "EXPLAIN SELECT 1": [
+   "EXPLAIN"
+  ],
+  "PRAGMA table_info(users)": [
+   "SELECT"
+  ],
+  "PRAGMA show_tables": [
+   "SELECT"
+  ],
+  "PRAGMA enable_profiling": [
+   "PRAGMA"
+  ],
+  "PRAGMA default_null_order='nulls_first'": [
+   "SET"
+  ],
+  "SET default_null_order='nulls_first'": [
+   "SET"
+  ],
+  "SET default_collation='nocase'": [
+   "SET"
+  ],
+  "CALL pragma_table_info('users')": [
+   "CALL"
+  ],
+  "CREATE TABLE t2 AS SELECT 1": [
+   "CREATE"
+  ],
+  "CREATE TEMP TABLE t3 AS SELECT 1": [
+   "CREATE"
+  ],
+  "CREATE SCHEMA s2": [
+   "CREATE"
+  ],
+  "INSERT INTO users SELECT * FROM users LIMIT 1": [
+   "INSERT"
+  ],
+  "ATTACH ':memory:' AS m": [
+   "ATTACH"
+  ],
+  "USE memory": [
+   "SET"
+  ],
+  "-- just a comment": [],
+  "FINAL ANSWER: 42": [
+   "PARSE_ERROR: Parser Error: syntax error at or near \"FINAL\"\n\nLINE 1: FINAL ANSWER: 42\n        "
+  ],
+  "SELECT 1; SELECT 2": [
+   "SELECT",
+   "SELECT"
+  ]
+ },
+ "leak": {
+  "SET default_null_order='nulls_first'": {
+   "before": "NULLS_LAST",
+   "after_on_new_cursor": "NULLS_FIRST",
+   "error": null
+  },
+  "SET default_collation='nocase'": {
+   "before": "",
+   "after_on_new_cursor": "nocase",
+   "error": null
+  },
+  "PRAGMA default_null_order='nulls_first'": {
+   "before": "NULLS_LAST",
+   "after_on_new_cursor": "NULLS_FIRST",
+   "error": null
+  }
+ },
+ "agents": {
+  "types": {
+   "SELECT": 78407,
+   "PARSE_ERROR": 464
+  },
+  "pragma_names": {},
+  "other": [
+   {
+    "types": [],
+    "sql": "-- No cards found, so no further query is needed.",
+    "success": false,
+    "n": 15
+   },
+   {
+    "types": [],
+    "sql": "-- Since there are no LAM customers using the Euro, there is no further query ne",
+    "success": false,
+    "n": 30
+   },
+   {
+    "types": [],
+    "sql": "-- No query can be constructed as the dataset does not contain the required info",
+    "success": false,
+    "n": 15
+   },
+   {
+    "types": [],
+    "sql": "-- Since there are no non-charter schools in the dataset, there is no applicable",
+    "success": false,
+    "n": 15
+   },
+   {
+    "types": [],
+    "sql": "-- No cards illustrated by Stephen Daniel, hence no further query needed.",
+    "success": false,
+    "n": 15
+   },
+   {
+    "types": [],
+    "sql": "-- There are no SAT scores recorded for schools in Contra Costa, so no school ca",
+    "success": false,
+    "n": 1
+   },
+   {
+    "types": [],
+    "sql": "-- There are no SAT scores records for schools in Contra Costa, so the question ",
+    "success": false,
+    "n": 3
+   },
+   {
+    "types": [],
+    "sql": "-- There are no SAT scores available for schools in Contra Costa, so no school c",
+    "success": false,
+    "n": 1
+   },
+   {
+    "types": [],
+    "sql": "-- There is no data available for schools in Contra Costa in the satscores table",
+    "success": false,
+    "n": 4
+   },
+   {
+    "types": [],
+    "sql": "-- There are no matching records in the satscores table for schools in Contra Co",
+    "success": false,
+    "n": 4
+   },
+   {
+    "types": [],
+    "sql": "-- No valid SQL query can be constructed due to missing data.",
+    "success": false,
+    "n": 10
+   },
+   {
+    "types": [],
+    "sql": "-- FINAL ANSWER\n-- There is no available data to answer the question as posed.",
+    "success": false,
+    "n": 7
+   }
+  ]
+ }
+}

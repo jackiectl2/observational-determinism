@@ -1,0 +1,457 @@
+{
+ "ddl_on_read_only": {
+  "CREATE TEMP TABLE ns_probe AS SELECT 1 AS a": "ACCEPTED",
+  "CREATE TEMP VIEW ns_probe_v AS SELECT 1 AS a": "ACCEPTED",
+  "CREATE TABLE ns_probe2 AS SELECT 1 AS a": "rejected: InvalidInputException: Invalid Input Error: Cannot execute statement of type \"CREATE\" on database \"california_schools\" which is attached in read-only mode!",
+  "CREATE SCHEMA ns_probe_s": "rejected: InvalidInputException: Invalid Input Error: Cannot execute statement of type \"CREATE\" on database \"california_schools\" which is attached in read-only mode!"
+ },
+ "search_path": [
+  "",
+  [
+   "main",
+   "main",
+   "main",
+   "pg_catalog"
+  ]
+ ],
+ "relations": {
+  "california_schools": {
+   "frpm": [
+    "california_schools.main.frpm (table)"
+   ],
+   "satscores": [
+    "california_schools.main.satscores (table)"
+   ],
+   "schools": [
+    "california_schools.main.schools (table)"
+   ]
+  },
+  "card_games": {
+   "cards": [
+    "card_games.main.cards (table)"
+   ],
+   "foreign_data": [
+    "card_games.main.foreign_data (table)"
+   ],
+   "legalities": [
+    "card_games.main.legalities (table)"
+   ],
+   "rulings": [
+    "card_games.main.rulings (table)"
+   ],
+   "set_translations": [
+    "card_games.main.set_translations (table)"
+   ],
+   "sets": [
+    "card_games.main.sets (table)"
+   ],
+   "sqlite_sequence": [
+    "card_games.main.sqlite_sequence (table)"
+   ]
+  },
+  "codebase_community": {
+   "badges": [
+    "codebase_community.main.badges (table)"
+   ],
+   "comments": [
+    "codebase_community.main.comments (table)"
+   ],
+   "postHistory": [
+    "codebase_community.main.postHistory (table)"
+   ],
+   "postLinks": [
+    "codebase_community.main.postLinks (table)"
+   ],
+   "posts": [
+    "codebase_community.main.posts (table)"
+   ],
+   "tags": [
+    "codebase_community.main.tags (table)"
+   ],
+   "users": [
+    "codebase_community.main.users (table)"
+   ],
+   "votes": [
+    "codebase_community.main.votes (table)"
+   ]
+  },
+  "debit_card_specializing": {
+   "customers": [
+    "debit_card_specializing.main.customers (table)"
+   ],
+   "gasstations": [
+    "debit_card_specializing.main.gasstations (table)"
+   ],
+   "products": [
+    "debit_card_specializing.main.products (table)"
+   ],
+   "sqlite_sequence": [
+    "debit_card_specializing.main.sqlite_sequence (table)"
+   ],
+   "transactions_1k": [
+    "debit_card_specializing.main.transactions_1k (table)"
+   ],
+   "yearmonth": [
+    "debit_card_specializing.main.yearmonth (table)"
+   ]
+  },
+  "european_football_2": {
+   "Country": [
+    "european_football_2.main.Country (table)"
+   ],
+   "League": [
+    "european_football_2.main.League (table)"
+   ],
+   "Match": [
+    "european_football_2.main.Match (table)"
+   ]
+  },
+  "financial": {
+   "account": [
+    "financial.main.account (table)"
+   ],
+   "card": [
+    "financial.main.card (table)"
+   ],
+   "client": [
+    "financial.main.client (table)"
+   ],
+   "disp": [
+    "financial.main.disp (table)"
+   ],
+   "district": [
+    "financial.main.district (table)"
+   ],
+   "loan": [
+    "financial.main.loan (table)"
+   ]
+  },
+  "formula_1": {
+   "circuits": [
+    "formula_1.main.circuits (table)"
+   ],
+   "constructorResults": [
+    "formula_1.main.constructorResults (table)"
+   ],
+   "constructorStandings": [
+    "formula_1.main.constructorStandings (table)"
+   ],
+   "constructors": [
+    "formula_1.main.constructors (table)"
+   ],
+   "driverStandings": [
+    "formula_1.main.driverStandings (table)"
+   ],
+   "drivers": [
+    "formula_1.main.drivers (table)"
+   ],
+   "lapTimes": [
+    "formula_1.main.lapTimes (table)"
+   ],
+   "pitStops": [
+    "formula_1.main.pitStops (table)"
+   ],
+   "qualifying": [
+    "formula_1.main.qualifying (table)"
+   ],
+   "races": [
+    "formula_1.main.races (table)"
+   ],
+   "results": [
+    "formula_1.main.results (table)"
+   ],
+   "seasons": [
+    "formula_1.main.seasons (table)"
+   ],
+   "sqlite_sequence": [
+    "formula_1.main.sqlite_sequence (table)"
+   ],
+   "status": [
+    "formula_1.main.status (table)"
+   ]
+  },
+  "student_club": {
+   "attendance": [
+    "student_club.main.attendance (table)"
+   ],
+   "budget": [
+    "student_club.main.budget (table)"
+   ],
+   "event": [
+    "student_club.main.event (table)"
+   ],
+   "expense": [
+    "student_club.main.expense (table)"
+   ],
+   "income": [
+    "student_club.main.income (table)"
+   ],
+   "major": [
+    "student_club.main.major (table)"
+   ],
+   "member": [
+    "student_club.main.member (table)"
+   ],
+   "zip_code": [
+    "student_club.main.zip_code (table)"
+   ]
+  },
+  "superhero": {
+   "alignment": [
+    "superhero.main.alignment (table)"
+   ],
+   "attribute": [
+    "superhero.main.attribute (table)"
+   ],
+   "colour": [
+    "superhero.main.colour (table)"
+   ],
+   "gender": [
+    "superhero.main.gender (table)"
+   ],
+   "hero_attribute": [
+    "superhero.main.hero_attribute (table)"
+   ],
+   "hero_power": [
+    "superhero.main.hero_power (table)"
+   ],
+   "publisher": [
+    "superhero.main.publisher (table)"
+   ],
+   "race": [
+    "superhero.main.race (table)"
+   ],
+   "superhero": [
+    "superhero.main.superhero (table)"
+   ],
+   "superpower": [
+    "superhero.main.superpower (table)"
+   ]
+  },
+  "thrombosis_prediction": {
+   "Examination": [
+    "thrombosis_prediction.main.Examination (table)"
+   ],
+   "Laboratory": [
+    "thrombosis_prediction.main.Laboratory (table)"
+   ],
+   "Patient": [
+    "thrombosis_prediction.main.Patient (table)"
+   ]
+  },
+  "toxicology": {
+   "atom": [
+    "toxicology.main.atom (table)"
+   ],
+   "bond": [
+    "toxicology.main.bond (table)"
+   ],
+   "connected": [
+    "toxicology.main.connected (table)"
+   ],
+   "molecule": [
+    "toxicology.main.molecule (table)"
+   ]
+  }
+ },
+ "agent_non_select": {
+  "v5_phi4": {
+   "counts": {
+    "--|failed": 45,
+    "FINAL|failed": 31
+   },
+   "succeeded_examples": []
+  },
+  "v5_qwen3_8b": {
+   "counts": {
+    "PRAGMA|failed": 25,
+    "SHOW|failed": 21,
+    "PRAGMA|ok": 11,
+    "DESCRIBE|ok": 1
+   },
+   "succeeded_examples": [
+    "PRAGMA table_info(League);",
+    "PRAGMA table_info(League);",
+    "PRAGMA table_info(League);",
+    "PRAGMA table_info(League);",
+    "PRAGMA table_info(League);",
+    "PRAGMA table_info(League);",
+    "PRAGMA table_info(League);",
+    "PRAGMA table_info(League);",
+    "PRAGMA table_info(League);",
+    "PRAGMA table_info(League);",
+    "PRAGMA table_info(League);",
+    "DESCRIBE hero_attribute;"
+   ]
+  },
+  "v6td_phi4": {
+   "counts": {
+    "FINAL|failed": 21,
+    "PRAGMA|ok": 11,
+    "PRAGMA|failed": 4,
+    "--|failed": 15
+   },
+   "succeeded_examples": [
+    "PRAGMA table_info(event);",
+    "PRAGMA table_info(event);",
+    "PRAGMA table_info(event);",
+    "PRAGMA table_info(event);",
+    "PRAGMA table_info(event);",
+    "PRAGMA table_info(event);",
+    "PRAGMA table_info(event);",
+    "PRAGMA table_info(event);",
+    "PRAGMA table_info(event);",
+    "PRAGMA table_info(event);",
+    "PRAGMA table_info(event);"
+   ]
+  },
+  "v6td_qwen3_8b": {
+   "counts": {
+    "PRAGMA|ok": 10,
+    "PRAGMA|failed": 3,
+    "DESCRIBE|ok": 1,
+    "SHOW|failed": 8
+   },
+   "succeeded_examples": [
+    "PRAGMA table_info(legalities);",
+    "PRAGMA table_info(legalities);",
+    "PRAGMA table_info(cards);",
+    "DESCRIBE cards;\nDESCRIBE legalities;",
+    "PRAGMA table_info(legalities);",
+    "PRAGMA table_info(legalities);",
+    "PRAGMA table_info(cards);",
+    "PRAGMA table_info(cards);",
+    "PRAGMA table_info(cards);",
+    "PRAGMA table_info(cards);",
+    "PRAGMA table_info(cards);"
+   ]
+  },
+  "v7_phi4": {
+   "counts": {
+    "--|failed": 60,
+    "FINAL|failed": 34
+   },
+   "succeeded_examples": []
+  },
+  "v7_qwen3_8b": {
+   "counts": {
+    "SHOW|failed": 15,
+    "PRAGMA|ok": 11,
+    "PRAGMA|failed": 4
+   },
+   "succeeded_examples": [
+    "PRAGMA table_info(League);",
+    "PRAGMA table_info(League);",
+    "PRAGMA table_info(League);",
+    "PRAGMA table_info(League);",
+    "PRAGMA table_info(League);",
+    "PRAGMA table_info(League);",
+    "PRAGMA table_info(League);",
+    "PRAGMA table_info(League);",
+    "PRAGMA table_info(League);",
+    "PRAGMA table_info(League);",
+    "PRAGMA table_info(League);"
+   ]
+  },
+  "v7td2_phi4": {
+   "counts": {
+    "FINAL|failed": 43,
+    "PRAGMA|ok": 11,
+    "PRAGMA|failed": 4
+   },
+   "succeeded_examples": [
+    "PRAGMA table_info(budget);",
+    "PRAGMA table_info(budget);",
+    "PRAGMA table_info(budget);",
+    "PRAGMA table_info(budget);",
+    "PRAGMA table_info(budget);",
+    "PRAGMA table_info(budget);",
+    "PRAGMA table_info(budget);",
+    "PRAGMA table_info(budget);",
+    "PRAGMA table_info(budget);",
+    "PRAGMA table_info(budget);",
+    "PRAGMA table_info(budget);"
+   ]
+  },
+  "v7td2_qwen3_8b": {
+   "counts": {
+    "PRAGMA|ok": 1
+   },
+   "succeeded_examples": [
+    "PRAGMA table_info(transactions_1k);"
+   ]
+  },
+  "v7td_phi4": {
+   "counts": {
+    "FINAL|failed": 37,
+    "PRAGMA|ok": 11,
+    "PRAGMA|failed": 4
+   },
+   "succeeded_examples": [
+    "PRAGMA table_info(event);",
+    "PRAGMA table_info(event);",
+    "PRAGMA table_info(event);",
+    "PRAGMA table_info(event);",
+    "PRAGMA table_info(event);",
+    "PRAGMA table_info(event);",
+    "PRAGMA table_info(event);",
+    "PRAGMA table_info(event);",
+    "PRAGMA table_info(event);",
+    "PRAGMA table_info(event);",
+    "PRAGMA table_info(event);"
+   ]
+  },
+  "v7td_qwen3_8b": {
+   "counts": {
+    "PRAGMA|ok": 16,
+    "PRAGMA|failed": 24,
+    "DESCRIBE|ok": 22,
+    "DESCRIBE|failed": 4
+   },
+   "succeeded_examples": [
+    "PRAGMA table_info(legalities);",
+    "PRAGMA table_info(legalities);\nPRAGMA table_info(cards);",
+    "PRAGMA table_info(legalities);\nPRAGMA table_info(cards);",
+    "PRAGMA table_info(legalities);",
+    "PRAGMA table_info(legalities);\nPRAGMA table_info(cards);",
+    "PRAGMA table_info(legalities);\nPRAGMA table_info(cards);",
+    "PRAGMA table_info(legalities);",
+    "PRAGMA table_info(legalities);\nPRAGMA table_info(cards);",
+    "PRAGMA table_info(legalities);\nPRAGMA table_info(cards);",
+    "PRAGMA table_info(legalities);",
+    "PRAGMA table_info(legalities);\nPRAGMA table_info(cards);",
+    "PRAGMA table_info(cards);",
+    "DESCRIBE connected;",
+    "DESCRIBE connected;",
+    "DESCRIBE connected;",
+    "PRAGMA table_info(cards);",
+    "DESCRIBE connected;",
+    "DESCRIBE connected;",
+    "DESCRIBE connected;",
+    "PRAGMA table_info(cards);"
+   ]
+  }
+ },
+ "not_select": {
+  "cert_heldout_kept_v7.jsonl": {
+   "SELECT": 11,
+   "PRAGMA": 1,
+   "WITH": 2
+  },
+  "cert_probes_v7.jsonl": {
+   "SELECT": 1,
+   "DESCRIBE": 1,
+   "PRAGMA": 1
+  },
+  "cert_td2_all.jsonl": {
+   "SELECT": 8,
+   "WITH": 1,
+   "PRAGMA": 2
+  },
+  "cert_td_new_v7.jsonl": {
+   "PRAGMA": 3,
+   "SHOW": 1,
+   "SELECT": 1
+  }
+ }
+}

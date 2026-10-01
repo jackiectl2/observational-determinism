@@ -1,0 +1,11 @@
+candidates not in dev (exact): 1272; normalized duplicates of dev probes: 13; kept: 1259; executable: 1125; not executable: 134
+verdicts: {'DET': '189 (16.8%)', 'NARROW': '384 (34.1%)', 'ALL': '204 (18.1%)', 'UNSUPPORTED': '348 (30.9%)'}
+repaired 588: mean tie-break 1.11 vs smart-lex 2.31
+DuckDB: policy x verdict diverged / complete (censored)
+  raw      DET=0/189(0) NARROW=178/384(0) ALL=114/204(0) UNSUPPORTED=137/348(0)
+  smartlex DET=0/189(0) NARROW=0/384(0) ALL=0/204(0) UNSUPPORTED=65/348(0)
+  certifiedDET=0/189(0) NARROW=0/384(0) ALL=0/204(0) UNSUPPORTED=62/348(0)
+PostgreSQL (verdicts in the PostgreSQL dialect): policy x verdict diverged / complete (censored)
+  raw      DET=0/183(2) NARROW=153/374(8) ALL=82/203(0) UNSUPPORTED=76/345(10)
+  smartlex DET=0/183(2) NARROW=0/374(8) ALL=0/203(0) UNSUPPORTED=42/345(10)
+  certifiedDET=0/183(2) NARROW=0/374(8) ALL=0/203(0) UNSUPPORTED=42/345(10)

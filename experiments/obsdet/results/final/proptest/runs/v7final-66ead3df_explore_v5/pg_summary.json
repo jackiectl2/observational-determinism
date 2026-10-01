@@ -1,0 +1,2897 @@
+{
+ "engine": "pg",
+ "scale": {
+  "schemas": 240,
+  "queries_drawn": 6651,
+  "rejected_semantic": {
+   "BinderException": 595,
+   "ParserException": 56
+  },
+  "queries": 6000,
+  "instances_per_query": 4,
+  "executions_per_instance": 6,
+  "query_instance_pairs": 23996,
+  "raw_statement_executions": 143976,
+  "wall_seconds_sum": 402
+ },
+ "verdicts": {
+  "NARROW": 1500,
+  "DET": 1173,
+  "UNSUPPORTED": 2782,
+  "ALL": 544,
+  "TRANSPILE_ERROR": 1
+ },
+ "violations": {
+  "cert_div": 0,
+  "cert_fail": 1,
+  "g2_bag": 0,
+  "g2_limit": 0,
+  "g2_header": 0
+ },
+ "violation_queries": {
+  "cert_div": 0,
+  "cert_fail": 1,
+  "g2_bag": 0,
+  "g2_limit": 0,
+  "g2_header": 0
+ },
+ "violation_records_kept": {
+  "cert_fail": 1
+ },
+ "cert_fail_errors": {
+  "RT:21000: more than one row returned by a subquery used as an expression": 1
+ },
+ "other_violation_causes": {
+  "cert_fail": {
+   "N4-runtime-error": 1
+  },
+  "g2_bag": {},
+  "g2_limit": {},
+  "g2_header": {}
+ },
+ "cert_div_root_causes": {
+  "records": {},
+  "distinct_queries": {},
+  "examples": {}
+ },
+ "per_verdict": {
+  "ALL": {
+   "queries": 544,
+   "queries_raw_diverged": 146,
+   "pairs_raw_observed": 1949,
+   "pairs_raw_diverged": 322,
+   "pairs_cert_observed": 1949,
+   "pairs_cert_diverged": 0,
+   "pairs_cert_fail": 0,
+   "pairs_g2_checked_execs": 6434,
+   "pairs_raw_all_error": 227,
+   "pairs_raw_error_mixed": 0,
+   "pairs_cert_error_mixed": 0,
+   "queries_raw_error_every_instance": 51,
+   "queries_parallel_plan_raw": 436,
+   "queries_parallel_plan_certified": 441,
+   "raw_error_classes": {
+    "SEM:42883": 36,
+    "RT:22003": 9,
+    "SEM:42601": 9,
+    "RT:21000": 3,
+    "SEM:42P01": 2,
+    "RT:22012": 1
+   }
+  },
+  "DET": {
+   "queries": 1173,
+   "queries_raw_diverged": 0,
+   "pairs_raw_observed": 4047,
+   "pairs_raw_diverged": 0,
+   "pairs_cert_observed": 4047,
+   "pairs_cert_diverged": 0,
+   "pairs_cert_fail": 0,
+   "pairs_g2_checked_execs": 0,
+   "pairs_raw_all_error": 645,
+   "pairs_raw_error_mixed": 2,
+   "pairs_cert_error_mixed": 2,
+   "queries_raw_error_every_instance": 156,
+   "queries_parallel_plan_raw": 867,
+   "queries_parallel_plan_certified": 867,
+   "raw_error_classes": {
+    "SEM:42883": 118,
+    "SEM:42601": 15,
+    "RT:22003": 14,
+    "SEM:42P01": 11,
+    "RT:22012": 6,
+    "RT:22P02": 3,
+    "RT:21000": 2
+   }
+  },
+  "NARROW": {
+   "queries": 1500,
+   "queries_raw_diverged": 392,
+   "pairs_raw_observed": 5263,
+   "pairs_raw_diverged": 854,
+   "pairs_cert_observed": 5262,
+   "pairs_cert_diverged": 0,
+   "pairs_cert_fail": 1,
+   "pairs_g2_checked_execs": 17696,
+   "pairs_raw_all_error": 737,
+   "pairs_raw_error_mixed": 6,
+   "pairs_cert_error_mixed": 3,
+   "queries_raw_error_every_instance": 172,
+   "queries_parallel_plan_raw": 1165,
+   "queries_parallel_plan_certified": 1166,
+   "raw_error_classes": {
+    "SEM:42883": 110,
+    "SEM:42601": 33,
+    "SEM:42P01": 18,
+    "RT:21000": 16,
+    "RT:22003": 13,
+    "RT:22P02": 6,
+    "RT:22012": 1,
+    "SEM:42702": 1
+   }
+  },
+  "TRANSPILE_ERROR": {
+   "queries": 1,
+   "queries_raw_diverged": 0,
+   "pairs_raw_observed": 0,
+   "pairs_raw_diverged": 0,
+   "pairs_cert_observed": 0,
+   "pairs_cert_diverged": 0,
+   "pairs_cert_fail": 0,
+   "pairs_g2_checked_execs": 0,
+   "pairs_raw_all_error": 0,
+   "pairs_raw_error_mixed": 0,
+   "pairs_cert_error_mixed": 0,
+   "queries_raw_error_every_instance": 1,
+   "queries_parallel_plan_raw": 0,
+   "queries_parallel_plan_certified": 0,
+   "raw_error_classes": {}
+  },
+  "UNSUPPORTED": {
+   "queries": 2782,
+   "queries_raw_diverged": 305,
+   "pairs_raw_observed": 6990,
+   "pairs_raw_diverged": 677,
+   "pairs_cert_observed": 0,
+   "pairs_cert_diverged": 0,
+   "pairs_cert_fail": 0,
+   "pairs_g2_checked_execs": 0,
+   "pairs_raw_all_error": 4138,
+   "pairs_raw_error_mixed": 3,
+   "pairs_cert_error_mixed": 0,
+   "queries_raw_error_every_instance": 1017,
+   "queries_parallel_plan_raw": 1525,
+   "queries_parallel_plan_certified": 0,
+   "raw_error_classes": {
+    "SEM:42601": 356,
+    "SEM:42883": 316,
+    "SEM:42P10": 131,
+    "SEM:42703": 92,
+    "SEM:42702": 40,
+    "SEM:42704": 31,
+    "SEM:42P01": 28,
+    "RT:21000": 21
+   }
+  }
+ },
+ "coverage": {
+  "agg:arg_float_literal": {
+   "n": 214,
+   "UNSUPPORTED": 102,
+   "raw_div_q": 16,
+   "DET": 53,
+   "NARROW": 54,
+   "ALL": 5
+  },
+  "agg:arg_has_division": {
+   "n": 30,
+   "UNSUPPORTED": 23,
+   "raw_div_q": 4,
+   "NARROW": 3,
+   "DET": 4
+  },
+  "agg:avg": {
+   "n": 435,
+   "ALL": 14,
+   "raw_div_q": 26,
+   "DET": 99,
+   "UNSUPPORTED": 230,
+   "NARROW": 92
+  },
+  "agg:avg:dbl": {
+   "n": 143,
+   "DET": 18,
+   "raw_div_q": 12,
+   "UNSUPPORTED": 105,
+   "NARROW": 19,
+   "ALL": 1
+  },
+  "agg:avg:dec": {
+   "n": 164,
+   "ALL": 5,
+   "raw_div_q": 10,
+   "DET": 49,
+   "NARROW": 40,
+   "UNSUPPORTED": 70
+  },
+  "agg:avg:int": {
+   "n": 141,
+   "UNSUPPORTED": 62,
+   "raw_div_q": 5,
+   "NARROW": 37,
+   "DET": 34,
+   "ALL": 8
+  },
+  "agg:count": {
+   "n": 466,
+   "UNSUPPORTED": 232,
+   "raw_div_q": 34,
+   "NARROW": 83,
+   "ALL": 22,
+   "DET": 129
+  },
+  "agg:count:bool": {
+   "n": 99,
+   "UNSUPPORTED": 49,
+   "raw_div_q": 8,
+   "DET": 27,
+   "NARROW": 21,
+   "ALL": 2
+  },
+  "agg:count:date": {
+   "n": 93,
+   "UNSUPPORTED": 72,
+   "raw_div_q": 8,
+   "NARROW": 10,
+   "DET": 10,
+   "ALL": 1
+  },
+  "agg:count:dbl": {
+   "n": 68,
+   "UNSUPPORTED": 24,
+   "raw_div_q": 5,
+   "NARROW": 14,
+   "DET": 25,
+   "ALL": 5
+  },
+  "agg:count:dec": {
+   "n": 75,
+   "UNSUPPORTED": 28,
+   "raw_div_q": 5,
+   "ALL": 5,
+   "DET": 28,
+   "NARROW": 14
+  },
+  "agg:count:int": {
+   "n": 61,
+   "NARROW": 9,
+   "raw_div_q": 4,
+   "UNSUPPORTED": 29,
+   "DET": 18,
+   "ALL": 5
+  },
+  "agg:count:text": {
+   "n": 83,
+   "UNSUPPORTED": 37,
+   "raw_div_q": 5,
+   "ALL": 4,
+   "NARROW": 17,
+   "DET": 25
+  },
+  "agg:count_distinct": {
+   "n": 444,
+   "UNSUPPORTED": 228,
+   "raw_div_q": 18,
+   "DET": 129,
+   "NARROW": 75,
+   "ALL": 12
+  },
+  "agg:count_distinct:bool": {
+   "n": 60,
+   "UNSUPPORTED": 24,
+   "raw_div_q": 3,
+   "DET": 25,
+   "NARROW": 11
+  },
+  "agg:count_distinct:date": {
+   "n": 82,
+   "DET": 12,
+   "raw_div_q": 2,
+   "UNSUPPORTED": 63,
+   "NARROW": 6,
+   "ALL": 1
+  },
+  "agg:count_distinct:dbl": {
+   "n": 80,
+   "DET": 20,
+   "raw_div_q": 4,
+   "UNSUPPORTED": 35,
+   "NARROW": 24,
+   "ALL": 1
+  },
+  "agg:count_distinct:dec": {
+   "n": 85,
+   "UNSUPPORTED": 38,
+   "raw_div_q": 1,
+   "NARROW": 13,
+   "DET": 30,
+   "ALL": 4
+  },
+  "agg:count_distinct:int": {
+   "n": 72,
+   "UNSUPPORTED": 40,
+   "raw_div_q": 5,
+   "DET": 20,
+   "NARROW": 9,
+   "ALL": 3
+  },
+  "agg:count_distinct:text": {
+   "n": 84,
+   "NARROW": 16,
+   "raw_div_q": 3,
+   "UNSUPPORTED": 37,
+   "DET": 28,
+   "ALL": 3
+  },
+  "agg:count_star": {
+   "n": 461,
+   "UNSUPPORTED": 201,
+   "raw_div_q": 23,
+   "ALL": 24,
+   "NARROW": 100,
+   "DET": 136
+  },
+  "agg:filter": {
+   "n": 356,
+   "UNSUPPORTED": 189,
+   "raw_div_q": 19,
+   "NARROW": 86,
+   "DET": 70,
+   "ALL": 11
+  },
+  "agg:max": {
+   "n": 872,
+   "UNSUPPORTED": 438,
+   "raw_div_q": 46,
+   "DET": 224,
+   "NARROW": 175,
+   "ALL": 35
+  },
+  "agg:max:bool": {
+   "n": 156,
+   "UNSUPPORTED": 73,
+   "raw_div_q": 0,
+   "DET": 43,
+   "NARROW": 31,
+   "ALL": 9
+  },
+  "agg:max:date": {
+   "n": 149,
+   "UNSUPPORTED": 117,
+   "raw_div_q": 9,
+   "NARROW": 18,
+   "DET": 13,
+   "ALL": 1
+  },
+  "agg:max:dbl": {
+   "n": 136,
+   "UNSUPPORTED": 76,
+   "raw_div_q": 9,
+   "DET": 33,
+   "ALL": 7,
+   "NARROW": 20
+  },
+  "agg:max:dec": {
+   "n": 169,
+   "UNSUPPORTED": 73,
+   "raw_div_q": 6,
+   "DET": 54,
+   "NARROW": 36,
+   "ALL": 6
+  },
+  "agg:max:int": {
+   "n": 175,
+   "UNSUPPORTED": 72,
+   "raw_div_q": 11,
+   "NARROW": 43,
+   "DET": 53,
+   "ALL": 7
+  },
+  "agg:max:text": {
+   "n": 168,
+   "UNSUPPORTED": 74,
+   "raw_div_q": 13,
+   "NARROW": 38,
+   "DET": 50,
+   "ALL": 6
+  },
+  "agg:min": {
+   "n": 812,
+   "DET": 210,
+   "raw_div_q": 48,
+   "NARROW": 163,
+   "UNSUPPORTED": 406,
+   "ALL": 33
+  },
+  "agg:min:bool": {
+   "n": 129,
+   "DET": 45,
+   "raw_div_q": 0,
+   "NARROW": 30,
+   "ALL": 8,
+   "UNSUPPORTED": 46
+  },
+  "agg:min:date": {
+   "n": 141,
+   "UNSUPPORTED": 115,
+   "raw_div_q": 11,
+   "DET": 12,
+   "NARROW": 13,
+   "ALL": 1
+  },
+  "agg:min:dbl": {
+   "n": 138,
+   "UNSUPPORTED": 74,
+   "raw_div_q": 8,
+   "NARROW": 32,
+   "DET": 26,
+   "ALL": 6
+  },
+  "agg:min:dec": {
+   "n": 159,
+   "DET": 49,
+   "raw_div_q": 8,
+   "UNSUPPORTED": 69,
+   "NARROW": 35,
+   "ALL": 6
+  },
+  "agg:min:int": {
+   "n": 145,
+   "DET": 41,
+   "raw_div_q": 13,
+   "UNSUPPORTED": 68,
+   "NARROW": 31,
+   "ALL": 5
+  },
+  "agg:min:text": {
+   "n": 164,
+   "NARROW": 34,
+   "raw_div_q": 12,
+   "DET": 58,
+   "UNSUPPORTED": 63,
+   "ALL": 9
+  },
+  "agg:sum": {
+   "n": 824,
+   "UNSUPPORTED": 446,
+   "raw_div_q": 56,
+   "DET": 169,
+   "NARROW": 182,
+   "ALL": 27
+  },
+  "agg:sum:dbl": {
+   "n": 297,
+   "UNSUPPORTED": 205,
+   "raw_div_q": 19,
+   "NARROW": 46,
+   "DET": 41,
+   "ALL": 5
+  },
+  "agg:sum:dec": {
+   "n": 282,
+   "UNSUPPORTED": 116,
+   "raw_div_q": 23,
+   "DET": 77,
+   "NARROW": 79,
+   "ALL": 10
+  },
+  "agg:sum:int": {
+   "n": 301,
+   "NARROW": 65,
+   "raw_div_q": 18,
+   "UNSUPPORTED": 161,
+   "ALL": 12,
+   "DET": 63
+  },
+  "agg:wrap:bool": {
+   "n": 58,
+   "DET": 26,
+   "raw_div_q": 0,
+   "UNSUPPORTED": 23,
+   "NARROW": 9
+  },
+  "agg:wrap:case": {
+   "n": 103,
+   "DET": 38,
+   "raw_div_q": 3,
+   "NARROW": 17,
+   "UNSUPPORTED": 46,
+   "ALL": 2
+  },
+  "agg:wrap:cast_text": {
+   "n": 191,
+   "UNSUPPORTED": 103,
+   "raw_div_q": 12,
+   "DET": 56,
+   "NARROW": 26,
+   "ALL": 6
+  },
+  "agg:wrap:coalesce": {
+   "n": 184,
+   "NARROW": 30,
+   "raw_div_q": 9,
+   "DET": 51,
+   "UNSUPPORTED": 100,
+   "ALL": 3
+  },
+  "agg:wrap:date": {
+   "n": 42,
+   "UNSUPPORTED": 36,
+   "raw_div_q": 3,
+   "NARROW": 4,
+   "DET": 2
+  },
+  "agg:wrap:dbl": {
+   "n": 157,
+   "UNSUPPORTED": 113,
+   "raw_div_q": 8,
+   "DET": 24,
+   "NARROW": 17,
+   "ALL": 3
+  },
+  "agg:wrap:dec": {
+   "n": 96,
+   "DET": 31,
+   "raw_div_q": 6,
+   "UNSUPPORTED": 45,
+   "NARROW": 17,
+   "ALL": 3
+  },
+  "agg:wrap:int": {
+   "n": 382,
+   "UNSUPPORTED": 183,
+   "raw_div_q": 21,
+   "DET": 126,
+   "NARROW": 67,
+   "ALL": 6
+  },
+  "agg:wrap:plus": {
+   "n": 111,
+   "UNSUPPORTED": 60,
+   "raw_div_q": 6,
+   "DET": 35,
+   "NARROW": 15,
+   "ALL": 1
+  },
+  "agg:wrap:recip": {
+   "n": 109,
+   "UNSUPPORTED": 62,
+   "raw_div_q": 7,
+   "DET": 25,
+   "NARROW": 20,
+   "ALL": 2
+  },
+  "agg:wrap:round": {
+   "n": 107,
+   "DET": 30,
+   "raw_div_q": 5,
+   "UNSUPPORTED": 58,
+   "ALL": 1,
+   "NARROW": 18
+  },
+  "agg:wrap:text": {
+   "n": 64,
+   "NARROW": 10,
+   "raw_div_q": 3,
+   "UNSUPPORTED": 23,
+   "DET": 28,
+   "ALL": 3
+  },
+  "alias:fresh": {
+   "n": 2268,
+   "NARROW": 643,
+   "raw_div_q": 328,
+   "DET": 360,
+   "UNSUPPORTED": 1122,
+   "ALL": 143
+  },
+  "alias:shadow": {
+   "n": 1481,
+   "UNSUPPORTED": 725,
+   "raw_div_q": 223,
+   "NARROW": 396,
+   "ALL": 99,
+   "DET": 261
+  },
+  "distinct": {
+   "n": 799,
+   "UNSUPPORTED": 476,
+   "raw_div_q": 58,
+   "DET": 82,
+   "NARROW": 121,
+   "ALL": 119,
+   "TRANSPILE_ERROR": 1
+  },
+  "expr:bool:andor": {
+   "n": 38,
+   "DET": 8,
+   "raw_div_q": 4,
+   "NARROW": 14,
+   "UNSUPPORTED": 14,
+   "ALL": 2
+  },
+  "expr:bool:between": {
+   "n": 39,
+   "UNSUPPORTED": 17,
+   "raw_div_q": 5,
+   "ALL": 7,
+   "DET": 5,
+   "NARROW": 10
+  },
+  "expr:bool:cmp": {
+   "n": 89,
+   "DET": 18,
+   "raw_div_q": 12,
+   "UNSUPPORTED": 48,
+   "NARROW": 16,
+   "ALL": 7
+  },
+  "expr:bool:distinct_from": {
+   "n": 51,
+   "UNSUPPORTED": 30,
+   "raw_div_q": 9,
+   "NARROW": 12,
+   "DET": 6,
+   "ALL": 3
+  },
+  "expr:bool:glob": {
+   "n": 43,
+   "DET": 10,
+   "raw_div_q": 0,
+   "UNSUPPORTED": 16,
+   "NARROW": 11,
+   "ALL": 6
+  },
+  "expr:bool:in_list": {
+   "n": 47,
+   "NARROW": 14,
+   "raw_div_q": 4,
+   "UNSUPPORTED": 25,
+   "DET": 6,
+   "ALL": 2
+  },
+  "expr:bool:is_true": {
+   "n": 41,
+   "NARROW": 12,
+   "raw_div_q": 6,
+   "UNSUPPORTED": 17,
+   "DET": 11,
+   "ALL": 1
+  },
+  "expr:bool:isnull": {
+   "n": 43,
+   "DET": 7,
+   "raw_div_q": 2,
+   "UNSUPPORTED": 18,
+   "NARROW": 15,
+   "ALL": 3
+  },
+  "expr:bool:like": {
+   "n": 39,
+   "UNSUPPORTED": 23,
+   "raw_div_q": 6,
+   "NARROW": 9,
+   "DET": 3,
+   "ALL": 4
+  },
+  "expr:bool:not": {
+   "n": 57,
+   "NARROW": 18,
+   "raw_div_q": 6,
+   "UNSUPPORTED": 23,
+   "DET": 14,
+   "ALL": 2
+  },
+  "expr:bool:not_prec": {
+   "n": 38,
+   "NARROW": 15,
+   "raw_div_q": 2,
+   "DET": 9,
+   "UNSUPPORTED": 12,
+   "ALL": 2
+  },
+  "expr:bool:regexp": {
+   "n": 33,
+   "UNSUPPORTED": 19,
+   "raw_div_q": 4,
+   "ALL": 2,
+   "NARROW": 7,
+   "DET": 5
+  },
+  "expr:bool:similar": {
+   "n": 49,
+   "NARROW": 16,
+   "raw_div_q": 9,
+   "UNSUPPORTED": 17,
+   "ALL": 7,
+   "DET": 9
+  },
+  "expr:date:add": {
+   "n": 95,
+   "UNSUPPORTED": 70,
+   "raw_div_q": 16,
+   "NARROW": 13,
+   "DET": 9,
+   "ALL": 3
+  },
+  "expr:date:case": {
+   "n": 87,
+   "UNSUPPORTED": 76,
+   "raw_div_q": 17,
+   "DET": 3,
+   "NARROW": 7,
+   "ALL": 1
+  },
+  "expr:date:coalesce": {
+   "n": 99,
+   "UNSUPPORTED": 99,
+   "raw_div_q": 13
+  },
+  "expr:date:date_add": {
+   "n": 95,
+   "UNSUPPORTED": 95,
+   "raw_div_q": 16
+  },
+  "expr:date:date_trunc": {
+   "n": 94,
+   "UNSUPPORTED": 70,
+   "raw_div_q": 12,
+   "NARROW": 17,
+   "ALL": 2,
+   "DET": 5
+  },
+  "expr:date:interval": {
+   "n": 75,
+   "UNSUPPORTED": 75,
+   "raw_div_q": 11
+  },
+  "expr:date:typed_cast": {
+   "n": 96,
+   "UNSUPPORTED": 96,
+   "raw_div_q": 6
+  },
+  "expr:dbl:abs": {
+   "n": 38,
+   "NARROW": 10,
+   "raw_div_q": 3,
+   "DET": 5,
+   "UNSUPPORTED": 20,
+   "ALL": 3
+  },
+  "expr:dbl:arith": {
+   "n": 25,
+   "NARROW": 6,
+   "raw_div_q": 7,
+   "UNSUPPORTED": 15,
+   "DET": 3,
+   "ALL": 1
+  },
+  "expr:dbl:case": {
+   "n": 29,
+   "UNSUPPORTED": 17,
+   "raw_div_q": 3,
+   "NARROW": 3,
+   "ALL": 6,
+   "DET": 3
+  },
+  "expr:dbl:cast": {
+   "n": 41,
+   "NARROW": 8,
+   "raw_div_q": 3,
+   "UNSUPPORTED": 22,
+   "DET": 10,
+   "ALL": 1
+  },
+  "expr:dbl:coalesce": {
+   "n": 26,
+   "UNSUPPORTED": 15,
+   "raw_div_q": 1,
+   "NARROW": 9,
+   "DET": 2
+  },
+  "expr:dbl:div": {
+   "n": 38,
+   "UNSUPPORTED": 29,
+   "raw_div_q": 7,
+   "DET": 4,
+   "NARROW": 5
+  },
+  "expr:dbl:float_lit": {
+   "n": 59,
+   "UNSUPPORTED": 17,
+   "raw_div_q": 9,
+   "DET": 15,
+   "NARROW": 25,
+   "ALL": 2
+  },
+  "expr:dbl:ln": {
+   "n": 31,
+   "UNSUPPORTED": 16,
+   "raw_div_q": 3,
+   "NARROW": 5,
+   "ALL": 4,
+   "DET": 6
+  },
+  "expr:dbl:log2arg": {
+   "n": 42,
+   "NARROW": 14,
+   "raw_div_q": 10,
+   "UNSUPPORTED": 24,
+   "ALL": 1,
+   "DET": 3
+  },
+  "expr:dbl:mixed": {
+   "n": 69,
+   "UNSUPPORTED": 38,
+   "raw_div_q": 6,
+   "NARROW": 18,
+   "ALL": 7,
+   "DET": 6
+  },
+  "expr:dbl:pow": {
+   "n": 32,
+   "UNSUPPORTED": 15,
+   "raw_div_q": 2,
+   "DET": 4,
+   "NARROW": 10,
+   "ALL": 3
+  },
+  "expr:dbl:pow_op": {
+   "n": 77,
+   "DET": 11,
+   "raw_div_q": 10,
+   "UNSUPPORTED": 36,
+   "NARROW": 26,
+   "ALL": 4
+  },
+  "expr:dbl:recip": {
+   "n": 30,
+   "UNSUPPORTED": 20,
+   "raw_div_q": 0,
+   "NARROW": 6,
+   "ALL": 1,
+   "DET": 3
+  },
+  "expr:dbl:round": {
+   "n": 39,
+   "NARROW": 10,
+   "raw_div_q": 3,
+   "UNSUPPORTED": 18,
+   "ALL": 4,
+   "DET": 7
+  },
+  "expr:dbl:sci": {
+   "n": 54,
+   "NARROW": 16,
+   "raw_div_q": 7,
+   "UNSUPPORTED": 29,
+   "ALL": 4,
+   "DET": 5
+  },
+  "expr:dbl:sqrt": {
+   "n": 16,
+   "NARROW": 4,
+   "raw_div_q": 2,
+   "UNSUPPORTED": 6,
+   "ALL": 1,
+   "DET": 5
+  },
+  "expr:dec:abs": {
+   "n": 66,
+   "UNSUPPORTED": 33,
+   "raw_div_q": 4,
+   "DET": 16,
+   "NARROW": 16,
+   "ALL": 1
+  },
+  "expr:dec:arith": {
+   "n": 63,
+   "NARROW": 13,
+   "raw_div_q": 10,
+   "UNSUPPORTED": 27,
+   "DET": 18,
+   "ALL": 5
+  },
+  "expr:dec:case": {
+   "n": 64,
+   "NARROW": 23,
+   "raw_div_q": 7,
+   "DET": 13,
+   "UNSUPPORTED": 24,
+   "ALL": 4
+  },
+  "expr:dec:cast": {
+   "n": 62,
+   "UNSUPPORTED": 24,
+   "raw_div_q": 5,
+   "DET": 19,
+   "ALL": 4,
+   "NARROW": 15
+  },
+  "expr:dec:coalesce": {
+   "n": 62,
+   "NARROW": 20,
+   "raw_div_q": 4,
+   "UNSUPPORTED": 21,
+   "DET": 18,
+   "ALL": 3
+  },
+  "expr:dec:floor": {
+   "n": 63,
+   "NARROW": 21,
+   "raw_div_q": 5,
+   "DET": 17,
+   "UNSUPPORTED": 20,
+   "ALL": 5
+  },
+  "expr:dec:greatest": {
+   "n": 65,
+   "UNSUPPORTED": 25,
+   "raw_div_q": 6,
+   "NARROW": 20,
+   "DET": 16,
+   "ALL": 4
+  },
+  "expr:dec:mod_dec": {
+   "n": 65,
+   "UNSUPPORTED": 27,
+   "raw_div_q": 8,
+   "NARROW": 23,
+   "ALL": 3,
+   "DET": 12
+  },
+  "expr:dec:mul": {
+   "n": 73,
+   "DET": 16,
+   "raw_div_q": 11,
+   "NARROW": 31,
+   "UNSUPPORTED": 21,
+   "ALL": 5
+  },
+  "expr:dec:neg_cast": {
+   "n": 57,
+   "UNSUPPORTED": 28,
+   "raw_div_q": 7,
+   "NARROW": 14,
+   "ALL": 7,
+   "DET": 8
+  },
+  "expr:dec:nullif": {
+   "n": 69,
+   "NARROW": 20,
+   "raw_div_q": 6,
+   "UNSUPPORTED": 28,
+   "DET": 18,
+   "ALL": 3
+  },
+  "expr:dec:round": {
+   "n": 67,
+   "NARROW": 26,
+   "raw_div_q": 9,
+   "DET": 16,
+   "UNSUPPORTED": 22,
+   "ALL": 3
+  },
+  "expr:dec:round0": {
+   "n": 67,
+   "NARROW": 27,
+   "raw_div_q": 13,
+   "ALL": 4,
+   "UNSUPPORTED": 22,
+   "DET": 14
+  },
+  "expr:dec:typed_cast_exact": {
+   "n": 71,
+   "UNSUPPORTED": 43,
+   "raw_div_q": 7,
+   "DET": 9,
+   "NARROW": 14,
+   "ALL": 5
+  },
+  "expr:int:abs": {
+   "n": 41,
+   "UNSUPPORTED": 21,
+   "raw_div_q": 3,
+   "DET": 8,
+   "NARROW": 10,
+   "ALL": 2
+  },
+  "expr:int:arith": {
+   "n": 93,
+   "DET": 16,
+   "raw_div_q": 11,
+   "UNSUPPORTED": 44,
+   "NARROW": 28,
+   "ALL": 5
+  },
+  "expr:int:bitop": {
+   "n": 36,
+   "NARROW": 7,
+   "raw_div_q": 3,
+   "DET": 8,
+   "ALL": 2,
+   "UNSUPPORTED": 19
+  },
+  "expr:int:case": {
+   "n": 42,
+   "NARROW": 13,
+   "raw_div_q": 8,
+   "UNSUPPORTED": 20,
+   "ALL": 4,
+   "DET": 5
+  },
+  "expr:int:cast": {
+   "n": 70,
+   "ALL": 3,
+   "raw_div_q": 10,
+   "UNSUPPORTED": 33,
+   "DET": 17,
+   "NARROW": 17
+  },
+  "expr:int:cast_text": {
+   "n": 37,
+   "UNSUPPORTED": 18,
+   "raw_div_q": 1,
+   "NARROW": 11,
+   "DET": 6,
+   "ALL": 2
+  },
+  "expr:int:coalesce": {
+   "n": 28,
+   "NARROW": 7,
+   "raw_div_q": 4,
+   "DET": 6,
+   "UNSUPPORTED": 12,
+   "ALL": 3
+  },
+  "expr:int:datediff": {
+   "n": 39,
+   "NARROW": 5,
+   "raw_div_q": 4,
+   "DET": 6,
+   "UNSUPPORTED": 28
+  },
+  "expr:int:extract": {
+   "n": 42,
+   "UNSUPPORTED": 33,
+   "raw_div_q": 0,
+   "NARROW": 6,
+   "DET": 2,
+   "ALL": 1
+  },
+  "expr:int:extract_from": {
+   "n": 48,
+   "UNSUPPORTED": 31,
+   "raw_div_q": 7,
+   "NARROW": 12,
+   "ALL": 2,
+   "DET": 3
+  },
+  "expr:int:floor": {
+   "n": 49,
+   "UNSUPPORTED": 26,
+   "raw_div_q": 2,
+   "ALL": 3,
+   "DET": 14,
+   "NARROW": 6
+  },
+  "expr:int:greatest": {
+   "n": 37,
+   "NARROW": 7,
+   "raw_div_q": 1,
+   "UNSUPPORTED": 21,
+   "DET": 8,
+   "ALL": 1
+  },
+  "expr:int:hex_lit": {
+   "n": 1,
+   "NARROW": 1,
+   "raw_div_q": 0
+  },
+  "expr:int:intdiv": {
+   "n": 30,
+   "NARROW": 12,
+   "raw_div_q": 3,
+   "UNSUPPORTED": 11,
+   "DET": 6,
+   "ALL": 1
+  },
+  "expr:int:length": {
+   "n": 47,
+   "DET": 10,
+   "raw_div_q": 4,
+   "UNSUPPORTED": 19,
+   "NARROW": 15,
+   "ALL": 3
+  },
+  "expr:int:mod": {
+   "n": 42,
+   "NARROW": 13,
+   "raw_div_q": 6,
+   "UNSUPPORTED": 20,
+   "DET": 8,
+   "ALL": 1
+  },
+  "expr:int:position": {
+   "n": 37,
+   "UNSUPPORTED": 12,
+   "raw_div_q": 6,
+   "NARROW": 16,
+   "DET": 7,
+   "ALL": 2
+  },
+  "expr:int:round1": {
+   "n": 34,
+   "UNSUPPORTED": 13,
+   "raw_div_q": 4,
+   "NARROW": 8,
+   "DET": 10,
+   "ALL": 3
+  },
+  "expr:int:sign": {
+   "n": 42,
+   "NARROW": 14,
+   "raw_div_q": 4,
+   "UNSUPPORTED": 22,
+   "DET": 5,
+   "ALL": 1
+  },
+  "expr:int:simple_case": {
+   "n": 40,
+   "UNSUPPORTED": 13,
+   "raw_div_q": 7,
+   "NARROW": 14,
+   "DET": 12,
+   "ALL": 1
+  },
+  "expr:int:strpos": {
+   "n": 41,
+   "NARROW": 9,
+   "raw_div_q": 4,
+   "UNSUPPORTED": 22,
+   "DET": 8,
+   "ALL": 2
+  },
+  "expr:int:underscore_lit": {
+   "n": 39,
+   "NARROW": 20,
+   "raw_div_q": 2,
+   "UNSUPPORTED": 11,
+   "DET": 8
+  },
+  "expr:int:year": {
+   "n": 40,
+   "NARROW": 8,
+   "raw_div_q": 5,
+   "UNSUPPORTED": 25,
+   "DET": 5,
+   "ALL": 2
+  },
+  "expr:text:case": {
+   "n": 33,
+   "NARROW": 14,
+   "raw_div_q": 4,
+   "DET": 8,
+   "UNSUPPORTED": 10,
+   "ALL": 1
+  },
+  "expr:text:cast": {
+   "n": 22,
+   "UNSUPPORTED": 11,
+   "raw_div_q": 3,
+   "DET": 5,
+   "NARROW": 6
+  },
+  "expr:text:cast_from_bool": {
+   "n": 3,
+   "DET": 1,
+   "raw_div_q": 1,
+   "UNSUPPORTED": 1,
+   "NARROW": 1
+  },
+  "expr:text:cast_from_date": {
+   "n": 4,
+   "UNSUPPORTED": 2,
+   "raw_div_q": 1,
+   "NARROW": 1,
+   "DET": 1
+  },
+  "expr:text:cast_from_dbl": {
+   "n": 2,
+   "UNSUPPORTED": 2,
+   "raw_div_q": 0
+  },
+  "expr:text:cast_from_dec": {
+   "n": 6,
+   "UNSUPPORTED": 3,
+   "raw_div_q": 0,
+   "NARROW": 3
+  },
+  "expr:text:cast_from_int": {
+   "n": 7,
+   "UNSUPPORTED": 3,
+   "raw_div_q": 1,
+   "DET": 3,
+   "NARROW": 1
+  },
+  "expr:text:coalesce": {
+   "n": 20,
+   "NARROW": 8,
+   "raw_div_q": 5,
+   "UNSUPPORTED": 11,
+   "DET": 1
+  },
+  "expr:text:concat": {
+   "n": 38,
+   "NARROW": 14,
+   "raw_div_q": 7,
+   "UNSUPPORTED": 18,
+   "DET": 4,
+   "ALL": 2
+  },
+  "expr:text:concat_fn": {
+   "n": 24,
+   "DET": 6,
+   "raw_div_q": 6,
+   "NARROW": 7,
+   "ALL": 2,
+   "UNSUPPORTED": 9
+  },
+  "expr:text:concat_ws": {
+   "n": 29,
+   "NARROW": 10,
+   "raw_div_q": 5,
+   "UNSUPPORTED": 12,
+   "DET": 6,
+   "ALL": 1
+  },
+  "expr:text:dcast": {
+   "n": 21,
+   "UNSUPPORTED": 11,
+   "raw_div_q": 0,
+   "DET": 5,
+   "NARROW": 3,
+   "ALL": 2
+  },
+  "expr:text:if": {
+   "n": 34,
+   "NARROW": 9,
+   "raw_div_q": 6,
+   "UNSUPPORTED": 12,
+   "ALL": 5,
+   "DET": 8
+  },
+  "expr:text:ifnull": {
+   "n": 25,
+   "NARROW": 9,
+   "raw_div_q": 5,
+   "ALL": 2,
+   "UNSUPPORTED": 9,
+   "DET": 5
+  },
+  "expr:text:left": {
+   "n": 31,
+   "NARROW": 9,
+   "raw_div_q": 10,
+   "UNSUPPORTED": 12,
+   "DET": 8,
+   "ALL": 2
+  },
+  "expr:text:lower": {
+   "n": 27,
+   "NARROW": 10,
+   "raw_div_q": 8,
+   "UNSUPPORTED": 11,
+   "DET": 5,
+   "ALL": 1
+  },
+  "expr:text:replace": {
+   "n": 19,
+   "UNSUPPORTED": 6,
+   "raw_div_q": 3,
+   "NARROW": 9,
+   "ALL": 2,
+   "DET": 2
+  },
+  "expr:text:right": {
+   "n": 23,
+   "DET": 4,
+   "raw_div_q": 5,
+   "NARROW": 9,
+   "UNSUPPORTED": 9,
+   "ALL": 1
+  },
+  "expr:text:simple_case": {
+   "n": 33,
+   "NARROW": 10,
+   "raw_div_q": 4,
+   "DET": 6,
+   "UNSUPPORTED": 14,
+   "ALL": 3
+  },
+  "expr:text:split_part": {
+   "n": 27,
+   "NARROW": 9,
+   "raw_div_q": 8,
+   "DET": 7,
+   "UNSUPPORTED": 9,
+   "ALL": 2
+  },
+  "expr:text:strftime": {
+   "n": 22,
+   "UNSUPPORTED": 17,
+   "raw_div_q": 2,
+   "ALL": 1,
+   "DET": 3,
+   "NARROW": 1
+  },
+  "expr:text:substr2": {
+   "n": 31,
+   "NARROW": 7,
+   "raw_div_q": 5,
+   "UNSUPPORTED": 10,
+   "DET": 9,
+   "ALL": 5
+  },
+  "expr:text:substr_from": {
+   "n": 28,
+   "UNSUPPORTED": 15,
+   "raw_div_q": 1,
+   "NARROW": 8,
+   "DET": 4,
+   "ALL": 1
+  },
+  "expr:text:substring": {
+   "n": 30,
+   "DET": 8,
+   "raw_div_q": 4,
+   "UNSUPPORTED": 14,
+   "NARROW": 6,
+   "ALL": 2
+  },
+  "expr:text:trim": {
+   "n": 19,
+   "ALL": 5,
+   "raw_div_q": 2,
+   "NARROW": 7,
+   "UNSUPPORTED": 6,
+   "DET": 1
+  },
+  "expr:text:trim_both": {
+   "n": 21,
+   "UNSUPPORTED": 7,
+   "raw_div_q": 3,
+   "DET": 3,
+   "NARROW": 10,
+   "ALL": 1
+  },
+  "expr:text:typed_cast": {
+   "n": 41,
+   "UNSUPPORTED": 41,
+   "raw_div_q": 5
+  },
+  "group:by_alias": {
+   "n": 66,
+   "UNSUPPORTED": 43,
+   "raw_div_q": 5,
+   "NARROW": 16,
+   "DET": 5,
+   "ALL": 2
+  },
+  "group:by_ordinal": {
+   "n": 321,
+   "UNSUPPORTED": 190,
+   "raw_div_q": 25,
+   "NARROW": 101,
+   "DET": 26,
+   "ALL": 4
+  },
+  "group:col": {
+   "n": 1209,
+   "UNSUPPORTED": 714,
+   "raw_div_q": 86,
+   "NARROW": 332,
+   "DET": 129,
+   "ALL": 34
+  },
+  "group:col:bool": {
+   "n": 78,
+   "UNSUPPORTED": 41,
+   "raw_div_q": 2,
+   "ALL": 4,
+   "NARROW": 25,
+   "DET": 8
+  },
+  "group:col:date": {
+   "n": 108,
+   "UNSUPPORTED": 61,
+   "raw_div_q": 4,
+   "NARROW": 35,
+   "DET": 9,
+   "ALL": 3
+  },
+  "group:col:dbl": {
+   "n": 234,
+   "UNSUPPORTED": 234,
+   "raw_div_q": 15
+  },
+  "group:col:dec": {
+   "n": 205,
+   "UNSUPPORTED": 108,
+   "raw_div_q": 14,
+   "DET": 30,
+   "NARROW": 62,
+   "ALL": 5
+  },
+  "group:col:int": {
+   "n": 533,
+   "UNSUPPORTED": 273,
+   "raw_div_q": 55,
+   "NARROW": 179,
+   "DET": 62,
+   "ALL": 19
+  },
+  "group:col:text": {
+   "n": 238,
+   "NARROW": 78,
+   "raw_div_q": 17,
+   "UNSUPPORTED": 125,
+   "DET": 28,
+   "ALL": 7
+  },
+  "group:dbl": {
+   "n": 256,
+   "UNSUPPORTED": 256,
+   "raw_div_q": 15
+  },
+  "group:expr": {
+   "n": 552,
+   "UNSUPPORTED": 302,
+   "raw_div_q": 23,
+   "NARROW": 173,
+   "DET": 39,
+   "ALL": 38
+  },
+  "group:expr:bool->bool": {
+   "n": 31,
+   "NARROW": 14,
+   "raw_div_q": 3,
+   "UNSUPPORTED": 15,
+   "ALL": 1,
+   "DET": 1
+  },
+  "group:expr:date->int": {
+   "n": 46,
+   "UNSUPPORTED": 19,
+   "raw_div_q": 2,
+   "NARROW": 23,
+   "ALL": 3,
+   "DET": 1
+  },
+  "group:expr:dbl->dbl": {
+   "n": 23,
+   "UNSUPPORTED": 23,
+   "raw_div_q": 0
+  },
+  "group:expr:dbl->int": {
+   "n": 38,
+   "NARROW": 11,
+   "raw_div_q": 0,
+   "UNSUPPORTED": 16,
+   "ALL": 7,
+   "DET": 4
+  },
+  "group:expr:dbl->text": {
+   "n": 35,
+   "UNSUPPORTED": 18,
+   "raw_div_q": 0,
+   "NARROW": 13,
+   "DET": 2,
+   "ALL": 2
+  },
+  "group:expr:dec->dec": {
+   "n": 43,
+   "UNSUPPORTED": 30,
+   "raw_div_q": 5,
+   "NARROW": 10,
+   "ALL": 3
+  },
+  "group:expr:dec->int": {
+   "n": 41,
+   "NARROW": 15,
+   "raw_div_q": 0,
+   "DET": 6,
+   "UNSUPPORTED": 15,
+   "ALL": 5
+  },
+  "group:expr:int->int": {
+   "n": 221,
+   "UNSUPPORTED": 122,
+   "raw_div_q": 8,
+   "ALL": 14,
+   "NARROW": 66,
+   "DET": 19
+  },
+  "group:expr:text->text": {
+   "n": 101,
+   "UNSUPPORTED": 61,
+   "raw_div_q": 7,
+   "NARROW": 28,
+   "DET": 6,
+   "ALL": 6
+  },
+  "having:agg_cmp": {
+   "n": 151,
+   "UNSUPPORTED": 96,
+   "raw_div_q": 4,
+   "NARROW": 35,
+   "DET": 17,
+   "ALL": 3
+  },
+  "having:count": {
+   "n": 154,
+   "UNSUPPORTED": 84,
+   "raw_div_q": 5,
+   "NARROW": 43,
+   "DET": 17,
+   "ALL": 10
+  },
+  "having:global": {
+   "n": 38,
+   "DET": 28,
+   "raw_div_q": 0,
+   "UNSUPPORTED": 10
+  },
+  "having:grp_const": {
+   "n": 147,
+   "UNSUPPORTED": 87,
+   "raw_div_q": 0,
+   "DET": 31,
+   "NARROW": 26,
+   "ALL": 3
+  },
+  "having:grp_null": {
+   "n": 133,
+   "DET": 38,
+   "raw_div_q": 0,
+   "NARROW": 25,
+   "UNSUPPORTED": 68,
+   "ALL": 2
+  },
+  "join:comma": {
+   "n": 936,
+   "DET": 187,
+   "raw_div_q": 107,
+   "UNSUPPORTED": 398,
+   "NARROW": 253,
+   "ALL": 98
+  },
+  "join:cross": {
+   "n": 378,
+   "NARROW": 106,
+   "raw_div_q": 75,
+   "UNSUPPORTED": 147,
+   "DET": 72,
+   "ALL": 52,
+   "TRANSPILE_ERROR": 1
+  },
+  "join:eq": {
+   "n": 771,
+   "UNSUPPORTED": 327,
+   "raw_div_q": 58,
+   "NARROW": 199,
+   "DET": 147,
+   "ALL": 98
+  },
+  "join:key": {
+   "n": 1211,
+   "UNSUPPORTED": 534,
+   "raw_div_q": 105,
+   "NARROW": 327,
+   "ALL": 103,
+   "DET": 247
+  },
+  "join:on_eq_keycol": {
+   "n": 852,
+   "DET": 166,
+   "raw_div_q": 86,
+   "UNSUPPORTED": 362,
+   "ALL": 94,
+   "NARROW": 230
+  },
+  "join:on_eq_nonkey": {
+   "n": 1500,
+   "UNSUPPORTED": 658,
+   "raw_div_q": 129,
+   "NARROW": 386,
+   "DET": 290,
+   "ALL": 166
+  },
+  "join:on_fk_key": {
+   "n": 304,
+   "DET": 58,
+   "raw_div_q": 36,
+   "NARROW": 80,
+   "UNSUPPORTED": 146,
+   "ALL": 20
+  },
+  "join:on_theta": {
+   "n": 683,
+   "UNSUPPORTED": 291,
+   "raw_div_q": 92,
+   "NARROW": 183,
+   "ALL": 72,
+   "DET": 137
+  },
+  "join:self": {
+   "n": 1096,
+   "UNSUPPORTED": 486,
+   "raw_div_q": 135,
+   "NARROW": 290,
+   "DET": 202,
+   "ALL": 118
+  },
+  "join:theta": {
+   "n": 399,
+   "NARROW": 99,
+   "raw_div_q": 58,
+   "DET": 75,
+   "UNSUPPORTED": 177,
+   "ALL": 48
+  },
+  "known:distinct_order_nonoutput": {
+   "n": 81,
+   "UNSUPPORTED": 79,
+   "raw_div_q": 0,
+   "DET": 1,
+   "NARROW": 1
+  },
+  "limit": {
+   "n": 3013,
+   "DET": 587,
+   "raw_div_q": 345,
+   "UNSUPPORTED": 1395,
+   "NARROW": 755,
+   "ALL": 275,
+   "TRANSPILE_ERROR": 1
+  },
+  "limit:0": {
+   "n": 422,
+   "NARROW": 104,
+   "raw_div_q": 0,
+   "UNSUPPORTED": 205,
+   "DET": 77,
+   "ALL": 36
+  },
+  "offset": {
+   "n": 1098,
+   "UNSUPPORTED": 490,
+   "raw_div_q": 126,
+   "DET": 213,
+   "ALL": 98,
+   "NARROW": 297
+  },
+  "oof:collate": {
+   "n": 32,
+   "UNSUPPORTED": 32,
+   "raw_div_q": 0
+  },
+  "oof:cte": {
+   "n": 51,
+   "UNSUPPORTED": 51,
+   "raw_div_q": 22
+  },
+  "oof:derived": {
+   "n": 50,
+   "UNSUPPORTED": 50,
+   "raw_div_q": 32
+  },
+  "oof:distinct_on": {
+   "n": 45,
+   "UNSUPPORTED": 45,
+   "raw_div_q": 3
+  },
+  "oof:groupall": {
+   "n": 39,
+   "UNSUPPORTED": 39,
+   "raw_div_q": 0
+  },
+  "oof:left": {
+   "n": 53,
+   "UNSUPPORTED": 53,
+   "raw_div_q": 7
+  },
+  "oof:natural": {
+   "n": 58,
+   "UNSUPPORTED": 58,
+   "raw_div_q": 3
+  },
+  "oof:nested_limit": {
+   "n": 56,
+   "UNSUPPORTED": 56,
+   "raw_div_q": 1
+  },
+  "oof:nested_window": {
+   "n": 51,
+   "UNSUPPORTED": 51,
+   "raw_div_q": 6
+  },
+  "oof:orderagg": {
+   "n": 45,
+   "UNSUPPORTED": 45,
+   "raw_div_q": 8
+  },
+  "oof:orderagg:any_value": {
+   "n": 10,
+   "UNSUPPORTED": 10,
+   "raw_div_q": 3
+  },
+  "oof:orderagg:arg_max": {
+   "n": 5,
+   "UNSUPPORTED": 5,
+   "raw_div_q": 0
+  },
+  "oof:orderagg:first": {
+   "n": 5,
+   "UNSUPPORTED": 5,
+   "raw_div_q": 0
+  },
+  "oof:orderagg:list": {
+   "n": 13,
+   "UNSUPPORTED": 13,
+   "raw_div_q": 2
+  },
+  "oof:orderagg:string_agg": {
+   "n": 12,
+   "UNSUPPORTED": 12,
+   "raw_div_q": 3
+  },
+  "oof:percent_limit": {
+   "n": 47,
+   "UNSUPPORTED": 47,
+   "raw_div_q": 0
+  },
+  "oof:qualify": {
+   "n": 34,
+   "UNSUPPORTED": 34,
+   "raw_div_q": 6
+  },
+  "oof:rollup": {
+   "n": 41,
+   "UNSUPPORTED": 41,
+   "raw_div_q": 4
+  },
+  "oof:sample": {
+   "n": 61,
+   "UNSUPPORTED": 60,
+   "raw_div_q": 1,
+   "TRANSPILE_ERROR": 1
+  },
+  "oof:setop": {
+   "n": 42,
+   "UNSUPPORTED": 42,
+   "raw_div_q": 11
+  },
+  "oof:setop:except": {
+   "n": 9,
+   "UNSUPPORTED": 9,
+   "raw_div_q": 1
+  },
+  "oof:setop:intersect": {
+   "n": 7,
+   "UNSUPPORTED": 7,
+   "raw_div_q": 1
+  },
+  "oof:setop:union": {
+   "n": 11,
+   "UNSUPPORTED": 11,
+   "raw_div_q": 2
+  },
+  "oof:setop:union_all": {
+   "n": 15,
+   "UNSUPPORTED": 15,
+   "raw_div_q": 7
+  },
+  "oof:unknown_func": {
+   "n": 42,
+   "UNSUPPORTED": 42,
+   "raw_div_q": 4
+  },
+  "oof:using": {
+   "n": 37,
+   "UNSUPPORTED": 37,
+   "raw_div_q": 6
+  },
+  "oof:volatile": {
+   "n": 56,
+   "UNSUPPORTED": 56,
+   "raw_div_q": 17
+  },
+  "oof:window": {
+   "n": 49,
+   "UNSUPPORTED": 49,
+   "raw_div_q": 13
+  },
+  "order:agg": {
+   "n": 232,
+   "UNSUPPORTED": 125,
+   "raw_div_q": 9,
+   "NARROW": 67,
+   "DET": 36,
+   "ALL": 4
+  },
+  "order:alias": {
+   "n": 310,
+   "UNSUPPORTED": 159,
+   "raw_div_q": 36,
+   "NARROW": 77,
+   "DET": 74
+  },
+  "order:alias_expr": {
+   "n": 216,
+   "UNSUPPORTED": 194,
+   "raw_div_q": 15,
+   "DET": 13,
+   "NARROW": 9
+  },
+  "order:alias_paren": {
+   "n": 42,
+   "UNSUPPORTED": 42,
+   "raw_div_q": 5
+  },
+  "order:all": {
+   "n": 189,
+   "UNSUPPORTED": 189,
+   "raw_div_q": 0
+  },
+  "order:asc": {
+   "n": 1076,
+   "DET": 200,
+   "raw_div_q": 99,
+   "UNSUPPORTED": 552,
+   "NARROW": 270,
+   "ALL": 54
+  },
+  "order:case_alias": {
+   "n": 329,
+   "UNSUPPORTED": 170,
+   "raw_div_q": 35,
+   "DET": 70,
+   "NARROW": 89
+  },
+  "order:col": {
+   "n": 691,
+   "UNSUPPORTED": 264,
+   "raw_div_q": 124,
+   "NARROW": 218,
+   "ALL": 83,
+   "DET": 126
+  },
+  "order:desc": {
+   "n": 1880,
+   "UNSUPPORTED": 947,
+   "raw_div_q": 232,
+   "ALL": 88,
+   "NARROW": 496,
+   "DET": 349
+  },
+  "order:expr": {
+   "n": 381,
+   "ALL": 46,
+   "raw_div_q": 58,
+   "UNSUPPORTED": 179,
+   "NARROW": 113,
+   "DET": 43
+  },
+  "order:grp": {
+   "n": 212,
+   "UNSUPPORTED": 107,
+   "raw_div_q": 4,
+   "NARROW": 70,
+   "DET": 31,
+   "ALL": 4
+  },
+  "order:nulls_first": {
+   "n": 1020,
+   "UNSUPPORTED": 522,
+   "raw_div_q": 123,
+   "NARROW": 285,
+   "DET": 167,
+   "ALL": 45,
+   "TRANSPILE_ERROR": 1
+  },
+  "order:nulls_last": {
+   "n": 1010,
+   "UNSUPPORTED": 498,
+   "raw_div_q": 121,
+   "NARROW": 257,
+   "ALL": 55,
+   "DET": 200
+  },
+  "order:ordinal": {
+   "n": 724,
+   "NARROW": 186,
+   "raw_div_q": 58,
+   "DET": 200,
+   "UNSUPPORTED": 337,
+   "TRANSPILE_ERROR": 1
+  },
+  "order:out_expr": {
+   "n": 725,
+   "UNSUPPORTED": 338,
+   "raw_div_q": 61,
+   "DET": 187,
+   "NARROW": 189,
+   "ALL": 11
+  },
+  "order:paren": {
+   "n": 709,
+   "UNSUPPORTED": 458,
+   "raw_div_q": 53,
+   "NARROW": 133,
+   "DET": 76,
+   "ALL": 42
+  },
+  "order:sub": {
+   "n": 347,
+   "DET": 45,
+   "raw_div_q": 68,
+   "ALL": 55,
+   "UNSUPPORTED": 133,
+   "NARROW": 114
+  },
+  "order:unary_alias": {
+   "n": 114,
+   "DET": 26,
+   "raw_div_q": 10,
+   "UNSUPPORTED": 73,
+   "NARROW": 15
+  },
+  "order:unary_col": {
+   "n": 181,
+   "UNSUPPORTED": 90,
+   "raw_div_q": 30,
+   "NARROW": 52,
+   "ALL": 15,
+   "DET": 24
+  },
+  "order:unary_ordinal": {
+   "n": 120,
+   "NARROW": 23,
+   "raw_div_q": 11,
+   "UNSUPPORTED": 59,
+   "TRANSPILE_ERROR": 1,
+   "DET": 37
+  },
+  "out:col": {
+   "n": 2666,
+   "NARROW": 868,
+   "raw_div_q": 573,
+   "DET": 303,
+   "UNSUPPORTED": 1121,
+   "ALL": 373,
+   "TRANSPILE_ERROR": 1
+  },
+  "out:col:bool": {
+   "n": 258,
+   "NARROW": 107,
+   "raw_div_q": 65,
+   "ALL": 31,
+   "UNSUPPORTED": 104,
+   "DET": 16
+  },
+  "out:col:date": {
+   "n": 291,
+   "ALL": 41,
+   "raw_div_q": 65,
+   "NARROW": 98,
+   "UNSUPPORTED": 123,
+   "DET": 29
+  },
+  "out:col:dbl": {
+   "n": 642,
+   "ALL": 98,
+   "raw_div_q": 134,
+   "NARROW": 226,
+   "UNSUPPORTED": 258,
+   "DET": 60
+  },
+  "out:col:dec": {
+   "n": 605,
+   "NARROW": 252,
+   "raw_div_q": 126,
+   "UNSUPPORTED": 255,
+   "DET": 53,
+   "ALL": 45
+  },
+  "out:col:int": {
+   "n": 1308,
+   "NARROW": 459,
+   "raw_div_q": 313,
+   "DET": 121,
+   "UNSUPPORTED": 549,
+   "ALL": 179
+  },
+  "out:col:text": {
+   "n": 675,
+   "NARROW": 277,
+   "raw_div_q": 155,
+   "UNSUPPORTED": 281,
+   "DET": 64,
+   "TRANSPILE_ERROR": 1,
+   "ALL": 52
+  },
+  "out:exists": {
+   "n": 202,
+   "UNSUPPORTED": 89,
+   "raw_div_q": 37,
+   "ALL": 33,
+   "NARROW": 63,
+   "DET": 17
+  },
+  "out:expr": {
+   "n": 1647,
+   "NARROW": 526,
+   "raw_div_q": 344,
+   "UNSUPPORTED": 771,
+   "ALL": 144,
+   "DET": 206
+  },
+  "out:fn_of_group": {
+   "n": 123,
+   "UNSUPPORTED": 61,
+   "raw_div_q": 11,
+   "NARROW": 40,
+   "DET": 22
+  },
+  "out:scalar_sub": {
+   "n": 466,
+   "NARROW": 175,
+   "raw_div_q": 84,
+   "UNSUPPORTED": 224,
+   "ALL": 29,
+   "DET": 38
+  },
+  "out:star": {
+   "n": 162,
+   "UNSUPPORTED": 56,
+   "raw_div_q": 32,
+   "DET": 20,
+   "NARROW": 83,
+   "ALL": 3
+  },
+  "out:star_exclude": {
+   "n": 10,
+   "UNSUPPORTED": 4,
+   "raw_div_q": 0,
+   "NARROW": 5,
+   "DET": 1
+  },
+  "out:star_replace": {
+   "n": 18,
+   "DET": 2,
+   "raw_div_q": 0,
+   "UNSUPPORTED": 5,
+   "NARROW": 11
+  },
+  "ref:unqualified": {
+   "n": 1122,
+   "ALL": 93,
+   "raw_div_q": 150,
+   "DET": 198,
+   "NARROW": 331,
+   "UNSUPPORTED": 500
+  },
+  "ref:unqualified_in_subquery": {
+   "n": 257,
+   "DET": 28,
+   "raw_div_q": 34,
+   "UNSUPPORTED": 114,
+   "ALL": 27,
+   "NARROW": 88
+  },
+  "shape:global": {
+   "n": 803,
+   "UNSUPPORTED": 285,
+   "raw_div_q": 3,
+   "DET": 518
+  },
+  "shape:grouped": {
+   "n": 1551,
+   "UNSUPPORTED": 881,
+   "raw_div_q": 94,
+   "NARROW": 449,
+   "DET": 162,
+   "ALL": 59
+  },
+  "shape:plain": {
+   "n": 3503,
+   "NARROW": 1051,
+   "raw_div_q": 681,
+   "DET": 493,
+   "UNSUPPORTED": 1473,
+   "ALL": 485,
+   "TRANSPILE_ERROR": 1
+  },
+  "subq:scalar": {
+   "n": 987,
+   "DET": 122,
+   "raw_div_q": 155,
+   "ALL": 106,
+   "UNSUPPORTED": 449,
+   "NARROW": 310
+  },
+  "subq:scalar:agg_corr": {
+   "n": 522,
+   "ALL": 61,
+   "raw_div_q": 77,
+   "NARROW": 165,
+   "DET": 59,
+   "UNSUPPORTED": 237
+  },
+  "subq:scalar:agg_uncorr": {
+   "n": 214,
+   "DET": 27,
+   "raw_div_q": 41,
+   "UNSUPPORTED": 103,
+   "NARROW": 62,
+   "ALL": 22
+  },
+  "subq:scalar:key_lookup": {
+   "n": 142,
+   "DET": 20,
+   "raw_div_q": 19,
+   "UNSUPPORTED": 57,
+   "NARROW": 49,
+   "ALL": 16
+  },
+  "subq:scalar:multi_row": {
+   "n": 197,
+   "UNSUPPORTED": 93,
+   "raw_div_q": 31,
+   "NARROW": 67,
+   "DET": 23,
+   "ALL": 14
+  },
+  "where:between": {
+   "n": 205,
+   "UNSUPPORTED": 109,
+   "raw_div_q": 20,
+   "NARROW": 43,
+   "DET": 42,
+   "ALL": 11
+  },
+  "where:cmp_const": {
+   "n": 966,
+   "UNSUPPORTED": 499,
+   "raw_div_q": 85,
+   "NARROW": 227,
+   "ALL": 66,
+   "DET": 174
+  },
+  "where:col_eq": {
+   "n": 930,
+   "NARROW": 218,
+   "raw_div_q": 21,
+   "UNSUPPORTED": 444,
+   "ALL": 78,
+   "DET": 190
+  },
+  "where:col_eq:bool": {
+   "n": 7,
+   "UNSUPPORTED": 4,
+   "raw_div_q": 1,
+   "NARROW": 2,
+   "DET": 1
+  },
+  "where:col_eq:cross_alias": {
+   "n": 301,
+   "NARROW": 75,
+   "raw_div_q": 7,
+   "UNSUPPORTED": 131,
+   "DET": 64,
+   "ALL": 31
+  },
+  "where:col_eq:date": {
+   "n": 12,
+   "DET": 2,
+   "raw_div_q": 1,
+   "UNSUPPORTED": 8,
+   "ALL": 1,
+   "NARROW": 1
+  },
+  "where:col_eq:dbl": {
+   "n": 48,
+   "ALL": 5,
+   "raw_div_q": 3,
+   "NARROW": 10,
+   "UNSUPPORTED": 23,
+   "DET": 10
+  },
+  "where:col_eq:dbl-dec": {
+   "n": 78,
+   "NARROW": 13,
+   "raw_div_q": 0,
+   "UNSUPPORTED": 42,
+   "DET": 19,
+   "ALL": 4
+  },
+  "where:col_eq:dbl-int": {
+   "n": 182,
+   "UNSUPPORTED": 97,
+   "raw_div_q": 6,
+   "ALL": 19,
+   "DET": 30,
+   "NARROW": 36
+  },
+  "where:col_eq:dec": {
+   "n": 32,
+   "NARROW": 11,
+   "raw_div_q": 1,
+   "ALL": 4,
+   "UNSUPPORTED": 12,
+   "DET": 5
+  },
+  "where:col_eq:dec-int": {
+   "n": 179,
+   "NARROW": 47,
+   "raw_div_q": 1,
+   "UNSUPPORTED": 79,
+   "DET": 40,
+   "ALL": 13
+  },
+  "where:col_eq:int": {
+   "n": 190,
+   "UNSUPPORTED": 85,
+   "raw_div_q": 6,
+   "DET": 42,
+   "ALL": 15,
+   "NARROW": 48
+  },
+  "where:col_eq:int-text": {
+   "n": 203,
+   "NARROW": 52,
+   "raw_div_q": 0,
+   "UNSUPPORTED": 96,
+   "DET": 38,
+   "ALL": 17
+  },
+  "where:col_eq:same_alias": {
+   "n": 646,
+   "UNSUPPORTED": 320,
+   "raw_div_q": 14,
+   "NARROW": 149,
+   "ALL": 48,
+   "DET": 129
+  },
+  "where:col_eq:text": {
+   "n": 65,
+   "ALL": 6,
+   "raw_div_q": 2,
+   "DET": 15,
+   "UNSUPPORTED": 29,
+   "NARROW": 15
+  },
+  "where:const_enotation": {
+   "n": 1448,
+   "NARROW": 379,
+   "raw_div_q": 63,
+   "DET": 305,
+   "UNSUPPORTED": 654,
+   "ALL": 110
+  },
+  "where:const_enotation:dec": {
+   "n": 657,
+   "ALL": 56,
+   "raw_div_q": 22,
+   "DET": 121,
+   "UNSUPPORTED": 316,
+   "NARROW": 164
+  },
+  "where:const_enotation:int": {
+   "n": 853,
+   "NARROW": 228,
+   "raw_div_q": 41,
+   "DET": 196,
+   "UNSUPPORTED": 370,
+   "ALL": 59
+  },
+  "where:const_eq": {
+   "n": 1319,
+   "UNSUPPORTED": 666,
+   "raw_div_q": 94,
+   "ALL": 93,
+   "NARROW": 282,
+   "DET": 278
+  },
+  "where:const_eq:bool": {
+   "n": 83,
+   "NARROW": 21,
+   "raw_div_q": 8,
+   "DET": 24,
+   "ALL": 5,
+   "UNSUPPORTED": 33
+  },
+  "where:const_eq:date": {
+   "n": 108,
+   "UNSUPPORTED": 108,
+   "raw_div_q": 9
+  },
+  "where:const_eq:dbl": {
+   "n": 234,
+   "UNSUPPORTED": 105,
+   "raw_div_q": 21,
+   "ALL": 17,
+   "NARROW": 67,
+   "DET": 45
+  },
+  "where:const_eq:dec": {
+   "n": 203,
+   "UNSUPPORTED": 97,
+   "raw_div_q": 17,
+   "ALL": 17,
+   "NARROW": 46,
+   "DET": 43
+  },
+  "where:const_eq:int": {
+   "n": 536,
+   "NARROW": 113,
+   "raw_div_q": 25,
+   "UNSUPPORTED": 252,
+   "DET": 130,
+   "ALL": 41
+  },
+  "where:const_eq:text": {
+   "n": 280,
+   "UNSUPPORTED": 136,
+   "raw_div_q": 18,
+   "NARROW": 53,
+   "DET": 68,
+   "ALL": 23
+  },
+  "where:exists": {
+   "n": 395,
+   "UNSUPPORTED": 179,
+   "raw_div_q": 33,
+   "DET": 73,
+   "NARROW": 115,
+   "ALL": 28
+  },
+  "where:expr_eq": {
+   "n": 366,
+   "UNSUPPORTED": 190,
+   "raw_div_q": 21,
+   "NARROW": 88,
+   "DET": 61,
+   "ALL": 27
+  },
+  "where:in_list": {
+   "n": 323,
+   "UNSUPPORTED": 172,
+   "raw_div_q": 31,
+   "NARROW": 69,
+   "DET": 58,
+   "ALL": 24
+  },
+  "where:in_sub": {
+   "n": 447,
+   "UNSUPPORTED": 212,
+   "raw_div_q": 36,
+   "NARROW": 117,
+   "DET": 77,
+   "ALL": 41
+  },
+  "where:isnull": {
+   "n": 530,
+   "NARROW": 130,
+   "raw_div_q": 45,
+   "DET": 116,
+   "UNSUPPORTED": 235,
+   "ALL": 49
+  },
+  "where:or": {
+   "n": 392,
+   "ALL": 30,
+   "raw_div_q": 27,
+   "UNSUPPORTED": 203,
+   "DET": 74,
+   "NARROW": 85
+  },
+  "where:scalar_cmp": {
+   "n": 260,
+   "DET": 43,
+   "raw_div_q": 15,
+   "NARROW": 53,
+   "UNSUPPORTED": 137,
+   "ALL": 27
+  }
+ },
+ "fail_closed_leak_count": 129,
+ "fail_closed_leak_tags": {
+  "agg:avg:dbl": 38,
+  "agg:sum:dbl": 92
+ },
+ "fail_closed_leaks": [
+  {
+   "sql": "SELECT AVG((a0.flag * INTEGER '2'::DOUBLE)), (1 / SUM(ABS(a0.d38a))) AS \"Mixed Case\" FROM t0 a0 WHERE a0.x NOT IN (SELECT s0.x FROM t0 s0 WHERE s0.dbl53 = CAST('-0.0' AS DOUBLE)) GROUP BY a0.d38a HAVING a0.d38a = 1234567890123456789012345679",
+   "verdict": "DET",
+   "tags": [
+    "agg:avg:dbl"
+   ],
+   "raw_div": 0,
+   "cert_div": 0
+  },
+  {
+   "sql": "SELECT SUM(((a2.id + 1_000) * 100000000000000000000000000000000000000001)), a2.d38a FROM t0 a0, t1 a1, t2 a2 WHERE a0.s = a1.d AND a0.flag = a2.d38a GROUP BY 2",
+   "verdict": "NARROW",
+   "tags": [
+    "agg:sum:dbl"
+   ],
+   "raw_div": 0,
+   "cert_div": 0
+  },
+  {
+   "sql": "SELECT SUM(0.00), CAST(a0.d38a AS INTEGER) FROM t2 a0 WHERE a0.flag >= (SELECT AVG((s0.d38a * 0.1000000000000000000000000000000000000001)) FROM t1 s0 WHERE s0.id = a0.id) AND a0.y = a0.name GROUP BY CAST(a0.d38a AS INTEGER) ORDER BY 2 ASC NULLS LAST",
+   "verdict": "DET",
+   "tags": [
+    "agg:avg:dbl"
+   ],
+   "raw_div": 0,
+   "cert_div": 0
+  },
+  {
+   "sql": "SELECT SUM((a1.d38b * BIGINT '3'::REAL)), (1 / COUNT(*)) AS c3, YEAR(a0.id) FROM t3 a0 CROSS JOIN t1 a1 WHERE d38b BETWEEN 1234567890123456789012345678.0000000000 AND 5.0000000000 AND a1.big = 9.007199254740993e15 GROUP BY YEAR(a0.id) LIMIT 2",
+   "verdict": "NARROW",
+   "tags": [
+    "agg:sum:dbl"
+   ],
+   "raw_div": 0,
+   "cert_div": 0
+  },
+  {
+   "sql": "SELECT CAST(SUM((a0.id - a0.id)) AS VARCHAR) AS c1, a0.id AS amt, SUM((a0.d38a * BIGINT '3'::REAL)) FROM t4 a0 GROUP BY a0.id",
+   "verdict": "NARROW",
+   "tags": [
+    "agg:sum:dbl"
+   ],
+   "raw_div": 2,
+   "cert_div": 0
+  },
+  {
+   "sql": "SELECT SUM((d38a * DECIMAL '1.25'::FLOAT)) FROM t2 a0 WHERE a0.v = a0.id AND d38a = 5",
+   "verdict": "DET",
+   "tags": [
+    "agg:sum:dbl"
+   ],
+   "raw_div": 0,
+   "cert_div": 0
+  },
+  {
+   "sql": "SELECT d38a, a0.big, a0.amt FROM t3 a0 WHERE a0.amt = CAST('-0.0' AS DOUBLE) ORDER BY (SELECT SUM((s0.d38a * BIGINT '3'::REAL)) FROM t1 s0) NULLS FIRST LIMIT 0 OFFSET 1",
+   "verdict": "ALL",
+   "tags": [
+    "agg:sum:dbl"
+   ],
+   "raw_div": 0,
+   "cert_div": 0
+  },
+  {
+   "sql": "SELECT SUM((a1.big * INTEGER '2'::DOUBLE)), COUNT(a1.n), COALESCE(MIN(FALSE), TRUE) FROM t1 a0 JOIN t2 a1 ON a0.id = a1.t1_id WHERE a1.code IS NOT NULL",
+   "verdict": "DET",
+   "tags": [
+    "agg:sum:dbl"
+   ],
+   "raw_div": 0,
+   "cert_div": 0
+  },
+  {
+   "sql": "SELECT (NOT a1.x), (1 / SUM(((a0.id % 3) * BIGINT '3'::REAL))) FROM t0 a0, t0 a1 WHERE a0.d > a1.d AND a1.id NOT IN (SELECT DISTINCT s0.big FROM t1 s0) GROUP BY (NOT a1.x) ORDER BY (NOT a1.x) ASC NULLS LAST LIMIT 0 OFFSET 2",
+   "verdict": "NARROW",
+   "tags": [
+    "agg:sum:dbl"
+   ],
+   "raw_div": 0,
+   "cert_div": 0
+  },
+  {
+   "sql": "SELECT a0.id, CASE SUBSTR(a0.flag, 2) WHEN 'a' THEN 1 WHEN 'b' THEN 2 ELSE STRPOS(a0.flag, 'a') END FROM t2 a0 WHERE ub IN (18446744073709551614, 18446744073709551615) ORDER BY (SELECT SUM(((0.50 % 0.75) * BIGINT '3'::REAL)) FROM t3 s0 WHERE s0.ub = a0.s)",
+   "verdict": "NARROW",
+   "tags": [
+    "agg:sum:dbl"
+   ],
+   "raw_div": 3,
+   "cert_div": 0
+  },
+  {
+   "sql": "SELECT (SELECT SUM((NULLIF(d38b, 0.00) * INTEGER '2'::DOUBLE)) FILTER (WHERE big = 1e0) FROM t2 s0), a0.n FROM t3 a0 WHERE a0.flag IS NOT NULL ORDER BY (SELECT SUM((NULLIF(d38b, 0.00) * INTEGER '2'::DOUBLE)) FILTER (WHERE big = 1e0) FROM t2 s0) DESC NULLS LAST",
+   "verdict": "NARROW",
+   "tags": [
+    "agg:sum:dbl"
+   ],
+   "raw_div": 3,
+   "cert_div": 0
+  },
+  {
+   "sql": "SELECT d38b AS \"Mixed Case\", SUM((a0.big * 0.1000000000000000000000000000000000000001)) FROM t1 a0 WHERE a0.flag = 'ab' GROUP BY d38b ORDER BY +2 NULLS FIRST, SUM((a0.big * 0.1000000000000000000000000000000000000001)) ASC LIMIT 1",
+   "verdict": "NARROW",
+   "tags": [
+    "agg:sum:dbl"
+   ],
+   "raw_div": 0,
+   "cert_div": 0
+  },
+  {
+   "sql": "SELECT a0.n, AVG(LEAST(a0.d38b, a0.d38b)) FILTER (WHERE a0.flag = CAST('2.0' AS DOUBLE)), SUM((a0.d38b * INTEGER '2'::DOUBLE)) FROM t3 a0 WHERE a0.d38b = 5e0 GROUP BY a0.n LIMIT 1 OFFSET 5",
+   "verdict": "NARROW",
+   "tags": [
+    "agg:sum:dbl"
+   ],
+   "raw_div": 0,
+   "cert_div": 0
+  },
+  {
+   "sql": "SELECT (1 / COUNT(DISTINCT a0.flag)) AS s, MIN(d) AS \"Mixed Case\", AVG((a0.d38b * BIGINT '3'::REAL)) FROM t1 a0 WHERE (SELECT MAX(FALSE) FROM t3 s0 WHERE s0.v = a0.d) IS NOT NULL AND a0.big = 9007199254740992 LIMIT 1",
+   "verdict": "DET",
+   "tags": [
+    "agg:avg:dbl"
+   ],
+   "raw_div": 0,
+   "cert_div": 0
+  },
+  {
+   "sql": "SELECT AVG(a0.ub), a0.flag AS c2 FROM t0 a0 WHERE a0.ub = 18446744073709551615e0 GROUP BY a0.flag ORDER BY AVG((a0.amt * 0.1000000000000000000000000000000000000001)) ASC",
+   "verdict": "NARROW",
+   "tags": [
+    "agg:avg:dbl"
+   ],
+   "raw_div": 0,
+   "cert_div": 0
+  },
+  {
+   "sql": "SELECT a0.n AS c5, SIGN(CAST('-0.0' AS DOUBLE)) AS \"C2\", (SELECT AVG((s1.flag * BIGINT '3'::REAL)) FROM t1 s1 WHERE s1.ub = a0.id), (SELECT AVG(LEAST(-1.50, 2.00)) FILTER (WHERE n <= 10) FROM t2 s2 WHERE s2.n = a0.id) FROM t2 a0 WHERE a0.n NOT IN (SELECT s0.s FROM t0 s0) AND a0.id >= 9 AND a0.w = a0.n LIMIT 3 OFFSET 5",
+   "verdict": "NARROW",
+   "tags": [
+    "agg:avg:dbl"
+   ],
+   "raw_div": 0,
+   "cert_div": 0
+  },
+  {
+   "sql": "SELECT COUNT(DISTINCT CASE WHEN a1.name THEN a1.big ELSE a0.n END) AS c1, SUM((a0.d38b * DECIMAL '1.25'::FLOAT)), AVG(a0.d38b) FROM t0 a0 JOIN t3 a1 ON a0.d = a1.x WHERE a1.big = 1e0",
+   "verdict": "DET",
+   "tags": [
+    "agg:sum:dbl"
+   ],
+   "raw_div": 0,
+   "cert_div": 0
+  },
+  {
+   "sql": "SELECT SUM(((a0.d38b * a0.t0_id) * INTEGER '2'::DOUBLE)), MAX((a0.t0_id & 1)) AS c3, a0.s AS \"C2\" FROM t4 a0 WHERE NOT EXISTS (SELECT 1 FROM t0 s0 WHERE s0.id = a0.t0_id AND flag = -2) GROUP BY a0.s ORDER BY a0.s ASC, \"C3\" ASC NULLS FIRST",
+   "verdict": "NARROW",
+   "tags": [
+    "agg:sum:dbl"
+   ],
+   "raw_div": 0,
+   "cert_div": 0
+  },
+  {
+   "sql": "SELECT SUM((a0.d38b * DECIMAL '1.25'::FLOAT)) FROM t1 a0 WHERE a0.d38b = 1.2345678901234568e37 LIMIT 10",
+   "verdict": "DET",
+   "tags": [
+    "agg:sum:dbl"
+   ],
+   "raw_div": 0,
+   "cert_div": 0
+  },
+  {
+   "sql": "SELECT AVG(-1.50) AS c1, MAX(IF(FALSE, a0.name, 'b ')), SUM((a0.id * DECIMAL '0.1'::DOUBLE)) FROM t3 a0 WHERE a0.t0_id = 7 ORDER BY \"C1\" DESC",
+   "verdict": "DET",
+   "tags": [
+    "agg:sum:dbl"
+   ],
+   "raw_div": 0,
+   "cert_div": 0
+  },
+  {
+   "sql": "SELECT (1 / SUM(STRPOS('aB', 'a'))), (SUM(((a0.ub // 3) * INTEGER '2'::DOUBLE)) + 1) FROM t2 a0 WHERE a0.id = n AND a0.ub = 18446744073709551615e0 AND a0.ub = 18446744073709551615e0 HAVING COUNT(*) > 0 LIMIT 10",
+   "verdict": "DET",
+   "tags": [
+    "agg:sum:dbl"
+   ],
+   "raw_div": 0,
+   "cert_div": 0
+  },
+  {
+   "sql": "SELECT (1 / AVG((a1.id * 100000000000000000000000000000000000000001))) AS \"Mixed Case\" FROM t3 a0 JOIN t4 a1 ON a0.x = a1.name WHERE a0.s <> CAST('-0.0' AS DOUBLE) LIMIT 3",
+   "verdict": "DET",
+   "tags": [
+    "agg:avg:dbl"
+   ],
+   "raw_div": 0,
+   "cert_div": 0
+  },
+  {
+   "sql": "SELECT MAX(a0.d38b) FILTER (WHERE a0.u >= 'bb') AS \"N\", (SUM((a0.id * 100000000000000000000000000000000000000001)) + 1) AS n FROM t3 a0 JOIN t3 a1 ON a0.u = a1.n WHERE a1.d38b = 1.2345678901234568e27 AND a1.d38b = 5e0 AND a1.u = a0.id",
+   "verdict": "DET",
+   "tags": [
+    "agg:sum:dbl"
+   ],
+   "raw_div": 0,
+   "cert_div": 0
+  },
+  {
+   "sql": "SELECT COUNT(*), SUM((CASE a0.id WHEN 'a' THEN 1 WHEN 'b' THEN 2 ELSE a0.s END * INTEGER '2'::DOUBLE)) AS d38b, MIN(FALSE) FROM t1 a0 WHERE a0.d38b = 1.2345678901234568e37 AND a0.d38a = 5e0",
+   "verdict": "DET",
+   "tags": [
+    "agg:sum:dbl"
+   ],
+   "raw_div": 0,
+   "cert_div": 0
+  },
+  {
+   "sql": "SELECT SUM(CAST(FLOOR(0.00) AS INTEGER)) AS \"DBL53\", SUM((a1.x * BIGINT '3'::REAL)), (COUNT(DISTINCT a1.code) + 1) AS \"S\" FROM t3 a0 JOIN t0 a1 ON a0.big = a1.v LIMIT 1 OFFSET 5",
+   "verdict": "DET",
+   "tags": [
+    "agg:sum:dbl"
+   ],
+   "raw_div": 0,
+   "cert_div": 0
+  },
+  {
+   "sql": "SELECT SUM(((-1.50 * a0.big) * 100000000000000000000000000000000000000001)), CAST(a0.v AS VARCHAR) AS \"D\" FROM t3 a0 GROUP BY 2 LIMIT 1 OFFSET 5",
+   "verdict": "NARROW",
+   "tags": [
+    "agg:sum:dbl"
+   ],
+   "raw_div": 0,
+   "cert_div": 0
+  },
+  {
+   "sql": "SELECT MAX(CONCAT_WS('-', 'a', 'ba')), (a0.id % 2) AS c4, SUM((a0.big * BIGINT '3'::REAL)) FROM t2 a0 GROUP BY (a0.id % 2), a0.big HAVING (a0.id % 2) = 3 ORDER BY 3 DESC LIMIT 3",
+   "verdict": "NARROW",
+   "tags": [
+    "agg:sum:dbl"
+   ],
+   "raw_div": 0,
+   "cert_div": 0
+  },
+  {
+   "sql": "SELECT SUM(a0.s), SUM((a0.n * DECIMAL '0.1'::DOUBLE)), SUM((a0.y - 2.00)) AS c1 FROM t1 a0 WHERE a0.flag = 'A' ORDER BY 1 DESC NULLS LAST",
+   "verdict": "DET",
+   "tags": [
+    "agg:sum:dbl"
+   ],
+   "raw_div": 0,
+   "cert_div": 0
+  },
+  {
+   "sql": "SELECT a1.id AS c5, AVG((a0.d38b * 100000000000000000000000000000000000000001)) FROM t1 a0 JOIN t1 a1 ON a0.id = a1.id, t0 a2 WHERE a1.id = a2.w GROUP BY a1.id ORDER BY a1.id LIMIT 2 OFFSET 5",
+   "verdict": "NARROW",
+   "tags": [
+    "agg:avg:dbl"
+   ],
+   "raw_div": 0,
+   "cert_div": 0
+  },
+  {
+   "sql": "SELECT a0.n, (SELECT AVG(ROUND(CAST('-0.0' AS DOUBLE), 1)) FROM t3 s1 WHERE s1.id = a0.id), a0.d38b, a0.d FROM t3 a0 WHERE a0.n NOT IN (SELECT s0.s FROM t4 s0)",
+   "verdict": "NARROW",
+   "tags": [
+    "agg:avg:dbl"
+   ],
+   "raw_div": 0,
+   "cert_div": 0
+  },
+  {
+   "sql": "SELECT SUM(((a0.d + a0.d38a) * DECIMAL '0.1'::DOUBLE)) FROM t1 a0, t1 a1 WHERE a1.d38a = 1.2345678901234568e27",
+   "verdict": "DET",
+   "tags": [
+    "agg:sum:dbl"
+   ],
+   "raw_div": 0,
+   "cert_div": 0
+  },
+  {
+   "sql": "SELECT SUM(2.00), ROUND(SUM((CASE WHEN FALSE THEN a0.d38b ELSE a0.d38b END * DECIMAL '0.1'::DOUBLE)) FILTER (WHERE a0.big = 18446744073709551615e0), 1) AS n, ROUND(COUNT(DISTINCT (a1.u GLOB 'a*')), 1) AS u FROM t1 a0 JOIN t1 a1 ON a0.name = a1.n WHERE a1.u >= 'B'",
+   "verdict": "DET",
+   "tags": [
+    "agg:sum:dbl"
+   ],
+   "raw_div": 0,
+   "cert_div": 0
+  },
+  {
+   "sql": "SELECT COALESCE(MAX((a0.id GLOB 'a*')), FALSE), a0.w, ub FROM t0 a0 JOIN t1 a1 ON a0.amt = a1.d WHERE a0.flag = (SELECT SUM((EXTRACT(YEAR FROM s0.n) * 100000000000000000000000000000000000000001)) FROM t1 s0 WHERE s0.code = a0.w) GROUP BY ub, a0.w ORDER BY MIN(TRUE) LIMIT 10 OFFSET 2",
+   "verdict": "NARROW",
+   "tags": [
+    "agg:sum:dbl"
+   ],
+   "raw_div": 0,
+   "cert_div": 0
+  },
+  {
+   "sql": "SELECT AVG((a1.d38a * 100000000000000000000000000000000000000001)) FROM t0 a0 JOIN t3 a1 ON a0.w = a1.u",
+   "verdict": "DET",
+   "tags": [
+    "agg:avg:dbl"
+   ],
+   "raw_div": 0,
+   "cert_div": 0
+  },
+  {
+   "sql": "SELECT (COUNT(*) + 1), MIN(a0.t0_id), AVG((ROUND(a0.v, 1) * DECIMAL '0.1'::DOUBLE)) FROM t3 a0 WHERE a0.d = a0.code AND a0.y = -1 AND a0.t0_id NOT IN (SELECT s0.big FROM t2 s0)",
+   "verdict": "DET",
+   "tags": [
+    "agg:avg:dbl"
+   ],
+   "raw_div": 0,
+   "cert_div": 0
+  },
+  {
+   "sql": "SELECT (COUNT(TRIM(a0.y)) + 1) AS c2, a0.y, SUM((STRPOS(a0.code, 'a') * BIGINT '3'::REAL)) FROM t0 a0 WHERE a0.d38b = 1.2345678901234568e27 GROUP BY a0.y HAVING COUNT(*) > 0 LIMIT 5 OFFSET 2",
+   "verdict": "NARROW",
+   "tags": [
+    "agg:sum:dbl"
+   ],
+   "raw_div": 0,
+   "cert_div": 0
+  },
+  {
+   "sql": "SELECT SUM((d38a * DECIMAL '0.1'::DOUBLE)) AS \"AMT\" FROM t2 a0 JOIN t0 a1 ON a0.n = a1.y WHERE a1.y = a0.v LIMIT 5",
+   "verdict": "DET",
+   "tags": [
+    "agg:sum:dbl"
+   ],
+   "raw_div": 0,
+   "cert_div": 0
+  },
+  {
+   "sql": "SELECT MAX(TRUE), CAST(a1.d AS VARCHAR) AS w, AVG((a0.id * BIGINT '3'::REAL)) FROM t1 a0, t1 a1 WHERE a0.w = a1.d GROUP BY CAST(a1.d AS VARCHAR) HAVING COUNT(*) > 2 ORDER BY AVG(NULLIF(a0.y, 10.00)) DESC, 3 DESC LIMIT 10 OFFSET 1",
+   "verdict": "NARROW",
+   "tags": [
+    "agg:avg:dbl"
+   ],
+   "raw_div": 0,
+   "cert_div": 0
+  },
+  {
+   "sql": "SELECT (SELECT SUM((LENGTH('A') * BIGINT '3'::REAL)) FILTER (WHERE s0.big >= 9007199254740994) FROM t2 s0 WHERE s0.t1_id = a0.t0_id) FROM t2 a0 WHERE a0.flag > CAST('0.0' AS DOUBLE) LIMIT 0",
+   "verdict": "NARROW",
+   "tags": [
+    "agg:sum:dbl"
+   ],
+   "raw_div": 0,
+   "cert_div": 0
+  },
+  {
+   "sql": "SELECT (SELECT SUM((CASE WHEN TRUE THEN s0.id ELSE id END * 100000000000000000000000000000000000000001)) FROM t0 s0 WHERE s0.v = a1.dbl53) AS t1_id, a0.id FROM t0 a0, t2 a1 ORDER BY a0.v NULLS LAST LIMIT 10",
+   "verdict": "NARROW",
+   "tags": [
+    "agg:sum:dbl"
+   ],
+   "raw_div": 3,
+   "cert_div": 0
+  },
+  {
+   "sql": "SELECT MAX(CASE WHEN y THEN a1.x ELSE a1.u END) AS d, a1.x, CASE WHEN SUM((a1.s * BIGINT '3'::REAL)) > 1 THEN 'hi' ELSE 'lo' END AS x FROM t4 a0, t1 a1 WHERE a0.t2_id = a1.t0_id GROUP BY 2 ORDER BY 1 DESC",
+   "verdict": "NARROW",
+   "tags": [
+    "agg:sum:dbl"
+   ],
+   "raw_div": 0,
+   "cert_div": 0
+  },
+  {
+   "sql": "SELECT YEAR(a0.amt), ROUND(AVG(a1.d38a), 1), a1.d FROM t4 a0 JOIN t0 a1 ON a0.t1_id = a1.flag JOIN t0 a2 ON a1.y = a2.y WHERE a0.w = 'b' GROUP BY a1.d, YEAR(a0.amt) HAVING SUM((a1.d38a * DECIMAL '0.1'::DOUBLE)) <= CAST('1.5' AS DOUBLE) ORDER BY a1.d, (3) DESC LIMIT 1 OFFSET 1",
+   "verdict": "NARROW",
+   "tags": [
+    "agg:sum:dbl"
+   ],
+   "raw_div": 0,
+   "cert_div": 0
+  },
+  {
+   "sql": "SELECT AVG((a0.big * DECIMAL '1.25'::FLOAT)), a0.w FROM t0 a0 WHERE a0.big = 9007199254740992e0 GROUP BY a0.w",
+   "verdict": "NARROW",
+   "tags": [
+    "agg:avg:dbl"
+   ],
+   "raw_div": 1,
+   "cert_div": 0
+  },
+  {
+   "sql": "SELECT MAX(NULLIF(a0.d38a, 1.00)), AVG(CAST(TRUE AS INTEGER)) AS \"c 1\", AVG((a0.d38a * BIGINT '3'::REAL)) FROM t2 a0",
+   "verdict": "DET",
+   "tags": [
+    "agg:avg:dbl"
+   ],
+   "raw_div": 0,
+   "cert_div": 0
+  },
+  {
+   "sql": "SELECT a0.v, AVG((a0.big * 1e0)) FROM t2 a0 WHERE a0.big = 9007199254740992e0 GROUP BY 1 LIMIT 10 OFFSET 2",
+   "verdict": "NARROW",
+   "tags": [
+    "agg:avg:dbl"
+   ],
+   "raw_div": 0,
+   "cert_div": 0
+  },
+  {
+   "sql": "SELECT a0.id, LOWER(a0.id) AS \"c 1\", COUNT(*) FROM t1 a0 JOIN t2 a1 ON a0.ub = a1.ub WHERE a0.id = a1.v GROUP BY a0.id HAVING COUNT(*) > 2 AND a0.id IS NULL ORDER BY AVG((ROUND(a1.d38a, 1) * 100000000000000000000000000000000000000001)) NULLS LAST",
+   "verdict": "DET",
+   "tags": [
+    "agg:avg:dbl"
+   ],
+   "raw_div": 0,
+   "cert_div": 0
+  },
+  {
+   "sql": "SELECT MAX(-a1.w::DECIMAL(10,2)) AS \"BIG\", (a0.big % 2), CASE WHEN AVG((ROUND(a1.d38a) * 0.1000000000000000000000000000000000000001)) > 1 THEN 'hi' ELSE 'lo' END FROM t1 a0 JOIN t0 a1 ON a0.ub = a1.w WHERE a1.big = a1.w GROUP BY 2 ORDER BY 2 DESC NULLS LAST",
+   "verdict": "DET",
+   "tags": [
+    "agg:avg:dbl"
+   ],
+   "raw_div": 0,
+   "cert_div": 0
+  },
+  {
+   "sql": "SELECT SUM((a0.d38b * DECIMAL '0.1'::DOUBLE)), COALESCE(COUNT(*), 3) AS \"N\", COUNT(SUBSTRING(a0.v, 1, 2)) FROM t3 a0 WHERE a0.big >= 2 AND a0.amt = a0.dbl53 AND a0.big > 2",
+   "verdict": "DET",
+   "tags": [
+    "agg:sum:dbl"
+   ],
+   "raw_div": 0,
+   "cert_div": 0
+  },
+  {
+   "sql": "SELECT SUM((a1.big * DECIMAL '1.25'::FLOAT)) AS \"W\", a0.id AS dbl53 FROM t1 a0, t3 a1 WHERE a0.id > a1.big AND a1.big = 9.007199254740993e15 GROUP BY a0.id, a1.d38b ORDER BY a0.id LIMIT 3",
+   "verdict": "NARROW",
+   "tags": [
+    "agg:sum:dbl"
+   ],
+   "raw_div": 0,
+   "cert_div": 0
+  },
+  {
+   "sql": "SELECT SUM((a0.v * 100000000000000000000000000000000000000001)) FILTER (WHERE a0.v <= 1), MIN(a1.dbl53) AS \"Y\", YEAR(a0.d) FROM t0 a0 JOIN t2 a1 ON a0.v = a1.x JOIN t1 a2 ON a1.id = a2.x WHERE a1.dbl53 = (SELECT SUM((ROUND(2.00) * DECIMAL '1.25'::FLOAT)) FROM t0 s0 WHERE s0.y = a2.id) AND EXISTS (SELECT 1 FROM t2 s1 WHERE s1.id = a0.ub) AND a0.ub = 18446744073709551615e0 GROUP BY YEAR(a0.d) ORDER BY \"Y\" DESC, \"Y\" NULLS FIRST",
+   "verdict": "NARROW",
+   "tags": [
+    "agg:sum:dbl"
+   ],
+   "raw_div": 0,
+   "cert_div": 0
+  }
+ ],
+ "in_fragment_syntax": {
+  "queries": 4518,
+  "verdicts": {
+   "NARROW": 1436,
+   "DET": 1114,
+   "UNSUPPORTED": 1430,
+   "ALL": 538
+  },
+  "unsupported_reasons": {
+   "text-to-temporal-cast": 730,
+   "order-by-alias-in-expression": 320,
+   "distinct-order-by-non-output": 145,
+   "unresolved:OptimizeError": 136,
+   "inexact-min-max-in-expression": 51,
+   "unresolved:AssertionError": 18,
+   "ambiguous-order-by-name": 16,
+   "aggregate-type-unknown": 13,
+   "float-aggregate": 1
+  }
+ },
+ "crashes": []
+}

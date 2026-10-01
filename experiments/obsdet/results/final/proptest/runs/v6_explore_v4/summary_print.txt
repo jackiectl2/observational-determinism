@@ -1,0 +1,42 @@
+[proptest] certifier {'certify': '$PROJECT_ROOT/code/obsdet/certify.py', 'certify_md5': '7aa9c889bb189b0740e83e258b83a7c4'}
+{
+ "scale": {
+  "schemas": 1000,
+  "queries_drawn": 27877,
+  "rejected_semantic": {
+   "BinderException": 2667,
+   "ParserException": 210
+  },
+  "queries": 25000,
+  "instances_per_query": 10,
+  "executions_per_instance": 8,
+  "query_instance_pairs": 250000,
+  "raw_statement_executions": 2000000,
+  "wall_seconds_sum": 9528
+ },
+ "verdicts": {
+  "DET": 9102,
+  "NARROW": 8076,
+  "UNSUPPORTED": 5576,
+  "ALL": 2246
+ },
+ "violations": {
+  "cert_div": 853,
+  "cert_fail": 248,
+  "g2_bag": 3200,
+  "g2_limit": 313,
+  "g2_header": 50152
+ },
+ "violation_queries": {
+  "cert_div": 201,
+  "cert_fail": 31,
+  "g2_bag": 65,
+  "g2_limit": 63,
+  "g2_header": 655
+ }
+}
+  ALL             q=  2246 raw_div_q= 1035 pairs raw_div 5109/21518 cert_div 80/21476 cert_fail 42
+  DET             q=  9102 raw_div_q=  121 pairs raw_div 550/87837 cert_div 550/87837 cert_fail 0
+  NARROW          q=  8076 raw_div_q= 3277 pairs raw_div 15929/77467 cert_div 223/77261 cert_fail 206
+  UNSUPPORTED     q=  5576 raw_div_q= 1511 pairs raw_div 7632/53908 cert_div 0/0 cert_fail 0
+fail-closed leaks: 1100 | in-fragment syntax: {'queries': 18733, 'verdicts': {'DET': 8499, 'NARROW': 7642, 'ALL': 2183, 'UNSUPPORTED': 409}, 'unsupported_reasons': {'inexact-min-max-in-expression': 246, 'unresolved:AssertionError': 77, 'float-aggregate': 62, 'aggregate-type-unknown': 22, 'inexact-group-key': 1, 'unresolved:OptimizeError': 1}}

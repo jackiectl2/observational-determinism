@@ -1,0 +1,56 @@
+[pg_setup] PostgreSQL 16.2 on x86_64-pc-linux-gnu,  shared_buffers 8GB
+[pg_setup] loaded california_schools_sf1: 3 tables, 29941 rows, 19 MB, 2s
+[pg_setup] loaded california_schools_perm42: 3 tables, 29941 rows, 19 MB, 3s
+[pg_setup] loaded card_games_sf1: 7 tables, 803451 rows, 227 MB, 48s
+[pg_setup] loaded card_games_perm42: 7 tables, 803451 rows, 227 MB, 69s
+[pg_setup] loaded codebase_community_sf1: 8 tables, 740646 rows, 407 MB, 115s
+[pg_setup] loaded codebase_community_perm42: 8 tables, 740646 rows, 407 MB, 123s
+[pg_setup] loaded debit_card_specializing_sf1: 6 tables, 423051 rows, 41 MB, 5s
+[pg_setup] loaded debit_card_specializing_perm42: 6 tables, 423051 rows, 41 MB, 5s
+[pg_setup] loaded formula_1_sf1: 14 tables, 514297 rows, 69 MB, 11s
+[pg_setup] loaded formula_1_perm42: 14 tables, 514297 rows, 69 MB, 13s
+[pg_setup] loaded thrombosis_prediction_sf1: 3 tables, 15952 rows, 10 MB, 1s
+[pg_setup] loaded thrombosis_prediction_perm42: 3 tables, 15952 rows, 10 MB, 2s
+[pg_setup] loaded student_club_sf1: 8 tables, 42511 rows, 12 MB, 3s
+[pg_setup] loaded student_club_perm42: 8 tables, 42511 rows, 12 MB, 2s
+[pg_setup] loaded superhero_sf1: 10 tables, 10614 rows, 8508 kB, 3s
+[pg_setup] loaded superhero_perm42: 10 tables, 10614 rows, 8508 kB, 3s
+[pg_setup] loaded toxicology_sf1: 4 tables, 49813 rows, 12 MB, 2s
+[pg_setup] loaded toxicology_perm42: 4 tables, 49813 rows, 12 MB, 5s
+[pg_setup] loaded european_football_2_sf1: 3 tables, 26001 rows, 81 MB, 42s
+[pg_setup] loaded european_football_2_perm42: 3 tables, 26001 rows, 81 MB, 43s
+[pg_setup] loaded financial_sf1: 6 tables, 16889 rows, 9116 kB, 2s
+[pg_setup] loaded financial_perm42: 6 tables, 16889 rows, 9116 kB, 3s
+california_schools done
+card_games done
+codebase_community done
+debit_card_specializing done
+european_football_2 done
+financial done
+formula_1 done
+student_club done
+superhero done
+thrombosis_prediction done
+PostgreSQL does not support IGNORE NULLS.
+toxicology done
+
+PostgreSQL certificates and policies; parallel plans chosen in the parallel-enabled setting:
+  raw       parallel planned 989, serial 131
+  smartlex  parallel planned 989, serial 131
+  certified parallel planned 968, serial 152
+
+policy x verdict: diverged / complete (censored: transpile error or not observed in every configuration)
+  raw       DET         0/187  censored 2
+  raw       NARROW      157/378  censored 8
+  raw       ALL         83/206  censored 0
+  raw       UNSUPPORTED 77/347  censored 10
+  smartlex  DET         0/187  censored 2
+  smartlex  NARROW      0/378  censored 8
+  smartlex  ALL         0/206  censored 0
+  smartlex  UNSUPPORTED 42/347  censored 10
+  certified DET         0/187  censored 2
+  certified NARROW      0/378  censored 8
+  certified ALL         0/206  censored 0
+  certified UNSUPPORTED 42/347  censored 10
+waiting for server to shut down.............. done
+server stopped

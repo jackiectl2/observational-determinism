@@ -1,0 +1,49 @@
+certify.py: OK
+1369ffcae12b93aec06735259c146814  certify.py
+md5-withheld  tool.py
+md5-withheld  replay_pg.py
+md5-withheld  pg_setup.py
+0b919cdcae7d3cd2d3b085b26c342589  pg_cost.py
+952f142a85a219f7ba79fe829bc92766  pg_check.py
+[pg_setup] PostgreSQL 16.2 on x86_64-pc-linux-gnu,  shared_buffers 8GB
+california_schools_sf1: 3 tables, 29941 rows, keys 3/3: ok
+california_schools_perm42: 3 tables, 29941 rows, keys 3/3: ok
+card_games_sf1: 7 tables, 803451 rows, keys 6/6: ok
+card_games_perm42: 7 tables, 803451 rows, keys 6/6: ok
+codebase_community_sf1: 8 tables, 740646 rows, keys 8/8: ok
+codebase_community_perm42: 8 tables, 740646 rows, keys 8/8: ok
+debit_card_specializing_sf1: 6 tables, 423051 rows, keys 5/5: ok
+debit_card_specializing_perm42: 6 tables, 423051 rows, keys 5/5: ok
+formula_1_sf1: 14 tables, 514297 rows, keys 13/13: ok
+formula_1_perm42: 14 tables, 514297 rows, keys 13/13: ok
+thrombosis_prediction_sf1: 3 tables, 15952 rows, keys 2/2: ok
+thrombosis_prediction_perm42: 3 tables, 15952 rows, keys 2/2: ok
+pg_check: all ok
+2273c08953a50c48e791ec423ddc8cfe  $PROJECT_ROOT/runs/obsdet/v7/cert_probes_v7.jsonl
+california_schools done
+card_games done
+codebase_community done
+debit_card_specializing done
+formula_1 done
+thrombosis_prediction done
+
+PostgreSQL certificates and policies; parallel plans chosen in the parallel-enabled setting:
+  raw       parallel planned 934, serial 64
+  smartlex  parallel planned 946, serial 52
+  certified parallel planned 928, serial 70
+
+policy x verdict: diverged / complete (censored: transpile error or not observed in every configuration)
+  raw       DET         0/155  censored 11
+  raw       NARROW      228/509  censored 3
+  raw       ALL         57/172  censored 3
+  raw       UNSUPPORTED 51/157  censored 5
+  smartlex  DET         0/155  censored 11
+  smartlex  NARROW      0/509  censored 3
+  smartlex  ALL         0/172  censored 3
+  smartlex  UNSUPPORTED 32/157  censored 5
+  certified DET         0/155  censored 11
+  certified NARROW      0/509  censored 3
+  certified ALL         0/172  censored 3
+  certified UNSUPPORTED 32/157  censored 5
+waiting for server to shut down.... done
+server stopped

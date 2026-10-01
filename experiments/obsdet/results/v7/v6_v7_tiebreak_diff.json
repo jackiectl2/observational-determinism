@@ -1,0 +1,162 @@
+{
+ "development": {
+  "common": 1015,
+  "verdict_changes": [
+   {
+    "db_id": "formula_1",
+    "sql": "SELECT DISTINCT r.raceId, r.name AS race_name, l.lap, l.time AS fastest_lap_time\nFROM lapTimes l\nJOIN races r ON l.raceId = r.raceId\nJOIN circuits c ON r.circui",
+    "v6": "NARROW",
+    "v7": "UNSUPPORTED"
+   }
+  ],
+  "quoting_only": 56,
+  "other_tie_break_changes": []
+ },
+ "held-out": {
+  "common": 1393,
+  "verdict_changes": [
+   {
+    "db_id": "formula_1",
+    "sql": "SELECT DISTINCT r.raceId, ra.year, ra.name, ra.date, ra.circuitId, d.forename, d.surname, \n       MAX(r.fastestLapTime) AS fastest_lap_time\nFROM results AS r\nJO",
+    "v6": "NARROW",
+    "v7": "UNSUPPORTED"
+   }
+  ],
+  "quoting_only": 55,
+  "other_tie_break_changes": [
+   {
+    "db_id": "codebase_community",
+    "sql": "SELECT \n    CAST(SUBSTRING(Tags FROM '<[^>]+>' ) AS VARCHAR) AS tag_name,\n    COUNT(*) AS tag_count\nFROM posts\nWHERE Tags LIKE '<%careers%>'\nGROUP BY tag_name;",
+    "v6": [
+     "CAST(SUBSTRING(posts.tags, '<[^>]+>') AS TEXT)"
+    ],
+    "v7": [
+     "1"
+    ]
+   },
+   {
+    "db_id": "codebase_community",
+    "sql": "SELECT \n    SUBSTRING(Tags FROM '<([^>]+)>') AS tag_name,\n    COUNT(*) AS tag_count\nFROM posts\nWHERE Tags LIKE '%<careers>%'\nGROUP BY tag_name;",
+    "v6": [
+     "SUBSTRING(posts.tags, '<([^>]+)>')"
+    ],
+    "v7": [
+     "1"
+    ]
+   },
+   {
+    "db_id": "codebase_community",
+    "sql": "SELECT \n    TRIM(SUBSTRING(Tags FROM 2 FOR POSITION('>' IN Tags) - 2)) AS TagName,\n    COUNT(*) AS tag_count\nFROM posts\nWHERE Tags IS NOT NULL\nGROUP BY TRIM(SUB",
+    "v6": [
+     "TRIM(SUBSTRING(posts.tags, 2, STRPOS(posts.tags, '>') - 2))"
+    ],
+    "v7": [
+     "1"
+    ]
+   },
+   {
+    "db_id": "codebase_community",
+    "sql": "SELECT \n    TRIM(SUBSTRING(Tags FROM 2 FOR POSITION('>' IN Tags) - 2)) AS TagName,\n    COUNT(*) AS tag_count\nFROM posts\nWHERE Tags LIKE '%<careers>%' AND Tags I",
+    "v6": [
+     "TRIM(SUBSTRING(posts.tags, 2, STRPOS(posts.tags, '>') - 2))"
+    ],
+    "v7": [
+     "1"
+    ]
+   },
+   {
+    "db_id": "financial",
+    "sql": "SELECT \n    dist.A2 AS region,\n    CASE \n        WHEN l.amount < 50000 THEN 'Small'\n        ELSE 'Medium'\n    END AS loan_size_category,\n    l.status,\n    COUNT",
+    "v6": [
+     "dist.a2",
+     "l.status",
+     "CASE WHEN l.amount < 50000 THEN 'Small' ELSE 'Medium' END"
+    ],
+    "v7": [
+     "\"dist\".\"a2\"",
+     "\"l\".\"status\"",
+     "2"
+    ]
+   },
+   {
+    "db_id": "financial",
+    "sql": "SELECT \n    district.A2 AS region,\n    CASE \n        WHEN loan.amount < 50000 THEN 'Small'\n        WHEN loan.amount BETWEEN 50000 AND 99999 THEN 'Medium'\n      ",
+    "v6": [
+     "district.a2",
+     "CASE WHEN loan.amount < 50000 THEN 'Small' WHEN loan.amount BETWEEN 50000 AND 99999 THEN 'Medium' ELSE 'Large' END"
+    ],
+    "v7": [
+     "\"district\".\"a2\"",
+     "2"
+    ]
+   },
+   {
+    "db_id": "financial",
+    "sql": "SELECT \n    district.A2 AS region,\n    CASE \n        WHEN loan.amount < 50000 THEN 'Small'\n        WHEN loan.amount BETWEEN 50000 AND 99999 THEN 'Medium'\n      ",
+    "v6": [
+     "district.a2",
+     "CASE WHEN loan.amount < 50000 THEN 'Small' WHEN loan.amount BETWEEN 50000 AND 99999 THEN 'Medium' ELSE 'Large' END"
+    ],
+    "v7": [
+     "\"district\".\"a2\"",
+     "2"
+    ]
+   },
+   {
+    "db_id": "toxicology",
+    "sql": "SELECT \n    m.molecule_id,\n    a1.element AS element1,\n    a2.element AS element2,\n    COUNT(*) AS combination_count\nFROM \n    connected c\nJOIN \n    atom a1 ON ",
+    "v6": [
+     "a1.element",
+     "a2.element"
+    ],
+    "v7": [
+     "\"m\".\"molecule_id\"",
+     "\"a1\".\"element\"",
+     "\"a2\".\"element\""
+    ]
+   }
+  ]
+ },
+ "unseen tasks I": {
+  "common": 1495,
+  "verdict_changes": [
+   {
+    "db_id": "california_schools",
+    "sql": "SELECT \n    AVG(CAST(\"Free Meal Count (K-12)\" AS DECIMAL(18, 6)) / CAST(\"Enrollment (K-12)\" AS DECIMAL(18, 6))) AS AvgFreeMealRate\nFROM \n    frpm\nWHERE \n    \"Co",
+    "v6": "DET",
+    "v7": "UNSUPPORTED"
+   },
+   {
+    "db_id": "financial",
+    "sql": "SELECT \n    AVG(CAST(DATE_DIFF('day', c.birth_date, a.date) AS DECIMAL(18, 6)) / 365.25) AS average_age_at_opening\nFROM client c\nJOIN disp d ON c.client_id = d.",
+    "v6": "DET",
+    "v7": "UNSUPPORTED"
+   },
+   {
+    "db_id": "financial",
+    "sql": "SELECT DISTINCT d.A3 AS district_name\nFROM loan l\nJOIN district d ON l.account_id = d.district_id\nWHERE l.status IN ('C', 'D')\nGROUP BY d.district_id, d.A3\nORDE",
+    "v6": "ALL",
+    "v7": "UNSUPPORTED"
+   },
+   {
+    "db_id": "formula_1",
+    "sql": "SELECT DISTINCT races.name\nFROM races\nJOIN results ON races.raceId = results.raceId\nWHERE results.driverId = 1\nORDER BY results.rank\nLIMIT 1;",
+    "v6": "ALL",
+    "v7": "UNSUPPORTED"
+   }
+  ],
+  "quoting_only": 92,
+  "other_tie_break_changes": [
+   {
+    "db_id": "california_schools",
+    "sql": "SELECT \n    CASE \n        WHEN \"Free Meal Count (K-12)\" > 600 THEN 'Very High'\n        WHEN \"Free Meal Count (K-12)\" > 500 THEN 'High'\n        ELSE 'Moderate'\n ",
+    "v6": [
+     "CASE WHEN frpm.\"free meal count (k-12)\" > 600 THEN 'Very High' WHEN frpm.\"free meal count (k-12)\" > 500 THEN 'High' ELSE 'Moderate' END"
+    ],
+    "v7": [
+     "1"
+    ]
+   }
+  ]
+ }
+}

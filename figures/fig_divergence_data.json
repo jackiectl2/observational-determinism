@@ -1,0 +1,122 @@
+{
+ "supported_by_class": {
+  "DuckDB": {
+   "unordered SELECT": [
+    2289,
+    703,
+    0
+   ],
+   "ORDER BY + LIMIT": [
+    315,
+    49,
+    0
+   ],
+   "LIMIT, no ORDER BY": [
+    237,
+    180,
+    0
+   ],
+   "ORDER BY, no LIMIT": [
+    92,
+    31,
+    0
+   ],
+   "DISTINCT": [
+    487,
+    366,
+    0
+   ],
+   "GROUP BY": [
+    154,
+    79,
+    0
+   ]
+  },
+  "PostgreSQL": {
+   "unordered SELECT": [
+    2243,
+    684,
+    0
+   ],
+   "ORDER BY + LIMIT": [
+    309,
+    35,
+    0
+   ],
+   "LIMIT, no ORDER BY": [
+    225,
+    162,
+    0
+   ],
+   "ORDER BY, no LIMIT": [
+    91,
+    22,
+    0
+   ],
+   "DISTINCT": [
+    483,
+    158,
+    0
+   ],
+   "GROUP BY": [
+    152,
+    38,
+    0
+   ]
+  }
+ },
+ "unsupported_by_reason": {
+  "DuckDB": {
+   "derived-table": [
+    438,
+    62
+   ],
+   "no-base-table": [
+    252,
+    0
+   ],
+   "float-aggregate": [
+    150,
+    71
+   ],
+   "cte": [
+    111,
+    20
+   ],
+   "outer-or-special-join": [
+    43,
+    8
+   ],
+   "other": [
+    160,
+    19
+   ]
+  },
+  "PostgreSQL": {
+   "derived-table": [
+    413,
+    42
+   ],
+   "no-base-table": [
+    249,
+    0
+   ],
+   "float-aggregate": [
+    140,
+    59
+   ],
+   "cte": [
+    102,
+    10
+   ],
+   "outer-or-special-join": [
+    42,
+    1
+   ],
+   "other": [
+    154,
+    18
+   ]
+  }
+ }
+}

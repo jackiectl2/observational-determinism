@@ -1,0 +1,23 @@
+md5-withheld  prep_tasks3.py
+md5-withheld  run_agent3td.sbatch
+md5-withheld  run_e1pg_td.sbatch
+md5-withheld  run_prep3.sbatch
+md5-withheld  run_td_heldout.sbatch
+f424ae214635906eb7801910cdf794ed  td_analyze.py
+md5-withheld  td_diag.py
+9c61c749027f022e2c577568d1a5eb51  td_filter.py
+# frozen files used (verified on the cluster before use, see JOBS_TASKDISJOINT.md):
+# md5-withheld agent_det3.py
+# 2210aba77af9d013da60be7143422a66 analyze3.py
+# 7aa9c889bb189b0740e83e258b83a7c4 certify.py
+# 7fedeb45118a8eb3f936e61fd42e47a0 distribution.py
+# 31e6109e8111f273ee7cb9c88badcc4a heldout_dedup.py
+# 5bf19bb17ed3900ded8502d8b010559b heldout_probes.py
+# 0b919cdcae7d3cd2d3b085b26c342589 pg_cost.py
+# md5-withheld pg_setup.py
+# md5-withheld replay_pg.py
+# md5-withheld replay_sound.py
+# 8af7323c6e344b27f672683d8ef63f8f strict_burden.py
+# md5-withheld tool.py
+# md5-withheld run_cpu.sbatch
+# a9a0dbd3f929a31975272a6ca5fdb305  figures/gen_table_soundness.py (row() imported by td_analyze.py)

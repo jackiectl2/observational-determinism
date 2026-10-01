@@ -1,0 +1,339 @@
+[
+ {
+  "type": "DECIMAL(38,20)",
+  "values": [
+   "1.00000000000000000000",
+   "1.00000000000000000001"
+  ],
+  "literal": "1.0000000000000000000000000000000000000",
+  "rows": [
+   "1.00000000000000000000"
+  ],
+  "filter": [],
+  "duckdb_verdicts": {
+   "$PROJECT_ROOT/runs/obsdet/v7/certify_v7_1369ffca.py": [
+    "DET",
+    "order determines every output column"
+   ],
+   "$PROJECT_ROOT/runs/obsdet/v7/certify_candidate3.py": [
+    "DET",
+    "order determines every output column"
+   ],
+   "$PROJECT_ROOT/runs/obsdet/v7/certify_candidate5.py": [
+    "DET",
+    "order determines every output column"
+   ]
+  },
+  "postgres_verdicts": {
+   "$PROJECT_ROOT/runs/obsdet/v7/certify_v7_1369ffca.py": "DET",
+   "$PROJECT_ROOT/runs/obsdet/v7/certify_candidate3.py": "DET",
+   "$PROJECT_ROOT/runs/obsdet/v7/certify_candidate5.py": "DET"
+  },
+  "lossy": false,
+  "unsound": {
+   "$PROJECT_ROOT/runs/obsdet/v7/certify_v7_1369ffca.py": false,
+   "$PROJECT_ROOT/runs/obsdet/v7/certify_candidate3.py": false,
+   "$PROJECT_ROOT/runs/obsdet/v7/certify_candidate5.py": false
+  }
+ },
+ {
+  "type": "DECIMAL(38,20)",
+  "values": [
+   "1.00000000000000000000",
+   "1.00000000000000000001"
+  ],
+  "literal": "1.00000000000000000000",
+  "rows": [
+   "1.00000000000000000000"
+  ],
+  "filter": [
+   "\u2502  x=1.00000000000000000000 \u2502"
+  ],
+  "duckdb_verdicts": {
+   "$PROJECT_ROOT/runs/obsdet/v7/certify_v7_1369ffca.py": [
+    "DET",
+    "order determines every output column"
+   ],
+   "$PROJECT_ROOT/runs/obsdet/v7/certify_candidate3.py": [
+    "DET",
+    "order determines every output column"
+   ],
+   "$PROJECT_ROOT/runs/obsdet/v7/certify_candidate5.py": [
+    "DET",
+    "order determines every output column"
+   ]
+  },
+  "postgres_verdicts": {
+   "$PROJECT_ROOT/runs/obsdet/v7/certify_v7_1369ffca.py": "DET",
+   "$PROJECT_ROOT/runs/obsdet/v7/certify_candidate3.py": "DET",
+   "$PROJECT_ROOT/runs/obsdet/v7/certify_candidate5.py": "DET"
+  },
+  "lossy": false,
+  "unsound": {
+   "$PROJECT_ROOT/runs/obsdet/v7/certify_v7_1369ffca.py": false,
+   "$PROJECT_ROOT/runs/obsdet/v7/certify_candidate3.py": false,
+   "$PROJECT_ROOT/runs/obsdet/v7/certify_candidate5.py": false
+  }
+ },
+ {
+  "type": "DECIMAL(38,20)",
+  "values": [
+   "10000000000.00000000000000000000",
+   "10000000000.00000000000000000001"
+  ],
+  "literal": "10000000000",
+  "rows": [
+   "10000000000.00000000000000000000"
+  ],
+  "filter": [
+   "\u2502       x=10000000000       \u2502"
+  ],
+  "duckdb_verdicts": {
+   "$PROJECT_ROOT/runs/obsdet/v7/certify_v7_1369ffca.py": [
+    "DET",
+    "order determines every output column"
+   ],
+   "$PROJECT_ROOT/runs/obsdet/v7/certify_candidate3.py": [
+    "DET",
+    "order determines every output column"
+   ],
+   "$PROJECT_ROOT/runs/obsdet/v7/certify_candidate5.py": [
+    "DET",
+    "order determines every output column"
+   ]
+  },
+  "postgres_verdicts": {
+   "$PROJECT_ROOT/runs/obsdet/v7/certify_v7_1369ffca.py": "DET",
+   "$PROJECT_ROOT/runs/obsdet/v7/certify_candidate3.py": "DET",
+   "$PROJECT_ROOT/runs/obsdet/v7/certify_candidate5.py": "DET"
+  },
+  "lossy": false,
+  "unsound": {
+   "$PROJECT_ROOT/runs/obsdet/v7/certify_v7_1369ffca.py": false,
+   "$PROJECT_ROOT/runs/obsdet/v7/certify_candidate3.py": false,
+   "$PROJECT_ROOT/runs/obsdet/v7/certify_candidate5.py": false
+  }
+ },
+ {
+  "type": "BIGINT",
+  "values": [
+   "9007199254740992",
+   "9007199254740993"
+  ],
+  "literal": "9007199254740992.0000000000000000000000",
+  "rows": [
+   "9007199254740992"
+  ],
+  "filter": [],
+  "duckdb_verdicts": {
+   "$PROJECT_ROOT/runs/obsdet/v7/certify_v7_1369ffca.py": [
+    "DET",
+    "order determines every output column"
+   ],
+   "$PROJECT_ROOT/runs/obsdet/v7/certify_candidate3.py": [
+    "DET",
+    "order determines every output column"
+   ],
+   "$PROJECT_ROOT/runs/obsdet/v7/certify_candidate5.py": [
+    "DET",
+    "order determines every output column"
+   ]
+  },
+  "postgres_verdicts": {
+   "$PROJECT_ROOT/runs/obsdet/v7/certify_v7_1369ffca.py": "DET",
+   "$PROJECT_ROOT/runs/obsdet/v7/certify_candidate3.py": "DET",
+   "$PROJECT_ROOT/runs/obsdet/v7/certify_candidate5.py": "DET"
+  },
+  "lossy": false,
+  "unsound": {
+   "$PROJECT_ROOT/runs/obsdet/v7/certify_v7_1369ffca.py": false,
+   "$PROJECT_ROOT/runs/obsdet/v7/certify_candidate3.py": false,
+   "$PROJECT_ROOT/runs/obsdet/v7/certify_candidate5.py": false
+  }
+ },
+ {
+  "type": "BIGINT",
+  "values": [
+   "9007199254740992",
+   "9007199254740993"
+  ],
+  "literal": "9007199254740992.5",
+  "rows": [],
+  "filter": [],
+  "duckdb_verdicts": {
+   "$PROJECT_ROOT/runs/obsdet/v7/certify_v7_1369ffca.py": [
+    "DET",
+    "order determines every output column"
+   ],
+   "$PROJECT_ROOT/runs/obsdet/v7/certify_candidate3.py": [
+    "DET",
+    "order determines every output column"
+   ],
+   "$PROJECT_ROOT/runs/obsdet/v7/certify_candidate5.py": [
+    "DET",
+    "order determines every output column"
+   ]
+  },
+  "postgres_verdicts": {
+   "$PROJECT_ROOT/runs/obsdet/v7/certify_v7_1369ffca.py": "DET",
+   "$PROJECT_ROOT/runs/obsdet/v7/certify_candidate3.py": "DET",
+   "$PROJECT_ROOT/runs/obsdet/v7/certify_candidate5.py": "DET"
+  },
+  "lossy": false,
+  "unsound": {
+   "$PROJECT_ROOT/runs/obsdet/v7/certify_v7_1369ffca.py": false,
+   "$PROJECT_ROOT/runs/obsdet/v7/certify_candidate3.py": false,
+   "$PROJECT_ROOT/runs/obsdet/v7/certify_candidate5.py": false
+  }
+ },
+ {
+  "type": "BIGINT",
+  "values": [
+   "9007199254740992",
+   "9007199254740993"
+  ],
+  "literal": "9007199254740992",
+  "rows": [
+   "9007199254740992"
+  ],
+  "filter": [
+   "\u2502     x=9007199254740992    \u2502"
+  ],
+  "duckdb_verdicts": {
+   "$PROJECT_ROOT/runs/obsdet/v7/certify_v7_1369ffca.py": [
+    "DET",
+    "order determines every output column"
+   ],
+   "$PROJECT_ROOT/runs/obsdet/v7/certify_candidate3.py": [
+    "DET",
+    "order determines every output column"
+   ],
+   "$PROJECT_ROOT/runs/obsdet/v7/certify_candidate5.py": [
+    "DET",
+    "order determines every output column"
+   ]
+  },
+  "postgres_verdicts": {
+   "$PROJECT_ROOT/runs/obsdet/v7/certify_v7_1369ffca.py": "DET",
+   "$PROJECT_ROOT/runs/obsdet/v7/certify_candidate3.py": "DET",
+   "$PROJECT_ROOT/runs/obsdet/v7/certify_candidate5.py": "DET"
+  },
+  "lossy": false,
+  "unsound": {
+   "$PROJECT_ROOT/runs/obsdet/v7/certify_v7_1369ffca.py": false,
+   "$PROJECT_ROOT/runs/obsdet/v7/certify_candidate3.py": false,
+   "$PROJECT_ROOT/runs/obsdet/v7/certify_candidate5.py": false
+  }
+ },
+ {
+  "type": "HUGEINT",
+  "values": [
+   "9007199254740992",
+   "9007199254740993"
+  ],
+  "literal": "9007199254740992.0",
+  "rows": [
+   "9007199254740992"
+  ],
+  "filter": [],
+  "duckdb_verdicts": {
+   "$PROJECT_ROOT/runs/obsdet/v7/certify_v7_1369ffca.py": [
+    "DET",
+    "order determines every output column"
+   ],
+   "$PROJECT_ROOT/runs/obsdet/v7/certify_candidate3.py": [
+    "DET",
+    "order determines every output column"
+   ],
+   "$PROJECT_ROOT/runs/obsdet/v7/certify_candidate5.py": [
+    "DET",
+    "order determines every output column"
+   ]
+  },
+  "postgres_verdicts": {
+   "$PROJECT_ROOT/runs/obsdet/v7/certify_v7_1369ffca.py": "DET",
+   "$PROJECT_ROOT/runs/obsdet/v7/certify_candidate3.py": "DET",
+   "$PROJECT_ROOT/runs/obsdet/v7/certify_candidate5.py": "DET"
+  },
+  "lossy": false,
+  "unsound": {
+   "$PROJECT_ROOT/runs/obsdet/v7/certify_v7_1369ffca.py": false,
+   "$PROJECT_ROOT/runs/obsdet/v7/certify_candidate3.py": false,
+   "$PROJECT_ROOT/runs/obsdet/v7/certify_candidate5.py": false
+  }
+ },
+ {
+  "type": "DECIMAL(18,3)",
+  "values": [
+   "1.000",
+   "1.001"
+  ],
+  "literal": "1.0000000000000000000000000000000000000",
+  "rows": [
+   "1.000"
+  ],
+  "filter": [],
+  "duckdb_verdicts": {
+   "$PROJECT_ROOT/runs/obsdet/v7/certify_v7_1369ffca.py": [
+    "DET",
+    "order determines every output column"
+   ],
+   "$PROJECT_ROOT/runs/obsdet/v7/certify_candidate3.py": [
+    "DET",
+    "order determines every output column"
+   ],
+   "$PROJECT_ROOT/runs/obsdet/v7/certify_candidate5.py": [
+    "DET",
+    "order determines every output column"
+   ]
+  },
+  "postgres_verdicts": {
+   "$PROJECT_ROOT/runs/obsdet/v7/certify_v7_1369ffca.py": "DET",
+   "$PROJECT_ROOT/runs/obsdet/v7/certify_candidate3.py": "DET",
+   "$PROJECT_ROOT/runs/obsdet/v7/certify_candidate5.py": "DET"
+  },
+  "lossy": false,
+  "unsound": {
+   "$PROJECT_ROOT/runs/obsdet/v7/certify_v7_1369ffca.py": false,
+   "$PROJECT_ROOT/runs/obsdet/v7/certify_candidate3.py": false,
+   "$PROJECT_ROOT/runs/obsdet/v7/certify_candidate5.py": false
+  }
+ },
+ {
+  "type": "INTEGER",
+  "values": [
+   "1",
+   "2"
+  ],
+  "literal": "1.00000000000000000000000000000000000",
+  "rows": [
+   "1"
+  ],
+  "filter": [],
+  "duckdb_verdicts": {
+   "$PROJECT_ROOT/runs/obsdet/v7/certify_v7_1369ffca.py": [
+    "DET",
+    "order determines every output column"
+   ],
+   "$PROJECT_ROOT/runs/obsdet/v7/certify_candidate3.py": [
+    "DET",
+    "order determines every output column"
+   ],
+   "$PROJECT_ROOT/runs/obsdet/v7/certify_candidate5.py": [
+    "DET",
+    "order determines every output column"
+   ]
+  },
+  "postgres_verdicts": {
+   "$PROJECT_ROOT/runs/obsdet/v7/certify_v7_1369ffca.py": "DET",
+   "$PROJECT_ROOT/runs/obsdet/v7/certify_candidate3.py": "DET",
+   "$PROJECT_ROOT/runs/obsdet/v7/certify_candidate5.py": "DET"
+  },
+  "lossy": false,
+  "unsound": {
+   "$PROJECT_ROOT/runs/obsdet/v7/certify_v7_1369ffca.py": false,
+   "$PROJECT_ROOT/runs/obsdet/v7/certify_candidate3.py": false,
+   "$PROJECT_ROOT/runs/obsdet/v7/certify_candidate5.py": false
+  }
+ }
+]

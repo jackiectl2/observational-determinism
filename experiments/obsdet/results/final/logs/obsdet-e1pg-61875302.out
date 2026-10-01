@@ -1,0 +1,40 @@
+[pg_setup] PostgreSQL 16.2 on x86_64-pc-linux-gnu,  shared_buffers 8GB
+[pg_setup] loaded california_schools_sf1: 3 tables, 29941 rows, 19 MB, 6s
+[pg_setup] loaded california_schools_perm42: 3 tables, 29941 rows, 19 MB, 2s
+[pg_setup] loaded card_games_sf1: 7 tables, 803451 rows, 227 MB, 8s
+[pg_setup] loaded card_games_perm42: 7 tables, 803451 rows, 227 MB, 9s
+[pg_setup] loaded codebase_community_sf1: 8 tables, 740646 rows, 407 MB, 18s
+[pg_setup] loaded codebase_community_perm42: 8 tables, 740646 rows, 407 MB, 19s
+[pg_setup] loaded debit_card_specializing_sf1: 6 tables, 423051 rows, 41 MB, 1s
+[pg_setup] loaded debit_card_specializing_perm42: 6 tables, 423051 rows, 41 MB, 2s
+[pg_setup] loaded formula_1_sf1: 14 tables, 514297 rows, 69 MB, 2s
+[pg_setup] loaded formula_1_perm42: 14 tables, 514297 rows, 69 MB, 3s
+[pg_setup] loaded thrombosis_prediction_sf1: 3 tables, 15952 rows, 10 MB, 1s
+[pg_setup] loaded thrombosis_prediction_perm42: 3 tables, 15952 rows, 10 MB, 1s
+california_schools done
+card_games done
+codebase_community done
+debit_card_specializing done
+formula_1 done
+thrombosis_prediction done
+
+PostgreSQL certificates and policies; parallel plans chosen in the parallel-enabled setting:
+  raw       parallel planned 934, serial 64
+  smartlex  parallel planned 946, serial 52
+  certified parallel planned 928, serial 70
+
+policy x verdict: diverged / complete (censored: transpile error or not observed in every configuration)
+  raw       DET         0/155  censored 11
+  raw       NARROW      227/509  censored 4
+  raw       ALL         57/172  censored 3
+  raw       UNSUPPORTED 51/157  censored 4
+  smartlex  DET         0/155  censored 11
+  smartlex  NARROW      0/509  censored 4
+  smartlex  ALL         0/172  censored 3
+  smartlex  UNSUPPORTED 32/157  censored 4
+  certified DET         0/155  censored 11
+  certified NARROW      0/509  censored 4
+  certified ALL         0/172  censored 3
+  certified UNSUPPORTED 32/157  censored 4
+waiting for server to shut down.... done
+server stopped

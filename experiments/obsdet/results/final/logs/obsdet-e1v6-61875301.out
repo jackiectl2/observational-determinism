@@ -1,0 +1,172 @@
+c0f9e50f3cd3e21a376fab451d40e95c  certify.py
+md5-withheld  tool.py
+d8464edd20f0d4f6e747a7a5451b7479  cert_probes.py
+f93b9fd48a0d70808fc9443b9a0791ed  adversarial.py
+md5-withheld  replay_sound.py
+7e8ee213e5c608064b36c883042b9b40  distribution.py
+probes 1015 {'NARROW': '512 (50.4%)', 'ALL': '177 (17.4%)', 'DET': '166 (16.4%)', 'UNSUPPORTED': '160 (15.8%)'}
+UNSUPPORTED reasons: [('derived-table', 64), ('float-aggregate', 48), ('unresolved:OptimizeError', 18), ('multi-statement', 7), ('outer-or-special-join', 6), ('nested-limit', 6), ('cte', 4), ('inexact-group-key', 2), ('no-base-table', 2), ('not-select:union', 1), ('not-select:describe', 1), ('not-select:pragma', 1)]
+DET probes whose raw observation diverged (soundness violations): 0
+verdict x raw_diverged: {('NARROW', True): 252, ('NARROW', False): 260, ('ALL', False): 64, ('ALL', True): 113, ('DET', False): 166, ('UNSUPPORTED', False): 93, ('UNSUPPORTED', True): 67}
+{
+ "n_probes": 1015,
+ "overall": {
+  "DET": {
+   "n": 166,
+   "pct": 16.4
+  },
+  "NARROW": {
+   "n": 512,
+   "pct": 50.4
+  },
+  "ALL": {
+   "n": 177,
+   "pct": 17.4
+  },
+  "UNSUPPORTED": {
+   "n": 160,
+   "pct": 15.8
+  },
+  "total": 1015
+ },
+ "tie_break_width": {
+  "n": 689,
+  "certified_hist": {
+   "1": 581,
+   "2": 90,
+   "3": 14,
+   "7": 1,
+   "9": 2,
+   "13": 1
+  },
+  "certified_mean": 1.22,
+  "smartlex_mean": 2.96,
+  "smartlex_hist": {
+   "1": 201,
+   "2": 230,
+   "3": 129,
+   "4": 56,
+   "5": 28,
+   "6": 10,
+   "7": 8,
+   "8": 6,
+   "9": 3,
+   "10": 2,
+   "11": 3,
+   "12": 3,
+   "13": 1,
+   "14": 3,
+   "29": 1,
+   "44": 1,
+   "49": 3,
+   "74": 1
+  },
+  "key_tie_break": 464,
+  "non_output_key": 307
+ },
+ "raw_divergence_by_verdict": {
+  "DET": {
+   "diverged": 0,
+   "total": 166
+  },
+  "NARROW": {
+   "diverged": 252,
+   "total": 512
+  },
+  "ALL": {
+   "diverged": 113,
+   "total": 177
+  },
+  "UNSUPPORTED": {
+   "diverged": 67,
+   "total": 160
+  }
+ }
+}
+DISTINCT               DET=7(5.4%) NARROW=24(18.5%) ALL=95(73.1%) UNSUPPORTED=4(3.1%) total=130
+GROUP BY               DET=1(1.6%) NARROW=48(76.2%) ALL=0(0.0%) UNSUPPORTED=14(22.2%) total=63
+LIMIT, no ORDER BY     DET=0(0.0%) NARROW=45(76.3%) ALL=12(20.3%) UNSUPPORTED=2(3.4%) total=59
+ORDER BY + LIMIT       DET=7(5.5%) NARROW=85(66.4%) ALL=9(7.0%) UNSUPPORTED=27(21.1%) total=128
+ORDER BY, no LIMIT     DET=0(0.0%) NARROW=25(64.1%) ALL=0(0.0%) UNSUPPORTED=14(35.9%) total=39
+unordered SELECT       DET=151(25.3%) NARROW=285(47.8%) ALL=61(10.2%) UNSUPPORTED=99(16.6%) total=596
+no-keys ablation: {'DET': {'n': 129, 'pct': 12.7}, 'NARROW': {'n': 296, 'pct': 29.2}, 'ALL': {'n': 430, 'pct': 42.4}, 'UNSUPPORTED': {'n': 160, 'pct': 15.8}, 'total': 1015} mean width 2.49
+california_schools done
+card_games done
+codebase_community done
+debit_card_specializing done
+formula_1 done
+thrombosis_prediction done
+
+policy x verdict: diverged / complete (censored: not observed in every configuration)
+  raw       DET         0/166  censored 0
+  raw       NARROW      266/512  censored 0
+  raw       ALL         114/177  censored 0
+  raw       UNSUPPORTED 69/160  censored 0
+  smartlex  DET         0/166  censored 0
+  smartlex  NARROW      0/512  censored 0
+  smartlex  ALL         0/177  censored 0
+  smartlex  UNSUPPORTED 39/160  censored 0
+  certified DET         0/166  censored 0
+  certified NARROW      0/512  censored 0
+  certified ALL         0/177  censored 0
+  certified UNSUPPORTED 39/160  censored 0
+OK  DET         (exp DET        ) raw_div  0/30 cert_div  0/30 cert_fail 0 | SELECT id, name FROM emp ORDER BY id | []
+OK  DET         (exp DET        ) raw_div  0/30 cert_div  0/30 cert_fail 0 | SELECT name FROM emp ORDER BY id LIMIT 3 | []
+OK  DET         (exp DET        ) raw_div  0/30 cert_div  0/30 cert_fail 0 | SELECT name FROM emp ORDER BY name LIMIT 3 | []
+OK  NARROW      (exp NARROW     ) raw_div 30/30 cert_div  0/30 cert_fail 0 | SELECT name, salary FROM emp ORDER BY salary DESC LIMIT 2 | ['"emp"."id"']
+OK  NARROW      (exp NARROW     ) raw_div  0/30 cert_div  0/30 cert_fail 0 | SELECT dept_id, COUNT(*) FROM emp GROUP BY dept_id ORDER BY 2 DESC | ['emp.dept_id']
+OK  ALL         (exp ALL        ) raw_div 30/30 cert_div  0/30 cert_fail 0 | SELECT DISTINCT dept_id FROM emp | ['1']
+OK  DET         (exp DET        ) raw_div  0/30 cert_div  0/30 cert_fail 0 | SELECT e.name, d.dname FROM emp e JOIN dept d ON e.dept_id = d.id ORDER BY e.id | []
+OK  NARROW      (exp NARROW     ) raw_div 30/30 cert_div  0/30 cert_fail 0 | SELECT e.name, d.dname FROM emp e JOIN dept d ON e.dept_id = d.id ORDER BY d.id | ['"e"."id"']
+OK  ALL         (exp ALL        ) raw_div 30/30 cert_div  0/30 cert_fail 0 | SELECT msg FROM log ORDER BY ts | ['1']
+OK  ALL         (exp ALL        ) raw_div 30/30 cert_div  0/30 cert_fail 0 | SELECT * FROM log LIMIT 5 | ['1', '2', '3']
+OK  NARROW      (exp NARROW     ) raw_div  0/30 cert_div  0/30 cert_fail 0 | SELECT email, name FROM emp ORDER BY email LIMIT 3 | ['"emp"."id"']
+OK  UNSUPPORTED (exp UNSUPPORTED) raw_div 30/30 cert_div  0/30 cert_fail 0 | SELECT SUM(bonus) FROM emp | []
+OK  DET         (exp DET        ) raw_div  0/30 cert_div  0/30 cert_fail 0 | SELECT SUM(salary) FROM emp | []
+OK  UNSUPPORTED (exp UNSUPPORTED) raw_div 30/30 cert_div  0/30 cert_fail 0 | SELECT name FROM emp e LEFT JOIN dept d ON e.dept_id = d.id | []
+OK  UNSUPPORTED (exp UNSUPPORTED) raw_div 30/30 cert_div  0/30 cert_fail 0 | SELECT * FROM (SELECT * FROM emp ORDER BY salary LIMIT 3) t | []
+OK  DET         (exp DET        ) raw_div  0/30 cert_div  0/30 cert_fail 0 | SELECT name FROM emp WHERE id = 3 | []
+OK  NARROW      (exp NARROW     ) raw_div 30/30 cert_div  0/30 cert_fail 0 | SELECT name FROM emp WHERE dept_id = 1 ORDER BY LENGTH(name) | ['"emp"."id"']
+OK  NARROW      (exp NARROW     ) raw_div 30/30 cert_div  0/30 cert_fail 0 | SELECT a, v FROM pair ORDER BY a | ['2']
+OK  UNSUPPORTED (exp UNSUPPORTED) raw_div 30/30 cert_div  0/30 cert_fail 0 | SELECT name FROM emp ORDER BY random() | []
+OK  DET         (exp DET        ) raw_div  0/30 cert_div  0/30 cert_fail 0 | SELECT dept_id, AVG(salary) FROM emp GROUP BY dept_id HAVING COUNT(*) > 1 ORDER  | []
+OK  UNSUPPORTED (exp UNSUPPORTED) raw_div 30/30 cert_div  0/30 cert_fail 0 | SELECT name FROM emp UNION SELECT dname FROM dept | []
+OK  DET         (exp DET        ) raw_div  0/30 cert_div  0/30 cert_fail 0 | SELECT name, (SELECT COUNT(*) FROM log l WHERE l.emp_id = e.id) AS n FROM emp e  | []
+OK  UNSUPPORTED (exp UNSUPPORTED) raw_div  0/30 cert_div  0/30 cert_fail 0 | SELECT name FROM emp WHERE salary > (SELECT AVG(bonus) FROM emp) ORDER BY id | []
+OK  NARROW      (exp NARROW     ) raw_div 30/30 cert_div  0/30 cert_fail 0 | SELECT DISTINCT e.id, e.name FROM emp e | ['1']
+OK  DET         (exp DET        ) raw_div  0/30 cert_div  0/30 cert_fail 0 | SELECT name, salary FROM emp ORDER BY salary, name LIMIT 5 | []
+OK  NARROW      (exp NARROW     ) raw_div  3/30 cert_div  0/30 cert_fail 0 | SELECT d.dname, COUNT(*) AS n FROM emp e JOIN dept d ON e.dept_id = d.id GROUP B | ['d.dname']
+OK  NARROW      (exp NARROW     ) raw_div 30/30 cert_div  0/30 cert_fail 0 | SELECT e.name FROM emp e, dept d WHERE e.dept_id = d.id AND d.id = 2 ORDER BY e. | ['"e"."id"']
+OK  DET         (exp DET        ) raw_div  0/30 cert_div  0/30 cert_fail 0 | SELECT ts, msg FROM log WHERE emp_id = 1 ORDER BY ts, msg LIMIT 3 | []
+OK  NARROW      (exp NARROW     ) raw_div  0/30 cert_div  0/30 cert_fail 0 | SELECT emp_id, MAX(ts) FROM log GROUP BY emp_id | ['log.emp_id']
+OK  UNSUPPORTED (exp UNSUPPORTED) raw_div  0/30 cert_div  0/30 cert_fail 0 | SELECT name FROM emp ORDER BY salary; SELECT 1 | []
+OK  DET         (exp DET        ) raw_div  0/30 cert_div  0/30 cert_fail 0 | SELECT e.name, d.dname FROM emp e, dept d WHERE e.dept_id = d.id ORDER BY e.id | []
+OK  NARROW      (exp NARROW     ) raw_div 30/30 cert_div  0/30 cert_fail 0 | SELECT d.id, c.c FROM dept d JOIN code c ON c.c = d.id ORDER BY d.id | ['2']
+OK  ALL         (exp ALL        ) raw_div 30/30 cert_div  0/30 cert_fail 0 | SELECT DISTINCT id % 2 AS parity, name FROM emp LIMIT 1 | ['2', '1']
+OK  NARROW      (exp NARROW     ) raw_div 30/30 cert_div  0/30 cert_fail 0 | SELECT id % 2 AS parity, name, COUNT(*) FROM emp GROUP BY id % 2, name LIMIT 1 | ['emp.name', 'emp.id % 2']
+OK  ALL         (exp ALL        ) raw_div 22/30 cert_div  0/30 cert_fail 0 | SELECT DISTINCT COUNT(*) FROM emp GROUP BY dept_id LIMIT 1 | ['1']
+OK  UNSUPPORTED (exp UNSUPPORTED) raw_div  0/30 cert_div  0/30 cert_fail 0 | SELECT name, salary FROM emp ORDER BY salary FETCH FIRST 1 ROWS WITH TIES | []
+OK  UNSUPPORTED (exp UNSUPPORTED) raw_div 30/30 cert_div  0/30 cert_fail 0 | SELECT name FROM emp LIMIT 10% | []
+OK  UNSUPPORTED (exp UNSUPPORTED) raw_div  0/30 cert_div  0/30 cert_fail 0 | SELECT now() AS t FROM emp | []
+OK  UNSUPPORTED (exp UNSUPPORTED) raw_div  0/30 cert_div  0/30 cert_fail 0 | SELECT name COLLATE nocase AS x FROM emp ORDER BY x LIMIT 1 | []
+OK  DET         (exp DET        ) raw_div  0/30 cert_div  0/30 cert_fail 0 | SELECT dept_id, COUNT(*) FROM emp GROUP BY dept_id HAVING dept_id = 1 | []
+OK  ALL         (exp ALL        ) raw_div 30/30 cert_div  0/30 cert_fail 0 | SELECT COUNT(*) FROM emp GROUP BY dept_id, name | ['1']
+OK  NARROW      (exp NARROW     ) raw_div 30/30 cert_div  0/30 cert_fail 0 | SELECT name FROM emp | ['"emp"."id"']
+OK  DET         (exp DET        ) raw_div  0/30 cert_div  0/30 cert_fail 0 | SELECT name, salary FROM emp ORDER BY ALL LIMIT 1 | []
+OK  UNSUPPORTED (exp UNSUPPORTED) raw_div  0/30 cert_div  0/30 cert_fail 0 | SELECT dept_id, COUNT(*) FROM emp GROUP BY ALL LIMIT 1 | []
+OK  DET         (exp DET        ) raw_div  0/30 cert_div  0/30 cert_fail 0 | SELECT xs FROM lst ORDER BY xs LIMIT 1 | []
+OK  ALL         (exp ALL        ) raw_div 30/30 cert_div  0/30 cert_fail 0 | SELECT 1.0 / x AS y FROM f ORDER BY x LIMIT 1 | ['1']
+OK  ALL         (exp ALL        ) raw_div 30/30 cert_div  0/30 cert_fail 0 | SELECT x, 1.0 / x AS y FROM f LIMIT 1 | ['1', '2']
+OK  UNSUPPORTED (exp UNSUPPORTED) raw_div  0/30 cert_div  0/30 cert_fail 0 | SELECT 1.0 / MAX(x) FROM f | []
+OK  DET         (exp DET        ) raw_div  0/30 cert_div  0/30 cert_fail 0 | SELECT MAX(x) FROM f | []
+OK  UNSUPPORTED (exp UNSUPPORTED) raw_div 30/30 cert_div  0/30 cert_fail 0 | SELECT x, COUNT(*) FROM f GROUP BY x | []
+OK  UNSUPPORTED (exp UNSUPPORTED) raw_div 30/30 cert_div  0/30 cert_fail 0 | SELECT (SELECT DISTINCT ON (i.dept_id) i.name FROM emp i WHERE i.dept_id = e.dep | []
+OK  UNSUPPORTED (exp UNSUPPORTED) raw_div 30/30 cert_div  0/30 cert_fail 0 | WITH c AS (SELECT id FROM emp) SELECT id FROM c | []
+OK  NARROW      (exp NARROW     ) raw_div 30/30 cert_div  0/30 cert_fail 0 | SELECT x, y FROM kk | ['"kk"."narrow"']
+cases passed: 53 / 53 | verdicts correct: 53 | certified divergences: 0 | certified failed executions: 0 | power: raw diverged in 4 of 4 designated cases
+OK  postgres UNSUPPORTED (exp UNSUPPORTED) | SELECT TIMESTAMP 'now' FROM emp
+OK  postgres UNSUPPORTED (exp UNSUPPORTED) | SELECT CAST('today' AS DATE) FROM emp
+OK  postgres UNSUPPORTED (exp UNSUPPORTED) | SELECT CAST(name AS TIMESTAMP) FROM emp
+OK  postgres DET         (exp DET        ) | SELECT name FROM emp WHERE id = 3
+OK  postgres NARROW      (exp NARROW     ) | SELECT name, salary FROM emp ORDER BY salary DESC LIMIT 2
+OK  postgres DET         (exp DET        ) | SELECT name FROM emp WHERE name = 'now'

@@ -1,0 +1,9 @@
+100% ▕██████████████████████████████████████▏ (00:00:06.17 elapsed)     
+replace-table {"steps": [[true, ""]], "certified": {"verdict": "DET", "reason": "order determines every output column", "refused": false, "unsound": true}, "strict": {"verdict": "DET", "reason": "order determines every output column", "refused": false, "unsound": true}}
+100% ▕██████████████████████████████████████▏ (00:00:04.62 elapsed)     
+insert-duplicate {"steps": [[true, ""]], "certified": {"verdict": "DET", "reason": "order determines every output column", "refused": false, "unsound": true}, "strict": {"verdict": "DET", "reason": "order determines every output column", "refused": false, "unsound": true}}
+set-collation {"steps": [[true, ""]], "certified": {"verdict": "DET", "reason": "order determines every output column", "refused": false, "unsound": false}, "strict": {"verdict": "DET", "reason": "order determines every output column", "refused": false, "unsound": false}}
+set-null-order {"steps": [[true, ""]], "certified": {"verdict": "DET", "reason": "order determines every output column", "refused": false, "unsound": true}, "strict": {"verdict": "DET", "reason": "order determines every output column", "refused": false, "unsound": true}}
+attach+qualified {"steps": [[true, ""], [true, ""]], "certified": {"verdict": "DET", "reason": "order determines every output column", "refused": false, "unsound": true}, "strict": {"verdict": "DET", "reason": "order determines every output column", "refused": false, "unsound": true}}
+metadata {"steps": [[true, ""], [true, ""], [true, ""]], "certified": {"verdict": "DET", "reason": "order determines every output column", "refused": false, "unsound": false}, "strict": {"verdict": "DET", "reason": "order determines every output column", "refused": false, "unsound": false}}
+unsound_certificates 8

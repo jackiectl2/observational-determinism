@@ -1,0 +1,5 @@
+# Filled-in cluster settings (accounts, partitions, paths) stay local
+cluster.env
+__pycache__/
+*.py[cod]
+.DS_Store

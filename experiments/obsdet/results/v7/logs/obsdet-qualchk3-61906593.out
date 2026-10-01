@@ -1,0 +1,14 @@
+OK  duckdb   old=DET/order determines every output column new=DET/order determines every output column | SELECT x FROM t ORDER BY id LIMIT 1
+OK  postgres old=DET/order determines every output column new=DET/order determines every output column | SELECT x FROM t ORDER BY id LIMIT 1
+OK  duckdb   old=UNSUPPORTED/unknown-table new=UNSUPPORTED/unknown-table | SELECT x FROM evil.t ORDER BY id LIMIT 1
+OK  postgres old=UNSUPPORTED/unknown-table new=UNSUPPORTED/unknown-table | SELECT x FROM evil.t ORDER BY id LIMIT 1
+OK  duckdb   old=UNSUPPORTED/unknown-table new=UNSUPPORTED/unknown-table | SELECT x FROM main.t ORDER BY id LIMIT 1
+OK  postgres old=UNSUPPORTED/unknown-table new=UNSUPPORTED/unknown-table | SELECT x FROM public.t ORDER BY id LIMIT 1
+OK  duckdb   old=UNSUPPORTED/unknown-table new=UNSUPPORTED/unknown-table | SELECT x FROM other.evil.t ORDER BY id LIMIT 1
+OK  duckdb   old=UNSUPPORTED/unknown-table new=UNSUPPORTED/unknown-table | SELECT a.x FROM evil.t AS a JOIN t AS b ON a.id = b.id ORDER BY a.id LIMIT 1
+OK  postgres old=UNSUPPORTED/unknown-table new=UNSUPPORTED/unknown-table | SELECT a.x FROM evil.t AS a JOIN t AS b ON a.id = b.id ORDER BY a.id LIMIT 1
+OK  duckdb   old=UNSUPPORTED/unknown-table new=UNSUPPORTED/unknown-table | SELECT x FROM t WHERE id IN (SELECT id FROM evil.t) ORDER BY id LIMIT 1
+OK  postgres old=UNSUPPORTED/unknown-table new=UNSUPPORTED/unknown-table | SELECT x FROM t WHERE id IN (SELECT id FROM evil.t) ORDER BY id LIMIT 1
+OK  duckdb   old=UNSUPPORTED/unresolved:OptimizeError new=UNSUPPORTED/unresolved:OptimizeError | SELECT x FROM s.t ORDER BY id LIMIT 1
+OK  postgres old=UNSUPPORTED/unresolved:OptimizeError new=UNSUPPORTED/unresolved:OptimizeError | SELECT x FROM s.t ORDER BY id LIMIT 1
+failures 0

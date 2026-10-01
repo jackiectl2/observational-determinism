@@ -1,0 +1,27 @@
+Zero-divergence reference bounds (iid model): dev DuckDB 0/854: 0.35%, PostgreSQL 0/836: 0.36%; held-out DuckDB 0/776: 0.39%, PostgreSQL 0/759: 0.39%; unseen I DuckDB 0/999: 0.30%, PostgreSQL 0/978: 0.31%; unseen II DuckDB 0/945: 0.32%, PostgreSQL 0/930: 0.32%
+Pooled: DuckDB 0/3574: 0.08%, PostgreSQL 0/3503: 0.09%
+original tasks qwen3_8b Smart-lex - Raw: set +0.9 pp, bag +0.7 pp, same sign: True
+original tasks qwen3_8b Hybrid - Raw: set -0.9 pp, bag -1.1 pp, same sign: True
+original tasks qwen3_8b Strict - Raw: set +2.3 pp, bag +1.3 pp, same sign: True
+original tasks phi4 Smart-lex - Raw: set -0.4 pp, bag -0.7 pp, same sign: True
+original tasks phi4 Hybrid - Raw: set +0.9 pp, bag +0.7 pp, same sign: True
+original tasks phi4 Strict - Raw: set -3.1 pp, bag -4.0 pp, same sign: True
+unseen tasks I qwen3_8b Smart-lex - Raw: set +1.8 pp, bag +0.4 pp, same sign: True
+unseen tasks I qwen3_8b Hybrid - Raw: set +3.1 pp, bag +2.4 pp, same sign: True
+unseen tasks I qwen3_8b Strict - Raw: set +2.2 pp, bag +1.5 pp, same sign: True
+unseen tasks I phi4 Smart-lex - Raw: set -0.1 pp, bag -0.5 pp, same sign: True
+unseen tasks I phi4 Hybrid - Raw: set +1.3 pp, bag +0.9 pp, same sign: True
+unseen tasks I phi4 Strict - Raw: set -5.4 pp, bag -5.8 pp, same sign: True
+unseen tasks II qwen3_8b Smart-lex - Raw: set +0.4 pp, bag +0.7 pp, same sign: True
+unseen tasks II qwen3_8b Hybrid - Raw: set +0.9 pp, bag +2.5 pp, same sign: True
+unseen tasks II qwen3_8b Strict - Raw: set -2.9 pp, bag -2.0 pp, same sign: True
+unseen tasks II phi4 Smart-lex - Raw: set +0.0 pp, bag +0.7 pp, same sign: True
+unseen tasks II phi4 Hybrid - Raw: set +0.0 pp, bag +0.0 pp, same sign: True
+unseen tasks II phi4 Strict - Raw: set -3.3 pp, bag -2.7 pp, same sign: True
+Set minus bag accuracy per condition (all runs): 0.0-4.0 pp
+strict burden Qwen3-8B: 66/150 tasks, median 1.5 (max 6), hybrid-correct->strict-wrong 1, reverse 5
+strict burden phi-4: 57/150 tasks, median 2 (max 8), hybrid-correct->strict-wrong 6, reverse 0
+strict burden Qwen3-8B: 57/150 tasks, median 1 (max 5), hybrid-correct->strict-wrong 2, reverse 1
+strict burden phi-4: 42/150 tasks, median 1.0 (max 8), hybrid-correct->strict-wrong 10, reverse 0
+strict burden Qwen3-8B: 59/150 tasks, median 1 (max 7), hybrid-correct->strict-wrong 7, reverse 1
+strict burden phi-4: 55/150 tasks, median 1 (max 8), hybrid-correct->strict-wrong 5, reverse 0

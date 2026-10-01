@@ -1,0 +1,96 @@
+7aa9c889bb189b0740e83e258b83a7c4  certify.py
+5bf19bb17ed3900ded8502d8b010559b  heldout_probes.py
+md5-withheld  replay_sound.py
+e60cec7321a505f44dbbb0079c299241  distribution.py
+'SHOW COLUMNS FROM League' contains unsupported syntax. Falling back to parsing as a 'Command'.
+'SHOW COLUMNS FROM League' contains unsupported syntax. Falling back to parsing as a 'Command'.
+distinct statements 1393 | in dev set 121
+  (False, False, 'ALL') 207
+  (False, False, 'DET') 193
+  (False, False, 'NARROW') 388
+  (False, False, 'UNSUPPORTED') 350
+  (False, True, 'ALL') 3
+  (False, True, 'DET') 5
+  (False, True, 'NARROW') 9
+  (False, True, 'UNSUPPORTED') 117
+  (True, False, 'ALL') 26
+  (True, False, 'DET') 28
+  (True, False, 'NARROW') 51
+  (True, False, 'UNSUPPORTED') 16
+{
+ "n_probes": 1138,
+ "overall": {
+  "DET": {
+   "n": 193,
+   "pct": 17.0
+  },
+  "NARROW": {
+   "n": 388,
+   "pct": 34.1
+  },
+  "ALL": {
+   "n": 207,
+   "pct": 18.2
+  },
+  "UNSUPPORTED": {
+   "n": 350,
+   "pct": 30.8
+  },
+  "total": 1138
+ },
+ "tie_break_width": {
+  "n": 595,
+  "certified_hist": {
+   "1": 537,
+   "2": 52,
+   "3": 6
+  },
+  "certified_mean": 1.11,
+  "smartlex_mean": 2.31,
+  "smartlex_hist": {
+   "1": 233,
+   "2": 194,
+   "3": 90,
+   "4": 30,
+   "5": 24,
+   "6": 2,
+   "7": 5,
+   "8": 3,
+   "9": 2,
+   "10": 1,
+   "11": 1,
+   "12": 8,
+   "16": 1,
+   "21": 1
+  },
+  "key_tie_break": 404,
+  "non_output_key": 404
+ },
+ "raw_divergence_by_verdict": {
+  "DET": {
+   "diverged": 0,
+   "total": 0
+  },
+  "NARROW": {
+   "diverged": 0,
+   "total": 0
+  },
+  "ALL": {
+   "diverged": 0,
+   "total": 0
+  },
+  "UNSUPPORTED": {
+   "diverged": 0,
+   "total": 0
+  }
+ }
+}
+DISTINCT               DET=1(0.8%) NARROW=10(8.5%) ALL=87(73.7%) UNSUPPORTED=20(16.9%) total=118
+GROUP BY               DET=2(2.9%) NARROW=35(50.0%) ALL=1(1.4%) UNSUPPORTED=32(45.7%) total=70
+LIMIT, no ORDER BY     DET=1(1.4%) NARROW=56(78.9%) ALL=11(15.5%) UNSUPPORTED=3(4.2%) total=71
+ORDER BY + LIMIT       DET=3(2.9%) NARROW=65(63.1%) ALL=9(8.7%) UNSUPPORTED=26(25.2%) total=103
+ORDER BY, no LIMIT     DET=1(2.4%) NARROW=24(57.1%) ALL=0(0.0%) UNSUPPORTED=17(40.5%) total=42
+unordered SELECT       DET=185(25.2%) NARROW=198(27.0%) ALL=99(13.5%) UNSUPPORTED=252(34.3%) total=734
+no-keys ablation: {'DET': {'n': 154, 'pct': 13.5}, 'NARROW': {'n': 209, 'pct': 18.4}, 'ALL': {'n': 425, 'pct': 37.3}, 'UNSUPPORTED': {'n': 350, 'pct': 30.8}, 'total': 1138} mean width 1.88
+E4 v4_qwen3_8b: DET=114(21.3%) NARROW=173(32.4%) ALL=91(17.0%) UNSUPPORTED=156(29.2%) total=534
+E4 v4_phi4: DET=84(21.0%) NARROW=129(32.2%) ALL=62(15.5%) UNSUPPORTED=125(31.2%) total=400

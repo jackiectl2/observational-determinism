@@ -1,0 +1,3160 @@
+[
+ {
+  "name": "R1a duplicate output name: ORDER BY 1 is resolved to the other output named g (DET claimed)",
+  "schema": {
+   "t": {
+    "columns": {
+     "id": "INTEGER",
+     "g": "VARCHAR"
+    },
+    "keys": [
+     [
+      "id"
+     ]
+    ]
+   }
+  },
+  "rows": {
+   "t": [
+    [
+     1,
+     "a"
+    ],
+    [
+     2,
+     "a"
+    ],
+    [
+     3,
+     "b"
+    ]
+   ]
+  },
+  "duckdb": {
+   "sql": "SELECT t.g, t.id AS g FROM t ORDER BY 1",
+   "verdict": "NARROW",
+   "reason": "key tie-break",
+   "tie_break": [
+    "\"t\".\"id\""
+   ],
+   "order_cols": [
+    [
+     "t",
+     "g"
+    ]
+   ],
+   "certified_sql": "SELECT t.g, t.id AS g FROM t ORDER BY 1, \"t\".\"id\" ASC NULLS LAST",
+   "raw": {
+    "executions": 24,
+    "succeeded": 24,
+    "errors": [],
+    "distinct_observations": 2,
+    "observations": [
+     {
+      "n": 3,
+      "head": [
+       "g",
+       "g"
+      ],
+      "top": [
+       [
+        "a",
+        "1"
+       ],
+       [
+        "a",
+        "2"
+       ],
+       [
+        "b",
+        "3"
+       ]
+      ]
+     },
+     {
+      "n": 3,
+      "head": [
+       "g",
+       "g"
+      ],
+      "top": [
+       [
+        "a",
+        "2"
+       ],
+       [
+        "a",
+        "1"
+       ],
+       [
+        "b",
+        "3"
+       ]
+      ]
+     }
+    ]
+   },
+   "certified": {
+    "executions": 24,
+    "succeeded": 24,
+    "errors": [],
+    "distinct_observations": 1,
+    "observations": [
+     {
+      "n": 3,
+      "head": [
+       "g",
+       "g"
+      ],
+      "top": [
+       [
+        "a",
+        "1"
+       ],
+       [
+        "a",
+        "2"
+       ],
+       [
+        "b",
+        "3"
+       ]
+      ]
+     }
+    ]
+   }
+  },
+  "postgres": {
+   "sql": "SELECT t.g, t.id AS g FROM t ORDER BY 1",
+   "verdict": "NARROW",
+   "reason": "key tie-break",
+   "tie_break": [
+    "\"t\".\"id\""
+   ],
+   "order_cols": [
+    [
+     "t",
+     "g"
+    ]
+   ],
+   "certified_sql": "SELECT t.g, t.id AS g FROM t ORDER BY 1, \"t\".\"id\" ASC NULLS LAST",
+   "raw": {
+    "executions": 6,
+    "succeeded": 6,
+    "errors": [],
+    "distinct_observations": 2,
+    "observations": [
+     {
+      "n": 3,
+      "head": [
+       "g",
+       "g"
+      ],
+      "top": [
+       [
+        "a",
+        "2"
+       ],
+       [
+        "a",
+        "1"
+       ],
+       [
+        "b",
+        "3"
+       ]
+      ]
+     },
+     {
+      "n": 3,
+      "head": [
+       "g",
+       "g"
+      ],
+      "top": [
+       [
+        "a",
+        "1"
+       ],
+       [
+        "a",
+        "2"
+       ],
+       [
+        "b",
+        "3"
+       ]
+      ]
+     }
+    ]
+   },
+   "certified": {
+    "executions": 6,
+    "succeeded": 6,
+    "errors": [],
+    "distinct_observations": 1,
+    "observations": [
+     {
+      "n": 3,
+      "head": [
+       "g",
+       "g"
+      ],
+      "top": [
+       [
+        "a",
+        "1"
+       ],
+       [
+        "a",
+        "2"
+       ],
+       [
+        "b",
+        "3"
+       ]
+      ]
+     }
+    ]
+   }
+  }
+ },
+ {
+  "name": "R1b duplicate output name from two aliases: ORDER BY 1 resolved to b.id, tie-break a.id",
+  "schema": {
+   "t": {
+    "columns": {
+     "id": "INTEGER"
+    },
+    "keys": [
+     [
+      "id"
+     ]
+    ]
+   }
+  },
+  "rows": {
+   "t": [
+    [
+     1
+    ],
+    [
+     2
+    ],
+    [
+     3
+    ]
+   ]
+  },
+  "duckdb": {
+   "sql": "SELECT a.id, b.id FROM t a, t b ORDER BY 1",
+   "verdict": "NARROW",
+   "reason": "key tie-break",
+   "tie_break": [
+    "\"b\".\"id\""
+   ],
+   "order_cols": [
+    [
+     "a",
+     "id"
+    ]
+   ],
+   "certified_sql": "SELECT a.id, b.id FROM t a, t b ORDER BY 1, \"b\".\"id\" ASC NULLS LAST",
+   "raw": {
+    "executions": 24,
+    "succeeded": 24,
+    "errors": [],
+    "distinct_observations": 6,
+    "observations": [
+     {
+      "n": 9,
+      "head": [
+       "id",
+       "id"
+      ],
+      "top": [
+       [
+        "1",
+        "3"
+       ],
+       [
+        "1",
+        "1"
+       ],
+       [
+        "1",
+        "2"
+       ],
+       [
+        "2",
+        "3"
+       ],
+       [
+        "2",
+        "1"
+       ],
+       [
+        "2",
+        "2"
+       ]
+      ]
+     },
+     {
+      "n": 9,
+      "head": [
+       "id",
+       "id"
+      ],
+      "top": [
+       [
+        "1",
+        "2"
+       ],
+       [
+        "1",
+        "3"
+       ],
+       [
+        "1",
+        "1"
+       ],
+       [
+        "2",
+        "2"
+       ],
+       [
+        "2",
+        "3"
+       ],
+       [
+        "2",
+        "1"
+       ]
+      ]
+     },
+     {
+      "n": 9,
+      "head": [
+       "id",
+       "id"
+      ],
+      "top": [
+       [
+        "1",
+        "1"
+       ],
+       [
+        "1",
+        "2"
+       ],
+       [
+        "1",
+        "3"
+       ],
+       [
+        "2",
+        "1"
+       ],
+       [
+        "2",
+        "2"
+       ],
+       [
+        "2",
+        "3"
+       ]
+      ]
+     }
+    ]
+   },
+   "certified": {
+    "executions": 24,
+    "succeeded": 24,
+    "errors": [],
+    "distinct_observations": 1,
+    "observations": [
+     {
+      "n": 9,
+      "head": [
+       "id",
+       "id"
+      ],
+      "top": [
+       [
+        "1",
+        "1"
+       ],
+       [
+        "1",
+        "2"
+       ],
+       [
+        "1",
+        "3"
+       ],
+       [
+        "2",
+        "1"
+       ],
+       [
+        "2",
+        "2"
+       ],
+       [
+        "2",
+        "3"
+       ]
+      ]
+     }
+    ]
+   }
+  },
+  "postgres": {
+   "sql": "SELECT a.id, b.id FROM t AS a, t AS b ORDER BY 1",
+   "verdict": "NARROW",
+   "reason": "key tie-break",
+   "tie_break": [
+    "\"b\".\"id\""
+   ],
+   "order_cols": [
+    [
+     "a",
+     "id"
+    ]
+   ],
+   "certified_sql": "SELECT a.id, b.id FROM t AS a, t AS b ORDER BY 1, \"b\".\"id\" ASC NULLS LAST",
+   "raw": {
+    "executions": 6,
+    "succeeded": 6,
+    "errors": [],
+    "distinct_observations": 6,
+    "observations": [
+     {
+      "n": 9,
+      "head": [
+       "id",
+       "id"
+      ],
+      "top": [
+       [
+        "1",
+        "1"
+       ],
+       [
+        "1",
+        "3"
+       ],
+       [
+        "1",
+        "2"
+       ],
+       [
+        "2",
+        "2"
+       ],
+       [
+        "2",
+        "3"
+       ],
+       [
+        "2",
+        "1"
+       ]
+      ]
+     },
+     {
+      "n": 9,
+      "head": [
+       "id",
+       "id"
+      ],
+      "top": [
+       [
+        "1",
+        "2"
+       ],
+       [
+        "1",
+        "3"
+       ],
+       [
+        "1",
+        "1"
+       ],
+       [
+        "2",
+        "2"
+       ],
+       [
+        "2",
+        "3"
+       ],
+       [
+        "2",
+        "1"
+       ]
+      ]
+     },
+     {
+      "n": 9,
+      "head": [
+       "id",
+       "id"
+      ],
+      "top": [
+       [
+        "1",
+        "1"
+       ],
+       [
+        "1",
+        "3"
+       ],
+       [
+        "1",
+        "2"
+       ],
+       [
+        "2",
+        "2"
+       ],
+       [
+        "2",
+        "3"
+       ],
+       [
+        "2",
+        "1"
+       ]
+      ]
+     }
+    ]
+   },
+   "certified": {
+    "executions": 6,
+    "succeeded": 6,
+    "errors": [],
+    "distinct_observations": 1,
+    "observations": [
+     {
+      "n": 9,
+      "head": [
+       "id",
+       "id"
+      ],
+      "top": [
+       [
+        "1",
+        "1"
+       ],
+       [
+        "1",
+        "2"
+       ],
+       [
+        "1",
+        "3"
+       ],
+       [
+        "2",
+        "1"
+       ],
+       [
+        "2",
+        "2"
+       ],
+       [
+        "2",
+        "3"
+       ]
+      ]
+     }
+    ]
+   }
+  }
+ },
+ {
+  "name": "R1c star over a USING join (spec: UNSUPPORTED) expands to two outputs named id",
+  "schema": {
+   "t": {
+    "columns": {
+     "id": "INTEGER",
+     "x": "INTEGER"
+    },
+    "keys": [
+     [
+      "id"
+     ]
+    ]
+   },
+   "u": {
+    "columns": {
+     "id": "INTEGER",
+     "x": "INTEGER"
+    },
+    "keys": [
+     [
+      "id"
+     ]
+    ]
+   }
+  },
+  "rows": {
+   "t": [
+    [
+     1,
+     1
+    ],
+    [
+     2,
+     1
+    ]
+   ],
+   "u": [
+    [
+     1,
+     1
+    ],
+    [
+     2,
+     1
+    ]
+   ]
+  },
+  "duckdb": {
+   "sql": "SELECT * FROM t a JOIN u b USING (x) ORDER BY 1",
+   "verdict": "UNSUPPORTED",
+   "reason": "using-join",
+   "tie_break": [],
+   "order_cols": [],
+   "certified_sql": null,
+   "raw": {
+    "executions": 24,
+    "succeeded": 24,
+    "errors": [],
+    "distinct_observations": 2,
+    "observations": [
+     {
+      "n": 4,
+      "head": [
+       "id",
+       "x",
+       "id"
+      ],
+      "top": [
+       [
+        "1",
+        "1",
+        "1"
+       ],
+       [
+        "1",
+        "1",
+        "2"
+       ],
+       [
+        "2",
+        "1",
+        "1"
+       ],
+       [
+        "2",
+        "1",
+        "2"
+       ]
+      ]
+     },
+     {
+      "n": 4,
+      "head": [
+       "id",
+       "x",
+       "id"
+      ],
+      "top": [
+       [
+        "1",
+        "1",
+        "2"
+       ],
+       [
+        "1",
+        "1",
+        "1"
+       ],
+       [
+        "2",
+        "1",
+        "2"
+       ],
+       [
+        "2",
+        "1",
+        "1"
+       ]
+      ]
+     }
+    ]
+   }
+  },
+  "postgres": {
+   "sql": "SELECT * FROM t AS a JOIN u AS b USING (x) ORDER BY 1",
+   "verdict": "UNSUPPORTED",
+   "reason": "using-join",
+   "tie_break": [],
+   "order_cols": [],
+   "certified_sql": null,
+   "raw": {
+    "executions": 6,
+    "succeeded": 6,
+    "errors": [],
+    "distinct_observations": 4,
+    "observations": [
+     {
+      "n": 4,
+      "head": [
+       "x",
+       "id",
+       "id"
+      ],
+      "top": [
+       [
+        "1",
+        "2",
+        "2"
+       ],
+       [
+        "1",
+        "2",
+        "1"
+       ],
+       [
+        "1",
+        "1",
+        "2"
+       ],
+       [
+        "1",
+        "1",
+        "1"
+       ]
+      ]
+     },
+     {
+      "n": 4,
+      "head": [
+       "x",
+       "id",
+       "id"
+      ],
+      "top": [
+       [
+        "1",
+        "2",
+        "1"
+       ],
+       [
+        "1",
+        "2",
+        "2"
+       ],
+       [
+        "1",
+        "1",
+        "1"
+       ],
+       [
+        "1",
+        "1",
+        "2"
+       ]
+      ]
+     },
+     {
+      "n": 4,
+      "head": [
+       "x",
+       "id",
+       "id"
+      ],
+      "top": [
+       [
+        "1",
+        "1",
+        "2"
+       ],
+       [
+        "1",
+        "1",
+        "1"
+       ],
+       [
+        "1",
+        "2",
+        "2"
+       ],
+       [
+        "1",
+        "2",
+        "1"
+       ]
+      ]
+     }
+    ]
+   }
+  }
+ },
+ {
+  "name": "R1d output names equal up to case (\"NAME\" vs name): ORDER BY name bound to the other output",
+  "schema": {
+   "t": {
+    "columns": {
+     "id": "INTEGER",
+     "name": "VARCHAR",
+     "x": "INTEGER"
+    },
+    "keys": [
+     [
+      "id"
+     ]
+    ]
+   }
+  },
+  "rows": {
+   "t": [
+    [
+     1,
+     "a",
+     1
+    ],
+    [
+     2,
+     "b",
+     1
+    ],
+    [
+     3,
+     "c",
+     2
+    ]
+   ]
+  },
+  "duckdb": {
+   "sql": "SELECT t.x AS \"NAME\", t.name FROM t ORDER BY name",
+   "verdict": "UNSUPPORTED",
+   "reason": "ambiguous-order-by-name",
+   "tie_break": [],
+   "order_cols": [],
+   "certified_sql": null,
+   "raw": {
+    "executions": 24,
+    "succeeded": 24,
+    "errors": [],
+    "distinct_observations": 2,
+    "observations": [
+     {
+      "n": 3,
+      "head": [
+       "NAME",
+       "name"
+      ],
+      "top": [
+       [
+        "1",
+        "a"
+       ],
+       [
+        "1",
+        "b"
+       ],
+       [
+        "2",
+        "c"
+       ]
+      ]
+     },
+     {
+      "n": 3,
+      "head": [
+       "NAME",
+       "name"
+      ],
+      "top": [
+       [
+        "1",
+        "b"
+       ],
+       [
+        "1",
+        "a"
+       ],
+       [
+        "2",
+        "c"
+       ]
+      ]
+     }
+    ]
+   }
+  },
+  "postgres": {
+   "sql": "SELECT t.x AS \"name\", t.name FROM t ORDER BY name",
+   "verdict": "UNSUPPORTED",
+   "reason": "ambiguous-order-by-name",
+   "tie_break": [],
+   "order_cols": [],
+   "certified_sql": null,
+   "raw": {
+    "executions": 6,
+    "succeeded": 0,
+    "errors": [
+     "SEM:42702: ORDER BY \"name\" is ambiguous"
+    ],
+    "distinct_observations": 0,
+    "observations": []
+   }
+  }
+ },
+ {
+  "name": "R10 unary plus in ORDER BY: sqlglot drops it, so +1 is taken as ordinal 1; DuckDB sorts by the constant",
+  "schema": {
+   "t": {
+    "columns": {
+     "id": "INTEGER",
+     "g": "VARCHAR"
+    },
+    "keys": [
+     [
+      "id"
+     ]
+    ]
+   }
+  },
+  "rows": {
+   "t": [
+    [
+     1,
+     "b"
+    ],
+    [
+     2,
+     "a"
+    ],
+    [
+     3,
+     "c"
+    ]
+   ]
+  },
+  "duckdb": {
+   "sql": "SELECT t.g FROM t ORDER BY +1",
+   "verdict": "DET",
+   "reason": "order determines every output column",
+   "tie_break": [],
+   "order_cols": [
+    [
+     "t",
+     "g"
+    ]
+   ],
+   "certified_sql": "SELECT t.g FROM t ORDER BY +1",
+   "raw": {
+    "executions": 24,
+    "succeeded": 24,
+    "errors": [],
+    "distinct_observations": 6,
+    "observations": [
+     {
+      "n": 3,
+      "head": [
+       "g"
+      ],
+      "top": [
+       [
+        "c"
+       ],
+       [
+        "b"
+       ],
+       [
+        "a"
+       ]
+      ]
+     },
+     {
+      "n": 3,
+      "head": [
+       "g"
+      ],
+      "top": [
+       [
+        "a"
+       ],
+       [
+        "c"
+       ],
+       [
+        "b"
+       ]
+      ]
+     },
+     {
+      "n": 3,
+      "head": [
+       "g"
+      ],
+      "top": [
+       [
+        "b"
+       ],
+       [
+        "a"
+       ],
+       [
+        "c"
+       ]
+      ]
+     }
+    ]
+   },
+   "certified": {
+    "executions": 24,
+    "succeeded": 24,
+    "errors": [],
+    "distinct_observations": 6,
+    "observations": [
+     {
+      "n": 3,
+      "head": [
+       "g"
+      ],
+      "top": [
+       [
+        "c"
+       ],
+       [
+        "b"
+       ],
+       [
+        "a"
+       ]
+      ]
+     },
+     {
+      "n": 3,
+      "head": [
+       "g"
+      ],
+      "top": [
+       [
+        "a"
+       ],
+       [
+        "c"
+       ],
+       [
+        "b"
+       ]
+      ]
+     },
+     {
+      "n": 3,
+      "head": [
+       "g"
+      ],
+      "top": [
+       [
+        "b"
+       ],
+       [
+        "a"
+       ],
+       [
+        "c"
+       ]
+      ]
+     }
+    ]
+   }
+  },
+  "postgres": {
+   "sql": "SELECT t.g FROM t ORDER BY 1",
+   "verdict": "DET",
+   "reason": "order determines every output column",
+   "tie_break": [],
+   "order_cols": [
+    [
+     "t",
+     "g"
+    ]
+   ],
+   "certified_sql": "SELECT t.g FROM t ORDER BY 1",
+   "raw": {
+    "executions": 6,
+    "succeeded": 6,
+    "errors": [],
+    "distinct_observations": 1,
+    "observations": [
+     {
+      "n": 3,
+      "head": [
+       "g"
+      ],
+      "top": [
+       [
+        "a"
+       ],
+       [
+        "b"
+       ],
+       [
+        "c"
+       ]
+      ]
+     }
+    ]
+   },
+   "certified": {
+    "executions": 6,
+    "succeeded": 6,
+    "errors": [],
+    "distinct_observations": 1,
+    "observations": [
+     {
+      "n": 3,
+      "head": [
+       "g"
+      ],
+      "top": [
+       [
+        "a"
+       ],
+       [
+        "b"
+       ],
+       [
+        "c"
+       ]
+      ]
+     }
+    ]
+   }
+  }
+ },
+ {
+  "name": "R2 SUM over DECIMAL / DECIMAL: typed DECIMAL by the certifier, DOUBLE in DuckDB (DET claimed)",
+  "schema": {
+   "t": {
+    "columns": {
+     "id": "INTEGER",
+     "g": "INTEGER",
+     "a": "DECIMAL(10,2)",
+     "b": "DECIMAL(10,2)"
+    },
+    "keys": [
+     [
+      "id"
+     ]
+    ]
+   }
+  },
+  "rows": {
+   "t": [
+    [
+     1,
+     1,
+     "1.00",
+     "10.00"
+    ],
+    [
+     2,
+     1,
+     "2.00",
+     "10.00"
+    ],
+    [
+     3,
+     1,
+     "3.00",
+     "10.00"
+    ]
+   ]
+  },
+  "duckdb": {
+   "sql": "SELECT t.g, SUM(t.a / t.b) FROM t GROUP BY t.g ORDER BY t.g",
+   "verdict": "UNSUPPORTED",
+   "reason": "float-aggregate",
+   "tie_break": [],
+   "order_cols": [],
+   "certified_sql": null,
+   "raw": {
+    "executions": 24,
+    "succeeded": 24,
+    "errors": [],
+    "distinct_observations": 2,
+    "observations": [
+     {
+      "n": 1,
+      "head": [
+       "g",
+       "sum((t.a / t.b))"
+      ],
+      "top": [
+       [
+        "1",
+        "0.6000000000000001"
+       ]
+      ]
+     },
+     {
+      "n": 1,
+      "head": [
+       "g",
+       "sum((t.a / t.b))"
+      ],
+      "top": [
+       [
+        "1",
+        "0.6"
+       ]
+      ]
+     }
+    ]
+   },
+   "probe": [
+    "SELECT typeof(t.a / t.b) FROM t LIMIT 1",
+    [
+     [
+      "DOUBLE"
+     ]
+    ]
+   ]
+  },
+  "postgres": {
+   "sql": "SELECT t.g, SUM(CAST(t.a AS DOUBLE PRECISION) / t.b) FROM t GROUP BY t.g ORDER BY t.g",
+   "verdict": "UNSUPPORTED",
+   "reason": "aggregate-type-unknown",
+   "tie_break": [],
+   "order_cols": [],
+   "certified_sql": null,
+   "raw": {
+    "executions": 6,
+    "succeeded": 6,
+    "errors": [],
+    "distinct_observations": 2,
+    "observations": [
+     {
+      "n": 1,
+      "head": [
+       "g",
+       "sum"
+      ],
+      "top": [
+       [
+        "1",
+        "0.6"
+       ]
+      ]
+     },
+     {
+      "n": 1,
+      "head": [
+       "g",
+       "sum"
+      ],
+      "top": [
+       [
+        "1",
+        "0.6000000000000001"
+       ]
+      ]
+     }
+    ]
+   }
+  }
+ },
+ {
+  "name": "R5 SUM over a scientific-notation literal: 1e-1 typed DECIMAL by the certifier, DOUBLE in DuckDB",
+  "schema": {
+   "t": {
+    "columns": {
+     "id": "INTEGER",
+     "g": "INTEGER",
+     "x": "INTEGER"
+    },
+    "keys": [
+     [
+      "id"
+     ]
+    ]
+   }
+  },
+  "rows": {
+   "t": [
+    [
+     1,
+     1,
+     1
+    ],
+    [
+     2,
+     1,
+     2
+    ],
+    [
+     3,
+     1,
+     3
+    ]
+   ]
+  },
+  "duckdb": {
+   "sql": "SELECT t.g, SUM(t.x * 1e-1) FROM t GROUP BY t.g ORDER BY t.g",
+   "verdict": "UNSUPPORTED",
+   "reason": "float-aggregate",
+   "tie_break": [],
+   "order_cols": [],
+   "certified_sql": null,
+   "raw": {
+    "executions": 24,
+    "succeeded": 24,
+    "errors": [],
+    "distinct_observations": 2,
+    "observations": [
+     {
+      "n": 1,
+      "head": [
+       "g",
+       "sum((t.x * 0.1))"
+      ],
+      "top": [
+       [
+        "1",
+        "0.6000000000000001"
+       ]
+      ]
+     },
+     {
+      "n": 1,
+      "head": [
+       "g",
+       "sum((t.x * 0.1))"
+      ],
+      "top": [
+       [
+        "1",
+        "0.6"
+       ]
+      ]
+     }
+    ]
+   },
+   "probe": [
+    "SELECT typeof(1e-1), typeof(t.x * 1e-1) FROM t LIMIT 1",
+    [
+     [
+      "DOUBLE",
+      "DOUBLE"
+     ]
+    ]
+   ]
+  },
+  "postgres": {
+   "sql": "SELECT t.g, SUM(t.x * 1e-1) FROM t GROUP BY t.g ORDER BY t.g",
+   "verdict": "NARROW",
+   "reason": "group key tie-break",
+   "tie_break": [
+    "\"t\".\"g\""
+   ],
+   "order_cols": [],
+   "certified_sql": "SELECT t.g, SUM(t.x * 1e-1) FROM t GROUP BY t.g ORDER BY t.g, \"t\".\"g\" ASC NULLS LAST",
+   "raw": {
+    "executions": 6,
+    "succeeded": 6,
+    "errors": [],
+    "distinct_observations": 1,
+    "observations": [
+     {
+      "n": 1,
+      "head": [
+       "g",
+       "sum"
+      ],
+      "top": [
+       [
+        "1",
+        "0.6"
+       ]
+      ]
+     }
+    ]
+   },
+   "certified": {
+    "executions": 6,
+    "succeeded": 6,
+    "errors": [],
+    "distinct_observations": 1,
+    "observations": [
+     {
+      "n": 1,
+      "head": [
+       "g",
+       "sum"
+      ],
+      "top": [
+       [
+        "1",
+        "0.6"
+       ]
+      ]
+     }
+    ]
+   }
+  }
+ },
+ {
+  "name": "R8 typed literal then :: (DECIMAL '0.1'::DOUBLE): sqlglot parses DECIMAL('0.1'::DOUBLE), DuckDB DOUBLE",
+  "schema": {
+   "t": {
+    "columns": {
+     "id": "INTEGER",
+     "x": "INTEGER"
+    },
+    "keys": [
+     [
+      "id"
+     ]
+    ]
+   }
+  },
+  "rows": {
+   "t": [
+    [
+     1,
+     1
+    ],
+    [
+     2,
+     2
+    ],
+    [
+     3,
+     3
+    ]
+   ]
+  },
+  "duckdb": {
+   "sql": "SELECT SUM(t.x * DECIMAL '0.1'::DOUBLE) FROM t",
+   "verdict": "DET",
+   "reason": "single-row aggregate",
+   "tie_break": [],
+   "order_cols": [],
+   "certified_sql": "SELECT SUM(t.x * DECIMAL '0.1'::DOUBLE) FROM t",
+   "raw": {
+    "executions": 24,
+    "succeeded": 24,
+    "errors": [],
+    "distinct_observations": 2,
+    "observations": [
+     {
+      "n": 1,
+      "head": [
+       "sum((t.x * CAST(CAST('0.1' AS DECIMAL) AS \"DOUBLE\")))"
+      ],
+      "top": [
+       [
+        "0.6000000000000001"
+       ]
+      ]
+     },
+     {
+      "n": 1,
+      "head": [
+       "sum((t.x * CAST(CAST('0.1' AS DECIMAL) AS \"DOUBLE\")))"
+      ],
+      "top": [
+       [
+        "0.6"
+       ]
+      ]
+     }
+    ]
+   },
+   "certified": {
+    "executions": 24,
+    "succeeded": 24,
+    "errors": [],
+    "distinct_observations": 2,
+    "observations": [
+     {
+      "n": 1,
+      "head": [
+       "sum((t.x * CAST(CAST('0.1' AS DECIMAL) AS \"DOUBLE\")))"
+      ],
+      "top": [
+       [
+        "0.6000000000000001"
+       ]
+      ]
+     },
+     {
+      "n": 1,
+      "head": [
+       "sum((t.x * CAST(CAST('0.1' AS DECIMAL) AS \"DOUBLE\")))"
+      ],
+      "top": [
+       [
+        "0.6"
+       ]
+      ]
+     }
+    ]
+   },
+   "probe": [
+    "SELECT typeof(DECIMAL '0.1'::DOUBLE) FROM t LIMIT 1",
+    [
+     [
+      "DOUBLE"
+     ]
+    ]
+   ]
+  },
+  "postgres": {
+   "sql": "SELECT SUM(t.x * CAST(CAST('0.1' AS DOUBLE PRECISION) AS DECIMAL(18, 3))) FROM t",
+   "verdict": "DET",
+   "reason": "single-row aggregate",
+   "tie_break": [],
+   "order_cols": [],
+   "certified_sql": "SELECT SUM(t.x * CAST(CAST('0.1' AS DOUBLE PRECISION) AS DECIMAL(18, 3))) FROM t",
+   "raw": {
+    "executions": 6,
+    "succeeded": 6,
+    "errors": [],
+    "distinct_observations": 1,
+    "observations": [
+     {
+      "n": 1,
+      "head": [
+       "sum"
+      ],
+      "top": [
+       [
+        "0.600"
+       ]
+      ]
+     }
+    ]
+   },
+   "certified": {
+    "executions": 6,
+    "succeeded": 6,
+    "errors": [],
+    "distinct_observations": 1,
+    "observations": [
+     {
+      "n": 1,
+      "head": [
+       "sum"
+      ],
+      "top": [
+       [
+        "0.600"
+       ]
+      ]
+     }
+    ]
+   }
+  }
+ },
+ {
+  "name": "R9 literal with more than 38 digits: DOUBLE in DuckDB, typed exact by the certifier",
+  "schema": {
+   "t": {
+    "columns": {
+     "id": "INTEGER",
+     "x": "INTEGER"
+    },
+    "keys": [
+     [
+      "id"
+     ]
+    ]
+   }
+  },
+  "rows": {
+   "t": [
+    [
+     1,
+     1
+    ],
+    [
+     2,
+     2
+    ],
+    [
+     3,
+     3
+    ]
+   ]
+  },
+  "duckdb": {
+   "sql": "SELECT SUM(t.x * 0.1000000000000000000000000000000000000001) FROM t",
+   "verdict": "DET",
+   "reason": "single-row aggregate",
+   "tie_break": [],
+   "order_cols": [],
+   "certified_sql": "SELECT SUM(t.x * 0.1000000000000000000000000000000000000001) FROM t",
+   "raw": {
+    "executions": 24,
+    "succeeded": 24,
+    "errors": [],
+    "distinct_observations": 2,
+    "observations": [
+     {
+      "n": 1,
+      "head": [
+       "sum((t.x * 0.1))"
+      ],
+      "top": [
+       [
+        "0.6000000000000001"
+       ]
+      ]
+     },
+     {
+      "n": 1,
+      "head": [
+       "sum((t.x * 0.1))"
+      ],
+      "top": [
+       [
+        "0.6"
+       ]
+      ]
+     }
+    ]
+   },
+   "certified": {
+    "executions": 24,
+    "succeeded": 24,
+    "errors": [],
+    "distinct_observations": 2,
+    "observations": [
+     {
+      "n": 1,
+      "head": [
+       "sum((t.x * 0.1))"
+      ],
+      "top": [
+       [
+        "0.6000000000000001"
+       ]
+      ]
+     },
+     {
+      "n": 1,
+      "head": [
+       "sum((t.x * 0.1))"
+      ],
+      "top": [
+       [
+        "0.6"
+       ]
+      ]
+     }
+    ]
+   },
+   "probe": [
+    "SELECT typeof(0.1000000000000000000000000000000000000001) FROM t LIMIT 1",
+    [
+     [
+      "DOUBLE"
+     ]
+    ]
+   ]
+  },
+  "postgres": {
+   "sql": "SELECT SUM(t.x * 0.1000000000000000000000000000000000000001) FROM t",
+   "verdict": "DET",
+   "reason": "single-row aggregate",
+   "tie_break": [],
+   "order_cols": [],
+   "certified_sql": "SELECT SUM(t.x * 0.1000000000000000000000000000000000000001) FROM t",
+   "raw": {
+    "executions": 6,
+    "succeeded": 6,
+    "errors": [],
+    "distinct_observations": 1,
+    "observations": [
+     {
+      "n": 1,
+      "head": [
+       "sum"
+      ],
+      "top": [
+       [
+        "0.6000000000000000000000000000000000000006"
+       ]
+      ]
+     }
+    ]
+   },
+   "certified": {
+    "executions": 6,
+    "succeeded": 6,
+    "errors": [],
+    "distinct_observations": 1,
+    "observations": [
+     {
+      "n": 1,
+      "head": [
+       "sum"
+      ],
+      "top": [
+       [
+        "0.6000000000000000000000000000000000000006"
+       ]
+      ]
+     }
+    ]
+   }
+  }
+ },
+ {
+  "name": "R11 BIGINT = e-notation literal compares in DOUBLE (lossy): the constant does not pin the column",
+  "schema": {
+   "t": {
+    "columns": {
+     "id": "INTEGER",
+     "big": "BIGINT"
+    },
+    "keys": [
+     [
+      "id"
+     ]
+    ]
+   }
+  },
+  "rows": {
+   "t": [
+    [
+     1,
+     9007199254740992
+    ],
+    [
+     2,
+     9007199254740993
+    ],
+    [
+     3,
+     7
+    ]
+   ]
+  },
+  "duckdb": {
+   "sql": "SELECT t.big FROM t WHERE t.big = 9007199254740992e0 LIMIT 1",
+   "verdict": "DET",
+   "reason": "order determines every output column",
+   "tie_break": [],
+   "order_cols": [],
+   "certified_sql": "SELECT t.big FROM t WHERE t.big = 9007199254740992e0 LIMIT 1",
+   "raw": {
+    "executions": 24,
+    "succeeded": 24,
+    "errors": [],
+    "distinct_observations": 2,
+    "observations": [
+     {
+      "n": 1,
+      "head": [
+       "big"
+      ],
+      "top": [
+       [
+        "9007199254740992"
+       ]
+      ]
+     },
+     {
+      "n": 1,
+      "head": [
+       "big"
+      ],
+      "top": [
+       [
+        "9007199254740993"
+       ]
+      ]
+     }
+    ]
+   },
+   "certified": {
+    "executions": 24,
+    "succeeded": 24,
+    "errors": [],
+    "distinct_observations": 2,
+    "observations": [
+     {
+      "n": 1,
+      "head": [
+       "big"
+      ],
+      "top": [
+       [
+        "9007199254740992"
+       ]
+      ]
+     },
+     {
+      "n": 1,
+      "head": [
+       "big"
+      ],
+      "top": [
+       [
+        "9007199254740993"
+       ]
+      ]
+     }
+    ]
+   }
+  },
+  "postgres": {
+   "sql": "SELECT t.big FROM t WHERE t.big = 9007199254740992e0 LIMIT 1",
+   "verdict": "DET",
+   "reason": "order determines every output column",
+   "tie_break": [],
+   "order_cols": [],
+   "certified_sql": "SELECT t.big FROM t WHERE t.big = 9007199254740992e0 LIMIT 1",
+   "raw": {
+    "executions": 6,
+    "succeeded": 6,
+    "errors": [],
+    "distinct_observations": 1,
+    "observations": [
+     {
+      "n": 1,
+      "head": [
+       "big"
+      ],
+      "top": [
+       [
+        "9007199254740992"
+       ]
+      ]
+     }
+    ]
+   },
+   "certified": {
+    "executions": 6,
+    "succeeded": 6,
+    "errors": [],
+    "distinct_observations": 1,
+    "observations": [
+     {
+      "n": 1,
+      "head": [
+       "big"
+      ],
+      "top": [
+       [
+        "9007199254740992"
+       ]
+      ]
+     }
+    ]
+   }
+  }
+ },
+ {
+  "name": "R12 same, grouped: two groups pass the lossy constant filter",
+  "schema": {
+   "t": {
+    "columns": {
+     "id": "INTEGER",
+     "big": "BIGINT"
+    },
+    "keys": [
+     [
+      "id"
+     ]
+    ]
+   }
+  },
+  "rows": {
+   "t": [
+    [
+     1,
+     9007199254740992
+    ],
+    [
+     2,
+     9007199254740993
+    ],
+    [
+     3,
+     7
+    ]
+   ]
+  },
+  "duckdb": {
+   "sql": "SELECT t.big, COUNT(*) FROM t WHERE t.big = 9007199254740992e0 GROUP BY t.big",
+   "verdict": "DET",
+   "reason": "order determines group key",
+   "tie_break": [],
+   "order_cols": [],
+   "certified_sql": "SELECT t.big, COUNT(*) FROM t WHERE t.big = 9007199254740992e0 GROUP BY t.big",
+   "raw": {
+    "executions": 24,
+    "succeeded": 24,
+    "errors": [],
+    "distinct_observations": 2,
+    "observations": [
+     {
+      "n": 2,
+      "head": [
+       "big",
+       "count_star()"
+      ],
+      "top": [
+       [
+        "9007199254740992",
+        "1"
+       ],
+       [
+        "9007199254740993",
+        "1"
+       ]
+      ]
+     },
+     {
+      "n": 2,
+      "head": [
+       "big",
+       "count_star()"
+      ],
+      "top": [
+       [
+        "9007199254740993",
+        "1"
+       ],
+       [
+        "9007199254740992",
+        "1"
+       ]
+      ]
+     }
+    ]
+   },
+   "certified": {
+    "executions": 24,
+    "succeeded": 24,
+    "errors": [],
+    "distinct_observations": 2,
+    "observations": [
+     {
+      "n": 2,
+      "head": [
+       "big",
+       "count_star()"
+      ],
+      "top": [
+       [
+        "9007199254740992",
+        "1"
+       ],
+       [
+        "9007199254740993",
+        "1"
+       ]
+      ]
+     },
+     {
+      "n": 2,
+      "head": [
+       "big",
+       "count_star()"
+      ],
+      "top": [
+       [
+        "9007199254740993",
+        "1"
+       ],
+       [
+        "9007199254740992",
+        "1"
+       ]
+      ]
+     }
+    ]
+   }
+  },
+  "postgres": {
+   "sql": "SELECT t.big, COUNT(*) FROM t WHERE t.big = 9007199254740992e0 GROUP BY t.big",
+   "verdict": "DET",
+   "reason": "order determines group key",
+   "tie_break": [],
+   "order_cols": [],
+   "certified_sql": "SELECT t.big, COUNT(*) FROM t WHERE t.big = 9007199254740992e0 GROUP BY t.big",
+   "raw": {
+    "executions": 6,
+    "succeeded": 6,
+    "errors": [],
+    "distinct_observations": 1,
+    "observations": [
+     {
+      "n": 1,
+      "head": [
+       "big",
+       "count"
+      ],
+      "top": [
+       [
+        "9007199254740992",
+        "1"
+       ]
+      ]
+     }
+    ]
+   },
+   "certified": {
+    "executions": 6,
+    "succeeded": 6,
+    "errors": [],
+    "distinct_observations": 1,
+    "observations": [
+     {
+      "n": 1,
+      "head": [
+       "big",
+       "count"
+      ],
+      "top": [
+       [
+        "9007199254740992",
+        "1"
+       ]
+      ]
+     }
+    ]
+   }
+  }
+ },
+ {
+  "name": "R13 TIMESTAMP = TIMESTAMPTZ through the session time zone: 02:30 and 03:30 on 2018-03-11 (New York) are one instant",
+  "schema": {
+   "t": {
+    "columns": {
+     "id": "INTEGER",
+     "ts": "TIMESTAMP"
+    },
+    "keys": [
+     [
+      "id"
+     ]
+    ]
+   },
+   "u": {
+    "columns": {
+     "id": "INTEGER",
+     "tz": "TIMESTAMP WITH TIME ZONE"
+    },
+    "keys": [
+     [
+      "id"
+     ]
+    ]
+   }
+  },
+  "rows": {
+   "t": [
+    [
+     1,
+     "2018-03-11 02:30:00"
+    ],
+    [
+     2,
+     "2018-03-11 03:30:00"
+    ]
+   ],
+   "u": [
+    [
+     1,
+     "2018-03-11 07:30:00+00"
+    ]
+   ]
+  },
+  "duckdb": {
+   "sql": "SELECT t.ts FROM t JOIN u ON t.ts = u.tz ORDER BY u.tz",
+   "verdict": "DET",
+   "reason": "order determines every output column",
+   "tie_break": [],
+   "order_cols": [
+    [
+     "u",
+     "tz"
+    ]
+   ],
+   "certified_sql": "SELECT t.ts FROM t JOIN u ON t.ts = u.tz ORDER BY u.tz",
+   "raw": {
+    "executions": 24,
+    "succeeded": 24,
+    "errors": [],
+    "distinct_observations": 2,
+    "observations": [
+     {
+      "n": 2,
+      "head": [
+       "ts"
+      ],
+      "top": [
+       [
+        "2018-03-11 02:30:00"
+       ],
+       [
+        "2018-03-11 03:30:00"
+       ]
+      ]
+     },
+     {
+      "n": 2,
+      "head": [
+       "ts"
+      ],
+      "top": [
+       [
+        "2018-03-11 03:30:00"
+       ],
+       [
+        "2018-03-11 02:30:00"
+       ]
+      ]
+     }
+    ]
+   },
+   "certified": {
+    "executions": 24,
+    "succeeded": 24,
+    "errors": [],
+    "distinct_observations": 2,
+    "observations": [
+     {
+      "n": 2,
+      "head": [
+       "ts"
+      ],
+      "top": [
+       [
+        "2018-03-11 02:30:00"
+       ],
+       [
+        "2018-03-11 03:30:00"
+       ]
+      ]
+     },
+     {
+      "n": 2,
+      "head": [
+       "ts"
+      ],
+      "top": [
+       [
+        "2018-03-11 03:30:00"
+       ],
+       [
+        "2018-03-11 02:30:00"
+       ]
+      ]
+     }
+    ]
+   }
+  },
+  "postgres": {
+   "sql": "SELECT t.ts FROM t JOIN u ON t.ts = u.tz ORDER BY u.tz",
+   "verdict": "DET",
+   "reason": "order determines every output column",
+   "tie_break": [],
+   "order_cols": [
+    [
+     "u",
+     "tz"
+    ]
+   ],
+   "certified_sql": "SELECT t.ts FROM t JOIN u ON t.ts = u.tz ORDER BY u.tz",
+   "raw": {
+    "executions": 6,
+    "succeeded": 6,
+    "errors": [],
+    "distinct_observations": 1,
+    "observations": [
+     {
+      "n": 2,
+      "head": [
+       "ts"
+      ],
+      "top": [
+       [
+        "2018-03-11 02:30:00"
+       ],
+       [
+        "2018-03-11 03:30:00"
+       ]
+      ]
+     }
+    ]
+   },
+   "certified": {
+    "executions": 6,
+    "succeeded": 6,
+    "errors": [],
+    "distinct_observations": 1,
+    "observations": [
+     {
+      "n": 2,
+      "head": [
+       "ts"
+      ],
+      "top": [
+       [
+        "2018-03-11 02:30:00"
+       ],
+       [
+        "2018-03-11 03:30:00"
+       ]
+      ]
+     }
+    ]
+   }
+  }
+ },
+ {
+  "name": "R14 CHAR(3) = VARCHAR ignores trailing blanks (PostgreSQL): 'a' and 'a ' both match",
+  "schema": {
+   "t": {
+    "columns": {
+     "id": "INTEGER",
+     "ch": "CHAR(3)"
+    },
+    "keys": [
+     [
+      "id"
+     ]
+    ]
+   },
+   "u": {
+    "columns": {
+     "id": "INTEGER",
+     "vc": "VARCHAR"
+    },
+    "keys": [
+     [
+      "id"
+     ]
+    ]
+   }
+  },
+  "rows": {
+   "t": [
+    [
+     1,
+     "a"
+    ]
+   ],
+   "u": [
+    [
+     1,
+     "a"
+    ],
+    [
+     2,
+     "a "
+    ]
+   ]
+  },
+  "duckdb": {
+   "sql": "SELECT u.vc FROM t JOIN u ON t.ch = u.vc ORDER BY t.ch",
+   "verdict": "DET",
+   "reason": "order determines every output column",
+   "tie_break": [],
+   "order_cols": [
+    [
+     "t",
+     "ch"
+    ]
+   ],
+   "certified_sql": "SELECT u.vc FROM t JOIN u ON t.ch = u.vc ORDER BY t.ch",
+   "raw": {
+    "executions": 24,
+    "succeeded": 24,
+    "errors": [],
+    "distinct_observations": 1,
+    "observations": [
+     {
+      "n": 1,
+      "head": [
+       "vc"
+      ],
+      "top": [
+       [
+        "a"
+       ]
+      ]
+     }
+    ]
+   },
+   "certified": {
+    "executions": 24,
+    "succeeded": 24,
+    "errors": [],
+    "distinct_observations": 1,
+    "observations": [
+     {
+      "n": 1,
+      "head": [
+       "vc"
+      ],
+      "top": [
+       [
+        "a"
+       ]
+      ]
+     }
+    ]
+   }
+  },
+  "postgres": {
+   "sql": "SELECT u.vc FROM t JOIN u ON t.ch = u.vc ORDER BY t.ch",
+   "verdict": "DET",
+   "reason": "order determines every output column",
+   "tie_break": [],
+   "order_cols": [
+    [
+     "t",
+     "ch"
+    ]
+   ],
+   "certified_sql": "SELECT u.vc FROM t JOIN u ON t.ch = u.vc ORDER BY t.ch",
+   "raw": {
+    "executions": 6,
+    "succeeded": 6,
+    "errors": [],
+    "distinct_observations": 2,
+    "observations": [
+     {
+      "n": 2,
+      "head": [
+       "vc"
+      ],
+      "top": [
+       [
+        "a "
+       ],
+       [
+        "a"
+       ]
+      ]
+     },
+     {
+      "n": 2,
+      "head": [
+       "vc"
+      ],
+      "top": [
+       [
+        "a"
+       ],
+       [
+        "a "
+       ]
+      ]
+     }
+    ]
+   },
+   "certified": {
+    "executions": 6,
+    "succeeded": 6,
+    "errors": [],
+    "distinct_observations": 2,
+    "observations": [
+     {
+      "n": 2,
+      "head": [
+       "vc"
+      ],
+      "top": [
+       [
+        "a "
+       ],
+       [
+        "a"
+       ]
+      ]
+     },
+     {
+      "n": 2,
+      "head": [
+       "vc"
+      ],
+      "top": [
+       [
+        "a"
+       ],
+       [
+        "a "
+       ]
+      ]
+     }
+    ]
+   }
+  }
+ },
+ {
+  "name": "R6 (known defect 2) SELECT DISTINCT with a non-output ORDER BY key",
+  "schema": {
+   "r": {
+    "columns": {
+     "id": "INTEGER",
+     "name": "VARCHAR"
+    },
+    "keys": [
+     [
+      "id"
+     ]
+    ]
+   },
+   "s": {
+    "columns": {
+     "id": "INTEGER",
+     "r_id": "INTEGER",
+     "rank": "INTEGER"
+    },
+    "keys": [
+     [
+      "id"
+     ]
+    ]
+   }
+  },
+  "rows": {
+   "r": [
+    [
+     1,
+     "a"
+    ],
+    [
+     2,
+     "b"
+    ]
+   ],
+   "s": [
+    [
+     1,
+     1,
+     5
+    ],
+    [
+     2,
+     1,
+     3
+    ],
+    [
+     3,
+     2,
+     4
+    ]
+   ]
+  },
+  "duckdb": {
+   "sql": "SELECT DISTINCT r.name FROM r JOIN s ON s.r_id = r.id ORDER BY s.rank LIMIT 1",
+   "verdict": "UNSUPPORTED",
+   "reason": "distinct-order-by-non-output",
+   "tie_break": [],
+   "order_cols": [],
+   "certified_sql": null,
+   "raw": {
+    "executions": 24,
+    "succeeded": 24,
+    "errors": [],
+    "distinct_observations": 2,
+    "observations": [
+     {
+      "n": 1,
+      "head": [
+       "name"
+      ],
+      "top": [
+       [
+        "b"
+       ]
+      ]
+     },
+     {
+      "n": 1,
+      "head": [
+       "name"
+      ],
+      "top": [
+       [
+        "a"
+       ]
+      ]
+     }
+    ]
+   }
+  },
+  "postgres": {
+   "sql": "SELECT DISTINCT r.name FROM r JOIN s ON s.r_id = r.id ORDER BY s.rank LIMIT 1",
+   "verdict": "UNSUPPORTED",
+   "reason": "distinct-order-by-non-output",
+   "tie_break": [],
+   "order_cols": [],
+   "certified_sql": null,
+   "raw": {
+    "executions": 6,
+    "succeeded": 0,
+    "errors": [
+     "SEM:42P10: for SELECT DISTINCT, ORDER BY expressions must appear in select list"
+    ],
+    "distinct_observations": 0,
+    "observations": []
+   }
+  }
+ },
+ {
+  "name": "R3 header renamed by the regenerated rewrite (bag unchanged; not a G2 violation)",
+  "schema": {
+   "t": {
+    "columns": {
+     "id": "INTEGER",
+     "x": "INTEGER"
+    },
+    "keys": [
+     [
+      "id"
+     ]
+    ]
+   }
+  },
+  "rows": {
+   "t": [
+    [
+     1,
+     null
+    ],
+    [
+     2,
+     5
+    ]
+   ]
+  },
+  "duckdb": {
+   "sql": "SELECT a.x IS NOT NULL, a.x FROM t a",
+   "verdict": "NARROW",
+   "reason": "key tie-break",
+   "tie_break": [
+    "\"a\".\"id\""
+   ],
+   "order_cols": [],
+   "certified_sql": "SELECT a.x IS NOT NULL, a.x FROM t a ORDER BY \"a\".\"id\" ASC NULLS LAST",
+   "raw": {
+    "executions": 24,
+    "succeeded": 24,
+    "errors": [],
+    "distinct_observations": 2,
+    "observations": [
+     {
+      "n": 2,
+      "head": [
+       "(a.x IS NOT NULL)",
+       "x"
+      ],
+      "top": [
+       [
+        "False",
+        "None"
+       ],
+       [
+        "True",
+        "5"
+       ]
+      ]
+     },
+     {
+      "n": 2,
+      "head": [
+       "(a.x IS NOT NULL)",
+       "x"
+      ],
+      "top": [
+       [
+        "True",
+        "5"
+       ],
+       [
+        "False",
+        "None"
+       ]
+      ]
+     }
+    ]
+   },
+   "certified": {
+    "executions": 24,
+    "succeeded": 24,
+    "errors": [],
+    "distinct_observations": 1,
+    "observations": [
+     {
+      "n": 2,
+      "head": [
+       "(a.x IS NOT NULL)",
+       "x"
+      ],
+      "top": [
+       [
+        "False",
+        "None"
+       ],
+       [
+        "True",
+        "5"
+       ]
+      ]
+     }
+    ]
+   }
+  },
+  "postgres": {
+   "sql": "SELECT NOT a.x IS NULL, a.x FROM t AS a",
+   "verdict": "NARROW",
+   "reason": "key tie-break",
+   "tie_break": [
+    "\"a\".\"id\""
+   ],
+   "order_cols": [],
+   "certified_sql": "SELECT NOT a.x IS NULL, a.x FROM t AS a ORDER BY \"a\".\"id\" ASC NULLS LAST",
+   "raw": {
+    "executions": 6,
+    "succeeded": 6,
+    "errors": [],
+    "distinct_observations": 2,
+    "observations": [
+     {
+      "n": 2,
+      "head": [
+       "?column?",
+       "x"
+      ],
+      "top": [
+       [
+        "True",
+        "5"
+       ],
+       [
+        "False",
+        "None"
+       ]
+      ]
+     },
+     {
+      "n": 2,
+      "head": [
+       "?column?",
+       "x"
+      ],
+      "top": [
+       [
+        "False",
+        "None"
+       ],
+       [
+        "True",
+        "5"
+       ]
+      ]
+     }
+    ]
+   },
+   "certified": {
+    "executions": 6,
+    "succeeded": 6,
+    "errors": [],
+    "distinct_observations": 1,
+    "observations": [
+     {
+      "n": 2,
+      "head": [
+       "?column?",
+       "x"
+      ],
+      "top": [
+       [
+        "False",
+        "None"
+       ],
+       [
+        "True",
+        "5"
+       ]
+      ]
+     }
+    ]
+   }
+  }
+ },
+ {
+  "name": "R7a typed literal + cast (DATE 'x'::VARCHAR) re-parsed as DATE(x::VARCHAR): rewrite changes the result",
+  "schema": {
+   "t": {
+    "columns": {
+     "id": "INTEGER",
+     "g": "INTEGER"
+    },
+    "keys": [
+     [
+      "id"
+     ]
+    ]
+   }
+  },
+  "rows": {
+   "t": [
+    [
+     1,
+     1
+    ],
+    [
+     2,
+     1
+    ]
+   ]
+  },
+  "duckdb": {
+   "sql": "SELECT t.g, DATE '2026-01-10'::VARCHAR < '2026-1-5' AS c FROM t",
+   "verdict": "NARROW",
+   "reason": "key tie-break",
+   "tie_break": [
+    "\"t\".\"id\""
+   ],
+   "order_cols": [],
+   "certified_sql": "SELECT t.g, DATE '2026-01-10'::VARCHAR < '2026-1-5' AS c FROM t ORDER BY \"t\".\"id\" ASC NULLS LAST",
+   "raw": {
+    "executions": 24,
+    "succeeded": 24,
+    "errors": [],
+    "distinct_observations": 1,
+    "observations": [
+     {
+      "n": 2,
+      "head": [
+       "g",
+       "c"
+      ],
+      "top": [
+       [
+        "1",
+        "True"
+       ],
+       [
+        "1",
+        "True"
+       ]
+      ]
+     }
+    ]
+   },
+   "certified": {
+    "executions": 24,
+    "succeeded": 24,
+    "errors": [],
+    "distinct_observations": 1,
+    "observations": [
+     {
+      "n": 2,
+      "head": [
+       "g",
+       "c"
+      ],
+      "top": [
+       [
+        "1",
+        "True"
+       ],
+       [
+        "1",
+        "True"
+       ]
+      ]
+     }
+    ]
+   }
+  },
+  "postgres": {
+   "sql": "SELECT t.g, CAST(CAST('2026-01-10' AS TEXT) AS DATE) < '2026-1-5' AS c FROM t",
+   "verdict": "UNSUPPORTED",
+   "reason": "text-to-temporal-cast",
+   "tie_break": [],
+   "order_cols": [],
+   "certified_sql": null,
+   "raw": {
+    "executions": 6,
+    "succeeded": 6,
+    "errors": [],
+    "distinct_observations": 1,
+    "observations": [
+     {
+      "n": 2,
+      "head": [
+       "g",
+       "c"
+      ],
+      "top": [
+       [
+        "1",
+        "False"
+       ],
+       [
+        "1",
+        "False"
+       ]
+      ]
+     }
+    ]
+   }
+  }
+ },
+ {
+  "name": "R7b same parse: the rewrite no longer binds (LENGTH(DATE))",
+  "schema": {
+   "t": {
+    "columns": {
+     "id": "INTEGER",
+     "g": "INTEGER"
+    },
+    "keys": [
+     [
+      "id"
+     ]
+    ]
+   }
+  },
+  "rows": {
+   "t": [
+    [
+     1,
+     1
+    ],
+    [
+     2,
+     1
+    ]
+   ]
+  },
+  "duckdb": {
+   "sql": "SELECT t.g, LENGTH(DATE '2026-01-10'::VARCHAR) AS c FROM t",
+   "verdict": "NARROW",
+   "reason": "key tie-break",
+   "tie_break": [
+    "\"t\".\"id\""
+   ],
+   "order_cols": [],
+   "certified_sql": "SELECT t.g, LENGTH(DATE '2026-01-10'::VARCHAR) AS c FROM t ORDER BY \"t\".\"id\" ASC NULLS LAST",
+   "raw": {
+    "executions": 24,
+    "succeeded": 24,
+    "errors": [],
+    "distinct_observations": 1,
+    "observations": [
+     {
+      "n": 2,
+      "head": [
+       "g",
+       "c"
+      ],
+      "top": [
+       [
+        "1",
+        "10"
+       ],
+       [
+        "1",
+        "10"
+       ]
+      ]
+     }
+    ]
+   },
+   "certified": {
+    "executions": 24,
+    "succeeded": 24,
+    "errors": [],
+    "distinct_observations": 1,
+    "observations": [
+     {
+      "n": 2,
+      "head": [
+       "g",
+       "c"
+      ],
+      "top": [
+       [
+        "1",
+        "10"
+       ],
+       [
+        "1",
+        "10"
+       ]
+      ]
+     }
+    ]
+   }
+  },
+  "postgres": {
+   "sql": "SELECT t.g, LENGTH(CAST(CAST('2026-01-10' AS TEXT) AS DATE)) AS c FROM t",
+   "verdict": "UNSUPPORTED",
+   "reason": "text-to-temporal-cast",
+   "tie_break": [],
+   "order_cols": [],
+   "certified_sql": null,
+   "raw": {
+    "executions": 6,
+    "succeeded": 0,
+    "errors": [
+     "SEM:42883: function length(date) does not exist"
+    ],
+    "distinct_observations": 0,
+    "observations": []
+   }
+  }
+ },
+ {
+  "name": "R7c same parse: TIMESTAMP 'x'::DATE becomes CAST(CAST(x AS DATE) AS TIMESTAMP) (rendering changes)",
+  "schema": {
+   "t": {
+    "columns": {
+     "id": "INTEGER",
+     "g": "INTEGER"
+    },
+    "keys": [
+     [
+      "id"
+     ]
+    ]
+   }
+  },
+  "rows": {
+   "t": [
+    [
+     1,
+     1
+    ],
+    [
+     2,
+     1
+    ]
+   ]
+  },
+  "duckdb": {
+   "sql": "SELECT t.g, TIMESTAMP '2026-01-10 10:00:00'::DATE AS c FROM t",
+   "verdict": "NARROW",
+   "reason": "key tie-break",
+   "tie_break": [
+    "\"t\".\"id\""
+   ],
+   "order_cols": [],
+   "certified_sql": "SELECT t.g, TIMESTAMP '2026-01-10 10:00:00'::DATE AS c FROM t ORDER BY \"t\".\"id\" ASC NULLS LAST",
+   "raw": {
+    "executions": 24,
+    "succeeded": 24,
+    "errors": [],
+    "distinct_observations": 1,
+    "observations": [
+     {
+      "n": 2,
+      "head": [
+       "g",
+       "c"
+      ],
+      "top": [
+       [
+        "1",
+        "2026-01-10"
+       ],
+       [
+        "1",
+        "2026-01-10"
+       ]
+      ]
+     }
+    ]
+   },
+   "certified": {
+    "executions": 24,
+    "succeeded": 24,
+    "errors": [],
+    "distinct_observations": 1,
+    "observations": [
+     {
+      "n": 2,
+      "head": [
+       "g",
+       "c"
+      ],
+      "top": [
+       [
+        "1",
+        "2026-01-10"
+       ],
+       [
+        "1",
+        "2026-01-10"
+       ]
+      ]
+     }
+    ]
+   }
+  },
+  "postgres": {
+   "sql": "SELECT t.g, CAST(CAST('2026-01-10 10:00:00' AS DATE) AS TIMESTAMP) AS c FROM t",
+   "verdict": "UNSUPPORTED",
+   "reason": "text-to-temporal-cast",
+   "tie_break": [],
+   "order_cols": [],
+   "certified_sql": null,
+   "raw": {
+    "executions": 6,
+    "succeeded": 6,
+    "errors": [],
+    "distinct_observations": 1,
+    "observations": [
+     {
+      "n": 2,
+      "head": [
+       "g",
+       "c"
+      ],
+      "top": [
+       [
+        "1",
+        "2026-01-10 00:00:00"
+       ],
+       [
+        "1",
+        "2026-01-10 00:00:00"
+       ]
+      ]
+     }
+    ]
+   }
+  }
+ },
+ {
+  "name": "R4b certified execution fails where the raw query succeeds (LIMIT stops before the bad row)",
+  "schema": {
+   "t": {
+    "columns": {
+     "id": "INTEGER",
+     "s": "VARCHAR"
+    },
+    "keys": [
+     [
+      "id"
+     ]
+    ]
+   }
+  },
+  "rows": {
+   "t": [
+    [
+     1,
+     "7"
+    ],
+    [
+     2,
+     "x"
+    ]
+   ]
+  },
+  "duckdb": {
+   "sql": "SELECT CAST(t.s AS INTEGER) FROM t WHERE t.id = 1 OR t.s = 'x' LIMIT 1",
+   "verdict": "ALL",
+   "reason": "key tie-break",
+   "tie_break": [
+    "\"t\".\"id\""
+   ],
+   "order_cols": [],
+   "certified_sql": "SELECT CAST(t.s AS INTEGER) FROM t WHERE t.id = 1 OR t.s = 'x' ORDER BY \"t\".\"id\" ASC NULLS LAST LIMIT 1",
+   "raw": {
+    "executions": 24,
+    "succeeded": 15,
+    "errors": [
+     "ConversionException: Conversion Error: Could not convert string 'x' to INT32 when casting from source column s"
+    ],
+    "distinct_observations": 1,
+    "observations": [
+     {
+      "n": 1,
+      "head": [
+       "CAST(t.s AS INTEGER)"
+      ],
+      "top": [
+       [
+        "7"
+       ]
+      ]
+     }
+    ]
+   },
+   "certified": {
+    "executions": 24,
+    "succeeded": 0,
+    "errors": [
+     "ConversionException: Conversion Error: Could not convert string 'x' to INT32 when casting from source column s"
+    ],
+    "distinct_observations": 0,
+    "observations": []
+   }
+  },
+  "postgres": {
+   "sql": "SELECT CAST(t.s AS INT) FROM t WHERE t.id = 1 OR t.s = 'x' LIMIT 1",
+   "verdict": "ALL",
+   "reason": "key tie-break",
+   "tie_break": [
+    "\"t\".\"id\""
+   ],
+   "order_cols": [],
+   "certified_sql": "SELECT CAST(t.s AS INT) FROM t WHERE t.id = 1 OR t.s = 'x' ORDER BY \"t\".\"id\" ASC NULLS LAST LIMIT 1",
+   "raw": {
+    "executions": 6,
+    "succeeded": 2,
+    "errors": [
+     "RT:22P02: invalid input syntax for type integer: \"x\""
+    ],
+    "distinct_observations": 1,
+    "observations": [
+     {
+      "n": 1,
+      "head": [
+       "s"
+      ],
+      "top": [
+       [
+        "7"
+       ]
+      ]
+     }
+    ]
+   },
+   "certified": {
+    "executions": 6,
+    "succeeded": 0,
+    "errors": [
+     "RT:22P02: invalid input syntax for type integer: \"x\""
+    ],
+    "distinct_observations": 0,
+    "observations": []
+   }
+  }
+ }
+]

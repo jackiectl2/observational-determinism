@@ -1,0 +1,2 @@
+e4_v6td_qwen3_8b: 59/150 tasks with >=1 withheld preview; median 1 (max 6) among them; hybrid-correct -> strict-wrong 2, hybrid-wrong -> strict-correct 2
+e4_v6td_phi4: 42/150 tasks with >=1 withheld preview; median 1.0 (max 8) among them; hybrid-correct -> strict-wrong 11, hybrid-wrong -> strict-correct 0

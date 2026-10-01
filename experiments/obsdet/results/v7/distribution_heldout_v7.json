@@ -1,0 +1,252 @@
+{
+ "n_probes": 1125,
+ "n_occurrences": 8601,
+ "overall": {
+  "DET": {
+   "n": 189,
+   "pct": 16.8
+  },
+  "NARROW": {
+   "n": 383,
+   "pct": 34.0
+  },
+  "ALL": {
+   "n": 204,
+   "pct": 18.1
+  },
+  "UNSUPPORTED": {
+   "n": 349,
+   "pct": 31.0
+  },
+  "total": 1125
+ },
+ "overall_occurrence_weighted": {
+  "DET": {
+   "n": 2017,
+   "pct": 23.5
+  },
+  "NARROW": {
+   "n": 2913,
+   "pct": 33.9
+  },
+  "ALL": {
+   "n": 1507,
+   "pct": 17.5
+  },
+  "UNSUPPORTED": {
+   "n": 2164,
+   "pct": 25.2
+  },
+  "total": 8601
+ },
+ "by_class": {
+  "DISTINCT": {
+   "DET": {
+    "n": 1,
+    "pct": 0.9
+   },
+   "NARROW": {
+    "n": 9,
+    "pct": 7.8
+   },
+   "ALL": {
+    "n": 86,
+    "pct": 74.1
+   },
+   "UNSUPPORTED": {
+    "n": 20,
+    "pct": 17.2
+   },
+   "total": 116
+  },
+  "GROUP BY": {
+   "DET": {
+    "n": 2,
+    "pct": 2.9
+   },
+   "NARROW": {
+    "n": 35,
+    "pct": 50.0
+   },
+   "ALL": {
+    "n": 1,
+    "pct": 1.4
+   },
+   "UNSUPPORTED": {
+    "n": 32,
+    "pct": 45.7
+   },
+   "total": 70
+  },
+  "LIMIT, no ORDER BY": {
+   "DET": {
+    "n": 1,
+    "pct": 1.4
+   },
+   "NARROW": {
+    "n": 56,
+    "pct": 78.9
+   },
+   "ALL": {
+    "n": 11,
+    "pct": 15.5
+   },
+   "UNSUPPORTED": {
+    "n": 3,
+    "pct": 4.2
+   },
+   "total": 71
+  },
+  "ORDER BY + LIMIT": {
+   "DET": {
+    "n": 3,
+    "pct": 3.0
+   },
+   "NARROW": {
+    "n": 63,
+    "pct": 63.0
+   },
+   "ALL": {
+    "n": 8,
+    "pct": 8.0
+   },
+   "UNSUPPORTED": {
+    "n": 26,
+    "pct": 26.0
+   },
+   "total": 100
+  },
+  "ORDER BY, no LIMIT": {
+   "DET": {
+    "n": 1,
+    "pct": 2.4
+   },
+   "NARROW": {
+    "n": 23,
+    "pct": 54.8
+   },
+   "ALL": {
+    "n": 0,
+    "pct": 0.0
+   },
+   "UNSUPPORTED": {
+    "n": 18,
+    "pct": 42.9
+   },
+   "total": 42
+  },
+  "unordered SELECT": {
+   "DET": {
+    "n": 181,
+    "pct": 24.9
+   },
+   "NARROW": {
+    "n": 197,
+    "pct": 27.1
+   },
+   "ALL": {
+    "n": 98,
+    "pct": 13.5
+   },
+   "UNSUPPORTED": {
+    "n": 250,
+    "pct": 34.4
+   },
+   "total": 726
+  }
+ },
+ "unsupported_reasons": {
+  "derived-table": 133,
+  "no-base-table": 85,
+  "float-aggregate": 41,
+  "cte": 34,
+  "outer-or-special-join": 16,
+  "not-select": 14,
+  "volatile": 6,
+  "multi-statement": 5,
+  "construct": 5,
+  "unresolved": 4,
+  "nested-limit": 2,
+  "function": 2,
+  "aggregate": 1,
+  "distinct-order-by-non-output": 1
+ },
+ "tie_break_width": {
+  "n": 587,
+  "certified_hist": {
+   "1": 530,
+   "2": 50,
+   "3": 7
+  },
+  "certified_mean": 1.11,
+  "smartlex_mean": 2.3,
+  "smartlex_hist": {
+   "1": 230,
+   "2": 193,
+   "3": 89,
+   "4": 28,
+   "5": 24,
+   "6": 2,
+   "7": 5,
+   "8": 2,
+   "9": 2,
+   "10": 1,
+   "11": 1,
+   "12": 8,
+   "16": 1,
+   "21": 1
+  },
+  "key_tie_break": 400,
+  "non_output_key": 230
+ },
+ "raw_divergence_by_verdict": {
+  "DET": {
+   "diverged": 0,
+   "total": 0
+  },
+  "NARROW": {
+   "diverged": 0,
+   "total": 0
+  },
+  "ALL": {
+   "diverged": 0,
+   "total": 0
+  },
+  "UNSUPPORTED": {
+   "diverged": 0,
+   "total": 0
+  }
+ },
+ "ablation_no_keys": {
+  "overall": {
+   "DET": {
+    "n": 153,
+    "pct": 13.6
+   },
+   "NARROW": {
+    "n": 205,
+    "pct": 18.2
+   },
+   "ALL": {
+    "n": 418,
+    "pct": 37.2
+   },
+   "UNSUPPORTED": {
+    "n": 349,
+    "pct": 31.0
+   },
+   "total": 1125
+  },
+  "transitions": {
+   "ALL->ALL": 204,
+   "DET->ALL": 30,
+   "DET->DET": 153,
+   "DET->NARROW": 6,
+   "NARROW->ALL": 184,
+   "NARROW->NARROW": 199,
+   "UNSUPPORTED->UNSUPPORTED": 349
+  },
+  "tie_break_mean": 1.87
+ },
+ "e4_by_model": {}
+}

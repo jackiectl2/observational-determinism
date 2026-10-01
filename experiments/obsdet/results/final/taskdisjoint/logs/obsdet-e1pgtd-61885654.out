@@ -1,0 +1,62 @@
+7aa9c889bb189b0740e83e258b83a7c4  certify.py
+md5-withheld  tool.py
+md5-withheld  replay_pg.py
+md5-withheld  pg_setup.py
+0b919cdcae7d3cd2d3b085b26c342589  pg_cost.py
+fc8a35d4091b023ae17e0e522831f4f1  $PROJECT_ROOT/runs/obsdet/cert_td_new.jsonl
+[pg_setup] PostgreSQL 16.2 on x86_64-pc-linux-gnu,  shared_buffers 8GB
+[pg_setup] loaded california_schools_sf1: 3 tables, 29941 rows, 19 MB, 1s
+[pg_setup] loaded california_schools_perm42: 3 tables, 29941 rows, 19 MB, 1s
+[pg_setup] loaded card_games_sf1: 7 tables, 803451 rows, 227 MB, 7s
+[pg_setup] loaded card_games_perm42: 7 tables, 803451 rows, 227 MB, 8s
+[pg_setup] loaded codebase_community_sf1: 8 tables, 740646 rows, 407 MB, 15s
+[pg_setup] loaded codebase_community_perm42: 8 tables, 740646 rows, 407 MB, 19s
+[pg_setup] loaded debit_card_specializing_sf1: 6 tables, 423051 rows, 41 MB, 1s
+[pg_setup] loaded debit_card_specializing_perm42: 6 tables, 423051 rows, 41 MB, 1s
+[pg_setup] loaded formula_1_sf1: 14 tables, 514297 rows, 69 MB, 2s
+[pg_setup] loaded formula_1_perm42: 14 tables, 514297 rows, 69 MB, 2s
+[pg_setup] loaded thrombosis_prediction_sf1: 3 tables, 15952 rows, 10 MB, 0s
+[pg_setup] loaded thrombosis_prediction_perm42: 3 tables, 15952 rows, 10 MB, 1s
+[pg_setup] loaded student_club_sf1: 8 tables, 42511 rows, 12 MB, 1s
+[pg_setup] loaded student_club_perm42: 8 tables, 42511 rows, 12 MB, 1s
+[pg_setup] loaded superhero_sf1: 10 tables, 10614 rows, 8508 kB, 0s
+[pg_setup] loaded superhero_perm42: 10 tables, 10614 rows, 8508 kB, 0s
+[pg_setup] loaded toxicology_sf1: 4 tables, 49813 rows, 12 MB, 0s
+[pg_setup] loaded toxicology_perm42: 4 tables, 49813 rows, 12 MB, 1s
+[pg_setup] loaded european_football_2_sf1: 3 tables, 26001 rows, 81 MB, 11s
+[pg_setup] loaded european_football_2_perm42: 3 tables, 26001 rows, 81 MB, 13s
+[pg_setup] loaded financial_sf1: 6 tables, 16889 rows, 9116 kB, 0s
+[pg_setup] loaded financial_perm42: 6 tables, 16889 rows, 9116 kB, 1s
+california_schools done
+card_games done
+codebase_community done
+debit_card_specializing done
+european_football_2 done
+Unsupported SHOW statement
+financial done
+formula_1 done
+student_club done
+superhero done
+thrombosis_prediction done
+toxicology done
+
+PostgreSQL certificates and policies; parallel plans chosen in the parallel-enabled setting:
+  raw       parallel planned 1142, serial 145
+  smartlex  parallel planned 1132, serial 155
+  certified parallel planned 1124, serial 163
+
+policy x verdict: diverged / complete (censored: transpile error or not observed in every configuration)
+  raw       DET         0/311  censored 4
+  raw       NARROW      221/462  censored 9
+  raw       ALL         80/213  censored 4
+  raw       UNSUPPORTED 62/288  censored 30
+  smartlex  DET         0/311  censored 4
+  smartlex  NARROW      0/461  censored 10
+  smartlex  ALL         0/213  censored 4
+  smartlex  UNSUPPORTED 32/288  censored 30
+  certified DET         0/311  censored 4
+  certified NARROW      0/461  censored 10
+  certified ALL         0/213  censored 4
+  certified UNSUPPORTED 32/288  censored 30
+waiting for server to shut down.... done
+server stopped

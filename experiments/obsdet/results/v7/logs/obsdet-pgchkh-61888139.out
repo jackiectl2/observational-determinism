@@ -1,0 +1,32 @@
+1369ffcae12b93aec06735259c146814  certify.py
+md5-withheld  tool.py
+md5-withheld  replay_pg.py
+md5-withheld  pg_setup.py
+0b919cdcae7d3cd2d3b085b26c342589  pg_cost.py
+952f142a85a219f7ba79fe829bc92766  pg_check.py
+[pg_setup] PostgreSQL 16.2 on x86_64-pc-linux-gnu,  shared_buffers 8GB
+california_schools_sf1: 3 tables, 29941 rows, keys 3/3: ok
+california_schools_perm42: 3 tables, 29941 rows, keys 3/3: ok
+card_games_sf1: 7 tables, 803451 rows, keys 6/6: ok
+card_games_perm42: 7 tables, 803451 rows, keys 6/6: ok
+codebase_community_sf1: 8 tables, 740646 rows, keys 8/8: ok
+codebase_community_perm42: 8 tables, 740646 rows, keys 8/8: ok
+debit_card_specializing_sf1: 6 tables, 423051 rows, keys 5/5: ok
+debit_card_specializing_perm42: 6 tables, 423051 rows, keys 5/5: ok
+formula_1_sf1: 14 tables, 514297 rows, keys 13/13: ok
+formula_1_perm42: 14 tables, 514297 rows, keys 13/13: ok
+thrombosis_prediction_sf1: 3 tables, 15952 rows, keys 2/2: ok
+thrombosis_prediction_perm42: 3 tables, 15952 rows, keys 2/2: ok
+student_club_sf1: 8 tables, 42511 rows, keys 8/8: ok
+student_club_perm42: 8 tables, 42511 rows, keys 8/8: ok
+superhero_sf1: 10 tables, 10614 rows, keys 8/8: ok
+superhero_perm42: 10 tables, 10614 rows, keys 8/8: ok
+toxicology_sf1: 4 tables, 49813 rows, keys 4/4: ok
+toxicology_perm42: 4 tables, 49813 rows, keys 4/4: ok
+european_football_2_sf1: 3 tables, 26001 rows, keys 3/3: ok
+european_football_2_perm42: 3 tables, 26001 rows, keys 3/3: ok
+financial_sf1: 6 tables, 16889 rows, keys 6/6: ok
+financial_perm42: 6 tables, 16889 rows, keys 6/6: ok
+pg_check: all ok
+waiting for server to shut down.... done
+server stopped

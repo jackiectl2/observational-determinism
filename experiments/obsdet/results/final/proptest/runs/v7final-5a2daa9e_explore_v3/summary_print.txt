@@ -1,0 +1,85 @@
+[proptest] certifier {'certify': '$PROJECT_ROOT/code/obsdet/certify.py', 'certify_md5': '7aa9c889bb189b0740e83e258b83a7c4'}
+{
+ "scale": {
+  "schemas": 1000,
+  "queries_drawn": 25993,
+  "rejected_semantic": {
+   "BinderException": 973,
+   "ParserException": 20
+  },
+  "queries": 25000,
+  "instances_per_query": 10,
+  "executions_per_instance": 8,
+  "query_instance_pairs": 250000,
+  "raw_statement_executions": 2000000,
+  "wall_seconds_sum": 8323
+ },
+ "verdicts": {
+  "DET": 7212,
+  "ALL": 2191,
+  "UNSUPPORTED": 8165,
+  "NARROW": 7432
+ },
+ "violations": {
+  "cert_div": 0,
+  "cert_fail": 4,
+  "g2_bag": 0,
+  "g2_limit": 0,
+  "g2_header": 0
+ },
+ "violation_queries": {
+  "cert_div": 0,
+  "cert_fail": 2,
+  "g2_bag": 0,
+  "g2_limit": 0,
+  "g2_header": 0
+ }
+}
+  ALL             q=  2191 raw_div_q=  969 pairs raw_div 4883/21147 cert_div 0/21146 cert_fail 1
+  DET             q=  7212 raw_div_q=    0 pairs raw_div 0/69739 cert_div 0/69739 cert_fail 0
+  NARROW          q=  7432 raw_div_q= 2933 pairs raw_div 14328/71514 cert_div 0/71512 cert_fail 3
+  UNSUPPORTED     q=  8165 raw_div_q= 2038 pairs raw_div 9986/78144 cert_div 0/0 cert_fail 0
+fail-closed leaks: 0 | in-fragment syntax: {'queries': 19263, 'verdicts': {'DET': 7212, 'ALL': 2191, 'UNSUPPORTED': 2428, 'NARROW': 7432}, 'unsupported_reasons': {'order-by-alias-in-expression': 1022, 'typed-literal-cast': 511, 'distinct-order-by-non-output': 404, 'inexact-min-max-in-expression': 279, 'unresolved:AssertionError': 109, 'ambiguous-order-by-name': 59, 'aggregate-type-unknown': 42, 'unresolved:OptimizeError': 2}}
+{
+ "scale": {
+  "schemas": 240,
+  "queries_drawn": 6227,
+  "rejected_semantic": {
+   "BinderException": 218,
+   "ParserException": 9
+  },
+  "queries": 6000,
+  "instances_per_query": 4,
+  "executions_per_instance": 6,
+  "query_instance_pairs": 23996,
+  "raw_statement_executions": 143976,
+  "wall_seconds_sum": 367
+ },
+ "verdicts": {
+  "NARROW": 1494,
+  "DET": 1257,
+  "UNSUPPORTED": 2833,
+  "ALL": 415,
+  "TRANSPILE_ERROR": 1
+ },
+ "violations": {
+  "cert_div": 0,
+  "cert_fail": 3,
+  "g2_bag": 0,
+  "g2_limit": 0,
+  "g2_header": 0
+ },
+ "violation_queries": {
+  "cert_div": 0,
+  "cert_fail": 3,
+  "g2_bag": 0,
+  "g2_limit": 0,
+  "g2_header": 0
+ }
+}
+  ALL             q=   415 raw_div_q=  131 pairs raw_div 305/1431 cert_div 0/1432 cert_fail 0
+  DET             q=  1257 raw_div_q=    0 pairs raw_div 0/4125 cert_div 0/4125 cert_fail 0
+  NARROW          q=  1494 raw_div_q=  397 pairs raw_div 858/4941 cert_div 0/4939 cert_fail 3
+  TRANSPILE_ERROR q=     1 raw_div_q=    0 pairs raw_div 0/0 cert_div 0/0 cert_fail 0
+  UNSUPPORTED     q=  2833 raw_div_q=  261 pairs raw_div 582/6496 cert_div 0/0 cert_fail 0
+fail-closed leaks: 9 | in-fragment syntax: {'queries': 4662, 'verdicts': {'NARROW': 1487, 'DET': 1255, 'UNSUPPORTED': 1505, 'ALL': 415}, 'unsupported_reasons': {'text-to-temporal-cast': 904, 'order-by-alias-in-expression': 269, 'unresolved:OptimizeError': 145, 'distinct-order-by-non-output': 77, 'inexact-min-max-in-expression': 66, 'unresolved:AssertionError': 25, 'ambiguous-order-by-name': 9, 'aggregate-type-unknown': 8, 'float-aggregate': 2}}

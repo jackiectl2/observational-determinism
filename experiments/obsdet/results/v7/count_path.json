@@ -1,0 +1,97 @@
+{
+ "exact_count": 174285,
+ "runs": [
+  {
+   "tool": "old",
+   "count_fails": false,
+   "sql": "SELECT Id FROM comments ORDER BY Id -- trailing comment",
+   "success": true,
+   "truncated": true,
+   "n_rows": 100000,
+   "exact_count": false,
+   "error": "",
+   "ok": false
+  },
+  {
+   "tool": "old",
+   "count_fails": false,
+   "sql": "SELECT Id FROM comments ORDER BY Id",
+   "success": true,
+   "truncated": false,
+   "n_rows": 174285,
+   "exact_count": true,
+   "error": "",
+   "ok": true
+  },
+  {
+   "tool": "old",
+   "count_fails": true,
+   "sql": "SELECT Id FROM comments ORDER BY Id -- trailing comment",
+   "success": true,
+   "truncated": true,
+   "n_rows": 100000,
+   "exact_count": false,
+   "error": "",
+   "ok": false
+  },
+  {
+   "tool": "old",
+   "count_fails": true,
+   "sql": "SELECT Id FROM comments ORDER BY Id",
+   "success": true,
+   "truncated": true,
+   "n_rows": 100000,
+   "exact_count": false,
+   "error": "",
+   "ok": false
+  },
+  {
+   "tool": "new",
+   "count_fails": false,
+   "sql": "SELECT Id FROM comments ORDER BY Id -- trailing comment",
+   "success": true,
+   "truncated": false,
+   "n_rows": 174285,
+   "exact_count": true,
+   "error": "",
+   "ok": true
+  },
+  {
+   "tool": "new",
+   "count_fails": false,
+   "sql": "SELECT Id FROM comments ORDER BY Id",
+   "success": true,
+   "truncated": false,
+   "n_rows": 174285,
+   "exact_count": true,
+   "error": "",
+   "ok": true
+  },
+  {
+   "tool": "new",
+   "count_fails": true,
+   "sql": "SELECT Id FROM comments ORDER BY Id -- trailing comment",
+   "success": false,
+   "truncated": true,
+   "n_rows": 0,
+   "exact_count": false,
+   "error": "Could not count the rows of the result: simulated count failure",
+   "ok": true
+  },
+  {
+   "tool": "new",
+   "count_fails": true,
+   "sql": "SELECT Id FROM comments ORDER BY Id",
+   "success": false,
+   "truncated": true,
+   "n_rows": 0,
+   "exact_count": false,
+   "error": "Could not count the rows of the result: simulated count failure",
+   "ok": true
+  }
+ ],
+ "violations": {
+  "old": 3,
+  "new": 0
+ }
+}

@@ -1,0 +1,149 @@
+7aa9c889bb189b0740e83e258b83a7c4  certify.py
+md5-withheld  tool.py
+5bf19bb17ed3900ded8502d8b010559b  heldout_probes.py
+31e6109e8111f273ee7cb9c88badcc4a  heldout_dedup.py
+9c61c749027f022e2c577568d1a5eb51  td_filter.py
+7fedeb45118a8eb3f936e61fd42e47a0  distribution.py
+43559cd5d1046991f13a8bb80b4c2497  $PROJECT_ROOT/runs/obsdet/catalog.json
+bea7c02ea43c20b139f6b9ef6b1104ba  $PROJECT_ROOT/runs/obsdet/cert_probes_v6.jsonl
+2c72ddee2905151f7dc23162fee1162f  $PROJECT_ROOT/runs/obsdet/cert_heldout_all.jsonl
+'SHOW COLUMNS FROM cards' contains unsupported syntax. Falling back to parsing as a 'Command'.
+'SHOW COLUMNS FROM cards' contains unsupported syntax. Falling back to parsing as a 'Command'.
+distinct statements 1495 | in dev set 1
+  (False, False, 'ALL') 222
+  (False, False, 'DET') 318
+  (False, False, 'NARROW') 474
+  (False, False, 'UNSUPPORTED') 319
+  (False, True, 'ALL') 7
+  (False, True, 'DET') 11
+  (False, True, 'NARROW') 19
+  (False, True, 'UNSUPPORTED') 124
+  (True, False, 'UNSUPPORTED') 1
+{
+ "distinct_statements": 1495,
+ "removed_in_order": {
+  "dev_exact": 1,
+  "dev_normalized": 0,
+  "heldout1_exact": 8,
+  "heldout1_normalized": 5,
+  "fails_on_sf1": 160
+ },
+ "kept": 1321,
+ "kept_distinct_after_norm": 1283,
+ "kept_by_model": {
+  "v6td_phi4": 520,
+  "v6td_qwen3_8b": 835
+ },
+ "kept_by_db": {
+  "california_schools": 160,
+  "card_games": 180,
+  "codebase_community": 116,
+  "debit_card_specializing": 106,
+  "european_football_2": 45,
+  "financial": 120,
+  "formula_1": 148,
+  "student_club": 150,
+  "superhero": 92,
+  "thrombosis_prediction": 31,
+  "toxicology": 173
+ },
+ "kept_in_both_models": 34,
+ "kept_occurrences": 13702,
+ "verdicts": {
+  "DET": {
+   "n": 315,
+   "pct": 23.8
+  },
+  "NARROW": {
+   "n": 471,
+   "pct": 35.7
+  },
+  "ALL": {
+   "n": 217,
+   "pct": 16.4
+  },
+  "UNSUPPORTED": {
+   "n": 318,
+   "pct": 24.1
+  }
+ },
+ "rewrite_failed": 0
+}
+{
+ "n_probes": 1321,
+ "overall": {
+  "DET": {
+   "n": 315,
+   "pct": 23.8
+  },
+  "NARROW": {
+   "n": 471,
+   "pct": 35.7
+  },
+  "ALL": {
+   "n": 217,
+   "pct": 16.4
+  },
+  "UNSUPPORTED": {
+   "n": 318,
+   "pct": 24.1
+  },
+  "total": 1321
+ },
+ "tie_break_width": {
+  "n": 688,
+  "certified_hist": {
+   "1": 614,
+   "2": 68,
+   "3": 6
+  },
+  "certified_mean": 1.12,
+  "smartlex_mean": 2.49,
+  "smartlex_hist": {
+   "1": 248,
+   "2": 229,
+   "3": 96,
+   "4": 50,
+   "5": 18,
+   "6": 11,
+   "7": 10,
+   "8": 4,
+   "9": 8,
+   "10": 6,
+   "11": 1,
+   "15": 2,
+   "16": 2,
+   "17": 1,
+   "21": 2
+  },
+  "key_tie_break": 430,
+  "non_output_key": 262
+ },
+ "raw_divergence_by_verdict": {
+  "DET": {
+   "diverged": 0,
+   "total": 0
+  },
+  "NARROW": {
+   "diverged": 0,
+   "total": 0
+  },
+  "ALL": {
+   "diverged": 0,
+   "total": 0
+  },
+  "UNSUPPORTED": {
+   "diverged": 0,
+   "total": 0
+  }
+ }
+}
+DISTINCT               DET=3(2.0%) NARROW=35(23.2%) ALL=99(65.6%) UNSUPPORTED=14(9.3%) total=151
+GROUP BY               DET=8(11.0%) NARROW=32(43.8%) ALL=6(8.2%) UNSUPPORTED=27(37.0%) total=73
+LIMIT, no ORDER BY     DET=1(1.6%) NARROW=39(60.9%) ALL=19(29.7%) UNSUPPORTED=5(7.8%) total=64
+ORDER BY + LIMIT       DET=8(9.0%) NARROW=60(67.4%) ALL=9(10.1%) UNSUPPORTED=12(13.5%) total=89
+ORDER BY, no LIMIT     DET=11(42.3%) NARROW=8(30.8%) ALL=0(0.0%) UNSUPPORTED=7(26.9%) total=26
+unordered SELECT       DET=284(30.9%) NARROW=297(32.4%) ALL=84(9.2%) UNSUPPORTED=253(27.6%) total=918
+no-keys ablation: {'DET': {'n': 246, 'pct': 18.6}, 'NARROW': {'n': 220, 'pct': 16.7}, 'ALL': {'n': 537, 'pct': 40.7}, 'UNSUPPORTED': {'n': 318, 'pct': 24.1}, 'total': 1321} mean width 2.04
+E4 v6td_qwen3_8b: DET=110(22.0%) NARROW=178(35.6%) ALL=93(18.6%) UNSUPPORTED=119(23.8%) total=500
+E4 v6td_phi4: DET=87(25.3%) NARROW=120(34.9%) ALL=70(20.3%) UNSUPPORTED=67(19.5%) total=344

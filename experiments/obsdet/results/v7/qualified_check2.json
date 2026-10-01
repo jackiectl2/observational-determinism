@@ -1,0 +1,181 @@
+{
+ "cases": [
+  {
+   "sql": "SELECT x FROM t ORDER BY id LIMIT 1",
+   "dialect": "duckdb",
+   "old": [
+    "DET",
+    "order determines every output column",
+    []
+   ],
+   "new": [
+    "DET",
+    "order determines every output column",
+    []
+   ],
+   "expected_new": "DET",
+   "ok": true
+  },
+  {
+   "sql": "SELECT x FROM t ORDER BY id LIMIT 1",
+   "dialect": "postgres",
+   "old": [
+    "DET",
+    "order determines every output column",
+    []
+   ],
+   "new": [
+    "DET",
+    "order determines every output column",
+    []
+   ],
+   "expected_new": "DET",
+   "ok": true
+  },
+  {
+   "sql": "SELECT x FROM evil.t ORDER BY id LIMIT 1",
+   "dialect": "duckdb",
+   "old": [
+    "DET",
+    "order determines every output column",
+    []
+   ],
+   "new": [
+    "UNSUPPORTED",
+    "unknown-table",
+    []
+   ],
+   "expected_new": "UNSUPPORTED",
+   "ok": true
+  },
+  {
+   "sql": "SELECT x FROM evil.t ORDER BY id LIMIT 1",
+   "dialect": "postgres",
+   "old": [
+    "DET",
+    "order determines every output column",
+    []
+   ],
+   "new": [
+    "UNSUPPORTED",
+    "unknown-table",
+    []
+   ],
+   "expected_new": "UNSUPPORTED",
+   "ok": true
+  },
+  {
+   "sql": "SELECT x FROM main.t ORDER BY id LIMIT 1",
+   "dialect": "duckdb",
+   "old": [
+    "DET",
+    "order determines every output column",
+    []
+   ],
+   "new": [
+    "UNSUPPORTED",
+    "unknown-table",
+    []
+   ],
+   "expected_new": "UNSUPPORTED",
+   "ok": true
+  },
+  {
+   "sql": "SELECT x FROM public.t ORDER BY id LIMIT 1",
+   "dialect": "postgres",
+   "old": [
+    "DET",
+    "order determines every output column",
+    []
+   ],
+   "new": [
+    "UNSUPPORTED",
+    "unknown-table",
+    []
+   ],
+   "expected_new": "UNSUPPORTED",
+   "ok": true
+  },
+  {
+   "sql": "SELECT x FROM other.evil.t ORDER BY id LIMIT 1",
+   "dialect": "duckdb",
+   "old": [
+    "DET",
+    "order determines every output column",
+    []
+   ],
+   "new": [
+    "UNSUPPORTED",
+    "unknown-table",
+    []
+   ],
+   "expected_new": "UNSUPPORTED",
+   "ok": true
+  },
+  {
+   "sql": "SELECT a.x FROM evil.t AS a JOIN t AS b ON a.id = b.id ORDER BY a.id LIMIT 1",
+   "dialect": "duckdb",
+   "old": [
+    "DET",
+    "order determines every output column",
+    []
+   ],
+   "new": [
+    "UNSUPPORTED",
+    "unknown-table",
+    []
+   ],
+   "expected_new": "UNSUPPORTED",
+   "ok": true
+  },
+  {
+   "sql": "SELECT a.x FROM evil.t AS a JOIN t AS b ON a.id = b.id ORDER BY a.id LIMIT 1",
+   "dialect": "postgres",
+   "old": [
+    "DET",
+    "order determines every output column",
+    []
+   ],
+   "new": [
+    "UNSUPPORTED",
+    "unknown-table",
+    []
+   ],
+   "expected_new": "UNSUPPORTED",
+   "ok": true
+  },
+  {
+   "sql": "SELECT x FROM t WHERE id IN (SELECT id FROM evil.t) ORDER BY id LIMIT 1",
+   "dialect": "duckdb",
+   "old": [
+    "DET",
+    "order determines every output column",
+    []
+   ],
+   "new": [
+    "UNSUPPORTED",
+    "unknown-table",
+    []
+   ],
+   "expected_new": "UNSUPPORTED",
+   "ok": true
+  },
+  {
+   "sql": "SELECT x FROM t WHERE id IN (SELECT id FROM evil.t) ORDER BY id LIMIT 1",
+   "dialect": "postgres",
+   "old": [
+    "DET",
+    "order determines every output column",
+    []
+   ],
+   "new": [
+    "UNSUPPORTED",
+    "unknown-table",
+    []
+   ],
+   "expected_new": "UNSUPPORTED",
+   "ok": true
+  }
+ ],
+ "failures": 0
+}

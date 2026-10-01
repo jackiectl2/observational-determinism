@@ -1,0 +1,17 @@
+[
+ {
+  "db_id": "formula_1",
+  "sql": "SELECT DISTINCT races.name\nFROM races\nJOIN results ON races.raceId = results.raceId\nWHERE results.driverId = 1\nORDER BY results.rank\nLIMIT 1;",
+  "found_in": "v6td_qwen3_8b str_orig_t1 formula_1:930 turn 5"
+ },
+ {
+  "db_id": "financial",
+  "sql": "SELECT \n    AVG(CAST(DATE_DIFF('day', c.birth_date, a.date) AS DECIMAL(18, 6)) / 365.25) AS average_age_at_opening\nFROM client c\nJOIN disp d ON c.client_id = d.client_id\nJOIN account a ON d.account_id = a.account_id\nJOIN district d2 ON c.district_id = d2.district_id\nWHERE c.gender = 'F' AND c.birth_date < '1950-01-01' AND d2.A2 = 'Sokolov';",
+  "found_in": "v6td_qwen3_8b str_orig_t1 financial:100 turn 7"
+ },
+ {
+  "db_id": "california_schools",
+  "sql": "SELECT \n    AVG(CAST(\"Free Meal Count (K-12)\" AS DECIMAL(18, 6)) / CAST(\"Enrollment (K-12)\" AS DECIMAL(18, 6))) AS AvgFreeMealRate\nFROM \n    frpm\nWHERE \n    \"County Name\" = 'Alameda';",
+  "found_in": "v6td_phi4 str_orig_t1 california_schools:0 turn 5"
+ }
+]

@@ -1,0 +1,78 @@
+## Agent level (E4 design, task-disjoint tasks)
+
+| Group | Qwen3-8B traj / final SQL / result / correctness | phi-4 traj / final SQL / result / correctness |
+|---|---|---|
+| raw, 3 physical orders | 52 / 50 / 32 / 13 | 37 / 29 / 17 (cens. 1) / 7 |
+| smart-lex, 3 physical orders | 4 / 3 / 3 / 1 | 2 / 2 / 1 (cens. 1) / 0 |
+| hybrid (certified), 3 physical orders | 4 / 4 / 4 / 1 | 3 / 3 / 2 (cens. 1) / 0 |
+| strict (fail-closed), 3 physical orders | 4 / 4 / 3 / 1 | 2 / 2 / 0 (cens. 1) / 0 |
+| raw, 1 vs 8 threads | 28 / 26 / 16 / 9 | 14 / 9 / 6 (cens. 1) / 5 |
+| hybrid, 1 vs 8 threads | 2 / 2 / 2 / 0 | 0 / 0 / 0 (cens. 1) / 0 |
+| strict, 1 vs 8 threads | 1 / 0 / 0 / 0 | 0 / 0 / 0 (cens. 1) / 0 |
+
+Same groups on the original tasks (E4 v5, for comparison):
+
+| Group | Qwen3-8B (v5) | phi-4 (v5) |
+|---|---|---|
+| raw, 3 physical orders | 61 / 58 / 38 / 16 | 30 / 27 / 19 (cens. 1) / 3 |
+| smart-lex, 3 physical orders | 5 / 5 / 5 (cens. 1) / 0 | 2 / 2 / 1 (cens. 1) / 0 |
+| hybrid (certified), 3 physical orders | 6 / 6 / 5 (cens. 1) / 1 | 2 / 2 / 1 (cens. 1) / 0 |
+| strict (fail-closed), 3 physical orders | 2 / 2 / 1 / 0 | 0 / 0 / 0 (cens. 1) / 0 |
+| raw, 1 vs 8 threads | 29 / 27 / 19 / 5 | 8 / 7 / 3 (cens. 1) / 0 |
+| hybrid, 1 vs 8 threads | 3 / 3 / 3 (cens. 1) / 0 | 1 / 1 / 1 (cens. 1) / 0 |
+| strict, 1 vs 8 threads | 1 / 1 / 1 / 0 | 0 / 0 / 0 (cens. 1) / 0 |
+
+Attribution (task-disjoint): unattributed divergence and same-SQL observation-change sources
+
+- Qwen3-8B, raw, 3 physical orders: unattributed 0/150; tasks with a same-SQL observation change 72; sources {'raw': 69, 'runtime-error': 3}
+- Qwen3-8B, smart-lex, 3 physical orders: unattributed 0/150; tasks with a same-SQL observation change 9; sources {'smartlex': 5, 'runtime-error': 4}
+- Qwen3-8B, hybrid (certified), 3 physical orders: unattributed 0/150; tasks with a same-SQL observation change 9; sources {'UNSUPPORTED': 5, 'runtime-error': 4}
+- Qwen3-8B, strict (fail-closed), 3 physical orders: unattributed 0/150; tasks with a same-SQL observation change 6; sources {'runtime-error': 4, 'DET': 1, 'ALL': 1}
+- Qwen3-8B, raw, 1 vs 8 threads: unattributed 0/150; tasks with a same-SQL observation change 39; sources {'raw': 38, 'runtime-error': 1}
+- Qwen3-8B, hybrid, 1 vs 8 threads: unattributed 0/150; tasks with a same-SQL observation change 2; sources {'runtime-error': 2}
+- Qwen3-8B, strict, 1 vs 8 threads: unattributed 0/150; tasks with a same-SQL observation change 1; sources {'runtime-error': 1}
+- phi-4, raw, 3 physical orders: unattributed 0/150; tasks with a same-SQL observation change 59; sources {'raw': 59}
+- phi-4, smart-lex, 3 physical orders: unattributed 0/150; tasks with a same-SQL observation change 4; sources {'smartlex': 3, 'runtime-error': 1}
+- phi-4, hybrid (certified), 3 physical orders: unattributed 0/150; tasks with a same-SQL observation change 4; sources {'UNSUPPORTED': 4, 'runtime-error': 1}
+- phi-4, strict (fail-closed), 3 physical orders: unattributed 0/150; tasks with a same-SQL observation change 2; sources {'DET': 1, 'runtime-error': 1}
+- phi-4, raw, 1 vs 8 threads: unattributed 0/150; tasks with a same-SQL observation change 21; sources {'raw': 21}
+- phi-4, hybrid, 1 vs 8 threads: unattributed 0/150; tasks with a same-SQL observation change 0; sources {}
+- phi-4, strict, 1 vs 8 threads: unattributed 0/150; tasks with a same-SQL observation change 0; sources {}
+
+Accuracy (set; bag) per condition, task-disjoint:
+
+- Qwen3-8B: cer_orig_t1 0.633 [0.553, 0.713] (0.600); cer_orig_t8 0.633 [0.553, 0.713] (0.600); cer_p42_t1 0.627 [0.547, 0.707] (0.593); cer_p7_t1 0.627 [0.547, 0.707] (0.593); raw_orig_t1 0.640 [0.567, 0.72] (0.613); raw_orig_t8 0.620 [0.547, 0.693] (0.600); raw_p42_t1 0.620 [0.547, 0.7] (0.587); raw_p7_t1 0.627 [0.547, 0.707] (0.607); slx_orig_t1 0.620 [0.54, 0.693] (0.580); slx_p42_t1 0.613 [0.533, 0.693] (0.580); slx_p7_t1 0.613 [0.533, 0.693] (0.580); str_orig_t1 0.633 [0.553, 0.707] (0.600); str_orig_t8 0.633 [0.553, 0.707] (0.600); str_p42_t1 0.627 [0.547, 0.707] (0.593); str_p7_t1 0.627 [0.547, 0.707] (0.593)
+- phi-4: cer_orig_t1 0.493 [0.413, 0.573] (0.447); cer_orig_t8 0.493 [0.413, 0.573] (0.447); cer_p42_t1 0.493 [0.413, 0.573] (0.447); cer_p7_t1 0.493 [0.413, 0.573] (0.447); raw_orig_t1 0.493 [0.407, 0.573] (0.453); raw_orig_t8 0.473 [0.393, 0.553] (0.433); raw_p42_t1 0.473 [0.393, 0.553] (0.427); raw_p7_t1 0.473 [0.393, 0.553] (0.433); slx_orig_t1 0.493 [0.413, 0.573] (0.447); slx_p42_t1 0.493 [0.413, 0.573] (0.447); slx_p7_t1 0.493 [0.413, 0.573] (0.447); str_orig_t1 0.420 [0.34, 0.5] (0.373); str_orig_t8 0.420 [0.34, 0.5] (0.373); str_p42_t1 0.420 [0.34, 0.5] (0.373); str_p7_t1 0.420 [0.34, 0.5] (0.373)
+
+Paired accuracy differences over the three physical orders (task-clustered bootstrap 95% CI):
+
+- Qwen3-8B: cer-raw +0.0 pp [-3.1, +3.1]; slx-raw -1.3 pp [-4.7, +2.2]; cer-slx +1.3 pp [+0.0, +3.3]; str-raw +0.0 pp [-4.0, +4.0]; str-cer +0.0 pp [-2.7, +2.7]
+- phi-4: cer-raw +1.3 pp [-1.3, +4.2]; slx-raw +1.3 pp [-1.3, +4.2]; cer-slx +0.0 pp [+0.0, +0.0]; str-raw -6.0 pp [-10.9, -1.1]; str-cer -7.3 pp [-12.0, -3.3]
+
+Statements executed under the hybrid (cer) and strict (str) policies, by verdict:
+
+- Qwen3-8B: {'cer': {'NARROW': 793, 'DET': 520, 'UNSUPPORTED': 512, 'ALL': 433}, 'str': {'NARROW': 884, 'DET': 686, 'UNSUPPORTED': 161, 'ALL': 448, 'UNSUPPORTED/refused': 435}}
+- phi-4: {'cer': {'NARROW': 540, 'UNSUPPORTED': 308, 'ALL': 308, 'DET': 420}, 'str': {'NARROW': 611, 'UNSUPPORTED': 69, 'ALL': 340, 'DET': 484, 'UNSUPPORTED/refused': 412}}
+
+## Held-out statements (task-disjoint)
+
+Funnel: {"dev_exact": 1, "dev_normalized": 0, "heldout1_exact": 8, "heldout1_normalized": 5, "fails_on_sf1": 160}; distinct 1495 -> kept 1321
+
+Verdicts: DET 315 (23.8%), NARROW 471 (35.7%), ALL 217 (16.4%), UNSUPPORTED 318 (24.1%)
+Repaired (NARROW/ALL) 688: mean appended sort columns 1.12 vs smart-lex 2.49
+UNSUPPORTED reasons: {'derived-table': 123, 'no-base-table': 85, 'cte': 43, 'float-aggregate': 35, 'nested-limit': 9, 'outer-or-special-join': 8, 'unresolved': 6, 'not-select': 5, 'multi-statement': 2, 'function': 2}
+
+duckdb: records 1321 (in keep 1321); row() = {'sup': 1003, 'sup_cens': 0, 'cer': 3, 'slx': 3, 'raw': 398, 'uns': 318, 'uns_cens': 0, 'uns_raw': 89, 'uns_slx': 41}
+verdicts in this file: {'UNSUPPORTED': 318, 'NARROW': 471, 'DET': 315, 'ALL': 217}; certified diverged: 3; censored statements: 0
+duckdb: policy x verdict diverged / complete (censored)
+  raw      DET=2/315(0) NARROW=259/471(0) ALL=137/217(0) UNSUPPORTED=89/318(0)
+  smartlex DET=2/315(0) NARROW=0/471(0) ALL=1/217(0) UNSUPPORTED=41/318(0)
+  certifiedDET=2/315(0) NARROW=0/471(0) ALL=1/217(0) UNSUPPORTED=41/318(0)
+
+postgres: records 1321 (in keep 1321); row() = {'sup': 985, 'sup_cens': 18, 'cer': 0, 'slx': 0, 'raw': 301, 'uns': 288, 'uns_cens': 30, 'uns_raw': 62, 'uns_slx': 32}
+verdicts in this file: {'UNSUPPORTED': 318, 'NARROW': 471, 'DET': 315, 'ALL': 217}; certified diverged: 0; censored statements: 48
+postgres: policy x verdict diverged / complete (censored)
+  raw      DET=0/311(4) NARROW=221/462(9) ALL=80/213(4) UNSUPPORTED=62/288(30)
+  smartlex DET=0/311(4) NARROW=0/461(10) ALL=0/213(4) UNSUPPORTED=32/288(30)
+  certifiedDET=0/311(4) NARROW=0/461(10) ALL=0/213(4) UNSUPPORTED=32/288(30)
+

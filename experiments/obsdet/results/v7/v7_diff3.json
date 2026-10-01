@@ -1,0 +1,30 @@
+{
+ "dev": {
+  "n": 1015,
+  "diffs": []
+ },
+ "heldout_all": {
+  "n": 1393,
+  "diffs": []
+ },
+ "td_all": {
+  "n": 1495,
+  "diffs": []
+ },
+ "v5_phi4": {
+  "n": 606,
+  "diffs": []
+ },
+ "v5_qwen3_8b": {
+  "n": 1007,
+  "diffs": []
+ },
+ "v6td_phi4": {
+  "n": 584,
+  "diffs": []
+ },
+ "v6td_qwen3_8b": {
+  "n": 948,
+  "diffs": []
+ }
+}

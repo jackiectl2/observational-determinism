@@ -1,0 +1,29 @@
+certify.py: OK
+md5-withheld  tool.py
+md5-withheld  replay_sound.py
+md5-withheld  replay_sound.py
+california_schools done
+card_games done
+codebase_community done
+debit_card_specializing done
+european_football_2 done
+financial done
+formula_1 done
+student_club done
+superhero done
+thrombosis_prediction done
+toxicology done
+
+policy x verdict: diverged / complete (censored: not observed in every configuration)
+  raw       DET         0/193  censored 0
+  raw       NARROW      182/387  censored 0
+  raw       ALL         116/207  censored 0
+  raw       UNSUPPORTED 134/351  censored 0
+  smartlex  DET         0/193  censored 0
+  smartlex  NARROW      0/387  censored 0
+  smartlex  ALL         0/207  censored 0
+  smartlex  UNSUPPORTED 66/351  censored 0
+  certified DET         0/193  censored 0
+  certified NARROW      0/387  censored 0
+  certified ALL         0/207  censored 0
+  certified UNSUPPORTED 65/351  censored 0

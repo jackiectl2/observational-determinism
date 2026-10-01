@@ -1,0 +1,1781 @@
+{
+ "debit_card_specializing": {
+  "customers": {
+   "columns": {
+    "CustomerID": "BIGINT",
+    "Segment": "VARCHAR",
+    "Currency": "VARCHAR"
+   },
+   "keys": [
+    [
+     "CustomerID"
+    ]
+   ],
+   "declared_keys": [
+    [
+     "CustomerID"
+    ]
+   ],
+   "invalid_keys": []
+  },
+  "gasstations": {
+   "columns": {
+    "GasStationID": "BIGINT",
+    "ChainID": "BIGINT",
+    "Country": "VARCHAR",
+    "Segment": "VARCHAR"
+   },
+   "keys": [
+    [
+     "GasStationID"
+    ]
+   ],
+   "declared_keys": [
+    [
+     "GasStationID"
+    ]
+   ],
+   "invalid_keys": []
+  },
+  "products": {
+   "columns": {
+    "ProductID": "BIGINT",
+    "Description": "VARCHAR"
+   },
+   "keys": [
+    [
+     "ProductID"
+    ]
+   ],
+   "declared_keys": [
+    [
+     "ProductID"
+    ]
+   ],
+   "invalid_keys": []
+  },
+  "sqlite_sequence": {
+   "columns": {
+    "name": "BLOB",
+    "seq": "BLOB"
+   },
+   "keys": [],
+   "declared_keys": [],
+   "invalid_keys": []
+  },
+  "transactions_1k": {
+   "columns": {
+    "TransactionID": "BIGINT",
+    "Date": "DATE",
+    "Time": "VARCHAR",
+    "CustomerID": "BIGINT",
+    "CardID": "BIGINT",
+    "GasStationID": "BIGINT",
+    "ProductID": "BIGINT",
+    "Amount": "BIGINT",
+    "Price": "DOUBLE"
+   },
+   "keys": [
+    [
+     "TransactionID"
+    ]
+   ],
+   "declared_keys": [
+    [
+     "TransactionID"
+    ]
+   ],
+   "invalid_keys": []
+  },
+  "yearmonth": {
+   "columns": {
+    "CustomerID": "BIGINT",
+    "Date": "VARCHAR",
+    "Consumption": "DOUBLE"
+   },
+   "keys": [
+    [
+     "CustomerID",
+     "Date"
+    ]
+   ],
+   "declared_keys": [
+    [
+     "CustomerID",
+     "Date"
+    ]
+   ],
+   "invalid_keys": []
+  }
+ },
+ "financial": {
+  "account": {
+   "columns": {
+    "account_id": "BIGINT",
+    "district_id": "BIGINT",
+    "frequency": "VARCHAR",
+    "date": "DATE"
+   },
+   "keys": [
+    [
+     "account_id"
+    ]
+   ],
+   "declared_keys": [
+    [
+     "account_id"
+    ]
+   ],
+   "invalid_keys": []
+  },
+  "card": {
+   "columns": {
+    "card_id": "BIGINT",
+    "disp_id": "BIGINT",
+    "type": "VARCHAR",
+    "issued": "DATE"
+   },
+   "keys": [
+    [
+     "card_id"
+    ]
+   ],
+   "declared_keys": [
+    [
+     "card_id"
+    ]
+   ],
+   "invalid_keys": []
+  },
+  "client": {
+   "columns": {
+    "client_id": "BIGINT",
+    "gender": "VARCHAR",
+    "birth_date": "DATE",
+    "district_id": "BIGINT"
+   },
+   "keys": [
+    [
+     "client_id"
+    ]
+   ],
+   "declared_keys": [
+    [
+     "client_id"
+    ]
+   ],
+   "invalid_keys": []
+  },
+  "disp": {
+   "columns": {
+    "disp_id": "BIGINT",
+    "client_id": "BIGINT",
+    "account_id": "BIGINT",
+    "type": "VARCHAR"
+   },
+   "keys": [
+    [
+     "disp_id"
+    ]
+   ],
+   "declared_keys": [
+    [
+     "disp_id"
+    ]
+   ],
+   "invalid_keys": []
+  },
+  "district": {
+   "columns": {
+    "district_id": "BIGINT",
+    "A2": "VARCHAR",
+    "A3": "VARCHAR",
+    "A4": "VARCHAR",
+    "A5": "VARCHAR",
+    "A6": "VARCHAR",
+    "A7": "VARCHAR",
+    "A8": "BIGINT",
+    "A9": "BIGINT",
+    "A10": "DOUBLE",
+    "A11": "BIGINT",
+    "A12": "DOUBLE",
+    "A13": "DOUBLE",
+    "A14": "BIGINT",
+    "A15": "BIGINT",
+    "A16": "BIGINT"
+   },
+   "keys": [
+    [
+     "district_id"
+    ]
+   ],
+   "declared_keys": [
+    [
+     "district_id"
+    ]
+   ],
+   "invalid_keys": []
+  },
+  "loan": {
+   "columns": {
+    "loan_id": "BIGINT",
+    "account_id": "BIGINT",
+    "date": "DATE",
+    "amount": "BIGINT",
+    "duration": "BIGINT",
+    "payments": "DOUBLE",
+    "status": "VARCHAR"
+   },
+   "keys": [
+    [
+     "loan_id"
+    ]
+   ],
+   "declared_keys": [
+    [
+     "loan_id"
+    ]
+   ],
+   "invalid_keys": []
+  }
+ },
+ "formula_1": {
+  "circuits": {
+   "columns": {
+    "circuitId": "BIGINT",
+    "circuitRef": "VARCHAR",
+    "name": "VARCHAR",
+    "location": "VARCHAR",
+    "country": "VARCHAR",
+    "lat": "DOUBLE",
+    "lng": "DOUBLE",
+    "alt": "BIGINT",
+    "url": "VARCHAR"
+   },
+   "keys": [
+    [
+     "circuitId"
+    ]
+   ],
+   "declared_keys": [
+    [
+     "circuitId"
+    ]
+   ],
+   "invalid_keys": []
+  },
+  "constructorResults": {
+   "columns": {
+    "constructorResultsId": "BIGINT",
+    "raceId": "BIGINT",
+    "constructorId": "BIGINT",
+    "points": "DOUBLE",
+    "status": "VARCHAR"
+   },
+   "keys": [
+    [
+     "constructorResultsId"
+    ]
+   ],
+   "declared_keys": [
+    [
+     "constructorResultsId"
+    ]
+   ],
+   "invalid_keys": []
+  },
+  "constructorStandings": {
+   "columns": {
+    "constructorStandingsId": "BIGINT",
+    "raceId": "BIGINT",
+    "constructorId": "BIGINT",
+    "points": "DOUBLE",
+    "position": "BIGINT",
+    "positionText": "VARCHAR",
+    "wins": "BIGINT"
+   },
+   "keys": [
+    [
+     "constructorStandingsId"
+    ]
+   ],
+   "declared_keys": [
+    [
+     "constructorStandingsId"
+    ]
+   ],
+   "invalid_keys": []
+  },
+  "constructors": {
+   "columns": {
+    "constructorId": "BIGINT",
+    "constructorRef": "VARCHAR",
+    "name": "VARCHAR",
+    "nationality": "VARCHAR",
+    "url": "VARCHAR"
+   },
+   "keys": [
+    [
+     "constructorId"
+    ]
+   ],
+   "declared_keys": [
+    [
+     "constructorId"
+    ]
+   ],
+   "invalid_keys": []
+  },
+  "driverStandings": {
+   "columns": {
+    "driverStandingsId": "BIGINT",
+    "raceId": "BIGINT",
+    "driverId": "BIGINT",
+    "points": "DOUBLE",
+    "position": "BIGINT",
+    "positionText": "VARCHAR",
+    "wins": "BIGINT"
+   },
+   "keys": [
+    [
+     "driverStandingsId"
+    ]
+   ],
+   "declared_keys": [
+    [
+     "driverStandingsId"
+    ]
+   ],
+   "invalid_keys": []
+  },
+  "drivers": {
+   "columns": {
+    "driverId": "BIGINT",
+    "driverRef": "VARCHAR",
+    "number": "BIGINT",
+    "code": "VARCHAR",
+    "forename": "VARCHAR",
+    "surname": "VARCHAR",
+    "dob": "DATE",
+    "nationality": "VARCHAR",
+    "url": "VARCHAR"
+   },
+   "keys": [
+    [
+     "driverId"
+    ]
+   ],
+   "declared_keys": [
+    [
+     "driverId"
+    ]
+   ],
+   "invalid_keys": []
+  },
+  "lapTimes": {
+   "columns": {
+    "raceId": "BIGINT",
+    "driverId": "BIGINT",
+    "lap": "BIGINT",
+    "position": "BIGINT",
+    "time": "VARCHAR",
+    "milliseconds": "BIGINT"
+   },
+   "keys": [
+    [
+     "raceId",
+     "driverId",
+     "lap"
+    ]
+   ],
+   "declared_keys": [
+    [
+     "raceId",
+     "driverId",
+     "lap"
+    ]
+   ],
+   "invalid_keys": []
+  },
+  "pitStops": {
+   "columns": {
+    "raceId": "BIGINT",
+    "driverId": "BIGINT",
+    "stop": "BIGINT",
+    "lap": "BIGINT",
+    "time": "VARCHAR",
+    "duration": "VARCHAR",
+    "milliseconds": "BIGINT"
+   },
+   "keys": [
+    [
+     "raceId",
+     "driverId",
+     "stop"
+    ]
+   ],
+   "declared_keys": [
+    [
+     "raceId",
+     "driverId",
+     "stop"
+    ]
+   ],
+   "invalid_keys": []
+  },
+  "qualifying": {
+   "columns": {
+    "qualifyId": "BIGINT",
+    "raceId": "BIGINT",
+    "driverId": "BIGINT",
+    "constructorId": "BIGINT",
+    "number": "BIGINT",
+    "position": "BIGINT",
+    "q1": "VARCHAR",
+    "q2": "VARCHAR",
+    "q3": "VARCHAR"
+   },
+   "keys": [
+    [
+     "qualifyId"
+    ]
+   ],
+   "declared_keys": [
+    [
+     "qualifyId"
+    ]
+   ],
+   "invalid_keys": []
+  },
+  "races": {
+   "columns": {
+    "raceId": "BIGINT",
+    "year": "BIGINT",
+    "round": "BIGINT",
+    "circuitId": "BIGINT",
+    "name": "VARCHAR",
+    "date": "DATE",
+    "time": "VARCHAR",
+    "url": "VARCHAR"
+   },
+   "keys": [
+    [
+     "raceId"
+    ]
+   ],
+   "declared_keys": [
+    [
+     "raceId"
+    ]
+   ],
+   "invalid_keys": []
+  },
+  "results": {
+   "columns": {
+    "resultId": "BIGINT",
+    "raceId": "BIGINT",
+    "driverId": "BIGINT",
+    "constructorId": "BIGINT",
+    "number": "BIGINT",
+    "grid": "BIGINT",
+    "position": "BIGINT",
+    "positionText": "VARCHAR",
+    "positionOrder": "BIGINT",
+    "points": "DOUBLE",
+    "laps": "BIGINT",
+    "time": "VARCHAR",
+    "milliseconds": "BIGINT",
+    "fastestLap": "BIGINT",
+    "rank": "BIGINT",
+    "fastestLapTime": "VARCHAR",
+    "fastestLapSpeed": "VARCHAR",
+    "statusId": "BIGINT"
+   },
+   "keys": [
+    [
+     "resultId"
+    ]
+   ],
+   "declared_keys": [
+    [
+     "resultId"
+    ]
+   ],
+   "invalid_keys": []
+  },
+  "seasons": {
+   "columns": {
+    "year": "BIGINT",
+    "url": "VARCHAR"
+   },
+   "keys": [
+    [
+     "year"
+    ]
+   ],
+   "declared_keys": [
+    [
+     "year"
+    ]
+   ],
+   "invalid_keys": []
+  },
+  "sqlite_sequence": {
+   "columns": {
+    "name": "BLOB",
+    "seq": "BLOB"
+   },
+   "keys": [],
+   "declared_keys": [],
+   "invalid_keys": []
+  },
+  "status": {
+   "columns": {
+    "statusId": "BIGINT",
+    "status": "VARCHAR"
+   },
+   "keys": [
+    [
+     "statusId"
+    ]
+   ],
+   "declared_keys": [
+    [
+     "statusId"
+    ]
+   ],
+   "invalid_keys": []
+  }
+ },
+ "california_schools": {
+  "frpm": {
+   "columns": {
+    "CDSCode": "VARCHAR",
+    "Academic Year": "VARCHAR",
+    "County Code": "VARCHAR",
+    "District Code": "BIGINT",
+    "School Code": "VARCHAR",
+    "County Name": "VARCHAR",
+    "District Name": "VARCHAR",
+    "School Name": "VARCHAR",
+    "District Type": "VARCHAR",
+    "School Type": "VARCHAR",
+    "Educational Option Type": "VARCHAR",
+    "NSLP Provision Status": "VARCHAR",
+    "Charter School (Y/N)": "BIGINT",
+    "Charter School Number": "VARCHAR",
+    "Charter Funding Type": "VARCHAR",
+    "IRC": "BIGINT",
+    "Low Grade": "VARCHAR",
+    "High Grade": "VARCHAR",
+    "Enrollment (K-12)": "DOUBLE",
+    "Free Meal Count (K-12)": "DOUBLE",
+    "Percent (%) Eligible Free (K-12)": "DOUBLE",
+    "FRPM Count (K-12)": "DOUBLE",
+    "Percent (%) Eligible FRPM (K-12)": "DOUBLE",
+    "Enrollment (Ages 5-17)": "DOUBLE",
+    "Free Meal Count (Ages 5-17)": "DOUBLE",
+    "Percent (%) Eligible Free (Ages 5-17)": "DOUBLE",
+    "FRPM Count (Ages 5-17)": "DOUBLE",
+    "Percent (%) Eligible FRPM (Ages 5-17)": "DOUBLE",
+    "2013-14 CALPADS Fall 1 Certification Status": "BIGINT"
+   },
+   "keys": [
+    [
+     "CDSCode"
+    ]
+   ],
+   "declared_keys": [
+    [
+     "CDSCode"
+    ]
+   ],
+   "invalid_keys": []
+  },
+  "satscores": {
+   "columns": {
+    "cds": "VARCHAR",
+    "rtype": "VARCHAR",
+    "sname": "VARCHAR",
+    "dname": "VARCHAR",
+    "cname": "VARCHAR",
+    "enroll12": "BIGINT",
+    "NumTstTakr": "BIGINT",
+    "AvgScrRead": "BIGINT",
+    "AvgScrMath": "BIGINT",
+    "AvgScrWrite": "BIGINT",
+    "NumGE1500": "BIGINT"
+   },
+   "keys": [
+    [
+     "cds"
+    ]
+   ],
+   "declared_keys": [
+    [
+     "cds"
+    ]
+   ],
+   "invalid_keys": []
+  },
+  "schools": {
+   "columns": {
+    "CDSCode": "VARCHAR",
+    "NCESDist": "VARCHAR",
+    "NCESSchool": "VARCHAR",
+    "StatusType": "VARCHAR",
+    "County": "VARCHAR",
+    "District": "VARCHAR",
+    "School": "VARCHAR",
+    "Street": "VARCHAR",
+    "StreetAbr": "VARCHAR",
+    "City": "VARCHAR",
+    "Zip": "VARCHAR",
+    "State": "VARCHAR",
+    "MailStreet": "VARCHAR",
+    "MailStrAbr": "VARCHAR",
+    "MailCity": "VARCHAR",
+    "MailZip": "VARCHAR",
+    "MailState": "VARCHAR",
+    "Phone": "VARCHAR",
+    "Ext": "VARCHAR",
+    "Website": "VARCHAR",
+    "OpenDate": "DATE",
+    "ClosedDate": "DATE",
+    "Charter": "BIGINT",
+    "CharterNum": "VARCHAR",
+    "FundingType": "VARCHAR",
+    "DOC": "VARCHAR",
+    "DOCType": "VARCHAR",
+    "SOC": "VARCHAR",
+    "SOCType": "VARCHAR",
+    "EdOpsCode": "VARCHAR",
+    "EdOpsName": "VARCHAR",
+    "EILCode": "VARCHAR",
+    "EILName": "VARCHAR",
+    "GSoffered": "VARCHAR",
+    "GSserved": "VARCHAR",
+    "Virtual": "VARCHAR",
+    "Magnet": "BIGINT",
+    "Latitude": "DOUBLE",
+    "Longitude": "DOUBLE",
+    "AdmFName1": "VARCHAR",
+    "AdmLName1": "VARCHAR",
+    "AdmEmail1": "VARCHAR",
+    "AdmFName2": "VARCHAR",
+    "AdmLName2": "VARCHAR",
+    "AdmEmail2": "VARCHAR",
+    "AdmFName3": "VARCHAR",
+    "AdmLName3": "VARCHAR",
+    "AdmEmail3": "VARCHAR",
+    "LastUpdate": "DATE"
+   },
+   "keys": [
+    [
+     "CDSCode"
+    ]
+   ],
+   "declared_keys": [
+    [
+     "CDSCode"
+    ]
+   ],
+   "invalid_keys": []
+  }
+ },
+ "card_games": {
+  "cards": {
+   "columns": {
+    "id": "BIGINT",
+    "artist": "VARCHAR",
+    "asciiName": "VARCHAR",
+    "availability": "VARCHAR",
+    "borderColor": "VARCHAR",
+    "cardKingdomFoilId": "VARCHAR",
+    "cardKingdomId": "VARCHAR",
+    "colorIdentity": "VARCHAR",
+    "colorIndicator": "VARCHAR",
+    "colors": "VARCHAR",
+    "convertedManaCost": "DOUBLE",
+    "duelDeck": "VARCHAR",
+    "edhrecRank": "BIGINT",
+    "faceConvertedManaCost": "DOUBLE",
+    "faceName": "VARCHAR",
+    "flavorName": "VARCHAR",
+    "flavorText": "VARCHAR",
+    "frameEffects": "VARCHAR",
+    "frameVersion": "VARCHAR",
+    "hand": "VARCHAR",
+    "hasAlternativeDeckLimit": "BIGINT",
+    "hasContentWarning": "BIGINT",
+    "hasFoil": "BIGINT",
+    "hasNonFoil": "BIGINT",
+    "isAlternative": "BIGINT",
+    "isFullArt": "BIGINT",
+    "isOnlineOnly": "BIGINT",
+    "isOversized": "BIGINT",
+    "isPromo": "BIGINT",
+    "isReprint": "BIGINT",
+    "isReserved": "BIGINT",
+    "isStarter": "BIGINT",
+    "isStorySpotlight": "BIGINT",
+    "isTextless": "BIGINT",
+    "isTimeshifted": "BIGINT",
+    "keywords": "VARCHAR",
+    "layout": "VARCHAR",
+    "leadershipSkills": "VARCHAR",
+    "life": "VARCHAR",
+    "loyalty": "VARCHAR",
+    "manaCost": "VARCHAR",
+    "mcmId": "VARCHAR",
+    "mcmMetaId": "VARCHAR",
+    "mtgArenaId": "VARCHAR",
+    "mtgjsonV4Id": "VARCHAR",
+    "mtgoFoilId": "VARCHAR",
+    "mtgoId": "VARCHAR",
+    "multiverseId": "VARCHAR",
+    "name": "VARCHAR",
+    "number": "VARCHAR",
+    "originalReleaseDate": "VARCHAR",
+    "originalText": "VARCHAR",
+    "originalType": "VARCHAR",
+    "otherFaceIds": "VARCHAR",
+    "power": "VARCHAR",
+    "printings": "VARCHAR",
+    "promoTypes": "VARCHAR",
+    "purchaseUrls": "VARCHAR",
+    "rarity": "VARCHAR",
+    "scryfallId": "VARCHAR",
+    "scryfallIllustrationId": "VARCHAR",
+    "scryfallOracleId": "VARCHAR",
+    "setCode": "VARCHAR",
+    "side": "VARCHAR",
+    "subtypes": "VARCHAR",
+    "supertypes": "VARCHAR",
+    "tcgplayerProductId": "VARCHAR",
+    "text": "VARCHAR",
+    "toughness": "VARCHAR",
+    "type": "VARCHAR",
+    "types": "VARCHAR",
+    "uuid": "VARCHAR",
+    "variations": "VARCHAR",
+    "watermark": "VARCHAR"
+   },
+   "keys": [
+    [
+     "id"
+    ]
+   ],
+   "declared_keys": [
+    [
+     "id"
+    ]
+   ],
+   "invalid_keys": []
+  },
+  "foreign_data": {
+   "columns": {
+    "id": "BIGINT",
+    "flavorText": "VARCHAR",
+    "language": "VARCHAR",
+    "multiverseid": "BIGINT",
+    "name": "VARCHAR",
+    "text": "VARCHAR",
+    "type": "VARCHAR",
+    "uuid": "VARCHAR"
+   },
+   "keys": [
+    [
+     "id"
+    ]
+   ],
+   "declared_keys": [
+    [
+     "id"
+    ]
+   ],
+   "invalid_keys": []
+  },
+  "legalities": {
+   "columns": {
+    "id": "BIGINT",
+    "format": "VARCHAR",
+    "status": "VARCHAR",
+    "uuid": "VARCHAR"
+   },
+   "keys": [
+    [
+     "id"
+    ]
+   ],
+   "declared_keys": [
+    [
+     "id"
+    ]
+   ],
+   "invalid_keys": []
+  },
+  "rulings": {
+   "columns": {
+    "id": "BIGINT",
+    "date": "DATE",
+    "text": "VARCHAR",
+    "uuid": "VARCHAR"
+   },
+   "keys": [
+    [
+     "id"
+    ]
+   ],
+   "declared_keys": [
+    [
+     "id"
+    ]
+   ],
+   "invalid_keys": []
+  },
+  "set_translations": {
+   "columns": {
+    "id": "BIGINT",
+    "language": "VARCHAR",
+    "setCode": "VARCHAR",
+    "translation": "VARCHAR"
+   },
+   "keys": [
+    [
+     "id"
+    ]
+   ],
+   "declared_keys": [
+    [
+     "id"
+    ]
+   ],
+   "invalid_keys": []
+  },
+  "sets": {
+   "columns": {
+    "id": "BIGINT",
+    "baseSetSize": "BIGINT",
+    "block": "VARCHAR",
+    "booster": "VARCHAR",
+    "code": "VARCHAR",
+    "isFoilOnly": "BIGINT",
+    "isForeignOnly": "BIGINT",
+    "isNonFoilOnly": "BIGINT",
+    "isOnlineOnly": "BIGINT",
+    "isPartialPreview": "BIGINT",
+    "keyruneCode": "VARCHAR",
+    "mcmId": "BIGINT",
+    "mcmIdExtras": "BIGINT",
+    "mcmName": "VARCHAR",
+    "mtgoCode": "VARCHAR",
+    "name": "VARCHAR",
+    "parentCode": "VARCHAR",
+    "releaseDate": "DATE",
+    "tcgplayerGroupId": "BIGINT",
+    "totalSetSize": "BIGINT",
+    "type": "VARCHAR"
+   },
+   "keys": [
+    [
+     "id"
+    ]
+   ],
+   "declared_keys": [
+    [
+     "id"
+    ]
+   ],
+   "invalid_keys": []
+  },
+  "sqlite_sequence": {
+   "columns": {
+    "name": "BLOB",
+    "seq": "BLOB"
+   },
+   "keys": [],
+   "declared_keys": [],
+   "invalid_keys": []
+  }
+ },
+ "european_football_2": {
+  "Country": {
+   "columns": {
+    "id": "BIGINT",
+    "name": "VARCHAR"
+   },
+   "keys": [
+    [
+     "id"
+    ]
+   ],
+   "declared_keys": [
+    [
+     "id"
+    ]
+   ],
+   "invalid_keys": []
+  },
+  "League": {
+   "columns": {
+    "id": "BIGINT",
+    "country_id": "BIGINT",
+    "name": "VARCHAR"
+   },
+   "keys": [
+    [
+     "id"
+    ]
+   ],
+   "declared_keys": [
+    [
+     "id"
+    ]
+   ],
+   "invalid_keys": []
+  },
+  "Match": {
+   "columns": {
+    "id": "BIGINT",
+    "country_id": "BIGINT",
+    "league_id": "BIGINT",
+    "season": "VARCHAR",
+    "stage": "BIGINT",
+    "date": "VARCHAR",
+    "match_api_id": "BIGINT",
+    "home_team_api_id": "BIGINT",
+    "away_team_api_id": "BIGINT",
+    "home_team_goal": "BIGINT",
+    "away_team_goal": "BIGINT",
+    "home_player_X1": "BIGINT",
+    "home_player_X2": "BIGINT",
+    "home_player_X3": "BIGINT",
+    "home_player_X4": "BIGINT",
+    "home_player_X5": "BIGINT",
+    "home_player_X6": "BIGINT",
+    "home_player_X7": "BIGINT",
+    "home_player_X8": "BIGINT",
+    "home_player_X9": "BIGINT",
+    "home_player_X10": "BIGINT",
+    "home_player_X11": "BIGINT",
+    "away_player_X1": "BIGINT",
+    "away_player_X2": "BIGINT",
+    "away_player_X3": "BIGINT",
+    "away_player_X4": "BIGINT",
+    "away_player_X5": "BIGINT",
+    "away_player_X6": "BIGINT",
+    "away_player_X7": "BIGINT",
+    "away_player_X8": "BIGINT",
+    "away_player_X9": "BIGINT",
+    "away_player_X10": "BIGINT",
+    "away_player_X11": "BIGINT",
+    "home_player_Y1": "BIGINT",
+    "home_player_Y2": "BIGINT",
+    "home_player_Y3": "BIGINT",
+    "home_player_Y4": "BIGINT",
+    "home_player_Y5": "BIGINT",
+    "home_player_Y6": "BIGINT",
+    "home_player_Y7": "BIGINT",
+    "home_player_Y8": "BIGINT",
+    "home_player_Y9": "BIGINT",
+    "home_player_Y10": "BIGINT",
+    "home_player_Y11": "BIGINT",
+    "away_player_Y1": "BIGINT",
+    "away_player_Y2": "BIGINT",
+    "away_player_Y3": "BIGINT",
+    "away_player_Y4": "BIGINT",
+    "away_player_Y5": "BIGINT",
+    "away_player_Y6": "BIGINT",
+    "away_player_Y7": "BIGINT",
+    "away_player_Y8": "BIGINT",
+    "away_player_Y9": "BIGINT",
+    "away_player_Y10": "BIGINT",
+    "away_player_Y11": "BIGINT",
+    "home_player_1": "BIGINT",
+    "home_player_2": "BIGINT",
+    "home_player_3": "BIGINT",
+    "home_player_4": "BIGINT",
+    "home_player_5": "BIGINT",
+    "home_player_6": "BIGINT",
+    "home_player_7": "BIGINT",
+    "home_player_8": "BIGINT",
+    "home_player_9": "BIGINT",
+    "home_player_10": "BIGINT",
+    "home_player_11": "BIGINT",
+    "away_player_1": "BIGINT",
+    "away_player_2": "BIGINT",
+    "away_player_3": "BIGINT",
+    "away_player_4": "BIGINT",
+    "away_player_5": "BIGINT",
+    "away_player_6": "BIGINT",
+    "away_player_7": "BIGINT",
+    "away_player_8": "BIGINT",
+    "away_player_9": "BIGINT",
+    "away_player_10": "BIGINT",
+    "away_player_11": "BIGINT",
+    "goal": "VARCHAR",
+    "shoton": "VARCHAR",
+    "shotoff": "VARCHAR",
+    "foulcommit": "VARCHAR",
+    "card": "VARCHAR",
+    "cross": "VARCHAR",
+    "corner": "VARCHAR",
+    "possession": "VARCHAR",
+    "B365H": "DOUBLE",
+    "B365D": "DOUBLE",
+    "B365A": "DOUBLE",
+    "BWH": "DOUBLE",
+    "BWD": "DOUBLE",
+    "BWA": "DOUBLE",
+    "IWH": "DOUBLE",
+    "IWD": "DOUBLE",
+    "IWA": "DOUBLE",
+    "LBH": "DOUBLE",
+    "LBD": "DOUBLE",
+    "LBA": "DOUBLE",
+    "PSH": "DOUBLE",
+    "PSD": "DOUBLE",
+    "PSA": "DOUBLE",
+    "WHH": "DOUBLE",
+    "WHD": "DOUBLE",
+    "WHA": "DOUBLE",
+    "SJH": "DOUBLE",
+    "SJD": "DOUBLE",
+    "SJA": "DOUBLE",
+    "VCH": "DOUBLE",
+    "VCD": "DOUBLE",
+    "VCA": "DOUBLE",
+    "GBH": "DOUBLE",
+    "GBD": "DOUBLE",
+    "GBA": "DOUBLE",
+    "BSH": "DOUBLE",
+    "BSD": "DOUBLE",
+    "BSA": "DOUBLE"
+   },
+   "keys": [
+    [
+     "id"
+    ]
+   ],
+   "declared_keys": [
+    [
+     "id"
+    ]
+   ],
+   "invalid_keys": []
+  }
+ },
+ "thrombosis_prediction": {
+  "Examination": {
+   "columns": {
+    "ID": "BIGINT",
+    "Examination Date": "DATE",
+    "aCL IgG": "DOUBLE",
+    "aCL IgM": "DOUBLE",
+    "ANA": "BIGINT",
+    "ANA Pattern": "VARCHAR",
+    "aCL IgA": "BIGINT",
+    "Diagnosis": "VARCHAR",
+    "KCT": "VARCHAR",
+    "RVVT": "VARCHAR",
+    "LAC": "VARCHAR",
+    "Symptoms": "VARCHAR",
+    "Thrombosis": "BIGINT"
+   },
+   "keys": [],
+   "declared_keys": [],
+   "invalid_keys": []
+  },
+  "Laboratory": {
+   "columns": {
+    "ID": "BIGINT",
+    "Date": "DATE",
+    "GOT": "BIGINT",
+    "GPT": "BIGINT",
+    "LDH": "BIGINT",
+    "ALP": "BIGINT",
+    "TP": "DOUBLE",
+    "ALB": "DOUBLE",
+    "UA": "DOUBLE",
+    "UN": "BIGINT",
+    "CRE": "DOUBLE",
+    "T-BIL": "DOUBLE",
+    "T-CHO": "BIGINT",
+    "TG": "BIGINT",
+    "CPK": "BIGINT",
+    "GLU": "BIGINT",
+    "WBC": "DOUBLE",
+    "RBC": "DOUBLE",
+    "HGB": "DOUBLE",
+    "HCT": "DOUBLE",
+    "PLT": "BIGINT",
+    "PT": "DOUBLE",
+    "APTT": "BIGINT",
+    "FG": "DOUBLE",
+    "PIC": "BIGINT",
+    "TAT": "BIGINT",
+    "TAT2": "BIGINT",
+    "U-PRO": "VARCHAR",
+    "IGG": "BIGINT",
+    "IGA": "BIGINT",
+    "IGM": "BIGINT",
+    "CRP": "VARCHAR",
+    "RA": "VARCHAR",
+    "RF": "VARCHAR",
+    "C3": "BIGINT",
+    "C4": "BIGINT",
+    "RNP": "VARCHAR",
+    "SM": "VARCHAR",
+    "SC170": "VARCHAR",
+    "SSA": "VARCHAR",
+    "SSB": "VARCHAR",
+    "CENTROMEA": "VARCHAR",
+    "DNA": "VARCHAR",
+    "DNA-II": "BIGINT"
+   },
+   "keys": [
+    [
+     "ID",
+     "Date"
+    ]
+   ],
+   "declared_keys": [
+    [
+     "ID",
+     "Date"
+    ]
+   ],
+   "invalid_keys": []
+  },
+  "Patient": {
+   "columns": {
+    "ID": "BIGINT",
+    "SEX": "VARCHAR",
+    "Birthday": "DATE",
+    "Description": "DATE",
+    "First Date": "DATE",
+    "Admission": "VARCHAR",
+    "Diagnosis": "VARCHAR"
+   },
+   "keys": [
+    [
+     "ID"
+    ]
+   ],
+   "declared_keys": [
+    [
+     "ID"
+    ]
+   ],
+   "invalid_keys": []
+  }
+ },
+ "toxicology": {
+  "atom": {
+   "columns": {
+    "atom_id": "VARCHAR",
+    "molecule_id": "VARCHAR",
+    "element": "VARCHAR"
+   },
+   "keys": [
+    [
+     "atom_id"
+    ]
+   ],
+   "declared_keys": [
+    [
+     "atom_id"
+    ]
+   ],
+   "invalid_keys": []
+  },
+  "bond": {
+   "columns": {
+    "bond_id": "VARCHAR",
+    "molecule_id": "VARCHAR",
+    "bond_type": "VARCHAR"
+   },
+   "keys": [
+    [
+     "bond_id"
+    ]
+   ],
+   "declared_keys": [
+    [
+     "bond_id"
+    ]
+   ],
+   "invalid_keys": []
+  },
+  "connected": {
+   "columns": {
+    "atom_id": "VARCHAR",
+    "atom_id2": "VARCHAR",
+    "bond_id": "VARCHAR"
+   },
+   "keys": [
+    [
+     "atom_id",
+     "atom_id2"
+    ]
+   ],
+   "declared_keys": [
+    [
+     "atom_id",
+     "atom_id2"
+    ]
+   ],
+   "invalid_keys": []
+  },
+  "molecule": {
+   "columns": {
+    "molecule_id": "VARCHAR",
+    "label": "VARCHAR"
+   },
+   "keys": [
+    [
+     "molecule_id"
+    ]
+   ],
+   "declared_keys": [
+    [
+     "molecule_id"
+    ]
+   ],
+   "invalid_keys": []
+  }
+ },
+ "student_club": {
+  "attendance": {
+   "columns": {
+    "link_to_event": "VARCHAR",
+    "link_to_member": "VARCHAR"
+   },
+   "keys": [
+    [
+     "link_to_event",
+     "link_to_member"
+    ]
+   ],
+   "declared_keys": [
+    [
+     "link_to_event",
+     "link_to_member"
+    ]
+   ],
+   "invalid_keys": []
+  },
+  "budget": {
+   "columns": {
+    "budget_id": "VARCHAR",
+    "category": "VARCHAR",
+    "spent": "DOUBLE",
+    "remaining": "DOUBLE",
+    "amount": "BIGINT",
+    "event_status": "VARCHAR",
+    "link_to_event": "VARCHAR"
+   },
+   "keys": [
+    [
+     "budget_id"
+    ]
+   ],
+   "declared_keys": [
+    [
+     "budget_id"
+    ]
+   ],
+   "invalid_keys": []
+  },
+  "event": {
+   "columns": {
+    "event_id": "VARCHAR",
+    "event_name": "VARCHAR",
+    "event_date": "VARCHAR",
+    "type": "VARCHAR",
+    "notes": "VARCHAR",
+    "location": "VARCHAR",
+    "status": "VARCHAR"
+   },
+   "keys": [
+    [
+     "event_id"
+    ]
+   ],
+   "declared_keys": [
+    [
+     "event_id"
+    ]
+   ],
+   "invalid_keys": []
+  },
+  "expense": {
+   "columns": {
+    "expense_id": "VARCHAR",
+    "expense_description": "VARCHAR",
+    "expense_date": "VARCHAR",
+    "cost": "DOUBLE",
+    "approved": "VARCHAR",
+    "link_to_member": "VARCHAR",
+    "link_to_budget": "VARCHAR"
+   },
+   "keys": [
+    [
+     "expense_id"
+    ]
+   ],
+   "declared_keys": [
+    [
+     "expense_id"
+    ]
+   ],
+   "invalid_keys": []
+  },
+  "income": {
+   "columns": {
+    "income_id": "VARCHAR",
+    "date_received": "VARCHAR",
+    "amount": "BIGINT",
+    "source": "VARCHAR",
+    "notes": "VARCHAR",
+    "link_to_member": "VARCHAR"
+   },
+   "keys": [
+    [
+     "income_id"
+    ]
+   ],
+   "declared_keys": [
+    [
+     "income_id"
+    ]
+   ],
+   "invalid_keys": []
+  },
+  "major": {
+   "columns": {
+    "major_id": "VARCHAR",
+    "major_name": "VARCHAR",
+    "department": "VARCHAR",
+    "college": "VARCHAR"
+   },
+   "keys": [
+    [
+     "major_id"
+    ]
+   ],
+   "declared_keys": [
+    [
+     "major_id"
+    ]
+   ],
+   "invalid_keys": []
+  },
+  "member": {
+   "columns": {
+    "member_id": "VARCHAR",
+    "first_name": "VARCHAR",
+    "last_name": "VARCHAR",
+    "email": "VARCHAR",
+    "position": "VARCHAR",
+    "t_shirt_size": "VARCHAR",
+    "phone": "VARCHAR",
+    "zip": "BIGINT",
+    "link_to_major": "VARCHAR"
+   },
+   "keys": [
+    [
+     "member_id"
+    ]
+   ],
+   "declared_keys": [
+    [
+     "member_id"
+    ]
+   ],
+   "invalid_keys": []
+  },
+  "zip_code": {
+   "columns": {
+    "zip_code": "BIGINT",
+    "type": "VARCHAR",
+    "city": "VARCHAR",
+    "county": "VARCHAR",
+    "state": "VARCHAR",
+    "short_state": "VARCHAR"
+   },
+   "keys": [
+    [
+     "zip_code"
+    ]
+   ],
+   "declared_keys": [
+    [
+     "zip_code"
+    ]
+   ],
+   "invalid_keys": []
+  }
+ },
+ "superhero": {
+  "alignment": {
+   "columns": {
+    "id": "BIGINT",
+    "alignment": "VARCHAR"
+   },
+   "keys": [
+    [
+     "id"
+    ]
+   ],
+   "declared_keys": [
+    [
+     "id"
+    ]
+   ],
+   "invalid_keys": []
+  },
+  "attribute": {
+   "columns": {
+    "id": "BIGINT",
+    "attribute_name": "VARCHAR"
+   },
+   "keys": [
+    [
+     "id"
+    ]
+   ],
+   "declared_keys": [
+    [
+     "id"
+    ]
+   ],
+   "invalid_keys": []
+  },
+  "colour": {
+   "columns": {
+    "id": "BIGINT",
+    "colour": "VARCHAR"
+   },
+   "keys": [
+    [
+     "id"
+    ]
+   ],
+   "declared_keys": [
+    [
+     "id"
+    ]
+   ],
+   "invalid_keys": []
+  },
+  "gender": {
+   "columns": {
+    "id": "BIGINT",
+    "gender": "VARCHAR"
+   },
+   "keys": [
+    [
+     "id"
+    ]
+   ],
+   "declared_keys": [
+    [
+     "id"
+    ]
+   ],
+   "invalid_keys": []
+  },
+  "hero_attribute": {
+   "columns": {
+    "hero_id": "BIGINT",
+    "attribute_id": "BIGINT",
+    "attribute_value": "BIGINT"
+   },
+   "keys": [],
+   "declared_keys": [],
+   "invalid_keys": []
+  },
+  "hero_power": {
+   "columns": {
+    "hero_id": "BIGINT",
+    "power_id": "BIGINT"
+   },
+   "keys": [],
+   "declared_keys": [],
+   "invalid_keys": []
+  },
+  "publisher": {
+   "columns": {
+    "id": "BIGINT",
+    "publisher_name": "VARCHAR"
+   },
+   "keys": [
+    [
+     "id"
+    ]
+   ],
+   "declared_keys": [
+    [
+     "id"
+    ]
+   ],
+   "invalid_keys": []
+  },
+  "race": {
+   "columns": {
+    "id": "BIGINT",
+    "race": "VARCHAR"
+   },
+   "keys": [
+    [
+     "id"
+    ]
+   ],
+   "declared_keys": [
+    [
+     "id"
+    ]
+   ],
+   "invalid_keys": []
+  },
+  "superhero": {
+   "columns": {
+    "id": "BIGINT",
+    "superhero_name": "VARCHAR",
+    "full_name": "VARCHAR",
+    "gender_id": "BIGINT",
+    "eye_colour_id": "BIGINT",
+    "hair_colour_id": "BIGINT",
+    "skin_colour_id": "BIGINT",
+    "race_id": "BIGINT",
+    "publisher_id": "BIGINT",
+    "alignment_id": "BIGINT",
+    "height_cm": "BIGINT",
+    "weight_kg": "BIGINT"
+   },
+   "keys": [
+    [
+     "id"
+    ]
+   ],
+   "declared_keys": [
+    [
+     "id"
+    ]
+   ],
+   "invalid_keys": []
+  },
+  "superpower": {
+   "columns": {
+    "id": "BIGINT",
+    "power_name": "VARCHAR"
+   },
+   "keys": [
+    [
+     "id"
+    ]
+   ],
+   "declared_keys": [
+    [
+     "id"
+    ]
+   ],
+   "invalid_keys": []
+  }
+ },
+ "codebase_community": {
+  "badges": {
+   "columns": {
+    "Id": "BIGINT",
+    "UserId": "BIGINT",
+    "Name": "VARCHAR",
+    "Date": "TIMESTAMP"
+   },
+   "keys": [
+    [
+     "Id"
+    ]
+   ],
+   "declared_keys": [
+    [
+     "Id"
+    ]
+   ],
+   "invalid_keys": []
+  },
+  "comments": {
+   "columns": {
+    "Id": "BIGINT",
+    "PostId": "BIGINT",
+    "Score": "BIGINT",
+    "Text": "VARCHAR",
+    "CreationDate": "TIMESTAMP",
+    "UserId": "BIGINT",
+    "UserDisplayName": "VARCHAR"
+   },
+   "keys": [
+    [
+     "Id"
+    ]
+   ],
+   "declared_keys": [
+    [
+     "Id"
+    ]
+   ],
+   "invalid_keys": []
+  },
+  "postHistory": {
+   "columns": {
+    "Id": "BIGINT",
+    "PostHistoryTypeId": "BIGINT",
+    "PostId": "BIGINT",
+    "RevisionGUID": "VARCHAR",
+    "CreationDate": "TIMESTAMP",
+    "UserId": "BIGINT",
+    "Text": "VARCHAR",
+    "Comment": "VARCHAR",
+    "UserDisplayName": "VARCHAR"
+   },
+   "keys": [
+    [
+     "Id"
+    ]
+   ],
+   "declared_keys": [
+    [
+     "Id"
+    ]
+   ],
+   "invalid_keys": []
+  },
+  "postLinks": {
+   "columns": {
+    "Id": "BIGINT",
+    "CreationDate": "TIMESTAMP",
+    "PostId": "BIGINT",
+    "RelatedPostId": "BIGINT",
+    "LinkTypeId": "BIGINT"
+   },
+   "keys": [
+    [
+     "Id"
+    ]
+   ],
+   "declared_keys": [
+    [
+     "Id"
+    ]
+   ],
+   "invalid_keys": []
+  },
+  "posts": {
+   "columns": {
+    "Id": "BIGINT",
+    "PostTypeId": "BIGINT",
+    "AcceptedAnswerId": "BIGINT",
+    "CreaionDate": "TIMESTAMP",
+    "Score": "BIGINT",
+    "ViewCount": "BIGINT",
+    "Body": "VARCHAR",
+    "OwnerUserId": "BIGINT",
+    "LasActivityDate": "TIMESTAMP",
+    "Title": "VARCHAR",
+    "Tags": "VARCHAR",
+    "AnswerCount": "BIGINT",
+    "CommentCount": "BIGINT",
+    "FavoriteCount": "BIGINT",
+    "LastEditorUserId": "BIGINT",
+    "LastEditDate": "TIMESTAMP",
+    "CommunityOwnedDate": "TIMESTAMP",
+    "ParentId": "BIGINT",
+    "ClosedDate": "TIMESTAMP",
+    "OwnerDisplayName": "VARCHAR",
+    "LastEditorDisplayName": "VARCHAR"
+   },
+   "keys": [
+    [
+     "Id"
+    ]
+   ],
+   "declared_keys": [
+    [
+     "Id"
+    ]
+   ],
+   "invalid_keys": []
+  },
+  "tags": {
+   "columns": {
+    "Id": "BIGINT",
+    "TagName": "VARCHAR",
+    "Count": "BIGINT",
+    "ExcerptPostId": "BIGINT",
+    "WikiPostId": "BIGINT"
+   },
+   "keys": [
+    [
+     "Id"
+    ]
+   ],
+   "declared_keys": [
+    [
+     "Id"
+    ]
+   ],
+   "invalid_keys": []
+  },
+  "users": {
+   "columns": {
+    "Id": "BIGINT",
+    "Reputation": "BIGINT",
+    "CreationDate": "TIMESTAMP",
+    "DisplayName": "VARCHAR",
+    "LastAccessDate": "TIMESTAMP",
+    "WebsiteUrl": "VARCHAR",
+    "Location": "VARCHAR",
+    "AboutMe": "VARCHAR",
+    "Views": "BIGINT",
+    "UpVotes": "BIGINT",
+    "DownVotes": "BIGINT",
+    "AccountId": "BIGINT",
+    "Age": "BIGINT",
+    "ProfileImageUrl": "VARCHAR"
+   },
+   "keys": [
+    [
+     "Id"
+    ]
+   ],
+   "declared_keys": [
+    [
+     "Id"
+    ]
+   ],
+   "invalid_keys": []
+  },
+  "votes": {
+   "columns": {
+    "Id": "BIGINT",
+    "PostId": "BIGINT",
+    "VoteTypeId": "BIGINT",
+    "CreationDate": "DATE",
+    "UserId": "BIGINT",
+    "BountyAmount": "BIGINT"
+   },
+   "keys": [
+    [
+     "Id"
+    ]
+   ],
+   "declared_keys": [
+    [
+     "Id"
+    ]
+   ],
+   "invalid_keys": []
+  }
+ }
+}

@@ -1,0 +1,11 @@
+OK  {"step": "fresh", "mode": "certified", "sql": "SELECT Id, DisplayName FROM users ORDER BY Id LIMIT 3", "success": true, "verdict": "DET", "reason": "order determines every output column", "refused": false, "error": "", "ok": true}
+OK  {"step": "shadow", "mode": "raw", "sql": "CREATE TEMP TABLE users AS SELECT 1 AS Id, 'a' AS DisplayName UNION ALL SELECT 1, 'b'", "success": true, "verdict": null, "reason": null, "refused": false, "error": "", "ok": true}
+BAD {"step": "after-shadow", "mode": "certified", "sql": "SELECT Id, DisplayName FROM users ORDER BY Id LIMIT 3", "success": true, "verdict": "DET", "reason": "order determines every output column", "refused": false, "error": "", "ok": false}
+BAD {"step": "after-shadow", "mode": "strict", "sql": "SELECT Id, DisplayName FROM users ORDER BY Id LIMIT 3", "success": true, "verdict": "DET", "reason": "order determines every output column", "refused": false, "error": "", "ok": false}
+OK  {"step": "fresh", "mode": "strict", "sql": "SELECT Id, DisplayName FROM users ORDER BY Id LIMIT 3", "success": true, "verdict": "DET", "reason": "order determines every output column", "refused": false, "error": "", "ok": true}
+BAD {"step": "attach", "mode": "raw", "sql": "ATTACH ':memory:' AS m2", "success": false, "verdict": null, "reason": null, "refused": false, "error": "Catalog Error: Cannot launch in-memory database in read-only mode!", "ok": false}
+BAD {"step": "after-attach", "mode": "certified", "sql": "SELECT Id, DisplayName FROM users ORDER BY Id LIMIT 3", "success": true, "verdict": "DET", "reason": "order determines every output column", "refused": false, "error": "", "ok": false}
+OK  {"step": "fresh", "mode": "certified", "sql": "SELECT Id, DisplayName FROM users ORDER BY Id LIMIT 3", "success": true, "verdict": "DET", "reason": "order determines every output column", "refused": false, "error": "", "ok": true}
+OK  {"step": "metadata", "mode": "raw", "sql": "PRAGMA table_info(users)", "success": true, "verdict": null, "reason": null, "refused": false, "error": "", "ok": true}
+OK  {"step": "after-metadata", "mode": "certified", "sql": "SELECT Id, DisplayName FROM users ORDER BY Id LIMIT 3", "success": true, "verdict": "DET", "reason": "order determines every output column", "refused": false, "error": "", "ok": true}
+failures 4

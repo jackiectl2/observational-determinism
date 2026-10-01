@@ -1,0 +1,8 @@
+{"turn": 1, "active": 2250, "unique_prompts": 150, "n_sql": 2250, "gen_s": 40.0, "sql_s": 13.8, "prompt_tokens": 83067, "gen_tokens": 34010, "elapsed_s": 53.8}
+{"turn": 2, "active": 1590, "unique_prompts": 203, "n_sql": 1575, "gen_s": 42.8, "sql_s": 3.6, "prompt_tokens": 162108, "gen_tokens": 25736, "elapsed_s": 100.3}
+{"turn": 3, "active": 1334, "unique_prompts": 218, "n_sql": 1334, "gen_s": 47.0, "sql_s": 3.3, "prompt_tokens": 215165, "gen_tokens": 26754, "elapsed_s": 150.6}
+{"turn": 4, "active": 726, "unique_prompts": 139, "n_sql": 726, "gen_s": 42.4, "sql_s": 1.5, "prompt_tokens": 172828, "gen_tokens": 18585, "elapsed_s": 194.6}
+{"turn": 5, "active": 385, "unique_prompts": 83, "n_sql": 384, "gen_s": 47.9, "sql_s": 2.6, "prompt_tokens": 128776, "gen_tokens": 15828, "elapsed_s": 245.1}
+{"turn": 6, "active": 244, "unique_prompts": 53, "n_sql": 244, "gen_s": 38.0, "sql_s": 1.6, "prompt_tokens": 96181, "gen_tokens": 11168, "elapsed_s": 284.7}
+{"turn": 7, "active": 172, "unique_prompts": 40, "n_sql": 171, "gen_s": 36.8, "sql_s": 0.6, "prompt_tokens": 89382, "gen_tokens": 9771, "elapsed_s": 322.1}
+{"turn": 8, "active": 158, "unique_prompts": 37, "n_sql": 158, "gen_s": 53.7, "sql_s": 0.5, "prompt_tokens": 97379, "gen_tokens": 11077, "elapsed_s": 376.3}

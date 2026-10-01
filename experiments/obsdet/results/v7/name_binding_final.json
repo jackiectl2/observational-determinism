@@ -1,0 +1,383 @@
+{
+ "truth": [
+  [
+   -1,
+   "Community"
+  ],
+  [
+   2,
+   "Geoff Dalgas"
+  ],
+  [
+   3,
+   "Jarrod Dixon"
+  ]
+ ],
+ "temp-table": {
+  "fresh": "DET",
+  "steps": [
+   {
+    "sql": "CREATE TEMP TABLE users AS SELECT 1 AS Id, 'a' AS DisplayName UNION ALL SELECT 1, 'b' UNION ALL SELECT 0, 'c'",
+    "success": true,
+    "error": ""
+   }
+  ],
+  "certified": {
+   "verdict": "DET",
+   "reason": "order determines every output column",
+   "refused": false,
+   "rows": [
+    [
+     -1,
+     "Community"
+    ],
+    [
+     2,
+     "Geoff Dalgas"
+    ],
+    [
+     3,
+     "Jarrod Dixon"
+    ]
+   ],
+   "certified": true,
+   "unsound": false
+  },
+  "strict": {
+   "verdict": "DET",
+   "reason": "order determines every output column",
+   "refused": false,
+   "rows": [
+    [
+     -1,
+     "Community"
+    ],
+    [
+     2,
+     "Geoff Dalgas"
+    ],
+    [
+     3,
+     "Jarrod Dixon"
+    ]
+   ],
+   "certified": true,
+   "unsound": false
+  }
+ },
+ "attach": {
+  "fresh": "DET",
+  "steps": [
+   {
+    "sql": "ATTACH '{other}' AS other (READ_ONLY)",
+    "success": true,
+    "error": ""
+   }
+  ],
+  "certified": {
+   "verdict": "DET",
+   "reason": "order determines every output column",
+   "refused": false,
+   "rows": [
+    [
+     -1,
+     "Community"
+    ],
+    [
+     2,
+     "Geoff Dalgas"
+    ],
+    [
+     3,
+     "Jarrod Dixon"
+    ]
+   ],
+   "certified": true,
+   "unsound": false
+  },
+  "strict": {
+   "verdict": "DET",
+   "reason": "order determines every output column",
+   "refused": false,
+   "rows": [
+    [
+     -1,
+     "Community"
+    ],
+    [
+     2,
+     "Geoff Dalgas"
+    ],
+    [
+     3,
+     "Jarrod Dixon"
+    ]
+   ],
+   "certified": true,
+   "unsound": false
+  }
+ },
+ "attach+use": {
+  "fresh": "DET",
+  "steps": [
+   {
+    "sql": "ATTACH '{other}' AS other (READ_ONLY)",
+    "success": true,
+    "error": ""
+   },
+   {
+    "sql": "USE other",
+    "success": true,
+    "error": ""
+   }
+  ],
+  "certified": {
+   "verdict": "DET",
+   "reason": "order determines every output column",
+   "refused": false,
+   "rows": [
+    [
+     -1,
+     "Community"
+    ],
+    [
+     2,
+     "Geoff Dalgas"
+    ],
+    [
+     3,
+     "Jarrod Dixon"
+    ]
+   ],
+   "certified": true,
+   "unsound": false
+  },
+  "strict": {
+   "verdict": "DET",
+   "reason": "order determines every output column",
+   "refused": false,
+   "rows": [
+    [
+     -1,
+     "Community"
+    ],
+    [
+     2,
+     "Geoff Dalgas"
+    ],
+    [
+     3,
+     "Jarrod Dixon"
+    ]
+   ],
+   "certified": true,
+   "unsound": false
+  }
+ },
+ "attach+global-search-path": {
+  "fresh": "DET",
+  "steps": [
+   {
+    "sql": "ATTACH '{other}' AS other (READ_ONLY)",
+    "success": true,
+    "error": ""
+   },
+   {
+    "sql": "SET GLOBAL search_path = 'other.main'",
+    "success": false,
+    "error": "Catalog Error: option \"search_path\" cannot be set globally"
+   }
+  ],
+  "certified": {
+   "verdict": "DET",
+   "reason": "order determines every output column",
+   "refused": false,
+   "rows": [
+    [
+     -1,
+     "Community"
+    ],
+    [
+     2,
+     "Geoff Dalgas"
+    ],
+    [
+     3,
+     "Jarrod Dixon"
+    ]
+   ],
+   "certified": true,
+   "unsound": false
+  },
+  "strict": {
+   "verdict": "DET",
+   "reason": "order determines every output column",
+   "refused": false,
+   "rows": [
+    [
+     -1,
+     "Community"
+    ],
+    [
+     2,
+     "Geoff Dalgas"
+    ],
+    [
+     3,
+     "Jarrod Dixon"
+    ]
+   ],
+   "certified": true,
+   "unsound": false
+  }
+ },
+ "attach+global-schema": {
+  "fresh": "DET",
+  "steps": [
+   {
+    "sql": "ATTACH '{other}' AS other (READ_ONLY)",
+    "success": true,
+    "error": ""
+   },
+   {
+    "sql": "SET GLOBAL schema = 'other.main'",
+    "success": false,
+    "error": "Catalog Error: option \"schema\" cannot be set globally"
+   }
+  ],
+  "certified": {
+   "verdict": "DET",
+   "reason": "order determines every output column",
+   "refused": false,
+   "rows": [
+    [
+     -1,
+     "Community"
+    ],
+    [
+     2,
+     "Geoff Dalgas"
+    ],
+    [
+     3,
+     "Jarrod Dixon"
+    ]
+   ],
+   "certified": true,
+   "unsound": false
+  },
+  "strict": {
+   "verdict": "DET",
+   "reason": "order determines every output column",
+   "refused": false,
+   "rows": [
+    [
+     -1,
+     "Community"
+    ],
+    [
+     2,
+     "Geoff Dalgas"
+    ],
+    [
+     3,
+     "Jarrod Dixon"
+    ]
+   ],
+   "certified": true,
+   "unsound": false
+  }
+ },
+ "metadata": {
+  "fresh": "DET",
+  "steps": [
+   {
+    "sql": "PRAGMA table_info(users)",
+    "success": true,
+    "error": ""
+   }
+  ],
+  "certified": {
+   "verdict": "DET",
+   "reason": "order determines every output column",
+   "refused": false,
+   "rows": [
+    [
+     -1,
+     "Community"
+    ],
+    [
+     2,
+     "Geoff Dalgas"
+    ],
+    [
+     3,
+     "Jarrod Dixon"
+    ]
+   ],
+   "certified": true,
+   "unsound": false
+  },
+  "strict": {
+   "verdict": "DET",
+   "reason": "order determines every output column",
+   "refused": false,
+   "rows": [
+    [
+     -1,
+     "Community"
+    ],
+    [
+     2,
+     "Geoff Dalgas"
+    ],
+    [
+     3,
+     "Jarrod Dixon"
+    ]
+   ],
+   "certified": true,
+   "unsound": false
+  }
+ },
+ "attach+qualified-query": {
+  "fresh": "DET",
+  "steps": [
+   {
+    "sql": "ATTACH '{other}' AS other (READ_ONLY)",
+    "success": true,
+    "error": ""
+   }
+  ],
+  "certified": {
+   "verdict": "UNSUPPORTED",
+   "reason": "unknown-table",
+   "refused": false,
+   "rows": [
+    [
+     0,
+     "c"
+    ],
+    [
+     1,
+     "a"
+    ],
+    [
+     1,
+     "b"
+    ]
+   ],
+   "certified": false,
+   "unsound": false
+  },
+  "strict": {
+   "verdict": "UNSUPPORTED",
+   "reason": "unknown-table",
+   "refused": true,
+   "rows": [],
+   "certified": false,
+   "unsound": false
+  }
+ },
+ "unsound_certificates": 0
+}

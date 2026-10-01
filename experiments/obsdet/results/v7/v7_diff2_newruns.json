@@ -1,0 +1,58 @@
+{
+ "dev": {
+  "n": 1015,
+  "diffs": []
+ },
+ "heldout_all": {
+  "n": 1393,
+  "diffs": []
+ },
+ "td_all": {
+  "n": 1495,
+  "diffs": []
+ },
+ "v5_phi4": {
+  "n": 606,
+  "diffs": []
+ },
+ "v5_qwen3_8b": {
+  "n": 1007,
+  "diffs": []
+ },
+ "v6td_phi4": {
+  "n": 584,
+  "diffs": []
+ },
+ "v6td_qwen3_8b": {
+  "n": 948,
+  "diffs": []
+ },
+ "v7_qwen3_8b": {
+  "n": 970,
+  "diffs": []
+ },
+ "v7_phi4": {
+  "n": 644,
+  "diffs": []
+ },
+ "v7td_qwen3_8b": {
+  "n": 907,
+  "diffs": []
+ },
+ "v7td_phi4": {
+  "n": 556,
+  "diffs": []
+ },
+ "v7td2_qwen3_8b": {
+  "n": 931,
+  "diffs": []
+ },
+ "v7td2_phi4": {
+  "n": 563,
+  "diffs": []
+ },
+ "cert_td2_all.jsonl": {
+  "n": 1468,
+  "diffs": []
+ }
+}

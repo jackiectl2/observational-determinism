@@ -1,0 +1,13 @@
+{
+  "recorded_at": "2026-09-25T13:55-07:00",
+  "source": "cluster inspection (ssh <CLUSTER>), see notes",
+  "venv": "$PROJECT_ROOT/venv (activated by env.sh in every job)",
+  "venv_build_job": {"job_id": "61865462", "name": "vldb27-venv", "start": "2026-09-25T03:54:03-04:00",
+                     "note": "first job of this project (sacct, WorkDir .../vldb27); packages not reinstalled afterwards (dist-info mtimes 2026-09-25T03:55-04:00)"},
+  "packages": {"duckdb": "1.5.5", "sqlglot": "30.19.0", "vllm": "0.30.0"},
+  "package_evidence": "site-packages/duckdb-1.5.5.dist-info, sqlglot-30.19.0.dist-info, vllm-0.30.0.dist-info",
+  "postgresql": "16.2",
+  "postgresql_evidence": "[pg_setup] PostgreSQL 16.2 on x86_64-pc-linux-gnu in results/final/logs/obsdet-e1pg-61875302.out, results/final/logs/obsdet-e1pgh-61877859.out and results/v7/logs/obsdet-v7pg*-6188818*.out",
+  "row_cap": {"value": 100000, "file": "idea-stage/pilots/c3/scripts/common.py (execute_with_timeout, row_cap=100000)",
+              "md5": "md5-withheld", "note": "identical to the cluster copy code/pilot_c3/common.py that experiments/obsdet/tool.py imports"}
+}

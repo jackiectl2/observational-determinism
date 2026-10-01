@@ -1,0 +1,150 @@
+{
+ "ddl_on_read_only": {
+  "CREATE TEMP TABLE ns_probe AS SELECT 1 AS a": "ACCEPTED",
+  "CREATE TEMP VIEW ns_probe_v AS SELECT 1 AS a": "ACCEPTED",
+  "CREATE TABLE ns_probe2 AS SELECT 1 AS a": "rejected: InvalidInputException: Invalid Input Error: Cannot execute statement of type \"CREATE\" on database \"california_schools\" which is attached in read-only mode!",
+  "CREATE SCHEMA ns_probe_s": "rejected: InvalidInputException: Invalid Input Error: Cannot execute statement of type \"CREATE\" on database \"california_schools\" which is attached in read-only mode!"
+ },
+ "search_path": [
+  "",
+  [
+   "main",
+   "main",
+   "main",
+   "pg_catalog"
+  ]
+ ]
+}
+catalog names not resolving to exactly one relation: none
+agent non-SELECT statements: {
+ "v5_phi4": {
+  "counts": {
+   "--|failed": 45,
+   "FINAL|failed": 31
+  },
+  "succeeded_examples": []
+ },
+ "v5_qwen3_8b": {
+  "counts": {
+   "PRAGMA|failed": 25,
+   "SHOW|failed": 21,
+   "PRAGMA|ok": 11,
+   "DESCRIBE|ok": 1
+  },
+  "succeeded_examples": [
+   "PRAGMA table_info(League);",
+   "PRAGMA table_info(League);",
+   "PRAGMA table_info(League);",
+   "PRAGMA table_info(League);",
+   "PRAGMA table_info(League);",
+   "PRAGMA table_info(League);",
+   "PRAGMA table_info(League);",
+   "PRAGMA table_info(League);",
+   "PRAGMA table_info(League);",
+   "PRAGMA table_info(League);",
+   "PRAGMA table_info(League);",
+   "DESCRIBE hero_attribute;"
+  ]
+ },
+ "v6td_phi4": {
+  "counts": {
+   "FINAL|failed": 21,
+   "PRAGMA|ok": 11,
+   "PRAGMA|failed": 4,
+   "--|failed": 15
+  },
+  "succeeded_examples": [
+   "PRAGMA table_info(event);",
+   "PRAGMA table_info(event);",
+   "PRAGMA table_info(event);",
+   "PRAGMA table_info(event);",
+   "PRAGMA table_info(event);",
+   "PRAGMA table_info(event);",
+   "PRAGMA table_info(event);",
+   "PRAGMA table_info(event);",
+   "PRAGMA table_info(event);",
+   "PRAGMA table_info(event);",
+   "PRAGMA table_info(event);"
+  ]
+ },
+ "v6td_qwen3_8b": {
+  "counts": {
+   "PRAGMA|ok": 10,
+   "PRAGMA|failed": 3,
+   "DESCRIBE|ok": 1,
+   "SHOW|failed": 8
+  },
+  "succeeded_examples": [
+   "PRAGMA table_info(legalities);",
+   "PRAGMA table_info(legalities);",
+   "PRAGMA table_info(cards);",
+   "DESCRIBE cards;\nDESCRIBE legalities;",
+   "PRAGMA table_info(legalities);",
+   "PRAGMA table_info(legalities);",
+   "PRAGMA table_info(cards);",
+   "PRAGMA table_info(cards);",
+   "PRAGMA table_info(cards);",
+   "PRAGMA table_info(cards);",
+   "PRAGMA table_info(cards);"
+  ]
+ },
+ "v7_phi4": {
+  "counts": {
+   "--|failed": 60,
+   "FINAL|failed": 34
+  },
+  "succeeded_examples": []
+ },
+ "v7_qwen3_8b": {
+  "counts": {
+   "SHOW|failed": 15,
+   "PRAGMA|ok": 11,
+   "PRAGMA|failed": 4
+  },
+  "succeeded_examples": [
+   "PRAGMA table_info(League);",
+   "PRAGMA table_info(League);",
+   "PRAGMA table_info(League);",
+   "PRAGMA table_info(League);",
+   "PRAGMA table_info(League);",
+   "PRAGMA table_info(League);",
+   "PRAGMA table_info(League);",
+   "PRAGMA table_info(League);",
+   "PRAGMA table_info(League);",
+   "PRAGMA table_info(League);",
+   "PRAGMA table_info(League);"
+  ]
+ },
+ "v7td2_phi4": {
+  "counts": {
+   "FINAL|failed": 43,
+   "PRAGMA|ok": 11,
+   "PRAGMA|failed": 4
+  },
+  "succeeded_examples": [
+   "PRAGMA table_info(budget);",
+   "PRAGMA table_info(budget);",
+   "PRAGMA table_info(budget);",
+   "PRAGMA table_info(budget);",
+   "PRAGMA table_info(budget);",
+   "PRAGMA table_info(budget);",
+   "PRAGMA table_info(budget);",
+   "PRAGMA table_info(budget);",
+   "PRAGMA table_info(budget);",
+   "PRAGMA table_info(budget);",
+   "PRAGMA table_info(budget);"
+  ]
+ },
+ "v7td2_qwen3_8b": {
+  "counts": {
+   "PRAGMA|ok": 1
+  },
+  "succeeded_examples": [
+   "PRAGMA table_info(transactions_1k);"
+  ]
+ },
+ "v7td_phi4": {
+  "counts": {
+   "FINAL|failed": 37,
+   "PRAGMA|
+not-select statements by first word: {"cert_heldout_kept_v7.jsonl": {"SELECT": 11, "PRAGMA": 1, "WITH": 2}, "cert_probes_v7.jsonl": {"SELECT": 1, "DESCRIBE": 1, "PRAGMA": 1}, "cert_td2_all.jsonl": {"SELECT": 8, "WITH": 1, "PRAGMA": 2}, "cert_td_new_v7.jsonl": {"PRAGMA": 3, "SHOW": 1, "SELECT": 1}}

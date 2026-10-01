@@ -1,0 +1,304 @@
+{
+ "replace-table": {
+  "steps": [
+   {
+    "sql": "CREATE OR REPLACE TABLE users AS SELECT * FROM users UNION ALL SELECT * FROM users",
+    "success": false,
+    "error": "Not executed: this tool runs only queries (SELECT, DESCRIBE, SHOW); it does not change the database or the session."
+   }
+  ],
+  "certified": {
+   "verdict": "DET",
+   "reason": "order determines every output column",
+   "refused": false,
+   "rows": [
+    [
+     -1,
+     "Community"
+    ],
+    [
+     2,
+     "Geoff Dalgas"
+    ],
+    [
+     3,
+     "Jarrod Dixon"
+    ]
+   ],
+   "certified": true,
+   "unsound": false
+  },
+  "strict": {
+   "verdict": "DET",
+   "reason": "order determines every output column",
+   "refused": false,
+   "rows": [
+    [
+     -1,
+     "Community"
+    ],
+    [
+     2,
+     "Geoff Dalgas"
+    ],
+    [
+     3,
+     "Jarrod Dixon"
+    ]
+   ],
+   "certified": true,
+   "unsound": false
+  }
+ },
+ "insert-duplicate": {
+  "steps": [
+   {
+    "sql": "INSERT INTO users SELECT * FROM users WHERE Id = -1",
+    "success": false,
+    "error": "Not executed: this tool runs only queries (SELECT, DESCRIBE, SHOW); it does not change the database or the session."
+   }
+  ],
+  "certified": {
+   "verdict": "DET",
+   "reason": "order determines every output column",
+   "refused": false,
+   "rows": [
+    [
+     -1,
+     "Community"
+    ],
+    [
+     2,
+     "Geoff Dalgas"
+    ],
+    [
+     3,
+     "Jarrod Dixon"
+    ]
+   ],
+   "certified": true,
+   "unsound": false
+  },
+  "strict": {
+   "verdict": "DET",
+   "reason": "order determines every output column",
+   "refused": false,
+   "rows": [
+    [
+     -1,
+     "Community"
+    ],
+    [
+     2,
+     "Geoff Dalgas"
+    ],
+    [
+     3,
+     "Jarrod Dixon"
+    ]
+   ],
+   "certified": true,
+   "unsound": false
+  }
+ },
+ "set-collation": {
+  "steps": [
+   {
+    "sql": "SET default_collation='nocase'",
+    "success": false,
+    "error": "Not executed: this tool runs only queries (SELECT, DESCRIBE, SHOW); it does not change the database or the session."
+   }
+  ],
+  "certified": {
+   "verdict": "DET",
+   "reason": "order determines every output column",
+   "refused": false,
+   "rows": [
+    [
+     "   Raid-Mahbouba"
+    ],
+    [
+     "0 kelvin"
+    ],
+    [
+     "0012"
+    ],
+    [
+     "007"
+    ],
+    [
+     "00luo"
+    ]
+   ],
+   "certified": true,
+   "unsound": false
+  },
+  "strict": {
+   "verdict": "DET",
+   "reason": "order determines every output column",
+   "refused": false,
+   "rows": [
+    [
+     "   Raid-Mahbouba"
+    ],
+    [
+     "0 kelvin"
+    ],
+    [
+     "0012"
+    ],
+    [
+     "007"
+    ],
+    [
+     "00luo"
+    ]
+   ],
+   "certified": true,
+   "unsound": false
+  }
+ },
+ "set-null-order": {
+  "steps": [
+   {
+    "sql": "SET default_null_order='nulls_first'",
+    "success": false,
+    "error": "Not executed: this tool runs only queries (SELECT, DESCRIBE, SHOW); it does not change the database or the session."
+   }
+  ],
+  "certified": {
+   "verdict": "DET",
+   "reason": "order determines every output column",
+   "refused": false,
+   "rows": [
+    [
+     1620,
+     " "
+    ],
+    [
+     25421,
+     "!"
+    ],
+    [
+     34752,
+     "$$F^{A^{R^{R^{R^{R^{A^{W^{A^{Y}}}}}}}}}$$"
+    ]
+   ],
+   "certified": true,
+   "unsound": false
+  },
+  "strict": {
+   "verdict": "DET",
+   "reason": "order determines every output column",
+   "refused": false,
+   "rows": [
+    [
+     1620,
+     " "
+    ],
+    [
+     25421,
+     "!"
+    ],
+    [
+     34752,
+     "$$F^{A^{R^{R^{R^{R^{A^{W^{A^{Y}}}}}}}}}$$"
+    ]
+   ],
+   "certified": true,
+   "unsound": false
+  }
+ },
+ "attach+qualified": {
+  "steps": [
+   {
+    "sql": "ATTACH ':memory:' AS m",
+    "success": false,
+    "error": "Not executed: this tool runs only queries (SELECT, DESCRIBE, SHOW); it does not change the database or the session."
+   },
+   {
+    "sql": "CREATE TABLE m.users AS SELECT * FROM users UNION ALL SELECT * FROM users",
+    "success": false,
+    "error": "Not executed: this tool runs only queries (SELECT, DESCRIBE, SHOW); it does not change the database or the session."
+   }
+  ],
+  "certified": {
+   "verdict": "UNSUPPORTED",
+   "reason": "unknown-table",
+   "refused": false,
+   "rows": [],
+   "certified": false,
+   "unsound": false
+  },
+  "strict": {
+   "verdict": "UNSUPPORTED",
+   "reason": "unknown-table",
+   "refused": false,
+   "rows": [],
+   "certified": false,
+   "unsound": false
+  }
+ },
+ "metadata": {
+  "steps": [
+   {
+    "sql": "PRAGMA table_info(users)",
+    "success": true,
+    "error": ""
+   },
+   {
+    "sql": "DESCRIBE users",
+    "success": true,
+    "error": ""
+   },
+   {
+    "sql": "SHOW TABLES",
+    "success": true,
+    "error": ""
+   }
+  ],
+  "certified": {
+   "verdict": "DET",
+   "reason": "order determines every output column",
+   "refused": false,
+   "rows": [
+    [
+     -1,
+     "Community"
+    ],
+    [
+     2,
+     "Geoff Dalgas"
+    ],
+    [
+     3,
+     "Jarrod Dixon"
+    ]
+   ],
+   "certified": true,
+   "unsound": false
+  },
+  "strict": {
+   "verdict": "DET",
+   "reason": "order determines every output column",
+   "refused": false,
+   "rows": [
+    [
+     -1,
+     "Community"
+    ],
+    [
+     2,
+     "Geoff Dalgas"
+    ],
+    [
+     3,
+     "Jarrod Dixon"
+    ]
+   ],
+   "certified": true,
+   "unsound": false
+  }
+ },
+ "unsound_certificates": 0
+}

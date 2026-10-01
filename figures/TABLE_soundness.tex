@@ -1,0 +1,19 @@
+\begin{tabular}{@{}ll rrrr rrr@{}}
+\toprule
+ & & \multicolumn{4}{c}{Supported (DET/NARROW/ALL)} & \multicolumn{3}{c}{UNSUPPORTED} \\
+\cmidrule(lr){3-6}\cmidrule(l){7-9}
+Statements & Engine & $n$ (+cens.) & Certified rewrite & Smart-lex & Raw & $n$ (+cens.) & Raw & Smart-lex \\
+\midrule
+Development (1,015) & DuckDB & 854 (+0) & 0 & 0 & 378 & 161 (+0) & 69 & 39 \\
+ & PostgreSQL & 836 (+17) & 0 & 0 & 285 & 157 (+5) & 51 & 32 \\
+\midrule
+Held-out (1,125) & DuckDB & 776 (+0) & 0 & 0 & 292 & 349 (+0) & 134 & 66 \\
+ & PostgreSQL & 759 (+10) & 0 & 0 & 237 & 346 (+10) & 77 & 42 \\
+\midrule
+Unseen tasks I (1,321) & DuckDB & 999 (+0) & 0 & 0 & 394 & 322 (+0) & 92 & 44 \\
+ & PostgreSQL & 978 (+16) & 0 & 0 & 301 & 295 (+32) & 61 & 32 \\
+\midrule
+Unseen tasks II (1,267) & DuckDB & 945 (+0) & 0 & 0 & 344 & 322 (+0) & 79 & 31 \\
+ & PostgreSQL & 930 (+9) & 0 & 0 & 276 & 302 (+26) & 58 & 24 \\
+\bottomrule
+\end{tabular}

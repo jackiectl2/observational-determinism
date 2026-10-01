@@ -1,0 +1,1449 @@
+{
+ "all": {
+  "n_tasks": 150,
+  "accuracy": {
+   "cer_orig_t1": {
+    "mean": 0.467,
+    "ci95": [
+     0.387,
+     0.547
+    ]
+   },
+   "cer_orig_t8": {
+    "mean": 0.467,
+    "ci95": [
+     0.387,
+     0.547
+    ]
+   },
+   "cer_p42_t1": {
+    "mean": 0.467,
+    "ci95": [
+     0.387,
+     0.547
+    ]
+   },
+   "cer_p7_t1": {
+    "mean": 0.467,
+    "ci95": [
+     0.387,
+     0.547
+    ]
+   },
+   "raw_orig_t1": {
+    "mean": 0.467,
+    "ci95": [
+     0.387,
+     0.547
+    ]
+   },
+   "raw_orig_t8": {
+    "mean": 0.467,
+    "ci95": [
+     0.387,
+     0.547
+    ]
+   },
+   "raw_p42_t1": {
+    "mean": 0.447,
+    "ci95": [
+     0.367,
+     0.527
+    ]
+   },
+   "raw_p7_t1": {
+    "mean": 0.447,
+    "ci95": [
+     0.367,
+     0.527
+    ]
+   },
+   "slx_orig_t1": {
+    "mean": 0.453,
+    "ci95": [
+     0.373,
+     0.533
+    ]
+   },
+   "slx_p42_t1": {
+    "mean": 0.453,
+    "ci95": [
+     0.373,
+     0.533
+    ]
+   },
+   "slx_p7_t1": {
+    "mean": 0.453,
+    "ci95": [
+     0.373,
+     0.533
+    ]
+   },
+   "str_orig_t1": {
+    "mean": 0.4,
+    "ci95": [
+     0.327,
+     0.48
+    ]
+   },
+   "str_orig_t8": {
+    "mean": 0.4,
+    "ci95": [
+     0.327,
+     0.48
+    ]
+   },
+   "str_p42_t1": {
+    "mean": 0.4,
+    "ci95": [
+     0.327,
+     0.48
+    ]
+   },
+   "str_p7_t1": {
+    "mean": 0.4,
+    "ci95": [
+     0.327,
+     0.48
+    ]
+   }
+  },
+  "bag_accuracy": {
+   "cer_orig_t1": 0.427,
+   "cer_orig_t8": 0.427,
+   "cer_p42_t1": 0.427,
+   "cer_p7_t1": 0.427,
+   "raw_orig_t1": 0.433,
+   "raw_orig_t8": 0.433,
+   "raw_p42_t1": 0.407,
+   "raw_p7_t1": 0.413,
+   "slx_orig_t1": 0.413,
+   "slx_p42_t1": 0.413,
+   "slx_p7_t1": 0.413,
+   "str_orig_t1": 0.36,
+   "str_orig_t8": 0.36,
+   "str_p42_t1": 0.36,
+   "str_p7_t1": 0.36
+  },
+  "stability": {
+   "raw_phys": {
+    "traj_changed": {
+     "count": 38,
+     "n": 150,
+     "censored": 0,
+     "rate": 0.253,
+     "ci95": [
+      0.187,
+      0.32
+     ]
+    },
+    "final_sql_changed": {
+     "count": 30,
+     "n": 150,
+     "censored": 0,
+     "rate": 0.2,
+     "ci95": [
+      0.14,
+      0.267
+     ]
+    },
+    "final_result_changed": {
+     "count": 17,
+     "n": 149,
+     "censored": 1,
+     "rate": 0.114,
+     "ci95": [
+      0.067,
+      0.168
+     ]
+    },
+    "correctness_changed": {
+     "count": 8,
+     "n": 150,
+     "censored": 0,
+     "rate": 0.053,
+     "ci95": [
+      0.02,
+      0.093
+     ]
+    },
+    "obs_diverged_same_sql": {
+     "count": 57,
+     "n": 150,
+     "censored": 0,
+     "rate": 0.38,
+     "ci95": [
+      0.307,
+      0.46
+     ]
+    },
+    "unattributed_divergence": {
+     "count": 0,
+     "n": 150,
+     "censored": 0,
+     "rate": 0.0,
+     "ci95": [
+      0.0,
+      0.0
+     ],
+     "upper95_if_zero": 0.0198
+    },
+    "attributable_traj_changed": {
+     "count": 38,
+     "n": 150,
+     "censored": 0,
+     "rate": 0.253,
+     "ci95": [
+      0.187,
+      0.32
+     ]
+    }
+   },
+   "slx_phys": {
+    "traj_changed": {
+     "count": 1,
+     "n": 150,
+     "censored": 0,
+     "rate": 0.007,
+     "ci95": [
+      0.0,
+      0.02
+     ]
+    },
+    "final_sql_changed": {
+     "count": 1,
+     "n": 150,
+     "censored": 0,
+     "rate": 0.007,
+     "ci95": [
+      0.0,
+      0.02
+     ]
+    },
+    "final_result_changed": {
+     "count": 0,
+     "n": 149,
+     "censored": 1,
+     "rate": 0.0,
+     "ci95": [
+      0.0,
+      0.0
+     ],
+     "upper95_if_zero": 0.0199
+    },
+    "correctness_changed": {
+     "count": 0,
+     "n": 150,
+     "censored": 0,
+     "rate": 0.0,
+     "ci95": [
+      0.0,
+      0.0
+     ],
+     "upper95_if_zero": 0.0198
+    },
+    "obs_diverged_same_sql": {
+     "count": 3,
+     "n": 150,
+     "censored": 0,
+     "rate": 0.02,
+     "ci95": [
+      0.0,
+      0.047
+     ]
+    },
+    "unattributed_divergence": {
+     "count": 0,
+     "n": 150,
+     "censored": 0,
+     "rate": 0.0,
+     "ci95": [
+      0.0,
+      0.0
+     ],
+     "upper95_if_zero": 0.0198
+    },
+    "attributable_traj_changed": {
+     "count": 1,
+     "n": 150,
+     "censored": 0,
+     "rate": 0.007,
+     "ci95": [
+      0.0,
+      0.02
+     ]
+    }
+   },
+   "cer_phys": {
+    "traj_changed": {
+     "count": 2,
+     "n": 150,
+     "censored": 0,
+     "rate": 0.013,
+     "ci95": [
+      0.0,
+      0.033
+     ]
+    },
+    "final_sql_changed": {
+     "count": 1,
+     "n": 150,
+     "censored": 0,
+     "rate": 0.007,
+     "ci95": [
+      0.0,
+      0.02
+     ]
+    },
+    "final_result_changed": {
+     "count": 0,
+     "n": 149,
+     "censored": 1,
+     "rate": 0.0,
+     "ci95": [
+      0.0,
+      0.0
+     ],
+     "upper95_if_zero": 0.0199
+    },
+    "correctness_changed": {
+     "count": 0,
+     "n": 150,
+     "censored": 0,
+     "rate": 0.0,
+     "ci95": [
+      0.0,
+      0.0
+     ],
+     "upper95_if_zero": 0.0198
+    },
+    "obs_diverged_same_sql": {
+     "count": 3,
+     "n": 150,
+     "censored": 0,
+     "rate": 0.02,
+     "ci95": [
+      0.0,
+      0.047
+     ]
+    },
+    "unattributed_divergence": {
+     "count": 0,
+     "n": 150,
+     "censored": 0,
+     "rate": 0.0,
+     "ci95": [
+      0.0,
+      0.0
+     ],
+     "upper95_if_zero": 0.0198
+    },
+    "attributable_traj_changed": {
+     "count": 2,
+     "n": 150,
+     "censored": 0,
+     "rate": 0.013,
+     "ci95": [
+      0.0,
+      0.033
+     ]
+    }
+   },
+   "str_phys": {
+    "traj_changed": {
+     "count": 0,
+     "n": 150,
+     "censored": 0,
+     "rate": 0.0,
+     "ci95": [
+      0.0,
+      0.0
+     ],
+     "upper95_if_zero": 0.0198
+    },
+    "final_sql_changed": {
+     "count": 0,
+     "n": 150,
+     "censored": 0,
+     "rate": 0.0,
+     "ci95": [
+      0.0,
+      0.0
+     ],
+     "upper95_if_zero": 0.0198
+    },
+    "final_result_changed": {
+     "count": 0,
+     "n": 149,
+     "censored": 1,
+     "rate": 0.0,
+     "ci95": [
+      0.0,
+      0.0
+     ],
+     "upper95_if_zero": 0.0199
+    },
+    "correctness_changed": {
+     "count": 0,
+     "n": 150,
+     "censored": 0,
+     "rate": 0.0,
+     "ci95": [
+      0.0,
+      0.0
+     ],
+     "upper95_if_zero": 0.0198
+    },
+    "obs_diverged_same_sql": {
+     "count": 0,
+     "n": 150,
+     "censored": 0,
+     "rate": 0.0,
+     "ci95": [
+      0.0,
+      0.0
+     ],
+     "upper95_if_zero": 0.0198
+    },
+    "unattributed_divergence": {
+     "count": 0,
+     "n": 150,
+     "censored": 0,
+     "rate": 0.0,
+     "ci95": [
+      0.0,
+      0.0
+     ],
+     "upper95_if_zero": 0.0198
+    },
+    "attributable_traj_changed": {
+     "count": 0,
+     "n": 150,
+     "censored": 0,
+     "rate": 0.0,
+     "ci95": [
+      0.0,
+      0.0
+     ],
+     "upper95_if_zero": 0.0198
+    }
+   },
+   "raw_threads": {
+    "traj_changed": {
+     "count": 10,
+     "n": 150,
+     "censored": 0,
+     "rate": 0.067,
+     "ci95": [
+      0.027,
+      0.107
+     ]
+    },
+    "final_sql_changed": {
+     "count": 6,
+     "n": 150,
+     "censored": 0,
+     "rate": 0.04,
+     "ci95": [
+      0.013,
+      0.073
+     ]
+    },
+    "final_result_changed": {
+     "count": 5,
+     "n": 149,
+     "censored": 1,
+     "rate": 0.034,
+     "ci95": [
+      0.007,
+      0.06
+     ]
+    },
+    "correctness_changed": {
+     "count": 2,
+     "n": 150,
+     "censored": 0,
+     "rate": 0.013,
+     "ci95": [
+      0.0,
+      0.033
+     ]
+    },
+    "obs_diverged_same_sql": {
+     "count": 20,
+     "n": 150,
+     "censored": 0,
+     "rate": 0.133,
+     "ci95": [
+      0.08,
+      0.187
+     ]
+    },
+    "unattributed_divergence": {
+     "count": 0,
+     "n": 150,
+     "censored": 0,
+     "rate": 0.0,
+     "ci95": [
+      0.0,
+      0.0
+     ],
+     "upper95_if_zero": 0.0198
+    },
+    "attributable_traj_changed": {
+     "count": 10,
+     "n": 150,
+     "censored": 0,
+     "rate": 0.067,
+     "ci95": [
+      0.027,
+      0.107
+     ]
+    }
+   },
+   "cer_threads": {
+    "traj_changed": {
+     "count": 0,
+     "n": 150,
+     "censored": 0,
+     "rate": 0.0,
+     "ci95": [
+      0.0,
+      0.0
+     ],
+     "upper95_if_zero": 0.0198
+    },
+    "final_sql_changed": {
+     "count": 0,
+     "n": 150,
+     "censored": 0,
+     "rate": 0.0,
+     "ci95": [
+      0.0,
+      0.0
+     ],
+     "upper95_if_zero": 0.0198
+    },
+    "final_result_changed": {
+     "count": 0,
+     "n": 149,
+     "censored": 1,
+     "rate": 0.0,
+     "ci95": [
+      0.0,
+      0.0
+     ],
+     "upper95_if_zero": 0.0199
+    },
+    "correctness_changed": {
+     "count": 0,
+     "n": 150,
+     "censored": 0,
+     "rate": 0.0,
+     "ci95": [
+      0.0,
+      0.0
+     ],
+     "upper95_if_zero": 0.0198
+    },
+    "obs_diverged_same_sql": {
+     "count": 0,
+     "n": 150,
+     "censored": 0,
+     "rate": 0.0,
+     "ci95": [
+      0.0,
+      0.0
+     ],
+     "upper95_if_zero": 0.0198
+    },
+    "unattributed_divergence": {
+     "count": 0,
+     "n": 150,
+     "censored": 0,
+     "rate": 0.0,
+     "ci95": [
+      0.0,
+      0.0
+     ],
+     "upper95_if_zero": 0.0198
+    },
+    "attributable_traj_changed": {
+     "count": 0,
+     "n": 150,
+     "censored": 0,
+     "rate": 0.0,
+     "ci95": [
+      0.0,
+      0.0
+     ],
+     "upper95_if_zero": 0.0198
+    }
+   },
+   "str_threads": {
+    "traj_changed": {
+     "count": 0,
+     "n": 150,
+     "censored": 0,
+     "rate": 0.0,
+     "ci95": [
+      0.0,
+      0.0
+     ],
+     "upper95_if_zero": 0.0198
+    },
+    "final_sql_changed": {
+     "count": 0,
+     "n": 150,
+     "censored": 0,
+     "rate": 0.0,
+     "ci95": [
+      0.0,
+      0.0
+     ],
+     "upper95_if_zero": 0.0198
+    },
+    "final_result_changed": {
+     "count": 0,
+     "n": 149,
+     "censored": 1,
+     "rate": 0.0,
+     "ci95": [
+      0.0,
+      0.0
+     ],
+     "upper95_if_zero": 0.0199
+    },
+    "correctness_changed": {
+     "count": 0,
+     "n": 150,
+     "censored": 0,
+     "rate": 0.0,
+     "ci95": [
+      0.0,
+      0.0
+     ],
+     "upper95_if_zero": 0.0198
+    },
+    "obs_diverged_same_sql": {
+     "count": 0,
+     "n": 150,
+     "censored": 0,
+     "rate": 0.0,
+     "ci95": [
+      0.0,
+      0.0
+     ],
+     "upper95_if_zero": 0.0198
+    },
+    "unattributed_divergence": {
+     "count": 0,
+     "n": 150,
+     "censored": 0,
+     "rate": 0.0,
+     "ci95": [
+      0.0,
+      0.0
+     ],
+     "upper95_if_zero": 0.0198
+    },
+    "attributable_traj_changed": {
+     "count": 0,
+     "n": 150,
+     "censored": 0,
+     "rate": 0.0,
+     "ci95": [
+      0.0,
+      0.0
+     ],
+     "upper95_if_zero": 0.0198
+    }
+   }
+  },
+  "paired_accuracy": {
+   "cer-raw": {
+    "mean_diff": 0.0133,
+    "ci95": [
+     -0.009,
+     0.038
+    ]
+   },
+   "slx-raw": {
+    "mean_diff": -0.0,
+    "ci95": [
+     -0.029,
+     0.027
+    ]
+   },
+   "cer-slx": {
+    "mean_diff": 0.0133,
+    "ci95": [
+     0.0,
+     0.033
+    ]
+   },
+   "str-raw": {
+    "mean_diff": -0.0533,
+    "ci95": [
+     -0.096,
+     -0.011
+    ]
+   },
+   "str-cer": {
+    "mean_diff": -0.0667,
+    "ci95": [
+     -0.107,
+     -0.027
+    ]
+   }
+  },
+  "divergent_statement_sources": {
+   "raw_phys": {
+    "raw": 57
+   },
+   "slx_phys": {
+    "smartlex": 3
+   },
+   "cer_phys": {
+    "UNSUPPORTED": 3
+   },
+   "str_phys": {},
+   "raw_threads": {
+    "raw": 20
+   },
+   "cer_threads": {},
+   "str_threads": {}
+  }
+ },
+ "td": {
+  "n_tasks": 150,
+  "accuracy": {
+   "cer_orig_t1": {
+    "mean": 0.467,
+    "ci95": [
+     0.387,
+     0.547
+    ]
+   },
+   "cer_orig_t8": {
+    "mean": 0.467,
+    "ci95": [
+     0.387,
+     0.547
+    ]
+   },
+   "cer_p42_t1": {
+    "mean": 0.467,
+    "ci95": [
+     0.387,
+     0.547
+    ]
+   },
+   "cer_p7_t1": {
+    "mean": 0.467,
+    "ci95": [
+     0.387,
+     0.547
+    ]
+   },
+   "raw_orig_t1": {
+    "mean": 0.467,
+    "ci95": [
+     0.387,
+     0.547
+    ]
+   },
+   "raw_orig_t8": {
+    "mean": 0.467,
+    "ci95": [
+     0.387,
+     0.547
+    ]
+   },
+   "raw_p42_t1": {
+    "mean": 0.447,
+    "ci95": [
+     0.367,
+     0.527
+    ]
+   },
+   "raw_p7_t1": {
+    "mean": 0.447,
+    "ci95": [
+     0.367,
+     0.527
+    ]
+   },
+   "slx_orig_t1": {
+    "mean": 0.453,
+    "ci95": [
+     0.373,
+     0.533
+    ]
+   },
+   "slx_p42_t1": {
+    "mean": 0.453,
+    "ci95": [
+     0.373,
+     0.533
+    ]
+   },
+   "slx_p7_t1": {
+    "mean": 0.453,
+    "ci95": [
+     0.373,
+     0.533
+    ]
+   },
+   "str_orig_t1": {
+    "mean": 0.4,
+    "ci95": [
+     0.327,
+     0.48
+    ]
+   },
+   "str_orig_t8": {
+    "mean": 0.4,
+    "ci95": [
+     0.327,
+     0.48
+    ]
+   },
+   "str_p42_t1": {
+    "mean": 0.4,
+    "ci95": [
+     0.327,
+     0.48
+    ]
+   },
+   "str_p7_t1": {
+    "mean": 0.4,
+    "ci95": [
+     0.327,
+     0.48
+    ]
+   }
+  },
+  "bag_accuracy": {
+   "cer_orig_t1": 0.427,
+   "cer_orig_t8": 0.427,
+   "cer_p42_t1": 0.427,
+   "cer_p7_t1": 0.427,
+   "raw_orig_t1": 0.433,
+   "raw_orig_t8": 0.433,
+   "raw_p42_t1": 0.407,
+   "raw_p7_t1": 0.413,
+   "slx_orig_t1": 0.413,
+   "slx_p42_t1": 0.413,
+   "slx_p7_t1": 0.413,
+   "str_orig_t1": 0.36,
+   "str_orig_t8": 0.36,
+   "str_p42_t1": 0.36,
+   "str_p7_t1": 0.36
+  },
+  "stability": {
+   "raw_phys": {
+    "traj_changed": {
+     "count": 38,
+     "n": 150,
+     "censored": 0,
+     "rate": 0.253,
+     "ci95": [
+      0.187,
+      0.32
+     ]
+    },
+    "final_sql_changed": {
+     "count": 30,
+     "n": 150,
+     "censored": 0,
+     "rate": 0.2,
+     "ci95": [
+      0.14,
+      0.267
+     ]
+    },
+    "final_result_changed": {
+     "count": 17,
+     "n": 149,
+     "censored": 1,
+     "rate": 0.114,
+     "ci95": [
+      0.067,
+      0.168
+     ]
+    },
+    "correctness_changed": {
+     "count": 8,
+     "n": 150,
+     "censored": 0,
+     "rate": 0.053,
+     "ci95": [
+      0.02,
+      0.093
+     ]
+    },
+    "obs_diverged_same_sql": {
+     "count": 57,
+     "n": 150,
+     "censored": 0,
+     "rate": 0.38,
+     "ci95": [
+      0.307,
+      0.46
+     ]
+    },
+    "unattributed_divergence": {
+     "count": 0,
+     "n": 150,
+     "censored": 0,
+     "rate": 0.0,
+     "ci95": [
+      0.0,
+      0.0
+     ],
+     "upper95_if_zero": 0.0198
+    },
+    "attributable_traj_changed": {
+     "count": 38,
+     "n": 150,
+     "censored": 0,
+     "rate": 0.253,
+     "ci95": [
+      0.187,
+      0.32
+     ]
+    }
+   },
+   "slx_phys": {
+    "traj_changed": {
+     "count": 1,
+     "n": 150,
+     "censored": 0,
+     "rate": 0.007,
+     "ci95": [
+      0.0,
+      0.02
+     ]
+    },
+    "final_sql_changed": {
+     "count": 1,
+     "n": 150,
+     "censored": 0,
+     "rate": 0.007,
+     "ci95": [
+      0.0,
+      0.02
+     ]
+    },
+    "final_result_changed": {
+     "count": 0,
+     "n": 149,
+     "censored": 1,
+     "rate": 0.0,
+     "ci95": [
+      0.0,
+      0.0
+     ],
+     "upper95_if_zero": 0.0199
+    },
+    "correctness_changed": {
+     "count": 0,
+     "n": 150,
+     "censored": 0,
+     "rate": 0.0,
+     "ci95": [
+      0.0,
+      0.0
+     ],
+     "upper95_if_zero": 0.0198
+    },
+    "obs_diverged_same_sql": {
+     "count": 3,
+     "n": 150,
+     "censored": 0,
+     "rate": 0.02,
+     "ci95": [
+      0.0,
+      0.047
+     ]
+    },
+    "unattributed_divergence": {
+     "count": 0,
+     "n": 150,
+     "censored": 0,
+     "rate": 0.0,
+     "ci95": [
+      0.0,
+      0.0
+     ],
+     "upper95_if_zero": 0.0198
+    },
+    "attributable_traj_changed": {
+     "count": 1,
+     "n": 150,
+     "censored": 0,
+     "rate": 0.007,
+     "ci95": [
+      0.0,
+      0.02
+     ]
+    }
+   },
+   "cer_phys": {
+    "traj_changed": {
+     "count": 2,
+     "n": 150,
+     "censored": 0,
+     "rate": 0.013,
+     "ci95": [
+      0.0,
+      0.033
+     ]
+    },
+    "final_sql_changed": {
+     "count": 1,
+     "n": 150,
+     "censored": 0,
+     "rate": 0.007,
+     "ci95": [
+      0.0,
+      0.02
+     ]
+    },
+    "final_result_changed": {
+     "count": 0,
+     "n": 149,
+     "censored": 1,
+     "rate": 0.0,
+     "ci95": [
+      0.0,
+      0.0
+     ],
+     "upper95_if_zero": 0.0199
+    },
+    "correctness_changed": {
+     "count": 0,
+     "n": 150,
+     "censored": 0,
+     "rate": 0.0,
+     "ci95": [
+      0.0,
+      0.0
+     ],
+     "upper95_if_zero": 0.0198
+    },
+    "obs_diverged_same_sql": {
+     "count": 3,
+     "n": 150,
+     "censored": 0,
+     "rate": 0.02,
+     "ci95": [
+      0.0,
+      0.047
+     ]
+    },
+    "unattributed_divergence": {
+     "count": 0,
+     "n": 150,
+     "censored": 0,
+     "rate": 0.0,
+     "ci95": [
+      0.0,
+      0.0
+     ],
+     "upper95_if_zero": 0.0198
+    },
+    "attributable_traj_changed": {
+     "count": 2,
+     "n": 150,
+     "censored": 0,
+     "rate": 0.013,
+     "ci95": [
+      0.0,
+      0.033
+     ]
+    }
+   },
+   "str_phys": {
+    "traj_changed": {
+     "count": 0,
+     "n": 150,
+     "censored": 0,
+     "rate": 0.0,
+     "ci95": [
+      0.0,
+      0.0
+     ],
+     "upper95_if_zero": 0.0198
+    },
+    "final_sql_changed": {
+     "count": 0,
+     "n": 150,
+     "censored": 0,
+     "rate": 0.0,
+     "ci95": [
+      0.0,
+      0.0
+     ],
+     "upper95_if_zero": 0.0198
+    },
+    "final_result_changed": {
+     "count": 0,
+     "n": 149,
+     "censored": 1,
+     "rate": 0.0,
+     "ci95": [
+      0.0,
+      0.0
+     ],
+     "upper95_if_zero": 0.0199
+    },
+    "correctness_changed": {
+     "count": 0,
+     "n": 150,
+     "censored": 0,
+     "rate": 0.0,
+     "ci95": [
+      0.0,
+      0.0
+     ],
+     "upper95_if_zero": 0.0198
+    },
+    "obs_diverged_same_sql": {
+     "count": 0,
+     "n": 150,
+     "censored": 0,
+     "rate": 0.0,
+     "ci95": [
+      0.0,
+      0.0
+     ],
+     "upper95_if_zero": 0.0198
+    },
+    "unattributed_divergence": {
+     "count": 0,
+     "n": 150,
+     "censored": 0,
+     "rate": 0.0,
+     "ci95": [
+      0.0,
+      0.0
+     ],
+     "upper95_if_zero": 0.0198
+    },
+    "attributable_traj_changed": {
+     "count": 0,
+     "n": 150,
+     "censored": 0,
+     "rate": 0.0,
+     "ci95": [
+      0.0,
+      0.0
+     ],
+     "upper95_if_zero": 0.0198
+    }
+   },
+   "raw_threads": {
+    "traj_changed": {
+     "count": 10,
+     "n": 150,
+     "censored": 0,
+     "rate": 0.067,
+     "ci95": [
+      0.027,
+      0.107
+     ]
+    },
+    "final_sql_changed": {
+     "count": 6,
+     "n": 150,
+     "censored": 0,
+     "rate": 0.04,
+     "ci95": [
+      0.013,
+      0.073
+     ]
+    },
+    "final_result_changed": {
+     "count": 5,
+     "n": 149,
+     "censored": 1,
+     "rate": 0.034,
+     "ci95": [
+      0.007,
+      0.06
+     ]
+    },
+    "correctness_changed": {
+     "count": 2,
+     "n": 150,
+     "censored": 0,
+     "rate": 0.013,
+     "ci95": [
+      0.0,
+      0.033
+     ]
+    },
+    "obs_diverged_same_sql": {
+     "count": 20,
+     "n": 150,
+     "censored": 0,
+     "rate": 0.133,
+     "ci95": [
+      0.08,
+      0.187
+     ]
+    },
+    "unattributed_divergence": {
+     "count": 0,
+     "n": 150,
+     "censored": 0,
+     "rate": 0.0,
+     "ci95": [
+      0.0,
+      0.0
+     ],
+     "upper95_if_zero": 0.0198
+    },
+    "attributable_traj_changed": {
+     "count": 10,
+     "n": 150,
+     "censored": 0,
+     "rate": 0.067,
+     "ci95": [
+      0.027,
+      0.107
+     ]
+    }
+   },
+   "cer_threads": {
+    "traj_changed": {
+     "count": 0,
+     "n": 150,
+     "censored": 0,
+     "rate": 0.0,
+     "ci95": [
+      0.0,
+      0.0
+     ],
+     "upper95_if_zero": 0.0198
+    },
+    "final_sql_changed": {
+     "count": 0,
+     "n": 150,
+     "censored": 0,
+     "rate": 0.0,
+     "ci95": [
+      0.0,
+      0.0
+     ],
+     "upper95_if_zero": 0.0198
+    },
+    "final_result_changed": {
+     "count": 0,
+     "n": 149,
+     "censored": 1,
+     "rate": 0.0,
+     "ci95": [
+      0.0,
+      0.0
+     ],
+     "upper95_if_zero": 0.0199
+    },
+    "correctness_changed": {
+     "count": 0,
+     "n": 150,
+     "censored": 0,
+     "rate": 0.0,
+     "ci95": [
+      0.0,
+      0.0
+     ],
+     "upper95_if_zero": 0.0198
+    },
+    "obs_diverged_same_sql": {
+     "count": 0,
+     "n": 150,
+     "censored": 0,
+     "rate": 0.0,
+     "ci95": [
+      0.0,
+      0.0
+     ],
+     "upper95_if_zero": 0.0198
+    },
+    "unattributed_divergence": {
+     "count": 0,
+     "n": 150,
+     "censored": 0,
+     "rate": 0.0,
+     "ci95": [
+      0.0,
+      0.0
+     ],
+     "upper95_if_zero": 0.0198
+    },
+    "attributable_traj_changed": {
+     "count": 0,
+     "n": 150,
+     "censored": 0,
+     "rate": 0.0,
+     "ci95": [
+      0.0,
+      0.0
+     ],
+     "upper95_if_zero": 0.0198
+    }
+   },
+   "str_threads": {
+    "traj_changed": {
+     "count": 0,
+     "n": 150,
+     "censored": 0,
+     "rate": 0.0,
+     "ci95": [
+      0.0,
+      0.0
+     ],
+     "upper95_if_zero": 0.0198
+    },
+    "final_sql_changed": {
+     "count": 0,
+     "n": 150,
+     "censored": 0,
+     "rate": 0.0,
+     "ci95": [
+      0.0,
+      0.0
+     ],
+     "upper95_if_zero": 0.0198
+    },
+    "final_result_changed": {
+     "count": 0,
+     "n": 149,
+     "censored": 1,
+     "rate": 0.0,
+     "ci95": [
+      0.0,
+      0.0
+     ],
+     "upper95_if_zero": 0.0199
+    },
+    "correctness_changed": {
+     "count": 0,
+     "n": 150,
+     "censored": 0,
+     "rate": 0.0,
+     "ci95": [
+      0.0,
+      0.0
+     ],
+     "upper95_if_zero": 0.0198
+    },
+    "obs_diverged_same_sql": {
+     "count": 0,
+     "n": 150,
+     "censored": 0,
+     "rate": 0.0,
+     "ci95": [
+      0.0,
+      0.0
+     ],
+     "upper95_if_zero": 0.0198
+    },
+    "unattributed_divergence": {
+     "count": 0,
+     "n": 150,
+     "censored": 0,
+     "rate": 0.0,
+     "ci95": [
+      0.0,
+      0.0
+     ],
+     "upper95_if_zero": 0.0198
+    },
+    "attributable_traj_changed": {
+     "count": 0,
+     "n": 150,
+     "censored": 0,
+     "rate": 0.0,
+     "ci95": [
+      0.0,
+      0.0
+     ],
+     "upper95_if_zero": 0.0198
+    }
+   }
+  },
+  "paired_accuracy": {
+   "cer-raw": {
+    "mean_diff": 0.0133,
+    "ci95": [
+     -0.009,
+     0.038
+    ]
+   },
+   "slx-raw": {
+    "mean_diff": -0.0,
+    "ci95": [
+     -0.029,
+     0.027
+    ]
+   },
+   "cer-slx": {
+    "mean_diff": 0.0133,
+    "ci95": [
+     0.0,
+     0.033
+    ]
+   },
+   "str-raw": {
+    "mean_diff": -0.0533,
+    "ci95": [
+     -0.096,
+     -0.011
+    ]
+   },
+   "str-cer": {
+    "mean_diff": -0.0667,
+    "ci95": [
+     -0.107,
+     -0.027
+    ]
+   }
+  },
+  "divergent_statement_sources": {
+   "raw_phys": {
+    "raw": 57
+   },
+   "slx_phys": {
+    "smartlex": 3
+   },
+   "cer_phys": {
+    "UNSUPPORTED": 3
+   },
+   "str_phys": {},
+   "raw_threads": {
+    "raw": 20
+   },
+   "cer_threads": {},
+   "str_threads": {}
+  }
+ },
+ "certified_statement_verdicts": {
+  "cer": {
+   "NARROW": 536,
+   "UNSUPPORTED": 322,
+   "ALL": 320,
+   "DET": 400
+  },
+  "str": {
+   "NARROW": 604,
+   "UNSUPPORTED": 84,
+   "ALL": 356,
+   "DET": 456,
+   "UNSUPPORTED/refused": 432
+  }
+ }
+}

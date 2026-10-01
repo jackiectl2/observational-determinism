@@ -1,0 +1,39 @@
+md5-withheld  prep_tasks3.py
+3b638491274b833425bed6c87d7112bc  $PROJECT_ROOT/runs/obsdet/tasks_v2.json
+california_schools picked 10 of 10 {'in_tasks_v2': 10, 'candidates': 79, 'wanted': 10, 'examined': 10, 'picked': 10}
+card_games picked 18 of 18 {'in_tasks_v2': 18, 'candidates': 173, 'wanted': 18, 'examined': 20, 'gold_rows_out_of_range': 2, 'picked': 18}
+codebase_community picked 20 of 20 {'in_tasks_v2': 20, 'candidates': 166, 'wanted': 20, 'examined': 22, 'gold_rows_out_of_range': 2, 'picked': 20}
+debit_card_specializing picked 9 of 9 {'in_tasks_v2': 9, 'candidates': 55, 'wanted': 9, 'examined': 11, 'gold_error': 2, 'picked': 9}
+european_football_2 picked 9 of 10 {'in_tasks_v2': 10, 'candidates': 119, 'wanted': 10, 'examined': 119, 'gold_error': 110, 'picked': 9}
+financial picked 10 of 10 {'in_tasks_v2': 10, 'candidates': 96, 'wanted': 10, 'examined': 26, 'gold_error': 16, 'picked': 10}
+formula_1 picked 18 of 18 {'in_tasks_v2': 18, 'same_text_or_gold_as_tasks_v2': 1, 'candidates': 155, 'wanted': 18, 'examined': 19, 'gold_error': 1, 'picked': 18}
+student_club picked 16 of 16 {'in_tasks_v2': 16, 'candidates': 142, 'wanted': 16, 'examined': 17, 'gold_rows_out_of_range': 1, 'picked': 16}
+superhero picked 16 of 16 {'in_tasks_v2': 16, 'candidates': 113, 'wanted': 16, 'examined': 17, 'gold_rows_out_of_range': 1, 'picked': 16}
+thrombosis_prediction picked 7 of 7 {'in_tasks_v2': 7, 'candidates': 156, 'wanted': 7, 'examined': 8, 'gold_error': 1, 'picked': 7}
+toxicology picked 16 of 16 {'in_tasks_v2': 16, 'same_text_or_gold_as_tasks_v2': 1, 'candidates': 128, 'wanted': 16, 'examined': 18, 'gold_rows_out_of_range': 2, 'picked': 16}
+top-up codebase_community:601
+california_schools_perm42: {'path': '$PROJECT_ROOT/data/pilot_r2_1/california_schools_perm42.duckdb', 'exists': True, 'same_tables': True, 'n_tables': 3, 'count_mismatch': [], 'multiset_mismatch': [], 'order_differs': 3, 'tables_ge2_rows': 3, 'ok': True}
+california_schools_perm7: {'path': '$PROJECT_ROOT/data/pilot_r2_1/california_schools_perm7.duckdb', 'exists': True, 'same_tables': True, 'n_tables': 3, 'count_mismatch': [], 'multiset_mismatch': [], 'order_differs': 3, 'tables_ge2_rows': 3, 'ok': True}
+card_games_perm42: {'path': '$PROJECT_ROOT/data/pilot_r2_1/card_games_perm42.duckdb', 'exists': True, 'same_tables': True, 'n_tables': 7, 'count_mismatch': [], 'multiset_mismatch': [], 'order_differs': 7, 'tables_ge2_rows': 7, 'ok': True}
+card_games_perm7: {'path': '$PROJECT_ROOT/data/pilot_r2_1/card_games_perm7.duckdb', 'exists': True, 'same_tables': True, 'n_tables': 7, 'count_mismatch': [], 'multiset_mismatch': [], 'order_differs': 7, 'tables_ge2_rows': 7, 'ok': True}
+codebase_community_perm42: {'path': '$PROJECT_ROOT/data/pilot_r2_1/codebase_community_perm42.duckdb', 'exists': True, 'same_tables': True, 'n_tables': 8, 'count_mismatch': [], 'multiset_mismatch': [], 'order_differs': 8, 'tables_ge2_rows': 8, 'ok': True}
+codebase_community_perm7: {'path': '$PROJECT_ROOT/data/pilot_r2_1/codebase_community_perm7.duckdb', 'exists': True, 'same_tables': True, 'n_tables': 8, 'count_mismatch': [], 'multiset_mismatch': [], 'order_differs': 8, 'tables_ge2_rows': 8, 'ok': True}
+debit_card_specializing_perm42: {'path': '$PROJECT_ROOT/data/pilot_r2_1/debit_card_specializing_perm42.duckdb', 'exists': True, 'same_tables': True, 'n_tables': 6, 'count_mismatch': [], 'multiset_mismatch': [], 'order_differs': 5, 'tables_ge2_rows': 5, 'ok': True}
+debit_card_specializing_perm7: {'path': '$PROJECT_ROOT/data/pilot_r2_1/debit_card_specializing_perm7.duckdb', 'exists': True, 'same_tables': True, 'n_tables': 6, 'count_mismatch': [], 'multiset_mismatch': [], 'order_differs': 5, 'tables_ge2_rows': 5, 'ok': True}
+european_football_2_perm42: {'path': '$PROJECT_ROOT/data/pilot_r2_1/european_football_2_perm42.duckdb', 'exists': True, 'same_tables': True, 'n_tables': 3, 'count_mismatch': [], 'multiset_mismatch': [], 'order_differs': 3, 'tables_ge2_rows': 3, 'ok': True}
+european_football_2_perm7: {'path': '$PROJECT_ROOT/data/pilot_r2_1/european_football_2_perm7.duckdb', 'exists': True, 'same_tables': True, 'n_tables': 3, 'count_mismatch': [], 'multiset_mismatch': [], 'order_differs': 3, 'tables_ge2_rows': 3, 'ok': True}
+financial_perm42: {'path': '$PROJECT_ROOT/data/pilot_r2_1/financial_perm42.duckdb', 'exists': True, 'same_tables': True, 'n_tables': 6, 'count_mismatch': [], 'multiset_mismatch': [], 'order_differs': 6, 'tables_ge2_rows': 6, 'ok': True}
+financial_perm7: {'path': '$PROJECT_ROOT/data/pilot_r2_1/financial_perm7.duckdb', 'exists': True, 'same_tables': True, 'n_tables': 6, 'count_mismatch': [], 'multiset_mismatch': [], 'order_differs': 6, 'tables_ge2_rows': 6, 'ok': True}
+formula_1_perm42: {'path': '$PROJECT_ROOT/data/pilot_r2_1/formula_1_perm42.duckdb', 'exists': True, 'same_tables': True, 'n_tables': 14, 'count_mismatch': [], 'multiset_mismatch': [], 'order_differs': 14, 'tables_ge2_rows': 14, 'ok': True}
+formula_1_perm7: {'path': '$PROJECT_ROOT/data/pilot_r2_1/formula_1_perm7.duckdb', 'exists': True, 'same_tables': True, 'n_tables': 14, 'count_mismatch': [], 'multiset_mismatch': [], 'order_differs': 14, 'tables_ge2_rows': 14, 'ok': True}
+student_club_perm42: {'path': '$PROJECT_ROOT/data/pilot_r2_1/student_club_perm42.duckdb', 'exists': True, 'same_tables': True, 'n_tables': 8, 'count_mismatch': [], 'multiset_mismatch': [], 'order_differs': 8, 'tables_ge2_rows': 8, 'ok': True}
+student_club_perm7: {'path': '$PROJECT_ROOT/data/pilot_r2_1/student_club_perm7.duckdb', 'exists': True, 'same_tables': True, 'n_tables': 8, 'count_mismatch': [], 'multiset_mismatch': [], 'order_differs': 8, 'tables_ge2_rows': 8, 'ok': True}
+superhero_perm42: {'path': '$PROJECT_ROOT/data/pilot_r2_1/superhero_perm42.duckdb', 'exists': True, 'same_tables': True, 'n_tables': 10, 'count_mismatch': [], 'multiset_mismatch': [], 'order_differs': 10, 'tables_ge2_rows': 10, 'ok': True}
+superhero_perm7: {'path': '$PROJECT_ROOT/data/pilot_r2_1/superhero_perm7.duckdb', 'exists': True, 'same_tables': True, 'n_tables': 10, 'count_mismatch': [], 'multiset_mismatch': [], 'order_differs': 10, 'tables_ge2_rows': 10, 'ok': True}
+thrombosis_prediction_perm42: {'path': '$PROJECT_ROOT/data/pilot_r2_1/thrombosis_prediction_perm42.duckdb', 'exists': True, 'same_tables': True, 'n_tables': 3, 'count_mismatch': [], 'multiset_mismatch': [], 'order_differs': 3, 'tables_ge2_rows': 3, 'ok': True}
+thrombosis_prediction_perm7: {'path': '$PROJECT_ROOT/data/pilot_r2_1/thrombosis_prediction_perm7.duckdb', 'exists': True, 'same_tables': True, 'n_tables': 3, 'count_mismatch': [], 'multiset_mismatch': [], 'order_differs': 3, 'tables_ge2_rows': 3, 'ok': True}
+toxicology_perm42: {'path': '$PROJECT_ROOT/data/pilot_r2_1/toxicology_perm42.duckdb', 'exists': True, 'same_tables': True, 'n_tables': 4, 'count_mismatch': [], 'multiset_mismatch': [], 'order_differs': 4, 'tables_ge2_rows': 4, 'ok': True}
+toxicology_perm7: {'path': '$PROJECT_ROOT/data/pilot_r2_1/toxicology_perm7.duckdb', 'exists': True, 'same_tables': True, 'n_tables': 4, 'count_mismatch': [], 'multiset_mismatch': [], 'order_differs': 4, 'tables_ge2_rows': 4, 'ok': True}
+total tasks 150 {'california_schools': 10, 'card_games': 18, 'codebase_community': 21, 'debit_card_specializing': 9, 'european_football_2': 9, 'financial': 10, 'formula_1': 18, 'student_club': 16, 'superhero': 16, 'thrombosis_prediction': 7, 'toxicology': 16}
+difficulty v3 {'challenging': 26, 'simple': 83, 'moderate': 41} | v2 {'simple': 87, 'moderate': 48, 'challenging': 15}
+tasks_v3 md5 bd7f698fda5431cec882e22e7f94114c | perm copies all ok: True

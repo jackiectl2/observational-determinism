@@ -1,0 +1,162 @@
+{
+ "dev": {
+  "n": 1015,
+  "diffs": [
+   {
+    "db_id": "codebase_community",
+    "dialect": "duckdb",
+    "sql": "SELECT \n    p.OwnerUserId\nFROM \n    posts p\nWHERE \n    p.Id = 3019\n    AND p.PostTypeId = 1; -- Assuming ExcerptPostId corresponds to a question (PostTypeId = 1)",
+    "old": [
+     "UNSUPPORTED",
+     "multi-statement",
+     []
+    ],
+    "new": [
+     "DET",
+     "order determines every output column",
+     []
+    ]
+   },
+   {
+    "db_id": "codebase_community",
+    "dialect": "postgres",
+    "sql": "SELECT \n    p.OwnerUserId\nFROM \n    posts p\nWHERE \n    p.Id = 3019\n    AND p.PostTypeId = 1; -- Assuming ExcerptPostId corresponds to a question (PostTypeId = 1)",
+    "old": [
+     "UNSUPPORTED",
+     "multi-statement",
+     []
+    ],
+    "new": [
+     "ALL",
+     "output tie-break",
+     [
+      "1"
+     ]
+    ]
+   },
+   {
+    "db_id": "codebase_community",
+    "dialect": "duckdb",
+    "sql": "SELECT \n    p.OwnerUserId\nFROM \n    posts p\nWHERE \n    p.Id = 3019\n    AND p.PostTypeId = 1; -- Assuming PostTypeId 1 is for questions, which can have excerpt posts",
+    "old": [
+     "UNSUPPORTED",
+     "multi-statement",
+     []
+    ],
+    "new": [
+     "DET",
+     "order determines every output column",
+     []
+    ]
+   },
+   {
+    "db_id": "codebase_community",
+    "dialect": "postgres",
+    "sql": "SELECT \n    p.OwnerUserId\nFROM \n    posts p\nWHERE \n    p.Id = 3019\n    AND p.PostTypeId = 1; -- Assuming PostTypeId 1 is for questions, which can have excerpt posts",
+    "old": [
+     "UNSUPPORTED",
+     "multi-statement",
+     []
+    ],
+    "new": [
+     "ALL",
+     "output tie-break",
+     [
+      "1"
+     ]
+    ]
+   },
+   {
+    "db_id": "codebase_community",
+    "dialect": "duckdb",
+    "sql": "SELECT \n    p.OwnerUserId\nFROM \n    posts p\nWHERE \n    p.Id = 3019\n    AND p.PostTypeId = 2; -- Excerpt posts have PostTypeId 2",
+    "old": [
+     "UNSUPPORTED",
+     "multi-statement",
+     []
+    ],
+    "new": [
+     "DET",
+     "order determines every output column",
+     []
+    ]
+   },
+   {
+    "db_id": "codebase_community",
+    "dialect": "postgres",
+    "sql": "SELECT \n    p.OwnerUserId\nFROM \n    posts p\nWHERE \n    p.Id = 3019\n    AND p.PostTypeId = 2; -- Excerpt posts have PostTypeId 2",
+    "old": [
+     "UNSUPPORTED",
+     "multi-statement",
+     []
+    ],
+    "new": [
+     "ALL",
+     "output tie-break",
+     [
+      "1"
+     ]
+    ]
+   }
+  ]
+ },
+ "heldout_all": {
+  "n": 1393,
+  "diffs": [
+   {
+    "db_id": "student_club",
+    "dialect": "duckdb",
+    "sql": "SELECT DISTINCT link_to_event\nFROM budget\nWHERE amount > 1000; -- Assuming Student_Club events have a significant budget",
+    "old": [
+     "UNSUPPORTED",
+     "multi-statement",
+     []
+    ],
+    "new": [
+     "ALL",
+     "output tie-break",
+     [
+      "1"
+     ]
+    ]
+   },
+   {
+    "db_id": "student_club",
+    "dialect": "postgres",
+    "sql": "SELECT DISTINCT link_to_event\nFROM budget\nWHERE amount > 1000; -- Assuming Student_Club events have a significant budget",
+    "old": [
+     "UNSUPPORTED",
+     "multi-statement",
+     []
+    ],
+    "new": [
+     "ALL",
+     "output tie-break",
+     [
+      "1"
+     ]
+    ]
+   }
+  ]
+ },
+ "td_all": {
+  "n": 1495,
+  "diffs": []
+ },
+ "v5_phi4": {
+  "n": 606,
+  "diffs": []
+ },
+ "v5_qwen3_8b": {
+  "n": 1007,
+  "diffs": []
+ },
+ "v6td_phi4": {
+  "n": 584,
+  "diffs": []
+ },
+ "v6td_qwen3_8b": {
+  "n": 948,
+  "diffs": []
+ }
+}

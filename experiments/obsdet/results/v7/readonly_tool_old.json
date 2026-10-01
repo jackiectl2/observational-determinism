@@ -1,0 +1,330 @@
+{
+ "replace-table": {
+  "steps": [
+   {
+    "sql": "CREATE OR REPLACE TABLE users AS SELECT * FROM users UNION ALL SELECT * FROM users",
+    "success": true,
+    "error": ""
+   }
+  ],
+  "certified": {
+   "verdict": "DET",
+   "reason": "order determines every output column",
+   "refused": false,
+   "rows": [
+    [
+     -1,
+     "Community"
+    ],
+    [
+     -1,
+     "Community"
+    ],
+    [
+     2,
+     "Geoff Dalgas"
+    ]
+   ],
+   "certified": true,
+   "unsound": true
+  },
+  "strict": {
+   "verdict": "DET",
+   "reason": "order determines every output column",
+   "refused": false,
+   "rows": [
+    [
+     -1,
+     "Community"
+    ],
+    [
+     -1,
+     "Community"
+    ],
+    [
+     2,
+     "Geoff Dalgas"
+    ]
+   ],
+   "certified": true,
+   "unsound": true
+  }
+ },
+ "insert-duplicate": {
+  "steps": [
+   {
+    "sql": "INSERT INTO users SELECT * FROM users WHERE Id = -1",
+    "success": true,
+    "error": ""
+   }
+  ],
+  "certified": {
+   "verdict": "DET",
+   "reason": "order determines every output column",
+   "refused": false,
+   "rows": [
+    [
+     -1,
+     "Community"
+    ],
+    [
+     -1,
+     "Community"
+    ],
+    [
+     2,
+     "Geoff Dalgas"
+    ]
+   ],
+   "certified": true,
+   "unsound": true
+  },
+  "strict": {
+   "verdict": "DET",
+   "reason": "order determines every output column",
+   "refused": false,
+   "rows": [
+    [
+     -1,
+     "Community"
+    ],
+    [
+     -1,
+     "Community"
+    ],
+    [
+     2,
+     "Geoff Dalgas"
+    ]
+   ],
+   "certified": true,
+   "unsound": true
+  }
+ },
+ "set-collation": {
+  "steps": [
+   {
+    "sql": "SET default_collation='nocase'",
+    "success": true,
+    "error": ""
+   }
+  ],
+  "certified": {
+   "verdict": "DET",
+   "reason": "order determines every output column",
+   "refused": false,
+   "rows": [
+    [
+     "   Raid-Mahbouba"
+    ],
+    [
+     "0 kelvin"
+    ],
+    [
+     "0012"
+    ],
+    [
+     "007"
+    ],
+    [
+     "00luo"
+    ]
+   ],
+   "certified": true,
+   "unsound": false
+  },
+  "strict": {
+   "verdict": "DET",
+   "reason": "order determines every output column",
+   "refused": false,
+   "rows": [
+    [
+     "   Raid-Mahbouba"
+    ],
+    [
+     "0 kelvin"
+    ],
+    [
+     "0012"
+    ],
+    [
+     "007"
+    ],
+    [
+     "00luo"
+    ]
+   ],
+   "certified": true,
+   "unsound": false
+  }
+ },
+ "set-null-order": {
+  "steps": [
+   {
+    "sql": "SET default_null_order='nulls_first'",
+    "success": true,
+    "error": ""
+   }
+  ],
+  "certified": {
+   "verdict": "DET",
+   "reason": "order determines every output column",
+   "refused": false,
+   "rows": [
+    [
+     17,
+     null
+    ],
+    [
+     23,
+     null
+    ],
+    [
+     24,
+     null
+    ]
+   ],
+   "certified": true,
+   "unsound": true
+  },
+  "strict": {
+   "verdict": "DET",
+   "reason": "order determines every output column",
+   "refused": false,
+   "rows": [
+    [
+     17,
+     null
+    ],
+    [
+     23,
+     null
+    ],
+    [
+     24,
+     null
+    ]
+   ],
+   "certified": true,
+   "unsound": true
+  }
+ },
+ "attach+qualified": {
+  "steps": [
+   {
+    "sql": "ATTACH ':memory:' AS m",
+    "success": true,
+    "error": ""
+   },
+   {
+    "sql": "CREATE TABLE m.users AS SELECT * FROM users UNION ALL SELECT * FROM users",
+    "success": true,
+    "error": ""
+   }
+  ],
+  "certified": {
+   "verdict": "DET",
+   "reason": "order determines every output column",
+   "refused": false,
+   "rows": [
+    [
+     -1,
+     "Community"
+    ],
+    [
+     -1,
+     "Community"
+    ],
+    [
+     2,
+     "Geoff Dalgas"
+    ]
+   ],
+   "certified": true,
+   "unsound": true
+  },
+  "strict": {
+   "verdict": "DET",
+   "reason": "order determines every output column",
+   "refused": false,
+   "rows": [
+    [
+     -1,
+     "Community"
+    ],
+    [
+     -1,
+     "Community"
+    ],
+    [
+     2,
+     "Geoff Dalgas"
+    ]
+   ],
+   "certified": true,
+   "unsound": true
+  }
+ },
+ "metadata": {
+  "steps": [
+   {
+    "sql": "PRAGMA table_info(users)",
+    "success": true,
+    "error": ""
+   },
+   {
+    "sql": "DESCRIBE users",
+    "success": true,
+    "error": ""
+   },
+   {
+    "sql": "SHOW TABLES",
+    "success": true,
+    "error": ""
+   }
+  ],
+  "certified": {
+   "verdict": "DET",
+   "reason": "order determines every output column",
+   "refused": false,
+   "rows": [
+    [
+     -1,
+     "Community"
+    ],
+    [
+     2,
+     "Geoff Dalgas"
+    ],
+    [
+     3,
+     "Jarrod Dixon"
+    ]
+   ],
+   "certified": true,
+   "unsound": false
+  },
+  "strict": {
+   "verdict": "DET",
+   "reason": "order determines every output column",
+   "refused": false,
+   "rows": [
+    [
+     -1,
+     "Community"
+    ],
+    [
+     2,
+     "Geoff Dalgas"
+    ],
+    [
+     3,
+     "Jarrod Dixon"
+    ]
+   ],
+   "certified": true,
+   "unsound": false
+  }
+ },
+ "unsound_certificates": 8
+}

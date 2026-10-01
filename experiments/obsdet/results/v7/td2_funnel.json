@@ -1,0 +1,51 @@
+{
+ "distinct_statements": 1468,
+ "removed_in_order": {
+  "dev_exact": 3,
+  "dev_normalized": 6,
+  "heldout1_exact": 14,
+  "heldout1_normalized": 4,
+  "td1_exact": 5,
+  "td1_normalized": 4,
+  "fails_on_sf1": 165
+ },
+ "kept": 1267,
+ "kept_distinct_after_norm": 1244,
+ "kept_by_model": {
+  "v7td2_phi4": 489,
+  "v7td2_qwen3_8b": 801
+ },
+ "kept_by_db": {
+  "california_schools": 146,
+  "card_games": 147,
+  "codebase_community": 129,
+  "debit_card_specializing": 137,
+  "financial": 116,
+  "formula_1": 148,
+  "student_club": 131,
+  "superhero": 99,
+  "thrombosis_prediction": 81,
+  "toxicology": 133
+ },
+ "kept_in_both_models": 23,
+ "kept_occurrences": 14250,
+ "verdicts": {
+  "DET": {
+   "n": 269,
+   "pct": 21.2
+  },
+  "NARROW": {
+   "n": 457,
+   "pct": 36.1
+  },
+  "ALL": {
+   "n": 219,
+   "pct": 17.3
+  },
+  "UNSUPPORTED": {
+   "n": 322,
+   "pct": 25.4
+  }
+ },
+ "rewrite_failed": 0
+}

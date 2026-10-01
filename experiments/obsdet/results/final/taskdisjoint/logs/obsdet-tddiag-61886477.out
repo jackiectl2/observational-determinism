@@ -1,0 +1,65 @@
+duckdb 1.5.5
+SELECT typeof(CAST(1 AS DECIMAL(18, 6)) / 365.25) -> DOUBLE
+SELECT typeof(CAST(1 AS DECIMAL(18, 6)) / CAST(3 AS DECIMAL(18, 6))) -> DOUBLE
+SELECT typeof(AVG(CAST(1 AS DECIMAL(18, 6)) / 365.25)) -> DOUBLE
+SELECT typeof(AVG(CAST(1 AS DECIMAL(18, 6)))) -> DOUBLE
+
+== formula_1 | SELECT DISTINCT races.name
+FROM races
+JOIN results ON races.raceId = results.raceId
+WHERE results.driverId = 1
+ORDER BY results.rank
+LIMIT 1;
+certificate: ALL | output tie-break | tie-break ['1'] | executed: SELECT DISTINCT races.name FROM races JOIN results ON races.raceId = results.raceId WHERE results.driverId = 1 ORDER BY results.rank, 1 ASC LIMIT 1
+plan: ┌───────────────────────────┐ │         PROJECTION        │ │    ────────────────────   │ │             #0            │ │                           │ │           ~1 row          │ └─────────────┬─────────────┘ ┌─────────────┴─────────────┐ │           TOP_N           │ │    ────────────────────   │ │           Top: 1          │ │                           │ │         Order By:         │ │           #1 ASC          │ │          name ASC         │ └─────────────┬─────────────┘ ┌─────────────┴─────────────┐ │         PROJECTION        │ │    ────────────────────   │ │             #0            │ │__internal_decompress_integ│ │     ral_bigint(#1, 0)     │ │                           │ │          ~52 rows         │ └─────────────┬─────────────┘ ┌─────────────┴─────────────┐ │         PROJECTION        │ │    ────────────────────   │ │             #0            │ │             #1            │ │                           │ │          ~52 rows         │ └─────────────┬─────────────┘ ┌─────────────┴─────────────┐ │       HASH_GROUP_BY       │ │    ────────────────────   │ │         Groups: #0        │ │                           │ │        Aggregates:        │ │        "first"(#1)        │ │                           │ │          ~52 rows         │ └─────────────┬─────────────┘ ┌─────────────┴─────────────┐ │         PROJECTION        │ │    ────────────────────   │ │            name           │ │             #1            │ │                           │ │          ~52 rows         │ 
+  orig_t1   Result (1 rows; showing up to 20): | name | Austrian Grand Prix
+  orig_t8a  Result (1 rows; showing up to 20): | name | Austrian Grand Prix
+  orig_t8b  Result (1 rows; showing up to 20): | name | Austrian Grand Prix
+  p42_t1    Result (1 rows; showing up to 20): | name | Canadian Grand Prix
+  p42_t8    Result (1 rows; showing up to 20): | name | Canadian Grand Prix
+  p7_t1     Result (1 rows; showing up to 20): | name | Australian Grand Prix
+  p7_t8     Result (1 rows; showing up to 20): | name | Australian Grand Prix
+
+== financial | SELECT 
+    AVG(CAST(DATE_DIFF('day', c.birth_date, a.date) AS DECIMAL(18, 6)) / 365.25) AS average_age_at_opening
+FROM client c
+JOIN disp d ON c.client_id = d.client_id
+JOIN account a ON d.account_id = a.account_id
+JOIN district d2 ON c.district_id = d2.district_id
+WHERE c.gender = 'F' AND c.birth_date < '1950-01-01' AND d2.A2 = 'Sokolov';
+certificate: DET | single-row aggregate | tie-break [] | executed: SELECT 
+    AVG(CAST(DATE_DIFF('day', c.birth_date, a.date) AS DECIMAL(18, 6)) / 365.25) AS average_age_at_opening
+FROM client c
+JOIN disp d ON c.client_id = d.client_id
+JOIN account a ON d.account_id = a.account_id
+JOIN district d2 ON c.district_id = d2.district_id
+WHERE c.gender = 'F' AND c.birth_date < '1950-01-01' AND d2.A2 = 'Sokolov';
+plan: ┌───────────────────────────┐ │    UNGROUPED_AGGREGATE    │ │    ────────────────────   │ │    Aggregates: avg(#0)    │ └─────────────┬─────────────┘ ┌─────────────┴─────────────┐ │         PROJECTION        │ │    ────────────────────   │ │ (CAST(CAST(date_diff('day'│ │   , birth_date, date) AS  │ │  DECIMAL(18,6)) AS DOUBLE)│ │          / 365.25)        │ │                           │ │          ~39 rows         │ └─────────────┬─────────────┘ ┌─────────────┴─────────────┐ │         HASH_JOIN         │ │    ────────────────────   │ │      Join Type: INNER     │ │                           │ │        Conditions:        ├──────────────┐ │  account_id = account_id  │              │ │                           │              │ │          ~39 rows         │              │ └─────────────┬─────────────┘              │ ┌─────────────┴─────────────┐┌─────────────┴─────────────┐ │          SEQ_SCAN         ││         HASH_JOIN         │ │    ────────────────────   ││    ────────────────────   │ │           Table:          ││      Join Type: INNER     │ │    memory.main.account    ││                           │ │                           ││        Conditions:        │ │   Type: Sequential Scan   ││   client_id = client_id   │ │                           ││                           ├──────────────┐ │        Projections:       ││                           │              │ │         account_id        ││                           │              │ │            date           ││          
+  orig_t1   Result (1 rows; showing up to 20): | average_age_at_opening | 59.63928815879535
+  orig_t8a  Result (1 rows; showing up to 20): | average_age_at_opening | 59.63928815879535
+  orig_t8b  Result (1 rows; showing up to 20): | average_age_at_opening | 59.63928815879535
+  p42_t1    Result (1 rows; showing up to 20): | average_age_at_opening | 59.639288158795345
+  p42_t8    Result (1 rows; showing up to 20): | average_age_at_opening | 59.639288158795345
+  p7_t1     Result (1 rows; showing up to 20): | average_age_at_opening | 59.639288158795345
+  p7_t8     Result (1 rows; showing up to 20): | average_age_at_opening | 59.639288158795345
+
+== california_schools | SELECT 
+    AVG(CAST("Free Meal Count (K-12)" AS DECIMAL(18, 6)) / CAST("Enrollment (K-12)" AS DECIMAL(18, 6))) AS AvgFreeMealRate
+FROM 
+    frpm
+WHERE 
+    "County Name" = 'Alameda';
+certificate: DET | single-row aggregate | tie-break [] | executed: SELECT 
+    AVG(CAST("Free Meal Count (K-12)" AS DECIMAL(18, 6)) / CAST("Enrollment (K-12)" AS DECIMAL(18, 6))) AS AvgFreeMealRate
+FROM 
+    frpm
+WHERE 
+    "County Name" = 'Alameda';
+plan: ┌───────────────────────────┐ │    UNGROUPED_AGGREGATE    │ │    ────────────────────   │ │    Aggregates: avg(#0)    │ └─────────────┬─────────────┘ ┌─────────────┴─────────────┐ │         PROJECTION        │ │    ────────────────────   │ │ (CAST(CAST(Free Meal Count│ │  (K-12) AS DECIMAL(18,6)) │ │   AS DOUBLE) / CAST(CAST  │ │   (Enrollment (K-12) AS   │ │ DECIMAL(18,6)) AS DOUBLE))│ │                           │ │         ~833 rows         │ └─────────────┬─────────────┘ ┌─────────────┴─────────────┐ │          SEQ_SCAN         │ │    ────────────────────   │ │           Table:          │ │      memory.main.frpm     │ │                           │ │   Type: Sequential Scan   │ │                           │ │        Projections:       │ │   Free Meal Count (K-12)  │ │     Enrollment (K-12)     │ │                           │ │          Filters:         │ │   County Name='Alameda'   │ │                           │ │         ~833 rows         │ └───────────────────────────┘ 
+  orig_t1   Result (1 rows; showing up to 20): | AvgFreeMealRate | 0.45325042040747315
+  orig_t8a  Result (1 rows; showing up to 20): | AvgFreeMealRate | 0.45325042040747315
+  orig_t8b  Result (1 rows; showing up to 20): | AvgFreeMealRate | 0.45325042040747315
+  p42_t1    Result (1 rows; showing up to 20): | AvgFreeMealRate | 0.45325042040747265
+  p42_t8    Result (1 rows; showing up to 20): | AvgFreeMealRate | 0.45325042040747265
+  p7_t1     Result (1 rows; showing up to 20): | AvgFreeMealRate | 0.4532504204074726
+  p7_t8     Result (1 rows; showing up to 20): | AvgFreeMealRate | 0.4532504204074726

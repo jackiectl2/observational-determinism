@@ -1,0 +1,1429 @@
+{
+ "e4": {
+  "qwen3_8b": {
+   "groups": {
+    "raw_phys": {
+     "counts": [
+      52,
+      50,
+      32,
+      13
+     ],
+     "n": [
+      150,
+      150,
+      150,
+      150
+     ],
+     "censored": [
+      0,
+      0,
+      0,
+      0
+     ],
+     "unattributed": 0,
+     "obs_diverged_same_sql": 72,
+     "sources": {
+      "raw": 69,
+      "runtime-error": 3
+     }
+    },
+    "slx_phys": {
+     "counts": [
+      4,
+      3,
+      3,
+      1
+     ],
+     "n": [
+      150,
+      150,
+      150,
+      150
+     ],
+     "censored": [
+      0,
+      0,
+      0,
+      0
+     ],
+     "unattributed": 0,
+     "obs_diverged_same_sql": 9,
+     "sources": {
+      "smartlex": 5,
+      "runtime-error": 4
+     }
+    },
+    "cer_phys": {
+     "counts": [
+      4,
+      4,
+      4,
+      1
+     ],
+     "n": [
+      150,
+      150,
+      150,
+      150
+     ],
+     "censored": [
+      0,
+      0,
+      0,
+      0
+     ],
+     "unattributed": 0,
+     "obs_diverged_same_sql": 9,
+     "sources": {
+      "UNSUPPORTED": 5,
+      "runtime-error": 4
+     }
+    },
+    "str_phys": {
+     "counts": [
+      4,
+      4,
+      3,
+      1
+     ],
+     "n": [
+      150,
+      150,
+      150,
+      150
+     ],
+     "censored": [
+      0,
+      0,
+      0,
+      0
+     ],
+     "unattributed": 0,
+     "obs_diverged_same_sql": 6,
+     "sources": {
+      "runtime-error": 4,
+      "DET": 1,
+      "ALL": 1
+     }
+    },
+    "raw_threads": {
+     "counts": [
+      28,
+      26,
+      16,
+      9
+     ],
+     "n": [
+      150,
+      150,
+      150,
+      150
+     ],
+     "censored": [
+      0,
+      0,
+      0,
+      0
+     ],
+     "unattributed": 0,
+     "obs_diverged_same_sql": 39,
+     "sources": {
+      "raw": 38,
+      "runtime-error": 1
+     }
+    },
+    "cer_threads": {
+     "counts": [
+      2,
+      2,
+      2,
+      0
+     ],
+     "n": [
+      150,
+      150,
+      150,
+      150
+     ],
+     "censored": [
+      0,
+      0,
+      0,
+      0
+     ],
+     "unattributed": 0,
+     "obs_diverged_same_sql": 2,
+     "sources": {
+      "runtime-error": 2
+     }
+    },
+    "str_threads": {
+     "counts": [
+      1,
+      0,
+      0,
+      0
+     ],
+     "n": [
+      150,
+      150,
+      150,
+      150
+     ],
+     "censored": [
+      0,
+      0,
+      0,
+      0
+     ],
+     "unattributed": 0,
+     "obs_diverged_same_sql": 1,
+     "sources": {
+      "runtime-error": 1
+     }
+    }
+   },
+   "accuracy": {
+    "cer_orig_t1": {
+     "mean": 0.633,
+     "ci95": [
+      0.553,
+      0.713
+     ]
+    },
+    "cer_orig_t8": {
+     "mean": 0.633,
+     "ci95": [
+      0.553,
+      0.713
+     ]
+    },
+    "cer_p42_t1": {
+     "mean": 0.627,
+     "ci95": [
+      0.547,
+      0.707
+     ]
+    },
+    "cer_p7_t1": {
+     "mean": 0.627,
+     "ci95": [
+      0.547,
+      0.707
+     ]
+    },
+    "raw_orig_t1": {
+     "mean": 0.64,
+     "ci95": [
+      0.567,
+      0.72
+     ]
+    },
+    "raw_orig_t8": {
+     "mean": 0.62,
+     "ci95": [
+      0.547,
+      0.693
+     ]
+    },
+    "raw_p42_t1": {
+     "mean": 0.62,
+     "ci95": [
+      0.547,
+      0.7
+     ]
+    },
+    "raw_p7_t1": {
+     "mean": 0.627,
+     "ci95": [
+      0.547,
+      0.707
+     ]
+    },
+    "slx_orig_t1": {
+     "mean": 0.62,
+     "ci95": [
+      0.54,
+      0.693
+     ]
+    },
+    "slx_p42_t1": {
+     "mean": 0.613,
+     "ci95": [
+      0.533,
+      0.693
+     ]
+    },
+    "slx_p7_t1": {
+     "mean": 0.613,
+     "ci95": [
+      0.533,
+      0.693
+     ]
+    },
+    "str_orig_t1": {
+     "mean": 0.633,
+     "ci95": [
+      0.553,
+      0.707
+     ]
+    },
+    "str_orig_t8": {
+     "mean": 0.633,
+     "ci95": [
+      0.553,
+      0.707
+     ]
+    },
+    "str_p42_t1": {
+     "mean": 0.627,
+     "ci95": [
+      0.547,
+      0.707
+     ]
+    },
+    "str_p7_t1": {
+     "mean": 0.627,
+     "ci95": [
+      0.547,
+      0.707
+     ]
+    }
+   },
+   "bag_accuracy": {
+    "cer_orig_t1": 0.6,
+    "cer_orig_t8": 0.6,
+    "cer_p42_t1": 0.593,
+    "cer_p7_t1": 0.593,
+    "raw_orig_t1": 0.613,
+    "raw_orig_t8": 0.6,
+    "raw_p42_t1": 0.587,
+    "raw_p7_t1": 0.607,
+    "slx_orig_t1": 0.58,
+    "slx_p42_t1": 0.58,
+    "slx_p7_t1": 0.58,
+    "str_orig_t1": 0.6,
+    "str_orig_t8": 0.6,
+    "str_p42_t1": 0.593,
+    "str_p7_t1": 0.593
+   },
+   "paired_accuracy": {
+    "cer-raw": {
+     "mean_diff": 0.0,
+     "ci95": [
+      -0.031,
+      0.031
+     ]
+    },
+    "slx-raw": {
+     "mean_diff": -0.0133,
+     "ci95": [
+      -0.047,
+      0.022
+     ]
+    },
+    "cer-slx": {
+     "mean_diff": 0.0133,
+     "ci95": [
+      0.0,
+      0.033
+     ]
+    },
+    "str-raw": {
+     "mean_diff": 0.0,
+     "ci95": [
+      -0.04,
+      0.04
+     ]
+    },
+    "str-cer": {
+     "mean_diff": 0.0,
+     "ci95": [
+      -0.027,
+      0.027
+     ]
+    }
+   },
+   "certified_statement_verdicts": {
+    "cer": {
+     "NARROW": 793,
+     "DET": 520,
+     "UNSUPPORTED": 512,
+     "ALL": 433
+    },
+    "str": {
+     "NARROW": 884,
+     "DET": 686,
+     "UNSUPPORTED": 161,
+     "ALL": 448,
+     "UNSUPPORTED/refused": 435
+    }
+   },
+   "n_tasks": 150
+  },
+  "phi4": {
+   "groups": {
+    "raw_phys": {
+     "counts": [
+      37,
+      29,
+      17,
+      7
+     ],
+     "n": [
+      150,
+      150,
+      149,
+      150
+     ],
+     "censored": [
+      0,
+      0,
+      1,
+      0
+     ],
+     "unattributed": 0,
+     "obs_diverged_same_sql": 59,
+     "sources": {
+      "raw": 59
+     }
+    },
+    "slx_phys": {
+     "counts": [
+      2,
+      2,
+      1,
+      0
+     ],
+     "n": [
+      150,
+      150,
+      149,
+      150
+     ],
+     "censored": [
+      0,
+      0,
+      1,
+      0
+     ],
+     "unattributed": 0,
+     "obs_diverged_same_sql": 4,
+     "sources": {
+      "smartlex": 3,
+      "runtime-error": 1
+     }
+    },
+    "cer_phys": {
+     "counts": [
+      3,
+      3,
+      2,
+      0
+     ],
+     "n": [
+      150,
+      150,
+      149,
+      150
+     ],
+     "censored": [
+      0,
+      0,
+      1,
+      0
+     ],
+     "unattributed": 0,
+     "obs_diverged_same_sql": 4,
+     "sources": {
+      "UNSUPPORTED": 4,
+      "runtime-error": 1
+     }
+    },
+    "str_phys": {
+     "counts": [
+      2,
+      2,
+      0,
+      0
+     ],
+     "n": [
+      150,
+      150,
+      149,
+      150
+     ],
+     "censored": [
+      0,
+      0,
+      1,
+      0
+     ],
+     "unattributed": 0,
+     "obs_diverged_same_sql": 2,
+     "sources": {
+      "DET": 1,
+      "runtime-error": 1
+     }
+    },
+    "raw_threads": {
+     "counts": [
+      14,
+      9,
+      6,
+      5
+     ],
+     "n": [
+      150,
+      150,
+      149,
+      150
+     ],
+     "censored": [
+      0,
+      0,
+      1,
+      0
+     ],
+     "unattributed": 0,
+     "obs_diverged_same_sql": 21,
+     "sources": {
+      "raw": 21
+     }
+    },
+    "cer_threads": {
+     "counts": [
+      0,
+      0,
+      0,
+      0
+     ],
+     "n": [
+      150,
+      150,
+      149,
+      150
+     ],
+     "censored": [
+      0,
+      0,
+      1,
+      0
+     ],
+     "unattributed": 0,
+     "obs_diverged_same_sql": 0,
+     "sources": {}
+    },
+    "str_threads": {
+     "counts": [
+      0,
+      0,
+      0,
+      0
+     ],
+     "n": [
+      150,
+      150,
+      149,
+      150
+     ],
+     "censored": [
+      0,
+      0,
+      1,
+      0
+     ],
+     "unattributed": 0,
+     "obs_diverged_same_sql": 0,
+     "sources": {}
+    }
+   },
+   "accuracy": {
+    "cer_orig_t1": {
+     "mean": 0.493,
+     "ci95": [
+      0.413,
+      0.573
+     ]
+    },
+    "cer_orig_t8": {
+     "mean": 0.493,
+     "ci95": [
+      0.413,
+      0.573
+     ]
+    },
+    "cer_p42_t1": {
+     "mean": 0.493,
+     "ci95": [
+      0.413,
+      0.573
+     ]
+    },
+    "cer_p7_t1": {
+     "mean": 0.493,
+     "ci95": [
+      0.413,
+      0.573
+     ]
+    },
+    "raw_orig_t1": {
+     "mean": 0.493,
+     "ci95": [
+      0.407,
+      0.573
+     ]
+    },
+    "raw_orig_t8": {
+     "mean": 0.473,
+     "ci95": [
+      0.393,
+      0.553
+     ]
+    },
+    "raw_p42_t1": {
+     "mean": 0.473,
+     "ci95": [
+      0.393,
+      0.553
+     ]
+    },
+    "raw_p7_t1": {
+     "mean": 0.473,
+     "ci95": [
+      0.393,
+      0.553
+     ]
+    },
+    "slx_orig_t1": {
+     "mean": 0.493,
+     "ci95": [
+      0.413,
+      0.573
+     ]
+    },
+    "slx_p42_t1": {
+     "mean": 0.493,
+     "ci95": [
+      0.413,
+      0.573
+     ]
+    },
+    "slx_p7_t1": {
+     "mean": 0.493,
+     "ci95": [
+      0.413,
+      0.573
+     ]
+    },
+    "str_orig_t1": {
+     "mean": 0.42,
+     "ci95": [
+      0.34,
+      0.5
+     ]
+    },
+    "str_orig_t8": {
+     "mean": 0.42,
+     "ci95": [
+      0.34,
+      0.5
+     ]
+    },
+    "str_p42_t1": {
+     "mean": 0.42,
+     "ci95": [
+      0.34,
+      0.5
+     ]
+    },
+    "str_p7_t1": {
+     "mean": 0.42,
+     "ci95": [
+      0.34,
+      0.5
+     ]
+    }
+   },
+   "bag_accuracy": {
+    "cer_orig_t1": 0.447,
+    "cer_orig_t8": 0.447,
+    "cer_p42_t1": 0.447,
+    "cer_p7_t1": 0.447,
+    "raw_orig_t1": 0.453,
+    "raw_orig_t8": 0.433,
+    "raw_p42_t1": 0.427,
+    "raw_p7_t1": 0.433,
+    "slx_orig_t1": 0.447,
+    "slx_p42_t1": 0.447,
+    "slx_p7_t1": 0.447,
+    "str_orig_t1": 0.373,
+    "str_orig_t8": 0.373,
+    "str_p42_t1": 0.373,
+    "str_p7_t1": 0.373
+   },
+   "paired_accuracy": {
+    "cer-raw": {
+     "mean_diff": 0.0133,
+     "ci95": [
+      -0.013,
+      0.042
+     ]
+    },
+    "slx-raw": {
+     "mean_diff": 0.0133,
+     "ci95": [
+      -0.013,
+      0.042
+     ]
+    },
+    "cer-slx": {
+     "mean_diff": 0.0,
+     "ci95": [
+      0.0,
+      0.0
+     ]
+    },
+    "str-raw": {
+     "mean_diff": -0.06,
+     "ci95": [
+      -0.109,
+      -0.011
+     ]
+    },
+    "str-cer": {
+     "mean_diff": -0.0733,
+     "ci95": [
+      -0.12,
+      -0.033
+     ]
+    }
+   },
+   "certified_statement_verdicts": {
+    "cer": {
+     "NARROW": 540,
+     "UNSUPPORTED": 308,
+     "ALL": 308,
+     "DET": 420
+    },
+    "str": {
+     "NARROW": 611,
+     "UNSUPPORTED": 69,
+     "ALL": 340,
+     "DET": 484,
+     "UNSUPPORTED/refused": 412
+    }
+   },
+   "n_tasks": 150
+  }
+ },
+ "e4_v5_original": {
+  "qwen3_8b": {
+   "groups": {
+    "raw_phys": {
+     "counts": [
+      61,
+      58,
+      38,
+      16
+     ],
+     "n": [
+      150,
+      150,
+      150,
+      150
+     ],
+     "censored": [
+      0,
+      0,
+      0,
+      0
+     ],
+     "unattributed": 0,
+     "obs_diverged_same_sql": 72,
+     "sources": {
+      "raw": 71,
+      "runtime-error": 2
+     }
+    },
+    "slx_phys": {
+     "counts": [
+      5,
+      5,
+      5,
+      0
+     ],
+     "n": [
+      150,
+      150,
+      149,
+      150
+     ],
+     "censored": [
+      0,
+      0,
+      1,
+      0
+     ],
+     "unattributed": 0,
+     "obs_diverged_same_sql": 8,
+     "sources": {
+      "runtime-error": 2,
+      "smartlex": 6
+     }
+    },
+    "cer_phys": {
+     "counts": [
+      6,
+      6,
+      5,
+      1
+     ],
+     "n": [
+      150,
+      150,
+      149,
+      150
+     ],
+     "censored": [
+      0,
+      0,
+      1,
+      0
+     ],
+     "unattributed": 0,
+     "obs_diverged_same_sql": 7,
+     "sources": {
+      "runtime-error": 2,
+      "UNSUPPORTED": 5
+     }
+    },
+    "str_phys": {
+     "counts": [
+      2,
+      2,
+      1,
+      0
+     ],
+     "n": [
+      150,
+      150,
+      150,
+      150
+     ],
+     "censored": [
+      0,
+      0,
+      0,
+      0
+     ],
+     "unattributed": 0,
+     "obs_diverged_same_sql": 2,
+     "sources": {
+      "runtime-error": 2
+     }
+    },
+    "raw_threads": {
+     "counts": [
+      29,
+      27,
+      19,
+      5
+     ],
+     "n": [
+      150,
+      150,
+      150,
+      150
+     ],
+     "censored": [
+      0,
+      0,
+      0,
+      0
+     ],
+     "unattributed": 0,
+     "obs_diverged_same_sql": 38,
+     "sources": {
+      "raw": 38
+     }
+    },
+    "cer_threads": {
+     "counts": [
+      3,
+      3,
+      3,
+      0
+     ],
+     "n": [
+      150,
+      150,
+      149,
+      150
+     ],
+     "censored": [
+      0,
+      0,
+      1,
+      0
+     ],
+     "unattributed": 0,
+     "obs_diverged_same_sql": 4,
+     "sources": {
+      "runtime-error": 1,
+      "UNSUPPORTED": 3
+     }
+    },
+    "str_threads": {
+     "counts": [
+      1,
+      1,
+      1,
+      0
+     ],
+     "n": [
+      150,
+      150,
+      150,
+      150
+     ],
+     "censored": [
+      0,
+      0,
+      0,
+      0
+     ],
+     "unattributed": 0,
+     "obs_diverged_same_sql": 1,
+     "sources": {
+      "runtime-error": 1
+     }
+    }
+   }
+  },
+  "phi4": {
+   "groups": {
+    "raw_phys": {
+     "counts": [
+      30,
+      27,
+      19,
+      3
+     ],
+     "n": [
+      150,
+      150,
+      149,
+      150
+     ],
+     "censored": [
+      0,
+      0,
+      1,
+      0
+     ],
+     "unattributed": 0,
+     "obs_diverged_same_sql": 53,
+     "sources": {
+      "raw": 53
+     }
+    },
+    "slx_phys": {
+     "counts": [
+      2,
+      2,
+      1,
+      0
+     ],
+     "n": [
+      150,
+      150,
+      149,
+      150
+     ],
+     "censored": [
+      0,
+      0,
+      1,
+      0
+     ],
+     "unattributed": 0,
+     "obs_diverged_same_sql": 8,
+     "sources": {
+      "smartlex": 8
+     }
+    },
+    "cer_phys": {
+     "counts": [
+      2,
+      2,
+      1,
+      0
+     ],
+     "n": [
+      150,
+      150,
+      149,
+      150
+     ],
+     "censored": [
+      0,
+      0,
+      1,
+      0
+     ],
+     "unattributed": 0,
+     "obs_diverged_same_sql": 8,
+     "sources": {
+      "UNSUPPORTED": 8
+     }
+    },
+    "str_phys": {
+     "counts": [
+      0,
+      0,
+      0,
+      0
+     ],
+     "n": [
+      150,
+      150,
+      149,
+      150
+     ],
+     "censored": [
+      0,
+      0,
+      1,
+      0
+     ],
+     "unattributed": 0,
+     "obs_diverged_same_sql": 0,
+     "sources": {}
+    },
+    "raw_threads": {
+     "counts": [
+      8,
+      7,
+      3,
+      0
+     ],
+     "n": [
+      150,
+      150,
+      149,
+      150
+     ],
+     "censored": [
+      0,
+      0,
+      1,
+      0
+     ],
+     "unattributed": 0,
+     "obs_diverged_same_sql": 19,
+     "sources": {
+      "raw": 19
+     }
+    },
+    "cer_threads": {
+     "counts": [
+      1,
+      1,
+      1,
+      0
+     ],
+     "n": [
+      150,
+      150,
+      149,
+      150
+     ],
+     "censored": [
+      0,
+      0,
+      1,
+      0
+     ],
+     "unattributed": 0,
+     "obs_diverged_same_sql": 5,
+     "sources": {
+      "UNSUPPORTED": 5
+     }
+    },
+    "str_threads": {
+     "counts": [
+      0,
+      0,
+      0,
+      0
+     ],
+     "n": [
+      150,
+      150,
+      149,
+      150
+     ],
+     "censored": [
+      0,
+      0,
+      1,
+      0
+     ],
+     "unattributed": 0,
+     "obs_diverged_same_sql": 0,
+     "sources": {}
+    }
+   }
+  }
+ },
+ "heldout": {
+  "funnel": {
+   "distinct_statements": 1495,
+   "removed_in_order": {
+    "dev_exact": 1,
+    "dev_normalized": 0,
+    "heldout1_exact": 8,
+    "heldout1_normalized": 5,
+    "fails_on_sf1": 160
+   },
+   "kept": 1321,
+   "kept_distinct_after_norm": 1283,
+   "kept_by_model": {
+    "v6td_phi4": 520,
+    "v6td_qwen3_8b": 835
+   },
+   "kept_by_db": {
+    "california_schools": 160,
+    "card_games": 180,
+    "codebase_community": 116,
+    "debit_card_specializing": 106,
+    "european_football_2": 45,
+    "financial": 120,
+    "formula_1": 148,
+    "student_club": 150,
+    "superhero": 92,
+    "thrombosis_prediction": 31,
+    "toxicology": 173
+   },
+   "kept_in_both_models": 34,
+   "kept_occurrences": 13702,
+   "verdicts": {
+    "DET": {
+     "n": 315,
+     "pct": 23.8
+    },
+    "NARROW": {
+     "n": 471,
+     "pct": 35.7
+    },
+    "ALL": {
+     "n": 217,
+     "pct": 16.4
+    },
+    "UNSUPPORTED": {
+     "n": 318,
+     "pct": 24.1
+    }
+   },
+   "rewrite_failed": 0
+  },
+  "verdicts": {
+   "DET": {
+    "n": 315,
+    "pct": 23.8
+   },
+   "NARROW": {
+    "n": 471,
+    "pct": 35.7
+   },
+   "ALL": {
+    "n": 217,
+    "pct": 16.4
+   },
+   "UNSUPPORTED": {
+    "n": 318,
+    "pct": 24.1
+   },
+   "total": 1321
+  },
+  "tie_break_width": {
+   "n": 688,
+   "certified_hist": {
+    "1": 614,
+    "2": 68,
+    "3": 6
+   },
+   "certified_mean": 1.12,
+   "smartlex_mean": 2.49,
+   "smartlex_hist": {
+    "1": 248,
+    "2": 229,
+    "3": 96,
+    "4": 50,
+    "5": 18,
+    "6": 11,
+    "7": 10,
+    "8": 4,
+    "9": 8,
+    "10": 6,
+    "11": 1,
+    "15": 2,
+    "16": 2,
+    "17": 1,
+    "21": 2
+   },
+   "key_tie_break": 430,
+   "non_output_key": 262
+  },
+  "unsupported_reasons": {
+   "derived-table": 123,
+   "no-base-table": 85,
+   "cte": 43,
+   "float-aggregate": 35,
+   "nested-limit": 9,
+   "outer-or-special-join": 8,
+   "unresolved": 6,
+   "not-select": 5,
+   "multi-statement": 2,
+   "function": 2
+  },
+  "by_class": {
+   "DISTINCT": {
+    "DET": {
+     "n": 3,
+     "pct": 2.0
+    },
+    "NARROW": {
+     "n": 35,
+     "pct": 23.2
+    },
+    "ALL": {
+     "n": 99,
+     "pct": 65.6
+    },
+    "UNSUPPORTED": {
+     "n": 14,
+     "pct": 9.3
+    },
+    "total": 151
+   },
+   "GROUP BY": {
+    "DET": {
+     "n": 8,
+     "pct": 11.0
+    },
+    "NARROW": {
+     "n": 32,
+     "pct": 43.8
+    },
+    "ALL": {
+     "n": 6,
+     "pct": 8.2
+    },
+    "UNSUPPORTED": {
+     "n": 27,
+     "pct": 37.0
+    },
+    "total": 73
+   },
+   "LIMIT, no ORDER BY": {
+    "DET": {
+     "n": 1,
+     "pct": 1.6
+    },
+    "NARROW": {
+     "n": 39,
+     "pct": 60.9
+    },
+    "ALL": {
+     "n": 19,
+     "pct": 29.7
+    },
+    "UNSUPPORTED": {
+     "n": 5,
+     "pct": 7.8
+    },
+    "total": 64
+   },
+   "ORDER BY + LIMIT": {
+    "DET": {
+     "n": 8,
+     "pct": 9.0
+    },
+    "NARROW": {
+     "n": 60,
+     "pct": 67.4
+    },
+    "ALL": {
+     "n": 9,
+     "pct": 10.1
+    },
+    "UNSUPPORTED": {
+     "n": 12,
+     "pct": 13.5
+    },
+    "total": 89
+   },
+   "ORDER BY, no LIMIT": {
+    "DET": {
+     "n": 11,
+     "pct": 42.3
+    },
+    "NARROW": {
+     "n": 8,
+     "pct": 30.8
+    },
+    "ALL": {
+     "n": 0,
+     "pct": 0.0
+    },
+    "UNSUPPORTED": {
+     "n": 7,
+     "pct": 26.9
+    },
+    "total": 26
+   },
+   "unordered SELECT": {
+    "DET": {
+     "n": 284,
+     "pct": 30.9
+    },
+    "NARROW": {
+     "n": 297,
+     "pct": 32.4
+    },
+    "ALL": {
+     "n": 84,
+     "pct": 9.2
+    },
+    "UNSUPPORTED": {
+     "n": 253,
+     "pct": 27.6
+    },
+    "total": 918
+   }
+  },
+  "e4_by_model": {
+   "v6td_qwen3_8b": {
+    "DET": {
+     "n": 110,
+     "pct": 22.0
+    },
+    "NARROW": {
+     "n": 178,
+     "pct": 35.6
+    },
+    "ALL": {
+     "n": 93,
+     "pct": 18.6
+    },
+    "UNSUPPORTED": {
+     "n": 119,
+     "pct": 23.8
+    },
+    "total": 500
+   },
+   "v6td_phi4": {
+    "DET": {
+     "n": 87,
+     "pct": 25.3
+    },
+    "NARROW": {
+     "n": 120,
+     "pct": 34.9
+    },
+    "ALL": {
+     "n": 70,
+     "pct": 20.3
+    },
+    "UNSUPPORTED": {
+     "n": 67,
+     "pct": 19.5
+    },
+    "total": 344
+   }
+  },
+  "n_kept": 1321
+ },
+ "duckdb": {
+  "records": 1321,
+  "records_in_keep": 1321,
+  "row": {
+   "sup": 1003,
+   "sup_cens": 0,
+   "cer": 3,
+   "slx": 3,
+   "raw": 398,
+   "uns": 318,
+   "uns_cens": 0,
+   "uns_raw": 89,
+   "uns_slx": 41
+  },
+  "verdicts": {
+   "UNSUPPORTED": 318,
+   "NARROW": 471,
+   "DET": 315,
+   "ALL": 217
+  },
+  "certified_diverged": [
+   {
+    "db_id": "california_schools",
+    "sql": "SELECT \n    AVG(CAST(\"Free Meal Count (K-12)\" AS DECIMAL(18, 6)) / CAST(\"Enrollment (K-12)\" AS DECIMAL(18, 6))) AS AvgFreeMealRate\nFROM \n    frpm\nWHERE \n    \"County Name\" = 'Alameda';",
+    "verdict": "DET"
+   },
+   {
+    "db_id": "financial",
+    "sql": "SELECT \n    AVG(CAST(DATE_DIFF('day', c.birth_date, a.date) AS DECIMAL(18, 6)) / 365.25) AS average_age_at_opening\nFROM client c\nJOIN disp d ON c.client_id = d.client_id\nJOIN account a ON d.account_id = a.account_id\nJOIN district d2 ON c.district_id = d2.district_id\nWHERE c.gender = 'F' AND c.birth_date < '1950-01-01' AND d2.A2 = 'Sokolov';",
+    "verdict": "DET"
+   },
+   {
+    "db_id": "formula_1",
+    "sql": "SELECT DISTINCT races.name\nFROM races\nJOIN results ON races.raceId = results.raceId\nWHERE results.driverId = 1\nORDER BY results.rank\nLIMIT 1;",
+    "verdict": "ALL"
+   }
+  ],
+  "censored_statements": 0,
+  "censoring_errors": {},
+  "table": "duckdb: policy x verdict diverged / complete (censored)\n  raw      DET=2/315(0) NARROW=259/471(0) ALL=137/217(0) UNSUPPORTED=89/318(0)\n  smartlex DET=2/315(0) NARROW=0/471(0) ALL=1/217(0) UNSUPPORTED=41/318(0)\n  certifiedDET=2/315(0) NARROW=0/471(0) ALL=1/217(0) UNSUPPORTED=41/318(0)\n"
+ },
+ "postgres": {
+  "records": 1321,
+  "records_in_keep": 1321,
+  "row": {
+   "sup": 985,
+   "sup_cens": 18,
+   "cer": 0,
+   "slx": 0,
+   "raw": 301,
+   "uns": 288,
+   "uns_cens": 30,
+   "uns_raw": 62,
+   "uns_slx": 32
+  },
+  "verdicts": {
+   "UNSUPPORTED": 318,
+   "NARROW": 471,
+   "DET": 315,
+   "ALL": 217
+  },
+  "certified_diverged": [],
+  "censored_statements": 48,
+  "censoring_errors": {
+   "invalid input syntax for type integer: \"53.7\"": 21,
+   "function round(double precision, integer) does not exist\nLINE 1: SELEC": 18,
+   "division by zero": 12,
+   "for SELECT DISTINCT, ORDER BY expressions must appear in select list\nL": 9,
+   "syntax error at or near \"[\"\nLINE 1: SELECT MIN(CAST(SPLIT(time, ':')[0": 9,
+   "relation \"sqlite_master\" does not exist\nLINE 1: SELECT name FROM sqlit": 6,
+   "operator does not exist: double precision % integer\nLINE 1: ... 60) AS": 6,
+   "syntax error at or near \"[\"\nLINE 1: SELECT time, SPLIT(time, ':')[0] A": 6,
+   "operator does not exist: double precision % integer\nLINE 1: ...| ':' |": 6,
+   "operator does not exist: bigint = text\nLINE 1: ...N schools AS s ON CA": 3,
+   "syntax error at or near \"DESCRIBE\"\nLINE 1: DESCRIBE cards; DESCRIBE le": 3,
+   "syntax error at or near \"PRAGMA\"\nLINE 1: PRAGMA TABLE_INFO(cards)\n    ": 3
+  },
+  "table": "postgres: policy x verdict diverged / complete (censored)\n  raw      DET=0/311(4) NARROW=221/462(9) ALL=80/213(4) UNSUPPORTED=62/288(30)\n  smartlex DET=0/311(4) NARROW=0/461(10) ALL=0/213(4) UNSUPPORTED=32/288(30)\n  certifiedDET=0/311(4) NARROW=0/461(10) ALL=0/213(4) UNSUPPORTED=32/288(30)\n"
+ }
+}

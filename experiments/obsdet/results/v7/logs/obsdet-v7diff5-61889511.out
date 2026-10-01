@@ -1,0 +1,62 @@
+'SHOW COLUMNS FROM League' contains unsupported syntax. Falling back to parsing as a 'Command'.
+'SHOW COLUMNS FROM League' contains unsupported syntax. Falling back to parsing as a 'Command'.
+'SHOW COLUMNS FROM League' contains unsupported syntax. Falling back to parsing as a 'Command'.
+'SHOW COLUMNS FROM League' contains unsupported syntax. Falling back to parsing as a 'Command'.
+'SHOW COLUMNS FROM League' contains unsupported syntax. Falling back to parsing as a 'Command'.
+PostgreSQL does not support IGNORE NULLS.
+'SHOW COLUMNS FROM cards' contains unsupported syntax. Falling back to parsing as a 'Command'.
+'SHOW COLUMNS FROM cards' contains unsupported syntax. Falling back to parsing as a 'Command'.
+'SHOW COLUMNS FROM cards' contains unsupported syntax. Falling back to parsing as a 'Command'.
+'SHOW COLUMNS FROM cards' contains unsupported syntax. Falling back to parsing as a 'Command'.
+'SHOW COLUMNS FROM cards' contains unsupported syntax. Falling back to parsing as a 'Command'.
+Unsupported SHOW statement
+PostgreSQL does not support IGNORE NULLS.
+PostgreSQL does not support IGNORE NULLS.
+PostgreSQL does not support IGNORE NULLS.
+'SHOW columns FROM cards' contains unsupported syntax. Falling back to parsing as a 'Command'.
+'SHOW columns FROM cards' contains unsupported syntax. Falling back to parsing as a 'Command'.
+'SHOW columns FROM cards' contains unsupported syntax. Falling back to parsing as a 'Command'.
+'SHOW columns FROM cards' contains unsupported syntax. Falling back to parsing as a 'Command'.
+'SHOW columns FROM cards' contains unsupported syntax. Falling back to parsing as a 'Command'.
+'SHOW columns OF cards' contains unsupported syntax. Falling back to parsing as a 'Command'.
+'SHOW columns OF cards' contains unsupported syntax. Falling back to parsing as a 'Command'.
+'SHOW columns OF cards' contains unsupported syntax. Falling back to parsing as a 'Command'.
+'SHOW columns OF cards' contains unsupported syntax. Falling back to parsing as a 'Command'.
+'SHOW columns OF cards' contains unsupported syntax. Falling back to parsing as a 'Command'.
+'SHOW COLUMNS FROM League' contains unsupported syntax. Falling back to parsing as a 'Command'.
+'SHOW COLUMNS FROM League' contains unsupported syntax. Falling back to parsing as a 'Command'.
+'SHOW COLUMNS FROM League' contains unsupported syntax. Falling back to parsing as a 'Command'.
+'SHOW COLUMNS FROM League' contains unsupported syntax. Falling back to parsing as a 'Command'.
+'SHOW COLUMNS FROM League' contains unsupported syntax. Falling back to parsing as a 'Command'.
+'SHOW COLUMNS FROM cards' contains unsupported syntax. Falling back to parsing as a 'Command'.
+'SHOW COLUMNS FROM cards' contains unsupported syntax. Falling back to parsing as a 'Command'.
+'SHOW COLUMNS FROM cards' contains unsupported syntax. Falling back to parsing as a 'Command'.
+'SHOW COLUMNS FROM cards' contains unsupported syntax. Falling back to parsing as a 'Command'.
+'SHOW COLUMNS FROM cards' contains unsupported syntax. Falling back to parsing as a 'Command'.
+Unsupported SHOW statement
+'SHOW COLUMNS FROM League' contains unsupported syntax. Falling back to parsing as a 'Command'.
+'SHOW COLUMNS FROM League' contains unsupported syntax. Falling back to parsing as a 'Command'.
+'SHOW COLUMNS FROM League' contains unsupported syntax. Falling back to parsing as a 'Command'.
+'SHOW COLUMNS FROM League' contains unsupported syntax. Falling back to parsing as a 'Command'.
+'SHOW COLUMNS FROM League' contains unsupported syntax. Falling back to parsing as a 'Command'.
+PostgreSQL does not support IGNORE NULLS.
+PostgreSQL does not support IGNORE NULLS.
+PostgreSQL does not support IGNORE NULLS.
+PostgreSQL does not support IGNORE NULLS.
+PostgreSQL does not support IGNORE NULLS.
+PostgreSQL does not support IGNORE NULLS.
+PostgreSQL does not support IGNORE NULLS.
+dev n 1015 diffs 0
+heldout_all n 1393 diffs 0
+td_all n 1495 diffs 0
+v5_phi4 n 606 diffs 0
+v5_qwen3_8b n 1007 diffs 0
+v6td_phi4 n 584 diffs 0
+v6td_qwen3_8b n 948 diffs 0
+v7_qwen3_8b n 970 diffs 0
+v7_phi4 n 644 diffs 0
+v7td_qwen3_8b n 907 diffs 0
+v7td_phi4 n 556 diffs 0
+v7td2_qwen3_8b n 931 diffs 0
+v7td2_phi4 n 563 diffs 0
+cert_td2_all.jsonl n 1468 diffs 0

@@ -1,0 +1,62 @@
+% Generated artifacts (paths relative to paper/): figures/TABLE_agents.tex, figures/TABLE_soundness.tex,
+% figures/fig_coverage.pdf. Regenerate with figures/gen_*.py (see figures/README_FIGURES.md). Captions state the
+% comparison first; every number below is printed by the generator scripts.
+
+% === Table 1: agent stability and accuracy (E4 v5) ===
+\begin{table*}[t]
+  \caption{The hybrid and strict policies remove nearly all preview-induced changes in agent behavior; their accuracy
+  differences to raw are indistinguishable from zero except for the strict policy on phi-4 ($-3.6$ points). Tasks (of
+  150 BIRD tasks) whose
+  trajectory (Traj.) or answer correctness (Corr.) changed across the three physical orders of the same database
+  (1 thread) or between 1 and 8 threads on the original order (smart-lex was not run at 8 threads), per tool policy,
+  in the final agent run; accuracy (Acc., \%) is BIRD execution accuracy averaged over
+  the three orders; $\Delta$Acc is the paired difference to raw (percentage points, task-clustered bootstrap 95\% CI).
+  Greedy decoding; identical prompts share one generation, so every change is caused by a differing observation.}
+  \label{tab:agents}
+  \centering\small
+  \input{figures/TABLE_agents.tex}
+\end{table*}
+
+% === Table 2: soundness across probe sets and engines ===
+\begin{table*}[t]
+  \caption{Among complete supported statements, no preview produced by a certified DET/NARROW/ALL execution
+  diverged; smart-lex was also stable on those same statements. Statements whose rendered preview (header, first 20
+  rows, exact count) differed across equivalent executions: DuckDB with original and two permuted physical orders at 1 and 8 threads
+  plus a repeated run (7 configurations); PostgreSQL with original and permuted heap order, serial and
+  parallel-enabled, plus a repeated run (5 configurations). Supported = certificate DET/NARROW/ALL in the engine's
+  dialect; censored statements lacked an observation in some configuration (or, on PostgreSQL, could not be
+  translated). On UNSUPPORTED statements smart-lex offers no guarantee, and some still diverge.}
+  \label{tab:soundness}
+  \centering\small
+  \input{figures/TABLE_soundness.tex}
+\end{table*}
+
+% === Figure 3: coverage and narrowness ===
+\begin{figure}[t]
+  \centering
+  \includegraphics[width=\columnwidth]{figures/fig_coverage.pdf}
+  \caption{Most previews are already determined or need one extra sort column. Top: certificate verdicts by probe
+  class for the 1,015 development probes and the 1,125 held-out statements ($n$ per bar at right); ALL means the
+  certified tie-break is no narrower than smart-lex's, not necessarily all output columns. Bottom: sort columns
+  appended to the repaired (NARROW or ALL) probes ($n=689$ and $588$); the certified tie-break needs one column for
+  84\% (development) and 90\% (held-out) of them, smart-lex for 29\% and 39\%.}
+  \label{fig:coverage}
+\end{figure}
+
+% === Figure 1 (hero) and Figure 2 (certifier pipeline): figure-spec, see figures/specs/ ===
+% === Table 3: observation cost (final E3) ===
+\begin{table*}[t]
+  \caption{Certification does not change the typical cost of an observation, and the predeclared cost bar is not met
+  on either engine. Total time of one observation (preview under the policy + the exact count, identical for all
+  policies) over one fixed probe set per engine at its largest replicated scale (a stress test, not a representative
+  workload); median of five repetitions per probe. Change is certified vs smart-lex with a probe-bootstrap 95\% CI;
+  median ratio is the per-probe smart-lex/certified ratio; top-5 left out is the change after removing the five probes
+  that contribute most to the difference; the LIMIT class is LIMIT without a total order, where the bar asks for
+  $\geq 5\times$ (and $\geq 20\%$ lower total overall). On PostgreSQL, two probes for which the key tie-break led the
+  planner to an index-ordered nested loop account for most of the higher total. The main set excludes probes that fail
+  at scale (18 per engine) and probes with a 60\,s timeout under any policy (2 on DuckDB, 8 on PostgreSQL); counting
+  those timeouts at 60\,s as lower bounds gives $-0.7\%$ (DuckDB) and $+35.2\%$ [$-9.3\%$, $+123.7\%$] (PostgreSQL).}
+  \label{tab:cost}
+  \centering\small
+  \input{figures/TABLE_cost.tex}
+\end{table*}

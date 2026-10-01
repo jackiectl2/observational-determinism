@@ -1,0 +1,5235 @@
+[
+ {
+  "sql": "SELECT DISTINCT * FROM t2 a0, t0 a1 WHERE a0.id NOT IN (SELECT s0.t2_id FROM t4 s0) AND a0.s <> CAST('-0.0' AS DOUBLE) ORDER BY 1 DESC, 1, 1",
+  "verdict": "NARROW",
+  "tie": [
+   "1"
+  ],
+  "run": "SELECT DISTINCT * FROM t2 AS a0, t0 AS a1 WHERE NOT a0.id IN (SELECT s0.t2_id FROM t4 AS s0) AND a0.s <> CAST('-0.0' AS DOUBLE) ORDER BY 1 DESC, 1, 1, 1 ASC",
+  "reproduced": true,
+  "seed": 49,
+  "schema": {
+   "t0": {
+    "columns": {
+     "id": "INTEGER",
+     "amt": "INTEGER",
+     "w": "DOUBLE",
+     "x": "INTEGER",
+     "flag": "DECIMAL(10,2)",
+     "d": "DECIMAL(10,2)"
+    },
+    "keys": [
+     [
+      "id"
+     ]
+    ]
+   },
+   "t2": {
+    "columns": {
+     "id": "INTEGER",
+     "t0_id": "INTEGER",
+     "name": "DOUBLE",
+     "v": "DATE",
+     "s": "DOUBLE",
+     "x": "DOUBLE"
+    },
+    "keys": [
+     [
+      "id"
+     ]
+    ]
+   },
+   "t4": {
+    "columns": {
+     "id": "INTEGER",
+     "t2_id": "INTEGER",
+     "v": "DECIMAL(10,2)",
+     "x": "DECIMAL(10,2)",
+     "flag": "DATE",
+     "n": "DATE"
+    },
+    "keys": [
+     [
+      "id"
+     ]
+    ]
+   }
+  },
+  "instance": {
+   "t0": [
+    [
+     35,
+     5,
+     {
+      "double": "-1.5"
+     },
+     null,
+     {
+      "decimal": "0.00"
+     },
+     {
+      "decimal": "1.25"
+     }
+    ],
+    [
+     10,
+     0,
+     {
+      "double": "-0.0"
+     },
+     1,
+     {
+      "decimal": "0.00"
+     },
+     {
+      "decimal": "-1.50"
+     }
+    ]
+   ],
+   "t2": [
+    [
+     27,
+     23,
+     {
+      "double": "-0.0"
+     },
+     {
+      "date": "2026-01-01"
+     },
+     {
+      "double": "0.25"
+     },
+     {
+      "double": "0.0"
+     }
+    ]
+   ],
+   "t4": []
+  }
+ },
+ {
+  "sql": "SELECT COALESCE(ABS(1.00), 1.00) AS t1_id, a0.t1_id FROM t2 a0 WHERE a0.id IS NOT NULL AND a0.t1_id >= (SELECT s0.t1_id FROM t2 s0 WHERE s0.id = a0.id) AND name <= (SELECT COUNT(DATE '2027-01-01') FROM t0 s1 WHERE s1.amt = a0.id) ORDER BY 1 NULLS FIRST",
+  "verdict": "DET",
+  "tie": [],
+  "run": "SELECT COALESCE(ABS(1.00), 1.00) AS t1_id, a0.t1_id FROM t2 a0 WHERE a0.id IS NOT NULL AND a0.t1_id >= (SELECT s0.t1_id FROM t2 s0 WHERE s0.id = a0.id) AND name <= (SELECT COUNT(DATE '2027-01-01') FROM t0 s1 WHERE s1.amt = a0.id) ORDER BY 1 NULLS FIRST",
+  "reproduced": true,
+  "seed": 116,
+  "schema": {
+   "t0": {
+    "columns": {
+     "code": "VARCHAR",
+     "flag": "INTEGER",
+     "d": "VARCHAR",
+     "y": "VARCHAR",
+     "amt": "INTEGER"
+    },
+    "keys": [
+     [
+      "code"
+     ]
+    ]
+   },
+   "t2": {
+    "columns": {
+     "id": "INTEGER",
+     "t1_id": "INTEGER",
+     "name": "INTEGER",
+     "x": "VARCHAR",
+     "amt": "BOOLEAN"
+    },
+    "keys": [
+     [
+      "id"
+     ]
+    ]
+   }
+  },
+  "instance": {
+   "t0": [],
+   "t2": [
+    [
+     5,
+     11,
+     -1,
+     "1",
+     false
+    ],
+    [
+     3,
+     24,
+     -2,
+     "1",
+     null
+    ]
+   ]
+  }
+ },
+ {
+  "sql": "SELECT * FROM t2 a0 JOIN t0 a1 ON a0.flag <= a1.amt WHERE a1.amt <> 'A' ORDER BY a1.amt NULLS FIRST, 1 DESC LIMIT 10 OFFSET 5",
+  "verdict": "NARROW",
+  "tie": [
+   "1",
+   "7"
+  ],
+  "run": "SELECT * FROM t2 AS a0 JOIN t0 AS a1 ON a0.flag <= a1.amt WHERE a1.amt <> 'A' ORDER BY a1.amt NULLS FIRST, 1 DESC, 1 ASC, 7 ASC LIMIT 10 OFFSET 5",
+  "reproduced": true,
+  "seed": 156,
+  "schema": {
+   "t0": {
+    "columns": {
+     "id": "INTEGER",
+     "n": "INTEGER",
+     "amt": "VARCHAR",
+     "v": "DOUBLE",
+     "s": "BOOLEAN"
+    },
+    "keys": [
+     [
+      "id",
+      "n"
+     ]
+    ]
+   },
+   "t2": {
+    "columns": {
+     "id": "INTEGER",
+     "flag": "VARCHAR",
+     "d": "BOOLEAN",
+     "x": "INTEGER",
+     "n": "DECIMAL(10,2)"
+    },
+    "keys": [
+     [
+      "id"
+     ]
+    ]
+   }
+  },
+  "instance": {
+   "t0": [
+    [
+     4,
+     2,
+     "aB",
+     {
+      "double": "0.0"
+     },
+     true
+    ],
+    [
+     2,
+     2,
+     "aB",
+     {
+      "double": "0.0"
+     },
+     true
+    ]
+   ],
+   "t2": [
+    [
+     33,
+     "A",
+     false,
+     2,
+     {
+      "decimal": "0.50"
+     }
+    ],
+    [
+     1,
+     "A",
+     null,
+     null,
+     {
+      "decimal": "10.00"
+     }
+    ],
+    [
+     14,
+     "A",
+     true,
+     7,
+     {
+      "decimal": "0.50"
+     }
+    ]
+   ]
+  }
+ },
+ {
+  "sql": "SELECT * FROM t1 a0 JOIN t2 a1 ON a0.id = a1.t1_id WHERE NOT EXISTS (SELECT 1 FROM t3 s0 WHERE s0.t1_id = a0.id) ORDER BY 1 DESC NULLS LAST",
+  "verdict": "NARROW",
+  "tie": [
+   "8"
+  ],
+  "run": "SELECT * FROM t1 AS a0 JOIN t2 AS a1 ON a0.id = a1.t1_id WHERE NOT EXISTS(SELECT 1 FROM t3 AS s0 WHERE s0.t1_id = a0.id) ORDER BY 1 DESC, 8 ASC",
+  "reproduced": true,
+  "seed": 157,
+  "schema": {
+   "t1": {
+    "columns": {
+     "id": "INTEGER",
+     "n": "DECIMAL(10,2)",
+     "flag": "VARCHAR",
+     "w": "DOUBLE",
+     "y": "DECIMAL(10,2)",
+     "name": "INTEGER"
+    },
+    "keys": [
+     [
+      "id"
+     ]
+    ]
+   },
+   "t2": {
+    "columns": {
+     "id": "INTEGER",
+     "s": "VARCHAR",
+     "t1_id": "INTEGER",
+     "v": "DATE",
+     "n": "VARCHAR",
+     "amt": "DOUBLE",
+     "name": "VARCHAR",
+     "x": "VARCHAR"
+    },
+    "keys": [
+     [
+      "id",
+      "s"
+     ]
+    ]
+   },
+   "t3": {
+    "columns": {
+     "t1_id": "INTEGER",
+     "n": "DOUBLE",
+     "flag": "VARCHAR",
+     "v": "VARCHAR",
+     "s": "DATE"
+    },
+    "keys": []
+   }
+  },
+  "instance": {
+   "t1": [
+    [
+     6,
+     {
+      "decimal": "10.00"
+     },
+     "a",
+     {
+      "double": "2.0"
+     },
+     {
+      "decimal": "0.00"
+     },
+     4
+    ]
+   ],
+   "t2": [
+    [
+     6,
+     "b",
+     6,
+     {
+      "date": "2026-02-01"
+     },
+     "1",
+     {
+      "double": "0.0"
+     },
+     "ab",
+     "a"
+    ],
+    [
+     3,
+     "b",
+     6,
+     {
+      "date": "2027-01-01"
+     },
+     "A",
+     {
+      "double": "-0.0"
+     },
+     null,
+     "ba"
+    ]
+   ],
+   "t3": []
+  }
+ },
+ {
+  "sql": "SELECT a0.flag, a0.d AS flag FROM t1 a0 JOIN t4 a1 ON a0.flag = a1.v ORDER BY 1 NULLS LAST, a1.v DESC LIMIT 5",
+  "verdict": "DET",
+  "tie": [],
+  "run": "SELECT a0.flag, a0.d AS flag FROM t1 a0 JOIN t4 a1 ON a0.flag = a1.v ORDER BY 1 NULLS LAST, a1.v DESC LIMIT 5",
+  "reproduced": true,
+  "seed": 195,
+  "schema": {
+   "t1": {
+    "columns": {
+     "d": "DATE",
+     "s": "DOUBLE",
+     "w": "DECIMAL(10,2)",
+     "flag": "VARCHAR",
+     "y": "VARCHAR"
+    },
+    "keys": [
+     [
+      "d"
+     ]
+    ]
+   },
+   "t4": {
+    "columns": {
+     "id": "INTEGER",
+     "n": "INTEGER",
+     "amt": "INTEGER",
+     "v": "VARCHAR",
+     "y": "INTEGER",
+     "d": "BOOLEAN"
+    },
+    "keys": [
+     [
+      "id",
+      "n"
+     ]
+    ]
+   }
+  },
+  "instance": {
+   "t1": [
+    [
+     {
+      "date": "2026-01-07"
+     },
+     {
+      "double": "0.0"
+     },
+     null,
+     "B",
+     "A"
+    ],
+    [
+     {
+      "date": "2026-01-30"
+     },
+     {
+      "double": "0.0"
+     },
+     {
+      "decimal": "0.50"
+     },
+     "B",
+     "A"
+    ]
+   ],
+   "t4": [
+    [
+     2,
+     2,
+     8,
+     "B",
+     4,
+     false
+    ]
+   ]
+  }
+ },
+ {
+  "sql": "SELECT a0.name, a1.name, a1.s FROM t1 a0 JOIN t1 a1 ON a0.name = a1.y ORDER BY 1 ASC LIMIT 5 OFFSET 1",
+  "verdict": "NARROW",
+  "tie": [
+   "3",
+   "1"
+  ],
+  "run": "SELECT a0.name, a1.name, a1.s FROM t1 AS a0 JOIN t1 AS a1 ON a0.name = a1.y ORDER BY 1 ASC, 3 ASC, 1 ASC LIMIT 5 OFFSET 1",
+  "reproduced": true,
+  "seed": 203,
+  "schema": {
+   "t1": {
+    "columns": {
+     "id": "INTEGER",
+     "y": "DOUBLE",
+     "s": "BOOLEAN",
+     "name": "DOUBLE"
+    },
+    "keys": [
+     [
+      "id"
+     ]
+    ]
+   }
+  },
+  "instance": {
+   "t1": [
+    [
+     15,
+     {
+      "double": "0.0"
+     },
+     true,
+     {
+      "double": "-0.0"
+     }
+    ],
+    [
+     31,
+     {
+      "double": "-0.0"
+     },
+     true,
+     {
+      "double": "2.0"
+     }
+    ]
+   ]
+  }
+ },
+ {
+  "sql": "SELECT DISTINCT a0.w, (1 / a0.s) AS w, w FROM t0 a0 WHERE a0.name < (SELECT MAX(10.00) FROM t1 s0 WHERE s0.id = a0.x) ORDER BY w DESC NULLS FIRST LIMIT 5 OFFSET 1",
+  "verdict": "NARROW",
+  "tie": [
+   "2"
+  ],
+  "run": "SELECT DISTINCT a0.w, (1 / a0.s) AS w, w FROM t0 AS a0 WHERE a0.name < (SELECT MAX(10.00) FROM t1 AS s0 WHERE s0.id = a0.x) ORDER BY w DESC NULLS FIRST, 2 ASC LIMIT 5 OFFSET 1",
+  "reproduced": true,
+  "seed": 221,
+  "schema": {
+   "t0": {
+    "columns": {
+     "id": "INTEGER",
+     "n": "INTEGER",
+     "s": "DOUBLE",
+     "name": "DECIMAL(10,2)",
+     "w": "BOOLEAN",
+     "v": "DATE",
+     "x": "INTEGER"
+    },
+    "keys": [
+     [
+      "id",
+      "n"
+     ]
+    ]
+   },
+   "t1": {
+    "columns": {
+     "id": "INTEGER",
+     "u": "VARCHAR",
+     "name": "BOOLEAN",
+     "x": "VARCHAR",
+     "d": "VARCHAR"
+    },
+    "keys": [
+     [
+      "id"
+     ],
+     [
+      "u"
+     ]
+    ]
+   }
+  },
+  "instance": {
+   "t0": [
+    [
+     5,
+     3,
+     {
+      "double": "0.0"
+     },
+     {
+      "decimal": "-1.50"
+     },
+     false,
+     {
+      "date": "2027-01-01"
+     },
+     5
+    ],
+    [
+     6,
+     1,
+     {
+      "double": "0.0"
+     },
+     {
+      "decimal": "-1.50"
+     },
+     true,
+     {
+      "date": "2027-01-01"
+     },
+     5
+    ]
+   ],
+   "t1": [
+    [
+     5,
+     "x",
+     true,
+     "01",
+     "A"
+    ]
+   ]
+  }
+ },
+ {
+  "sql": "SELECT DISTINCT * FROM t1 a0 JOIN t3 a1 ON a0.x = a1.name WHERE a1.n NOT IN (5, 12) ORDER BY 1 DESC",
+  "verdict": "NARROW",
+  "tie": [
+   "6",
+   "1"
+  ],
+  "run": "SELECT DISTINCT * FROM t1 AS a0 JOIN t3 AS a1 ON a0.x = a1.name WHERE NOT a1.n IN (5, 12) ORDER BY 1 DESC, 6 ASC, 1 ASC",
+  "reproduced": true,
+  "seed": 231,
+  "schema": {
+   "t1": {
+    "columns": {
+     "id": "INTEGER",
+     "x": "INTEGER",
+     "name": "INTEGER",
+     "v": "VARCHAR"
+    },
+    "keys": [
+     [
+      "id"
+     ]
+    ]
+   },
+   "t3": {
+    "columns": {
+     "id": "INTEGER",
+     "n": "INTEGER",
+     "t1_id": "INTEGER",
+     "s": "VARCHAR",
+     "name": "INTEGER",
+     "w": "DECIMAL(10,2)",
+     "y": "VARCHAR",
+     "d": "BOOLEAN"
+    },
+    "keys": [
+     [
+      "id",
+      "n"
+     ]
+    ]
+   }
+  },
+  "instance": {
+   "t1": [
+    [
+     21,
+     1,
+     null,
+     "A"
+    ]
+   ],
+   "t3": [
+    [
+     2,
+     1,
+     7,
+     "b",
+     1,
+     {
+      "decimal": "0.00"
+     },
+     "a",
+     false
+    ],
+    [
+     1,
+     1,
+     5,
+     "b ",
+     1,
+     {
+      "decimal": "0.00"
+     },
+     "1",
+     false
+    ]
+   ]
+  }
+ },
+ {
+  "sql": "SELECT DISTINCT a0.x, a0.s AS x, TRIM(a0.flag), a0.amt FROM t2 a0 ORDER BY 1 DESC",
+  "verdict": "NARROW",
+  "tie": [
+   "1",
+   "4",
+   "3"
+  ],
+  "run": "SELECT DISTINCT a0.x, a0.s AS x, TRIM(a0.flag), a0.amt FROM t2 AS a0 ORDER BY 1 DESC, 1 ASC, 4 ASC, 3 ASC",
+  "reproduced": true,
+  "seed": 281,
+  "schema": {
+   "t2": {
+    "columns": {
+     "id": "INTEGER",
+     "s": "VARCHAR",
+     "amt": "INTEGER",
+     "flag": "VARCHAR",
+     "x": "BOOLEAN",
+     "w": "DECIMAL(10,2)"
+    },
+    "keys": [
+     [
+      "id",
+      "s"
+     ]
+    ]
+   }
+  },
+  "instance": {
+   "t2": [
+    [
+     6,
+     "b",
+     1,
+     "b",
+     false,
+     {
+      "decimal": "1.25"
+     }
+    ],
+    [
+     5,
+     "A",
+     1,
+     "b",
+     false,
+     {
+      "decimal": "10.00"
+     }
+    ]
+   ]
+  }
+ },
+ {
+  "sql": "SELECT flag AS n, a0.n FROM t4 a0 ORDER BY a0.amt DESC, (n) DESC",
+  "verdict": "NARROW",
+  "tie": [
+   "1"
+  ],
+  "run": "SELECT flag AS n, a0.n FROM t4 AS a0 ORDER BY a0.amt DESC, (n) DESC, 1 ASC",
+  "reproduced": true,
+  "seed": 310,
+  "schema": {
+   "t4": {
+    "columns": {
+     "id": "INTEGER",
+     "s": "VARCHAR",
+     "amt": "INTEGER",
+     "d": "DATE",
+     "flag": "INTEGER",
+     "n": "DOUBLE"
+    },
+    "keys": [
+     [
+      "id",
+      "s"
+     ]
+    ]
+   }
+  },
+  "instance": {
+   "t4": [
+    [
+     1,
+     "b",
+     3,
+     {
+      "date": "2026-02-01"
+     },
+     -2,
+     {
+      "double": "-0.0"
+     }
+    ],
+    [
+     6,
+     "a",
+     3,
+     {
+      "date": "2026-01-01"
+     },
+     -2,
+     {
+      "double": "0.25"
+     }
+    ]
+   ]
+  }
+ },
+ {
+  "sql": "SELECT * FROM t2 a0 JOIN t1 a1 ON a0.t1_id < a1.id ORDER BY 1 ASC LIMIT 5",
+  "verdict": "NARROW",
+  "tie": [
+   "\"a0\".\"id\"",
+   "\"a0\".\"s\""
+  ],
+  "run": "SELECT * FROM t2 AS a0 JOIN t1 AS a1 ON a0.t1_id < a1.id ORDER BY 1 ASC, \"a0\".\"id\" ASC, \"a0\".\"s\" ASC LIMIT 5",
+  "reproduced": true,
+  "seed": 312,
+  "schema": {
+   "t1": {
+    "columns": {
+     "id": "INTEGER",
+     "u": "VARCHAR",
+     "t0_id": "INTEGER",
+     "n": "DECIMAL(10,2)",
+     "flag": "VARCHAR",
+     "amt": "BOOLEAN"
+    },
+    "keys": [
+     [
+      "id"
+     ],
+     [
+      "u"
+     ]
+    ]
+   },
+   "t2": {
+    "columns": {
+     "id": "INTEGER",
+     "s": "VARCHAR",
+     "t0_id": "INTEGER",
+     "t1_id": "INTEGER",
+     "name": "VARCHAR",
+     "x": "DATE",
+     "y": "DATE",
+     "d": "DECIMAL(10,2)"
+    },
+    "keys": [
+     [
+      "id",
+      "s"
+     ]
+    ]
+   }
+  },
+  "instance": {
+   "t1": [
+    [
+     22,
+     "zz",
+     27,
+     {
+      "decimal": "2.00"
+     },
+     "A",
+     true
+    ],
+    [
+     14,
+     "K1",
+     27,
+     {
+      "decimal": "1.25"
+     },
+     "01",
+     false
+    ]
+   ],
+   "t2": [
+    [
+     1,
+     "A",
+     null,
+     8,
+     "B",
+     {
+      "date": "2027-01-01"
+     },
+     {
+      "date": "2026-02-01"
+     },
+     {
+      "decimal": "1.25"
+     }
+    ]
+   ]
+  }
+ },
+ {
+  "sql": "SELECT DISTINCT * FROM t1 a0 CROSS JOIN t1 a1 JOIN t2 a2 ON a0.u = a2.d ORDER BY 1 DESC",
+  "verdict": "NARROW",
+  "tie": [
+   "9"
+  ],
+  "run": "SELECT DISTINCT * FROM t1 AS a0 CROSS JOIN t1 AS a1 JOIN t2 AS a2 ON a0.u = a2.d ORDER BY 1 DESC, 9 ASC",
+  "reproduced": true,
+  "seed": 335,
+  "schema": {
+   "t1": {
+    "columns": {
+     "id": "INTEGER",
+     "n": "INTEGER",
+     "u": "VARCHAR",
+     "x": "BOOLEAN",
+     "w": "DECIMAL(10,2)",
+     "y": "DOUBLE"
+    },
+    "keys": [
+     [
+      "id",
+      "n"
+     ],
+     [
+      "u"
+     ]
+    ]
+   },
+   "t2": {
+    "columns": {
+     "id": "INTEGER",
+     "x": "DATE",
+     "d": "VARCHAR",
+     "flag": "INTEGER"
+    },
+    "keys": [
+     [
+      "id"
+     ]
+    ]
+   }
+  },
+  "instance": {
+   "t1": [
+    [
+     6,
+     3,
+     "B",
+     null,
+     {
+      "decimal": "10.00"
+     },
+     {
+      "double": "0.25"
+     }
+    ]
+   ],
+   "t2": [
+    [
+     35,
+     null,
+     "B",
+     -1
+    ],
+    [
+     32,
+     {
+      "date": "2026-01-01"
+     },
+     "B",
+     7
+    ]
+   ]
+  }
+ },
+ {
+  "sql": "SELECT * FROM t0 a0, t0 a1 ORDER BY 1 ASC NULLS FIRST, a0.id DESC OFFSET 2",
+  "verdict": "DET",
+  "tie": [],
+  "run": "SELECT * FROM t0 a0, t0 a1 ORDER BY 1 ASC NULLS FIRST, a0.id DESC OFFSET 2",
+  "reproduced": true,
+  "seed": 340,
+  "schema": {
+   "t0": {
+    "columns": {
+     "id": "INTEGER",
+     "u": "VARCHAR",
+     "n": "VARCHAR",
+     "v": "DOUBLE",
+     "w": "DOUBLE",
+     "x": "VARCHAR",
+     "flag": "DATE"
+    },
+    "keys": [
+     [
+      "id"
+     ],
+     [
+      "u"
+     ]
+    ]
+   }
+  },
+  "instance": {
+   "t0": [
+    [
+     7,
+     "x",
+     "b ",
+     {
+      "double": "0.0"
+     },
+     {
+      "double": "-0.0"
+     },
+     "b",
+     {
+      "date": "2026-01-02"
+     }
+    ],
+    [
+     25,
+     "k10",
+     "b ",
+     {
+      "double": "2.0"
+     },
+     {
+      "double": "-0.0"
+     },
+     null,
+     {
+      "date": "2026-02-01"
+     }
+    ]
+   ]
+  }
+ },
+ {
+  "sql": "SELECT DISTINCT * FROM t1 a0 CROSS JOIN t3 a1, t0 a2 WHERE a0.w > (SELECT COUNT(s0.n) FROM t1 s0 WHERE s0.y = a0.y) ORDER BY 1",
+  "verdict": "NARROW",
+  "tie": [
+   "1",
+   "10"
+  ],
+  "run": "SELECT DISTINCT * FROM t1 AS a0 CROSS JOIN t3 AS a1, t0 AS a2 WHERE a0.w > (SELECT COUNT(s0.n) FROM t1 AS s0 WHERE s0.y = a0.y) ORDER BY 1, 1 ASC, 10 ASC",
+  "reproduced": true,
+  "seed": 337,
+  "schema": {
+   "t0": {
+    "columns": {
+     "d": "DATE",
+     "x": "DATE",
+     "w": "DATE",
+     "amt": "VARCHAR"
+    },
+    "keys": [
+     [
+      "d"
+     ]
+    ]
+   },
+   "t1": {
+    "columns": {
+     "id": "INTEGER",
+     "w": "INTEGER",
+     "n": "DECIMAL(10,2)",
+     "y": "DOUBLE"
+    },
+    "keys": [
+     [
+      "id"
+     ]
+    ]
+   },
+   "t3": {
+    "columns": {
+     "id": "INTEGER",
+     "t1_id": "INTEGER",
+     "v": "DOUBLE",
+     "y": "BOOLEAN",
+     "w": "VARCHAR"
+    },
+    "keys": [
+     [
+      "id"
+     ]
+    ]
+   }
+  },
+  "instance": {
+   "t0": [
+    [
+     {
+      "date": "2026-02-09"
+     },
+     {
+      "date": "2027-01-01"
+     },
+     {
+      "date": "2027-01-01"
+     },
+     "a"
+    ]
+   ],
+   "t1": [
+    [
+     33,
+     3,
+     {
+      "decimal": "0.00"
+     },
+     {
+      "double": "-1.5"
+     }
+    ]
+   ],
+   "t3": [
+    [
+     9,
+     24,
+     {
+      "double": "0.0"
+     },
+     true,
+     "A"
+    ],
+    [
+     5,
+     31,
+     null,
+     null,
+     "1"
+    ]
+   ]
+  }
+ },
+ {
+  "sql": "SELECT DISTINCT * FROM t2 a0, t0 a1 WHERE a0.v = a1.flag ORDER BY 1, 1 DESC NULLS FIRST LIMIT 3",
+  "verdict": "NARROW",
+  "tie": [
+   "1"
+  ],
+  "run": "SELECT DISTINCT * FROM t2 AS a0, t0 AS a1 WHERE a0.v = a1.flag ORDER BY 1, 1 DESC NULLS FIRST, 1 ASC LIMIT 3",
+  "reproduced": true,
+  "seed": 378,
+  "schema": {
+   "t0": {
+    "columns": {
+     "id": "INTEGER",
+     "s": "VARCHAR",
+     "name": "INTEGER",
+     "flag": "INTEGER"
+    },
+    "keys": [
+     [
+      "id"
+     ]
+    ]
+   },
+   "t2": {
+    "columns": {
+     "id": "INTEGER",
+     "v": "INTEGER",
+     "amt": "VARCHAR",
+     "n": "DECIMAL(10,2)"
+    },
+    "keys": [
+     [
+      "id"
+     ]
+    ]
+   }
+  },
+  "instance": {
+   "t0": [
+    [
+     30,
+     "aB",
+     2,
+     0
+    ],
+    [
+     32,
+     "aB",
+     2,
+     0
+    ]
+   ],
+   "t2": [
+    [
+     29,
+     0,
+     null,
+     {
+      "decimal": "1.00"
+     }
+    ]
+   ]
+  }
+ },
+ {
+  "sql": "SELECT DISTINCT * FROM t1 a0 JOIN t2 a1 ON a0.id = a1.t1_id ORDER BY 1 DESC, 1 DESC NULLS LAST LIMIT 10",
+  "verdict": "DET",
+  "tie": [],
+  "run": "SELECT DISTINCT * FROM t1 a0 JOIN t2 a1 ON a0.id = a1.t1_id ORDER BY 1 DESC, 1 DESC NULLS LAST LIMIT 10",
+  "reproduced": true,
+  "seed": 400,
+  "schema": {
+   "t1": {
+    "columns": {
+     "id": "INTEGER",
+     "w": "DOUBLE",
+     "y": "VARCHAR",
+     "n": "DECIMAL(10,2)"
+    },
+    "keys": [
+     [
+      "id"
+     ]
+    ]
+   },
+   "t2": {
+    "columns": {
+     "id": "INTEGER",
+     "u": "VARCHAR",
+     "t1_id": "INTEGER",
+     "s": "VARCHAR",
+     "w": "BOOLEAN",
+     "n": "DECIMAL(10,2)"
+    },
+    "keys": [
+     [
+      "id"
+     ],
+     [
+      "u"
+     ]
+    ]
+   }
+  },
+  "instance": {
+   "t1": [
+    [
+     40,
+     {
+      "double": "-0.0"
+     },
+     "ab",
+     {
+      "decimal": "2.00"
+     }
+    ]
+   ],
+   "t2": [
+    [
+     27,
+     "k10",
+     40,
+     "aB",
+     false,
+     {
+      "decimal": "2.00"
+     }
+    ],
+    [
+     8,
+     "k1",
+     40,
+     "",
+     true,
+     {
+      "decimal": "0.50"
+     }
+    ]
+   ]
+  }
+ },
+ {
+  "sql": "SELECT a1.x, a0.y, a0.x, a0.y FROM t2 a0 CROSS JOIN t2 a1 WHERE (a0.x = 7 OR a0.s = 'ba') ORDER BY 4 DESC, 1 ASC",
+  "verdict": "NARROW",
+  "tie": [
+   "\"a1\".\"id\""
+  ],
+  "run": "SELECT a1.x, a0.y, a0.x, a0.y FROM t2 AS a0 CROSS JOIN t2 AS a1 WHERE (a0.x = 7 OR a0.s = 'ba') ORDER BY 4 DESC, 1 ASC, \"a1\".\"id\" ASC",
+  "reproduced": true,
+  "seed": 401,
+  "schema": {
+   "t2": {
+    "columns": {
+     "id": "INTEGER",
+     "n": "VARCHAR",
+     "x": "INTEGER",
+     "y": "DOUBLE",
+     "s": "VARCHAR"
+    },
+    "keys": [
+     [
+      "id"
+     ]
+    ]
+   }
+  },
+  "instance": {
+   "t2": [
+    [
+     31,
+     "aB",
+     6,
+     {
+      "double": "-0.0"
+     },
+     "ba"
+    ],
+    [
+     24,
+     "",
+     7,
+     {
+      "double": "0.0"
+     },
+     "01"
+    ]
+   ]
+  }
+ },
+ {
+  "sql": "SELECT DISTINCT * FROM t0 a0 JOIN t1 a1 ON a0.id = a1.t0_id WHERE a1.d IN (SELECT s0.s FROM t0 s0) ORDER BY 1 NULLS LAST LIMIT 1",
+  "verdict": "DET",
+  "tie": [],
+  "run": "SELECT DISTINCT * FROM t0 a0 JOIN t1 a1 ON a0.id = a1.t0_id WHERE a1.d IN (SELECT s0.s FROM t0 s0) ORDER BY 1 NULLS LAST LIMIT 1",
+  "reproduced": true,
+  "seed": 425,
+  "schema": {
+   "t0": {
+    "columns": {
+     "id": "INTEGER",
+     "name": "DATE",
+     "flag": "DATE",
+     "s": "DECIMAL(10,2)",
+     "w": "DOUBLE"
+    },
+    "keys": [
+     [
+      "id"
+     ]
+    ]
+   },
+   "t1": {
+    "columns": {
+     "id": "INTEGER",
+     "t0_id": "INTEGER",
+     "w": "INTEGER",
+     "x": "BOOLEAN",
+     "flag": "DOUBLE",
+     "d": "DECIMAL(10,2)"
+    },
+    "keys": [
+     [
+      "id"
+     ]
+    ]
+   }
+  },
+  "instance": {
+   "t0": [
+    [
+     13,
+     {
+      "date": "2026-01-02"
+     },
+     {
+      "date": "2026-01-01"
+     },
+     {
+      "decimal": "10.00"
+     },
+     {
+      "double": "1.5"
+     }
+    ]
+   ],
+   "t1": [
+    [
+     6,
+     13,
+     5,
+     true,
+     {
+      "double": "-0.0"
+     },
+     {
+      "decimal": "10.00"
+     }
+    ],
+    [
+     1,
+     13,
+     6,
+     true,
+     {
+      "double": "nan"
+     },
+     {
+      "decimal": "10.00"
+     }
+    ]
+   ]
+  }
+ },
+ {
+  "sql": "SELECT DISTINCT * FROM t1 a0 JOIN t1 a1 ON a0.u = a1.s WHERE a0.u IS NOT NULL ORDER BY 1 DESC, 1 ASC LIMIT 2 OFFSET 2",
+  "verdict": "DET",
+  "tie": [],
+  "run": "SELECT DISTINCT * FROM t1 a0 JOIN t1 a1 ON a0.u = a1.s WHERE a0.u IS NOT NULL ORDER BY 1 DESC, 1 ASC LIMIT 2 OFFSET 2",
+  "reproduced": true,
+  "seed": 437,
+  "schema": {
+   "t1": {
+    "columns": {
+     "id": "INTEGER",
+     "u": "VARCHAR",
+     "s": "VARCHAR",
+     "y": "DATE",
+     "name": "DECIMAL(10,2)",
+     "w": "VARCHAR",
+     "amt": "DOUBLE"
+    },
+    "keys": [
+     [
+      "id"
+     ],
+     [
+      "u"
+     ]
+    ]
+   }
+  },
+  "instance": {
+   "t1": [
+    [
+     16,
+     "B",
+     "b ",
+     {
+      "date": "2026-02-01"
+     },
+     {
+      "decimal": "0.00"
+     },
+     "b",
+     {
+      "double": "0.0"
+     }
+    ],
+    [
+     24,
+     "z",
+     "b ",
+     {
+      "date": "2026-01-02"
+     },
+     {
+      "decimal": "0.00"
+     },
+     "B",
+     {
+      "double": "0.0"
+     }
+    ],
+    [
+     38,
+     "y",
+     "b ",
+     {
+      "date": "2026-02-01"
+     },
+     {
+      "decimal": "0.00"
+     },
+     "B",
+     {
+      "double": "-0.0"
+     }
+    ],
+    [
+     6,
+     "b ",
+     "01",
+     null,
+     null,
+     "B",
+     {
+      "double": "-0.0"
+     }
+    ]
+   ]
+  }
+ },
+ {
+  "sql": "SELECT a1.name, a0.name FROM t2 a0, t2 a1 ORDER BY 1 DESC NULLS FIRST, a0.s ASC NULLS FIRST",
+  "verdict": "NARROW",
+  "tie": [
+   "\"a1\".\"id\""
+  ],
+  "run": "SELECT a1.name, a0.name FROM t2 AS a0, t2 AS a1 ORDER BY 1 DESC NULLS FIRST, a0.s ASC NULLS FIRST, \"a1\".\"id\" ASC",
+  "reproduced": true,
+  "seed": 444,
+  "schema": {
+   "t2": {
+    "columns": {
+     "id": "INTEGER",
+     "x": "INTEGER",
+     "n": "DATE",
+     "name": "VARCHAR",
+     "s": "VARCHAR",
+     "w": "INTEGER"
+    },
+    "keys": [
+     [
+      "id"
+     ]
+    ]
+   }
+  },
+  "instance": {
+   "t2": [
+    [
+     4,
+     6,
+     {
+      "date": "2026-02-01"
+     },
+     "01",
+     "",
+     -2
+    ],
+    [
+     12,
+     6,
+     null,
+     "a",
+     "",
+     1
+    ]
+   ]
+  }
+ },
+ {
+  "sql": "SELECT a1.n AS y, TRUE AS c4, a1.n, a1.y FROM t3 a0 JOIN t2 a1 ON a0.s = a1.amt JOIN t2 a2 ON a0.n > a2.t1_id ORDER BY TRUE DESC NULLS FIRST, y DESC LIMIT 2",
+  "verdict": "NARROW",
+  "tie": [
+   "1"
+  ],
+  "run": "SELECT a1.n AS y, TRUE AS c4, a1.n, a1.y FROM t3 AS a0 JOIN t2 AS a1 ON a0.s = a1.amt JOIN t2 AS a2 ON a0.n > a2.t1_id ORDER BY TRUE DESC NULLS FIRST, y DESC, 1 ASC LIMIT 2",
+  "reproduced": true,
+  "seed": 499,
+  "schema": {
+   "t2": {
+    "columns": {
+     "id": "INTEGER",
+     "s": "VARCHAR",
+     "t1_id": "INTEGER",
+     "y": "DATE",
+     "n": "DECIMAL(10,2)",
+     "flag": "VARCHAR",
+     "x": "DOUBLE",
+     "amt": "DATE"
+    },
+    "keys": [
+     [
+      "id",
+      "s"
+     ]
+    ]
+   },
+   "t3": {
+    "columns": {
+     "id": "INTEGER",
+     "n": "INTEGER",
+     "u": "VARCHAR",
+     "x": "DATE",
+     "amt": "DOUBLE",
+     "v": "VARCHAR",
+     "s": "DATE"
+    },
+    "keys": [
+     [
+      "id",
+      "n"
+     ],
+     [
+      "u"
+     ]
+    ]
+   }
+  },
+  "instance": {
+   "t2": [
+    [
+     1,
+     "A",
+     1,
+     {
+      "date": "2026-01-02"
+     },
+     {
+      "decimal": "0.50"
+     },
+     "B",
+     {
+      "double": "-0.0"
+     },
+     {
+      "date": "2026-01-01"
+     }
+    ],
+    [
+     5,
+     "A",
+     38,
+     {
+      "date": "2026-01-02"
+     },
+     {
+      "decimal": "1.00"
+     },
+     "ab",
+     {
+      "double": "-0.0"
+     },
+     {
+      "date": "2026-02-01"
+     }
+    ],
+    [
+     6,
+     "A",
+     99,
+     {
+      "date": "2026-02-01"
+     },
+     {
+      "decimal": "1.00"
+     },
+     "ab",
+     {
+      "double": "0.25"
+     },
+     {
+      "date": "2026-02-01"
+     }
+    ]
+   ],
+   "t3": [
+    [
+     2,
+     2,
+     "a",
+     {
+      "date": "2027-01-01"
+     },
+     {
+      "double": "-0.0"
+     },
+     "",
+     {
+      "date": "2026-02-01"
+     }
+    ]
+   ]
+  }
+ },
+ {
+  "sql": "SELECT * FROM t0 a0 JOIN t1 a1 ON a0.id = a1.t0_id CROSS JOIN t1 a2 WHERE a2.t0_id >= 5 ORDER BY a1.n ASC NULLS LAST, 1 LIMIT 5",
+  "verdict": "NARROW",
+  "tie": [
+   "\"a1\".\"id\""
+  ],
+  "run": "SELECT * FROM t0 AS a0 JOIN t1 AS a1 ON a0.id = a1.t0_id CROSS JOIN t1 AS a2 WHERE a2.t0_id >= 5 ORDER BY a1.n ASC, 1, \"a1\".\"id\" ASC LIMIT 5",
+  "reproduced": true,
+  "seed": 500,
+  "schema": {
+   "t0": {
+    "columns": {
+     "id": "INTEGER",
+     "name": "BOOLEAN",
+     "flag": "DOUBLE",
+     "s": "BOOLEAN",
+     "n": "INTEGER"
+    },
+    "keys": [
+     [
+      "id"
+     ]
+    ]
+   },
+   "t1": {
+    "columns": {
+     "id": "INTEGER",
+     "t0_id": "INTEGER",
+     "d": "DECIMAL(10,2)",
+     "w": "BOOLEAN",
+     "x": "DOUBLE",
+     "n": "DOUBLE",
+     "amt": "INTEGER"
+    },
+    "keys": [
+     [
+      "id"
+     ]
+    ]
+   }
+  },
+  "instance": {
+   "t0": [
+    [
+     32,
+     true,
+     {
+      "double": "0.0"
+     },
+     null,
+     3
+    ]
+   ],
+   "t1": [
+    [
+     36,
+     32,
+     {
+      "decimal": "2.00"
+     },
+     true,
+     {
+      "double": "-0.0"
+     },
+     {
+      "double": "-0.0"
+     },
+     7
+    ],
+    [
+     6,
+     32,
+     {
+      "decimal": "2.00"
+     },
+     true,
+     null,
+     {
+      "double": "1.5"
+     },
+     null
+    ]
+   ]
+  }
+ },
+ {
+  "sql": "SELECT * FROM t2 a0 JOIN t4 a1 ON a0.y = a1.amt ORDER BY 1 NULLS FIRST LIMIT 2",
+  "verdict": "NARROW",
+  "tie": [
+   "1",
+   "7"
+  ],
+  "run": "SELECT * FROM t2 AS a0 JOIN t4 AS a1 ON a0.y = a1.amt ORDER BY 1 NULLS FIRST, 1 ASC, 7 ASC LIMIT 2",
+  "reproduced": true,
+  "seed": 565,
+  "schema": {
+   "t2": {
+    "columns": {
+     "d": "DATE",
+     "y": "INTEGER",
+     "s": "VARCHAR",
+     "id": "DOUBLE",
+     "name": "INTEGER",
+     "amt": "INTEGER"
+    },
+    "keys": [
+     [
+      "d"
+     ]
+    ]
+   },
+   "t4": {
+    "columns": {
+     "id": "INTEGER",
+     "amt": "INTEGER",
+     "d": "DOUBLE"
+    },
+    "keys": []
+   }
+  },
+  "instance": {
+   "t2": [
+    [
+     {
+      "date": "2026-01-13"
+     },
+     3,
+     "aB",
+     {
+      "double": "-0.0"
+     },
+     6,
+     -1
+    ]
+   ],
+   "t4": [
+    [
+     5,
+     3,
+     {
+      "double": "-1.5"
+     }
+    ],
+    [
+     5,
+     3,
+     {
+      "double": "-0.0"
+     }
+    ]
+   ]
+  }
+ },
+ {
+  "sql": "SELECT a1.y, a0.w AS y FROM t2 a0 JOIN t2 a1 ON a0.y = a1.y WHERE a0.d IS NOT NULL ORDER BY 1 ASC NULLS FIRST LIMIT 1 OFFSET 1",
+  "verdict": "NARROW",
+  "tie": [
+   "\"a1\".\"d\""
+  ],
+  "run": "SELECT a1.y, a0.w AS y FROM t2 AS a0 JOIN t2 AS a1 ON a0.y = a1.y WHERE NOT a0.d IS NULL ORDER BY 1 ASC NULLS FIRST, \"a1\".\"d\" ASC LIMIT 1 OFFSET 1",
+  "reproduced": true,
+  "seed": 585,
+  "schema": {
+   "t2": {
+    "columns": {
+     "d": "DATE",
+     "x": "DATE",
+     "w": "BOOLEAN",
+     "y": "DOUBLE"
+    },
+    "keys": [
+     [
+      "d"
+     ]
+    ]
+   }
+  },
+  "instance": {
+   "t2": [
+    [
+     {
+      "date": "2026-01-31"
+     },
+     {
+      "date": "2026-01-02"
+     },
+     null,
+     {
+      "double": "0.0"
+     }
+    ],
+    [
+     {
+      "date": "2026-01-05"
+     },
+     {
+      "date": "2026-01-02"
+     },
+     false,
+     {
+      "double": "-0.0"
+     }
+    ]
+   ]
+  }
+ },
+ {
+  "sql": "SELECT a1.amt, a1.d, a0.name, a0.u AS d FROM t1 a0 JOIN t1 a1 ON a0.amt = a1.amt ORDER BY a1.id DESC, 2 NULLS LAST",
+  "verdict": "DET",
+  "tie": [],
+  "run": "SELECT a1.amt, a1.d, a0.name, a0.u AS d FROM t1 a0 JOIN t1 a1 ON a0.amt = a1.amt ORDER BY a1.id DESC, 2 NULLS LAST",
+  "reproduced": true,
+  "seed": 586,
+  "schema": {
+   "t1": {
+    "columns": {
+     "id": "INTEGER",
+     "u": "VARCHAR",
+     "d": "DECIMAL(10,2)",
+     "x": "INTEGER",
+     "w": "DATE",
+     "name": "BOOLEAN",
+     "amt": "DATE"
+    },
+    "keys": [
+     [
+      "id"
+     ],
+     [
+      "u"
+     ]
+    ]
+   }
+  },
+  "instance": {
+   "t1": [
+    [
+     31,
+     "z",
+     {
+      "decimal": "10.00"
+     },
+     2,
+     {
+      "date": "2026-02-01"
+     },
+     true,
+     {
+      "date": "2027-01-01"
+     }
+    ],
+    [
+     20,
+     "bb",
+     {
+      "decimal": "10.00"
+     },
+     2,
+     {
+      "date": "2026-01-01"
+     },
+     true,
+     {
+      "date": "2027-01-01"
+     }
+    ]
+   ]
+  }
+ },
+ {
+  "sql": "SELECT a0.t3_id, a1.t0_id, a0.d AS t0_id FROM t4 a0 JOIN t4 a1 ON a0.v = a1.v WHERE a1.t3_id IS NOT NULL AND NOT EXISTS (SELECT 1 FROM t2 s0 WHERE s0.id = a1.t3_id AND s0.y = s0.name) ORDER BY 2 NULLS LAST LIMIT 5",
+  "verdict": "NARROW",
+  "tie": [
+   "\"a1\".\"d\""
+  ],
+  "run": "SELECT a0.t3_id, a1.t0_id, a0.d AS t0_id FROM t4 AS a0 JOIN t4 AS a1 ON a0.v = a1.v WHERE NOT a1.t3_id IS NULL AND NOT EXISTS(SELECT 1 FROM t2 AS s0 WHERE s0.id = a1.t3_id AND s0.y = s0.name) ORDER BY 2, \"a1\".\"d\" ASC LIMIT 5",
+  "reproduced": true,
+  "seed": 639,
+  "schema": {
+   "t2": {
+    "columns": {
+     "id": "INTEGER",
+     "s": "VARCHAR",
+     "t0_id": "INTEGER",
+     "name": "DOUBLE",
+     "amt": "DATE",
+     "w": "VARCHAR",
+     "y": "DOUBLE",
+     "d": "DATE"
+    },
+    "keys": [
+     [
+      "id",
+      "s"
+     ]
+    ]
+   },
+   "t4": {
+    "columns": {
+     "d": "DATE",
+     "t0_id": "INTEGER",
+     "t3_id": "INTEGER",
+     "v": "VARCHAR",
+     "y": "BOOLEAN",
+     "name": "VARCHAR"
+    },
+    "keys": [
+     [
+      "d"
+     ]
+    ]
+   }
+  },
+  "instance": {
+   "t2": [],
+   "t4": [
+    [
+     {
+      "date": "2026-01-29"
+     },
+     20,
+     null,
+     "a",
+     false,
+     "01"
+    ],
+    [
+     {
+      "date": "2026-01-24"
+     },
+     99,
+     29,
+     "a",
+     false,
+     "aB"
+    ]
+   ]
+  }
+ },
+ {
+  "sql": "SELECT a1.y, a1.name, a0.y, a0.y AS c1 FROM t1 a0, t2 a1 WHERE a0.d = a1.n AND a0.d <> 1 AND a1.u > 'b' AND a0.y >= CAST('-0.0' AS DOUBLE) ORDER BY 1 DESC LIMIT 3",
+  "verdict": "NARROW",
+  "tie": [
+   "\"a1\".\"u\""
+  ],
+  "run": "SELECT a1.y, a1.name, a0.y, a0.y AS c1 FROM t1 AS a0, t2 AS a1 WHERE a0.d = a1.n AND a0.d <> 1 AND a1.u > 'b' AND a0.y >= CAST('-0.0' AS DOUBLE) ORDER BY 1 DESC, \"a1\".\"u\" ASC LIMIT 3",
+  "reproduced": true,
+  "seed": 693,
+  "schema": {
+   "t1": {
+    "columns": {
+     "id": "INTEGER",
+     "n": "INTEGER",
+     "w": "INTEGER",
+     "y": "DOUBLE",
+     "s": "INTEGER",
+     "d": "INTEGER",
+     "name": "VARCHAR"
+    },
+    "keys": [
+     [
+      "id",
+      "n"
+     ]
+    ]
+   },
+   "t2": {
+    "columns": {
+     "id": "INTEGER",
+     "n": "INTEGER",
+     "u": "VARCHAR",
+     "s": "INTEGER",
+     "amt": "INTEGER",
+     "name": "DATE",
+     "y": "VARCHAR"
+    },
+    "keys": [
+     [
+      "id",
+      "n"
+     ],
+     [
+      "u"
+     ]
+    ]
+   }
+  },
+  "instance": {
+   "t1": [
+    [
+     2,
+     3,
+     null,
+     {
+      "double": "0.25"
+     },
+     3,
+     2,
+     "a"
+    ],
+    [
+     4,
+     1,
+     null,
+     {
+      "double": "0.0"
+     },
+     4,
+     2,
+     "a"
+    ]
+   ],
+   "t2": [
+    [
+     6,
+     2,
+     "zz",
+     4,
+     2,
+     {
+      "date": "2027-01-01"
+     },
+     "aB"
+    ]
+   ]
+  }
+ },
+ {
+  "sql": "SELECT a0.n AS id, id FROM t0 a0 WHERE a0.x IN (CAST('-1.5' AS DOUBLE), CAST('-0.0' AS DOUBLE)) ORDER BY 1 DESC NULLS FIRST, a0.x",
+  "verdict": "NARROW",
+  "tie": [
+   "1"
+  ],
+  "run": "SELECT a0.n AS id, id FROM t0 AS a0 WHERE a0.x IN (CAST('-1.5' AS DOUBLE), CAST('-0.0' AS DOUBLE)) ORDER BY 1 DESC NULLS FIRST, a0.x, 1 ASC",
+  "reproduced": true,
+  "seed": 703,
+  "schema": {
+   "t0": {
+    "columns": {
+     "id": "INTEGER",
+     "n": "INTEGER",
+     "x": "DOUBLE",
+     "w": "DOUBLE",
+     "flag": "VARCHAR",
+     "s": "VARCHAR"
+    },
+    "keys": [
+     [
+      "id",
+      "n"
+     ]
+    ]
+   }
+  },
+  "instance": {
+   "t0": [
+    [
+     2,
+     1,
+     {
+      "double": "0.0"
+     },
+     {
+      "double": "-0.0"
+     },
+     "a",
+     "a"
+    ],
+    [
+     7,
+     1,
+     {
+      "double": "0.0"
+     },
+     {
+      "double": "-0.0"
+     },
+     null,
+     "aB"
+    ]
+   ]
+  }
+ },
+ {
+  "sql": "SELECT * FROM t3 a0 JOIN t4 a1 ON a0.id = a1.t3_id ORDER BY a1.t0_id DESC, 1 DESC",
+  "verdict": "DET",
+  "tie": [],
+  "run": "SELECT * FROM t3 a0 JOIN t4 a1 ON a0.id = a1.t3_id ORDER BY a1.t0_id DESC, 1 DESC",
+  "reproduced": true,
+  "seed": 739,
+  "schema": {
+   "t3": {
+    "columns": {
+     "id": "INTEGER",
+     "u": "VARCHAR",
+     "t0_id": "INTEGER",
+     "amt": "DECIMAL(10,2)",
+     "n": "DATE",
+     "flag": "INTEGER",
+     "name": "VARCHAR",
+     "w": "DOUBLE"
+    },
+    "keys": [
+     [
+      "id"
+     ],
+     [
+      "u"
+     ]
+    ]
+   },
+   "t4": {
+    "columns": {
+     "id": "INTEGER",
+     "t0_id": "INTEGER",
+     "t3_id": "INTEGER",
+     "w": "DOUBLE",
+     "flag": "BOOLEAN",
+     "s": "DECIMAL(10,2)",
+     "y": "BOOLEAN",
+     "name": "INTEGER"
+    },
+    "keys": [
+     [
+      "id"
+     ]
+    ]
+   }
+  },
+  "instance": {
+   "t3": [
+    [
+     3,
+     "k1",
+     18,
+     {
+      "decimal": "1.00"
+     },
+     {
+      "date": "2026-02-01"
+     },
+     4,
+     "a",
+     {
+      "double": "0.0"
+     }
+    ]
+   ],
+   "t4": [
+    [
+     24,
+     18,
+     3,
+     null,
+     true,
+     null,
+     false,
+     4
+    ],
+    [
+     5,
+     18,
+     3,
+     {
+      "double": "-0.0"
+     },
+     false,
+     {
+      "decimal": "-1.50"
+     },
+     null,
+     null
+    ]
+   ]
+  }
+ },
+ {
+  "sql": "SELECT a0.s, a0.flag AS v, a0.v FROM t2 a0 WHERE (DATE '2026-01-01' = DATE '2027-01-01' OR FALSE = FALSE) ORDER BY (v) DESC, a0.flag LIMIT 2 OFFSET 5",
+  "verdict": "NARROW",
+  "tie": [
+   "1"
+  ],
+  "run": "SELECT a0.s, a0.flag AS v, a0.v FROM t2 AS a0 WHERE (CAST('2026-01-01' AS DATE) = CAST('2027-01-01' AS DATE) OR FALSE = FALSE) ORDER BY (v) DESC, a0.flag, 1 ASC LIMIT 2 OFFSET 5",
+  "reproduced": true,
+  "seed": 753,
+  "schema": {
+   "t2": {
+    "columns": {
+     "id": "INTEGER",
+     "s": "VARCHAR",
+     "v": "DOUBLE",
+     "flag": "INTEGER",
+     "x": "VARCHAR"
+    },
+    "keys": [
+     [
+      "id",
+      "s"
+     ]
+    ]
+   }
+  },
+  "instance": {
+   "t2": [
+    [
+     5,
+     "b",
+     {
+      "double": "-1.5"
+     },
+     5,
+     "1"
+    ],
+    [
+     7,
+     "A",
+     {
+      "double": "-0.0"
+     },
+     4,
+     "B"
+    ],
+    [
+     4,
+     "a",
+     {
+      "double": "-0.0"
+     },
+     5,
+     "B"
+    ],
+    [
+     2,
+     "b",
+     {
+      "double": "0.25"
+     },
+     5,
+     "ab"
+    ],
+    [
+     1,
+     "a",
+     {
+      "double": "0.0"
+     },
+     5,
+     "B"
+    ],
+    [
+     6,
+     "A",
+     {
+      "double": "-1.5"
+     },
+     4,
+     "B"
+    ]
+   ]
+  }
+ },
+ {
+  "sql": "SELECT DISTINCT * FROM t0 a0, t2 a1 WHERE a0.id = a1.t0_id AND a0.d = 0 ORDER BY 1 ASC NULLS FIRST, 1 ASC NULLS LAST LIMIT 1",
+  "verdict": "DET",
+  "tie": [],
+  "run": "SELECT DISTINCT * FROM t0 a0, t2 a1 WHERE a0.id = a1.t0_id AND a0.d = 0 ORDER BY 1 ASC NULLS FIRST, 1 ASC NULLS LAST LIMIT 1",
+  "reproduced": true,
+  "seed": 784,
+  "schema": {
+   "t0": {
+    "columns": {
+     "id": "INTEGER",
+     "amt": "VARCHAR",
+     "d": "INTEGER",
+     "name": "DATE"
+    },
+    "keys": [
+     [
+      "id"
+     ]
+    ]
+   },
+   "t2": {
+    "columns": {
+     "id": "INTEGER",
+     "t0_id": "INTEGER",
+     "y": "INTEGER",
+     "flag": "DOUBLE",
+     "s": "BOOLEAN"
+    },
+    "keys": [
+     [
+      "id"
+     ]
+    ]
+   }
+  },
+  "instance": {
+   "t0": [
+    [
+     8,
+     "A",
+     0,
+     {
+      "date": "2026-01-02"
+     }
+    ]
+   ],
+   "t2": [
+    [
+     7,
+     8,
+     4,
+     {
+      "double": "0.25"
+     },
+     null
+    ],
+    [
+     18,
+     8,
+     5,
+     {
+      "double": "0.25"
+     },
+     true
+    ]
+   ]
+  }
+ },
+ {
+  "sql": "SELECT (COALESCE(1.00, 2.00) <= ROUND(-1.50, 0)) AS id, a0.id, a0.name, COALESCE(2.00, -1.50) FROM t2 a0 ORDER BY (id) DESC LIMIT 1 OFFSET 5",
+  "verdict": "NARROW",
+  "tie": [
+   "3"
+  ],
+  "run": "SELECT (COALESCE(1.00, 2.00) <= ROUND(-1.50, 0)) AS id, a0.id, a0.name, COALESCE(2.00, -1.50) FROM t2 AS a0 ORDER BY (id) DESC, 3 ASC LIMIT 1 OFFSET 5",
+  "reproduced": true,
+  "seed": 796,
+  "schema": {
+   "t2": {
+    "columns": {
+     "id": "INTEGER",
+     "n": "INTEGER",
+     "name": "INTEGER",
+     "flag": "INTEGER",
+     "s": "VARCHAR"
+    },
+    "keys": [
+     [
+      "id",
+      "n"
+     ]
+    ]
+   }
+  },
+  "instance": {
+   "t2": [
+    [
+     3,
+     2,
+     2,
+     null,
+     "aB"
+    ],
+    [
+     6,
+     2,
+     8,
+     1,
+     "aB"
+    ],
+    [
+     5,
+     2,
+     8,
+     8,
+     "aB"
+    ],
+    [
+     5,
+     3,
+     8,
+     8,
+     "aB"
+    ],
+    [
+     1,
+     1,
+     3,
+     8,
+     "aB"
+    ],
+    [
+     4,
+     1,
+     -1,
+     null,
+     "B"
+    ]
+   ]
+  }
+ },
+ {
+  "sql": "SELECT DISTINCT * FROM t2 a0 JOIN t0 a1 ON a0.t0_id <> a1.id WHERE a0.v = 0 ORDER BY 1 ASC, 1 NULLS FIRST, 1 DESC NULLS FIRST LIMIT 3",
+  "verdict": "NARROW",
+  "tie": [
+   "5",
+   "1",
+   "2"
+  ],
+  "run": "SELECT DISTINCT * FROM t2 AS a0 JOIN t0 AS a1 ON a0.t0_id <> a1.id WHERE a0.v = 0 ORDER BY 1 ASC, 1 NULLS FIRST, 1 DESC NULLS FIRST, 5 ASC, 1 ASC, 2 ASC LIMIT 3",
+  "reproduced": true,
+  "seed": 836,
+  "schema": {
+   "t0": {
+    "columns": {
+     "id": "INTEGER",
+     "x": "DOUBLE",
+     "s": "BOOLEAN",
+     "v": "VARCHAR"
+    },
+    "keys": [
+     [
+      "id"
+     ]
+    ]
+   },
+   "t2": {
+    "columns": {
+     "id": "INTEGER",
+     "n": "INTEGER",
+     "t0_id": "INTEGER",
+     "x": "DATE",
+     "w": "BOOLEAN",
+     "v": "INTEGER",
+     "s": "DOUBLE",
+     "y": "DECIMAL(10,2)"
+    },
+    "keys": [
+     [
+      "id",
+      "n"
+     ]
+    ]
+   }
+  },
+  "instance": {
+   "t0": [
+    [
+     28,
+     {
+      "double": "-0.0"
+     },
+     true,
+     "aB"
+    ],
+    [
+     16,
+     {
+      "double": "-1.5"
+     },
+     false,
+     "aB"
+    ]
+   ],
+   "t2": [
+    [
+     2,
+     1,
+     14,
+     {
+      "date": "2026-01-02"
+     },
+     false,
+     0,
+     {
+      "double": "0.0"
+     },
+     {
+      "decimal": "0.00"
+     }
+    ]
+   ]
+  }
+ },
+ {
+  "sql": "SELECT DATE '2026-02-01' AS n, CASE WHEN FALSE THEN 0.50 ELSE CAST(a0.amt AS DECIMAL(10,2)) END, a0.n FROM t0 a0 ORDER BY n DESC NULLS LAST",
+  "verdict": "NARROW",
+  "tie": [
+   "2"
+  ],
+  "run": "SELECT CAST('2026-02-01' AS DATE) AS n, CASE WHEN FALSE THEN 0.50 ELSE CAST(a0.amt AS DECIMAL(10, 2)) END, a0.n FROM t0 AS a0 ORDER BY n DESC, 2 ASC",
+  "reproduced": true,
+  "seed": 838,
+  "schema": {
+   "t0": {
+    "columns": {
+     "id": "INTEGER",
+     "n": "INTEGER",
+     "x": "INTEGER",
+     "amt": "DOUBLE",
+     "flag": "DOUBLE"
+    },
+    "keys": [
+     [
+      "id",
+      "n"
+     ]
+    ]
+   }
+  },
+  "instance": {
+   "t0": [
+    [
+     4,
+     1,
+     7,
+     {
+      "double": "-0.0"
+     },
+     {
+      "double": "nan"
+     }
+    ],
+    [
+     1,
+     3,
+     2,
+     {
+      "double": "0.0"
+     },
+     {
+      "double": "-0.0"
+     }
+    ]
+   ]
+  }
+ },
+ {
+  "sql": "SELECT * FROM t1 a0 JOIN t0 a1 ON a0.s = a1.s CROSS JOIN t4 a2 ORDER BY 1 ASC, 1 DESC LIMIT 1",
+  "verdict": "NARROW",
+  "tie": [
+   "1",
+   "8"
+  ],
+  "run": "SELECT * FROM t1 AS a0 JOIN t0 AS a1 ON a0.s = a1.s CROSS JOIN t4 AS a2 ORDER BY 1 ASC, 1 DESC, 1 ASC, 8 ASC LIMIT 1",
+  "reproduced": true,
+  "seed": 882,
+  "schema": {
+   "t0": {
+    "columns": {
+     "id": "INTEGER",
+     "s": "VARCHAR",
+     "name": "DECIMAL(10,2)",
+     "n": "VARCHAR",
+     "flag": "DOUBLE"
+    },
+    "keys": [
+     [
+      "id",
+      "s"
+     ]
+    ]
+   },
+   "t1": {
+    "columns": {
+     "id": "INTEGER",
+     "u": "VARCHAR",
+     "flag": "DATE",
+     "amt": "DATE",
+     "n": "DECIMAL(10,2)",
+     "s": "VARCHAR",
+     "v": "DECIMAL(10,2)"
+    },
+    "keys": [
+     [
+      "id"
+     ],
+     [
+      "u"
+     ]
+    ]
+   },
+   "t4": {
+    "columns": {
+     "id": "INTEGER",
+     "x": "DOUBLE",
+     "n": "DATE",
+     "name": "INTEGER"
+    },
+    "keys": [
+     [
+      "id"
+     ]
+    ]
+   }
+  },
+  "instance": {
+   "t0": [
+    [
+     4,
+     "a",
+     {
+      "decimal": "0.50"
+     },
+     "A",
+     {
+      "double": "0.0"
+     }
+    ]
+   ],
+   "t1": [
+    [
+     38,
+     "k2",
+     {
+      "date": "2027-01-01"
+     },
+     {
+      "date": "2026-01-01"
+     },
+     {
+      "decimal": "-1.50"
+     },
+     "a",
+     {
+      "decimal": "-1.50"
+     }
+    ]
+   ],
+   "t4": [
+    [
+     8,
+     {
+      "double": "-0.0"
+     },
+     {
+      "date": "2027-01-01"
+     },
+     -2
+    ],
+    [
+     30,
+     {
+      "double": "1.5"
+     },
+     {
+      "date": "2026-01-01"
+     },
+     -2
+    ]
+   ]
+  }
+ },
+ {
+  "sql": "SELECT DISTINCT * FROM t2 a0 JOIN t1 a1 ON a0.name = a1.amt WHERE (s = 2.00 OR a1.n = 2) ORDER BY 1 ASC LIMIT 2",
+  "verdict": "NARROW",
+  "tie": [
+   "10",
+   "5",
+   "1",
+   "2"
+  ],
+  "run": "SELECT DISTINCT * FROM t2 AS a0 JOIN t1 AS a1 ON a0.name = a1.amt WHERE (s = 2.00 OR a1.n = 2) ORDER BY 1 ASC, 10 ASC, 5 ASC, 1 ASC, 2 ASC LIMIT 2",
+  "reproduced": true,
+  "seed": 966,
+  "schema": {
+   "t1": {
+    "columns": {
+     "id": "INTEGER",
+     "n": "INTEGER",
+     "u": "VARCHAR",
+     "t0_id": "INTEGER",
+     "y": "DATE",
+     "amt": "DOUBLE",
+     "flag": "VARCHAR",
+     "w": "INTEGER",
+     "s": "DECIMAL(10,2)"
+    },
+    "keys": [
+     [
+      "id",
+      "n"
+     ],
+     [
+      "u"
+     ]
+    ]
+   },
+   "t2": {
+    "columns": {
+     "id": "INTEGER",
+     "n": "INTEGER",
+     "t0_id": "INTEGER",
+     "name": "DOUBLE",
+     "flag": "BOOLEAN",
+     "d": "INTEGER",
+     "amt": "DECIMAL(10,2)",
+     "w": "INTEGER"
+    },
+    "keys": [
+     [
+      "id",
+      "n"
+     ]
+    ]
+   }
+  },
+  "instance": {
+   "t1": [
+    [
+     7,
+     2,
+     "k2",
+     30,
+     {
+      "date": "2027-01-01"
+     },
+     {
+      "double": "0.0"
+     },
+     "ba",
+     0,
+     {
+      "decimal": "1.25"
+     }
+    ],
+    [
+     5,
+     2,
+     "k10",
+     22,
+     {
+      "date": "2026-01-02"
+     },
+     {
+      "double": "-0.0"
+     },
+     "ba",
+     null,
+     {
+      "decimal": "1.00"
+     }
+    ]
+   ],
+   "t2": [
+    [
+     1,
+     2,
+     22,
+     {
+      "double": "-0.0"
+     },
+     false,
+     6,
+     {
+      "decimal": "10.00"
+     },
+     7
+    ]
+   ]
+  }
+ },
+ {
+  "sql": "SELECT (COUNT(DISTINCT -1.50) + 1), a0.n, a1.n FROM t0 a0 JOIN t0 a1 ON a0.flag = a1.flag JOIN t0 a2 ON a0.d = a2.y GROUP BY a0.n, 3 ORDER BY a0.n DESC",
+  "verdict": "NARROW",
+  "tie": [
+   "a0.n"
+  ],
+  "run": "SELECT (COUNT(DISTINCT -1.50) + 1), a0.n, a1.n FROM t0 AS a0 JOIN t0 AS a1 ON a0.flag = a1.flag JOIN t0 AS a2 ON a0.d = a2.y GROUP BY a0.n, 3 ORDER BY a0.n DESC, a0.n ASC",
+  "reproduced": true,
+  "seed": 1015,
+  "schema": {
+   "t0": {
+    "columns": {
+     "d": "DATE",
+     "y": "DATE",
+     "v": "DOUBLE",
+     "flag": "DATE",
+     "n": "VARCHAR"
+    },
+    "keys": [
+     [
+      "d"
+     ]
+    ]
+   }
+  },
+  "instance": {
+   "t0": [
+    [
+     {
+      "date": "2026-02-01"
+     },
+     {
+      "date": "2026-01-01"
+     },
+     {
+      "double": "0.0"
+     },
+     {
+      "date": "2027-01-01"
+     },
+     "b"
+    ],
+    [
+     {
+      "date": "2026-02-03"
+     },
+     {
+      "date": "2026-01-01"
+     },
+     {
+      "double": "-0.0"
+     },
+     {
+      "date": "2027-01-01"
+     },
+     "ba"
+    ],
+    [
+     {
+      "date": "2026-01-20"
+     },
+     {
+      "date": "2026-02-01"
+     },
+     {
+      "double": "0.25"
+     },
+     {
+      "date": "2026-02-01"
+     },
+     "1"
+    ]
+   ]
+  }
+ },
+ {
+  "sql": "SELECT * FROM t1 a0 JOIN t1 a1 ON a0.s <= a1.x ORDER BY a1.name NULLS LAST, 1 ASC NULLS FIRST, 1 NULLS FIRST",
+  "verdict": "NARROW",
+  "tie": [
+   "9",
+   "1",
+   "2"
+  ],
+  "run": "SELECT * FROM t1 AS a0 JOIN t1 AS a1 ON a0.s <= a1.x ORDER BY a1.name, 1 ASC NULLS FIRST, 1 NULLS FIRST, 9 ASC, 1 ASC, 2 ASC",
+  "reproduced": true,
+  "seed": 1061,
+  "schema": {
+   "t1": {
+    "columns": {
+     "id": "INTEGER",
+     "s": "VARCHAR",
+     "flag": "DOUBLE",
+     "x": "VARCHAR",
+     "n": "DATE",
+     "name": "DOUBLE",
+     "amt": "DOUBLE"
+    },
+    "keys": [
+     [
+      "id",
+      "s"
+     ]
+    ]
+   }
+  },
+  "instance": {
+   "t1": [
+    [
+     2,
+     "a",
+     {
+      "double": "-0.0"
+     },
+     "A",
+     {
+      "date": "2027-01-01"
+     },
+     {
+      "double": "-0.0"
+     },
+     {
+      "double": "-0.0"
+     }
+    ],
+    [
+     1,
+     "a",
+     {
+      "double": "-0.0"
+     },
+     "A",
+     {
+      "date": "2026-02-01"
+     },
+     {
+      "double": "0.0"
+     },
+     {
+      "double": "0.0"
+     }
+    ],
+    [
+     5,
+     "A",
+     null,
+     "a",
+     {
+      "date": "2027-01-01"
+     },
+     {
+      "double": "0.0"
+     },
+     {
+      "double": "0.0"
+     }
+    ]
+   ]
+  }
+ },
+ {
+  "sql": "SELECT SUM(COALESCE(a2.flag, 2.00)), a1.amt, SUM((a1.w / a2.v)) FROM t2 a0 JOIN t3 a1 USING (d) JOIN t0 a2 ON a1.d >= a2.s WHERE a0.d IS NOT NULL GROUP BY a1.amt HAVING SUM(ROUND(a1.w, 1)) > 2.00 ORDER BY a1.amt",
+  "verdict": "DET",
+  "tie": [],
+  "run": "SELECT SUM(COALESCE(a2.flag, 2.00)), a1.amt, SUM((a1.w / a2.v)) FROM t2 a0 JOIN t3 a1 USING (d) JOIN t0 a2 ON a1.d >= a2.s WHERE a0.d IS NOT NULL GROUP BY a1.amt HAVING SUM(ROUND(a1.w, 1)) > 2.00 ORDER BY a1.amt",
+  "reproduced": true,
+  "seed": 1191,
+  "schema": {
+   "t0": {
+    "columns": {
+     "id": "INTEGER",
+     "s": "VARCHAR",
+     "amt": "DOUBLE",
+     "n": "BOOLEAN",
+     "v": "DECIMAL(10,2)",
+     "flag": "DECIMAL(10,2)"
+    },
+    "keys": [
+     [
+      "id",
+      "s"
+     ]
+    ]
+   },
+   "t2": {
+    "columns": {
+     "id": "INTEGER",
+     "u": "VARCHAR",
+     "name": "INTEGER",
+     "d": "VARCHAR",
+     "amt": "BOOLEAN",
+     "flag": "VARCHAR"
+    },
+    "keys": [
+     [
+      "id"
+     ],
+     [
+      "u"
+     ]
+    ]
+   },
+   "t3": {
+    "columns": {
+     "t1_id": "INTEGER",
+     "amt": "BOOLEAN",
+     "d": "VARCHAR",
+     "w": "DECIMAL(10,2)"
+    },
+    "keys": []
+   }
+  },
+  "instance": {
+   "t0": [
+    [
+     3,
+     "a",
+     {
+      "double": "0.25"
+     },
+     false,
+     {
+      "decimal": "1.25"
+     },
+     {
+      "decimal": "0.50"
+     }
+    ]
+   ],
+   "t2": [
+    [
+     26,
+     "z",
+     5,
+     "ab",
+     true,
+     "1"
+    ],
+    [
+     3,
+     "A",
+     5,
+     "ab",
+     true,
+     "b"
+    ]
+   ],
+   "t3": [
+    [
+     30,
+     true,
+     "ab",
+     {
+      "decimal": "10.00"
+     }
+    ],
+    [
+     30,
+     true,
+     "ab",
+     {
+      "decimal": "-1.50"
+     }
+    ]
+   ]
+  }
+ },
+ {
+  "sql": "SELECT DISTINCT * FROM t3 a0 CROSS JOIN t1 a1 WHERE a0.flag IS NOT NULL ORDER BY 1 NULLS FIRST LIMIT 10",
+  "verdict": "NARROW",
+  "tie": [
+   "1"
+  ],
+  "run": "SELECT DISTINCT * FROM t3 AS a0 CROSS JOIN t1 AS a1 WHERE NOT a0.flag IS NULL ORDER BY 1 NULLS FIRST, 1 ASC LIMIT 10",
+  "reproduced": true,
+  "seed": 1289,
+  "schema": {
+   "t1": {
+    "columns": {
+     "id": "INTEGER",
+     "name": "INTEGER",
+     "flag": "BOOLEAN",
+     "d": "BOOLEAN"
+    },
+    "keys": [
+     [
+      "id"
+     ]
+    ]
+   },
+   "t3": {
+    "columns": {
+     "id": "INTEGER",
+     "t1_id": "INTEGER",
+     "y": "INTEGER",
+     "v": "DATE",
+     "x": "VARCHAR",
+     "flag": "INTEGER"
+    },
+    "keys": [
+     [
+      "id"
+     ]
+    ]
+   }
+  },
+  "instance": {
+   "t1": [
+    [
+     28,
+     -2,
+     false,
+     true
+    ],
+    [
+     25,
+     -2,
+     true,
+     true
+    ]
+   ],
+   "t3": [
+    [
+     2,
+     5,
+     null,
+     {
+      "date": "2027-01-01"
+     },
+     "a",
+     -2
+    ]
+   ]
+  }
+ },
+ {
+  "sql": "SELECT a0.name AS id, a0.id FROM t2 a0 JOIN t0 a1 ON a0.id >= a1.d WHERE a1.flag <= -1 ORDER BY id",
+  "verdict": "DET",
+  "tie": [],
+  "run": "SELECT a0.name AS id, a0.id FROM t2 a0 JOIN t0 a1 ON a0.id >= a1.d WHERE a1.flag <= -1 ORDER BY id",
+  "reproduced": true,
+  "seed": 1312,
+  "schema": {
+   "t0": {
+    "columns": {
+     "id": "INTEGER",
+     "s": "VARCHAR",
+     "d": "INTEGER",
+     "name": "VARCHAR",
+     "flag": "INTEGER"
+    },
+    "keys": [
+     [
+      "id",
+      "s"
+     ]
+    ]
+   },
+   "t2": {
+    "columns": {
+     "id": "INTEGER",
+     "flag": "DOUBLE",
+     "x": "DATE",
+     "name": "BOOLEAN"
+    },
+    "keys": [
+     [
+      "id"
+     ]
+    ]
+   }
+  },
+  "instance": {
+   "t0": [
+    [
+     7,
+     "A",
+     8,
+     "b",
+     -1
+    ]
+   ],
+   "t2": [
+    [
+     8,
+     {
+      "double": "-0.0"
+     },
+     {
+      "date": "2026-01-02"
+     },
+     false
+    ],
+    [
+     39,
+     {
+      "double": "0.0"
+     },
+     {
+      "date": "2026-02-01"
+     },
+     false
+    ]
+   ]
+  }
+ },
+ {
+  "sql": "SELECT * FROM t2 a0 CROSS JOIN t2 a1 ORDER BY a1.x DESC, 1 DESC NULLS FIRST LIMIT 2",
+  "verdict": "NARROW",
+  "tie": [
+   "\"a0\".\"id\""
+  ],
+  "run": "SELECT * FROM t2 AS a0 CROSS JOIN t2 AS a1 ORDER BY a1.x DESC, 1 DESC NULLS FIRST, \"a0\".\"id\" ASC LIMIT 2",
+  "reproduced": true,
+  "seed": 1321,
+  "schema": {
+   "t2": {
+    "columns": {
+     "id": "INTEGER",
+     "t0_id": "INTEGER",
+     "w": "DECIMAL(10,2)",
+     "y": "DATE",
+     "name": "DATE",
+     "n": "VARCHAR",
+     "x": "INTEGER"
+    },
+    "keys": [
+     [
+      "id"
+     ]
+    ]
+   }
+  },
+  "instance": {
+   "t2": [
+    [
+     35,
+     4,
+     null,
+     {
+      "date": "2026-01-01"
+     },
+     {
+      "date": "2027-01-01"
+     },
+     "A",
+     7
+    ],
+    [
+     8,
+     34,
+     {
+      "decimal": "10.00"
+     },
+     {
+      "date": "2026-01-01"
+     },
+     {
+      "date": "2026-01-02"
+     },
+     "1",
+     7
+    ]
+   ]
+  }
+ },
+ {
+  "sql": "SELECT * FROM t0 a0 JOIN t1 a1 ON a0.id = a1.t0_id ORDER BY DATE '2026-01-01' ASC, LENGTH(a0.amt) DESC NULLS FIRST, 1 ASC LIMIT 1",
+  "verdict": "DET",
+  "tie": [],
+  "run": "SELECT * FROM t0 a0 JOIN t1 a1 ON a0.id = a1.t0_id ORDER BY DATE '2026-01-01' ASC, LENGTH(a0.amt) DESC NULLS FIRST, 1 ASC LIMIT 1",
+  "reproduced": true,
+  "seed": 1348,
+  "schema": {
+   "t0": {
+    "columns": {
+     "id": "INTEGER",
+     "flag": "INTEGER",
+     "s": "BOOLEAN",
+     "amt": "VARCHAR",
+     "v": "DOUBLE",
+     "w": "DECIMAL(10,2)"
+    },
+    "keys": [
+     [
+      "id"
+     ]
+    ]
+   },
+   "t1": {
+    "columns": {
+     "id": "INTEGER",
+     "t0_id": "INTEGER",
+     "amt": "DOUBLE",
+     "name": "DATE",
+     "y": "VARCHAR",
+     "d": "VARCHAR",
+     "s": "DATE"
+    },
+    "keys": [
+     [
+      "id"
+     ]
+    ]
+   }
+  },
+  "instance": {
+   "t0": [
+    [
+     33,
+     2,
+     null,
+     "1",
+     {
+      "double": "0.25"
+     },
+     {
+      "decimal": "1.25"
+     }
+    ]
+   ],
+   "t1": [
+    [
+     36,
+     33,
+     {
+      "double": "-1.5"
+     },
+     {
+      "date": "2026-01-02"
+     },
+     null,
+     "b",
+     {
+      "date": "2026-01-01"
+     }
+    ],
+    [
+     17,
+     33,
+     {
+      "double": "0.0"
+     },
+     {
+      "date": "2027-01-01"
+     },
+     null,
+     "B",
+     {
+      "date": "2026-01-01"
+     }
+    ]
+   ]
+  }
+ },
+ {
+  "sql": "SELECT a0.v, a2.u, a0.s AS flag, a1.v FROM t1 a0 JOIN t2 a1 ON a0.flag = a1.s JOIN t2 a2 ON a1.y <> a2.y WHERE a1.n = (SELECT s0.id FROM t0 s0 WHERE s0.id = a2.n) ORDER BY 1 ASC LIMIT 1",
+  "verdict": "NARROW",
+  "tie": [
+   "\"a0\".\"d\"",
+   "\"a2\".\"u\""
+  ],
+  "run": "SELECT a0.v, a2.u, a0.s AS flag, a1.v FROM t1 AS a0 JOIN t2 AS a1 ON a0.flag = a1.s JOIN t2 AS a2 ON a1.y <> a2.y WHERE a1.n = (SELECT s0.id FROM t0 AS s0 WHERE s0.id = a2.n) ORDER BY 1 ASC, \"a0\".\"d\" ASC, \"a2\".\"u\" ASC LIMIT 1",
+  "reproduced": true,
+  "seed": 1434,
+  "schema": {
+   "t0": {
+    "columns": {
+     "id": "INTEGER",
+     "y": "DOUBLE",
+     "s": "VARCHAR",
+     "flag": "VARCHAR",
+     "n": "DECIMAL(10,2)"
+    },
+    "keys": [
+     [
+      "id"
+     ]
+    ]
+   },
+   "t1": {
+    "columns": {
+     "d": "DATE",
+     "u": "VARCHAR",
+     "v": "DATE",
+     "x": "DATE",
+     "flag": "DOUBLE",
+     "name": "INTEGER",
+     "s": "VARCHAR"
+    },
+    "keys": [
+     [
+      "d"
+     ],
+     [
+      "u"
+     ]
+    ]
+   },
+   "t2": {
+    "columns": {
+     "id": "INTEGER",
+     "n": "INTEGER",
+     "u": "VARCHAR",
+     "d": "DOUBLE",
+     "s": "DOUBLE",
+     "v": "BOOLEAN",
+     "y": "INTEGER"
+    },
+    "keys": [
+     [
+      "id",
+      "n"
+     ],
+     [
+      "u"
+     ]
+    ]
+   }
+  },
+  "instance": {
+   "t0": [
+    [
+     3,
+     {
+      "double": "2.0"
+     },
+     "aB",
+     "b",
+     null
+    ]
+   ],
+   "t1": [
+    [
+     {
+      "date": "2026-02-04"
+     },
+     "y",
+     {
+      "date": "2026-01-02"
+     },
+     {
+      "date": "2027-01-01"
+     },
+     {
+      "double": "-0.0"
+     },
+     2,
+     null
+    ]
+   ],
+   "t2": [
+    [
+     4,
+     3,
+     "k2",
+     {
+      "double": "0.0"
+     },
+     {
+      "double": "0.0"
+     },
+     true,
+     5
+    ],
+    [
+     1,
+     3,
+     "k1",
+     {
+      "double": "0.0"
+     },
+     {
+      "double": "-0.0"
+     },
+     false,
+     5
+    ],
+    [
+     6,
+     3,
+     "K1",
+     {
+      "double": "0.0"
+     },
+     {
+      "double": "0.0"
+     },
+     true,
+     7
+    ]
+   ]
+  }
+ },
+ {
+  "sql": "SELECT DISTINCT * FROM t0 a0 JOIN t2 a1 ON a0.id = a1.id JOIN t2 a2 ON a1.amt = a2.s ORDER BY 1 DESC, 1 NULLS FIRST",
+  "verdict": "NARROW",
+  "tie": [
+   "1",
+   "8",
+   "15"
+  ],
+  "run": "SELECT DISTINCT * FROM t0 AS a0 JOIN t2 AS a1 ON a0.id = a1.id JOIN t2 AS a2 ON a1.amt = a2.s ORDER BY 1 DESC, 1 NULLS FIRST, 1 ASC, 8 ASC, 15 ASC",
+  "reproduced": true,
+  "seed": 1437,
+  "schema": {
+   "t0": {
+    "columns": {
+     "id": "INTEGER",
+     "y": "DOUBLE",
+     "v": "DOUBLE",
+     "w": "DOUBLE",
+     "name": "INTEGER",
+     "d": "VARCHAR"
+    },
+    "keys": [
+     [
+      "id"
+     ]
+    ]
+   },
+   "t2": {
+    "columns": {
+     "id": "INTEGER",
+     "n": "INTEGER",
+     "x": "DECIMAL(10,2)",
+     "amt": "VARCHAR",
+     "s": "VARCHAR",
+     "w": "VARCHAR",
+     "v": "DECIMAL(10,2)"
+    },
+    "keys": [
+     [
+      "id",
+      "n"
+     ]
+    ]
+   }
+  },
+  "instance": {
+   "t0": [
+    [
+     4,
+     {
+      "double": "0.25"
+     },
+     {
+      "double": "-0.0"
+     },
+     {
+      "double": "0.25"
+     },
+     7,
+     null
+    ]
+   ],
+   "t2": [
+    [
+     4,
+     2,
+     {
+      "decimal": "0.50"
+     },
+     "ab",
+     "ba",
+     "aB",
+     {
+      "decimal": "-1.50"
+     }
+    ],
+    [
+     3,
+     2,
+     {
+      "decimal": "0.50"
+     },
+     null,
+     "ab",
+     "aB",
+     {
+      "decimal": "2.00"
+     }
+    ],
+    [
+     1,
+     2,
+     {
+      "decimal": "10.00"
+     },
+     "aB",
+     "ab",
+     "ba",
+     {
+      "decimal": "0.50"
+     }
+    ]
+   ]
+  }
+ },
+ {
+  "sql": "SELECT a0.flag AS d, FALSE, a0.d, 10.00 AS c1 FROM t0 a0 WHERE NOT EXISTS (SELECT 1 FROM t0 s0 WHERE s0.n = a0.n AND s0.flag < 'ab') ORDER BY d, a0.flag ASC NULLS LAST",
+  "verdict": "DET",
+  "tie": [],
+  "run": "SELECT a0.flag AS d, FALSE, a0.d, 10.00 AS c1 FROM t0 a0 WHERE NOT EXISTS (SELECT 1 FROM t0 s0 WHERE s0.n = a0.n AND s0.flag < 'ab') ORDER BY d, a0.flag ASC NULLS LAST",
+  "reproduced": true,
+  "seed": 1439,
+  "schema": {
+   "t0": {
+    "columns": {
+     "d": "DATE",
+     "v": "DOUBLE",
+     "flag": "VARCHAR",
+     "n": "DATE",
+     "y": "VARCHAR"
+    },
+    "keys": [
+     [
+      "d"
+     ]
+    ]
+   }
+  },
+  "instance": {
+   "t0": [
+    [
+     {
+      "date": "2026-02-26"
+     },
+     {
+      "double": "-0.0"
+     },
+     "ab",
+     {
+      "date": "2026-01-01"
+     },
+     "1"
+    ],
+    [
+     {
+      "date": "2026-02-19"
+     },
+     {
+      "double": "-0.0"
+     },
+     "ab",
+     {
+      "date": "2026-01-01"
+     },
+     ""
+    ]
+   ]
+  }
+ },
+ {
+  "sql": "SELECT * FROM t1 a0 CROSS JOIN t0 a1 WHERE a1.n = 2 ORDER BY 1 LIMIT 3",
+  "verdict": "NARROW",
+  "tie": [
+   "\"a0\".\"u\""
+  ],
+  "run": "SELECT * FROM t1 AS a0 CROSS JOIN t0 AS a1 WHERE a1.n = 2 ORDER BY 1, \"a0\".\"u\" ASC LIMIT 3",
+  "reproduced": true,
+  "seed": 1488,
+  "schema": {
+   "t0": {
+    "columns": {
+     "id": "INTEGER",
+     "n": "INTEGER",
+     "s": "DOUBLE",
+     "y": "INTEGER",
+     "flag": "VARCHAR"
+    },
+    "keys": [
+     [
+      "id",
+      "n"
+     ]
+    ]
+   },
+   "t1": {
+    "columns": {
+     "id": "INTEGER",
+     "n": "INTEGER",
+     "u": "VARCHAR",
+     "w": "VARCHAR",
+     "amt": "VARCHAR",
+     "y": "VARCHAR",
+     "v": "VARCHAR"
+    },
+    "keys": [
+     [
+      "id",
+      "n"
+     ],
+     [
+      "u"
+     ]
+    ]
+   }
+  },
+  "instance": {
+   "t0": [
+    [
+     3,
+     2,
+     {
+      "double": "0.0"
+     },
+     null,
+     "01"
+    ],
+    [
+     1,
+     2,
+     {
+      "double": "0.0"
+     },
+     null,
+     "b "
+    ]
+   ],
+   "t1": [
+    [
+     6,
+     3,
+     "A",
+     "",
+     "B",
+     "a",
+     "01"
+    ]
+   ]
+  }
+ },
+ {
+  "sql": "SELECT DISTINCT * FROM t2 a0 JOIN t1 a1 ON a0.n = a1.amt ORDER BY 1 DESC, 1",
+  "verdict": "NARROW",
+  "tie": [
+   "1"
+  ],
+  "run": "SELECT DISTINCT * FROM t2 AS a0 JOIN t1 AS a1 ON a0.n = a1.amt ORDER BY 1 DESC, 1, 1 ASC",
+  "reproduced": true,
+  "seed": 1532,
+  "schema": {
+   "t1": {
+    "columns": {
+     "id": "INTEGER",
+     "amt": "VARCHAR",
+     "x": "INTEGER",
+     "name": "INTEGER"
+    },
+    "keys": [
+     [
+      "id"
+     ]
+    ]
+   },
+   "t2": {
+    "columns": {
+     "id": "INTEGER",
+     "u": "VARCHAR",
+     "v": "VARCHAR",
+     "y": "INTEGER",
+     "name": "INTEGER",
+     "s": "INTEGER",
+     "n": "VARCHAR"
+    },
+    "keys": [
+     [
+      "id"
+     ],
+     [
+      "u"
+     ]
+    ]
+   }
+  },
+  "instance": {
+   "t1": [
+    [
+     17,
+     "B",
+     -1,
+     0
+    ],
+    [
+     15,
+     "B",
+     1,
+     3
+    ]
+   ],
+   "t2": [
+    [
+     39,
+     "zz",
+     "01",
+     3,
+     -2,
+     1,
+     "B"
+    ]
+   ]
+  }
+ },
+ {
+  "sql": "SELECT DISTINCT * FROM t2 a0, t0 a1 WHERE a0.v = a1.name AND v >= (SELECT COUNT(DISTINCT (s0.id * 2)) FROM t4 s0 WHERE s0.id = a0.id) AND a0.s IS NOT NULL ORDER BY 1 ASC LIMIT 5 OFFSET 1",
+  "verdict": "NARROW",
+  "tie": [
+   "6",
+   "1"
+  ],
+  "run": "SELECT DISTINCT * FROM t2 AS a0, t0 AS a1 WHERE a0.v = a1.name AND v >= (SELECT COUNT(DISTINCT (s0.id * 2)) FROM t4 AS s0 WHERE s0.id = a0.id) AND NOT a0.s IS NULL ORDER BY 1 ASC, 6 ASC, 1 ASC LIMIT 5 OFFSET 1",
+  "reproduced": true,
+  "seed": 1543,
+  "schema": {
+   "t0": {
+    "columns": {
+     "id": "INTEGER",
+     "n": "INTEGER",
+     "d": "VARCHAR",
+     "flag": "INTEGER",
+     "y": "DECIMAL(10,2)",
+     "name": "INTEGER"
+    },
+    "keys": [
+     [
+      "id",
+      "n"
+     ]
+    ]
+   },
+   "t2": {
+    "columns": {
+     "id": "INTEGER",
+     "y": "INTEGER",
+     "s": "DOUBLE",
+     "v": "INTEGER"
+    },
+    "keys": [
+     [
+      "id"
+     ]
+    ]
+   },
+   "t4": {
+    "columns": {
+     "id": "INTEGER",
+     "x": "BOOLEAN",
+     "y": "DOUBLE",
+     "name": "DATE"
+    },
+    "keys": [
+     [
+      "id"
+     ]
+    ]
+   }
+  },
+  "instance": {
+   "t0": [
+    [
+     7,
+     1,
+     "",
+     3,
+     {
+      "decimal": "2.00"
+     },
+     4
+    ],
+    [
+     1,
+     1,
+     "b ",
+     4,
+     {
+      "decimal": "0.00"
+     },
+     4
+    ]
+   ],
+   "t2": [
+    [
+     11,
+     7,
+     {
+      "double": "-0.0"
+     },
+     4
+    ]
+   ],
+   "t4": []
+  }
+ },
+ {
+  "sql": "SELECT DISTINCT a1.y AS v, a0.name, 1.25 AS c1, a1.v FROM t1 a0 JOIN t0 a1 ON a0.code = a1.y WHERE (a1.name <= CAST('-0.0' AS DOUBLE) OR a0.name IN (DATE '2026-02-01', DATE '2026-02-01')) ORDER BY (v) DESC LIMIT 3",
+  "verdict": "NARROW",
+  "tie": [
+   "1"
+  ],
+  "run": "SELECT DISTINCT a1.y AS v, a0.name, 1.25 AS c1, a1.v FROM t1 AS a0 JOIN t0 AS a1 ON a0.code = a1.y WHERE (a1.name <= CAST('-0.0' AS DOUBLE) OR a0.name IN (CAST('2026-02-01' AS DATE), CAST('2026-02-01' AS DATE))) ORDER BY (v) DESC, 1 ASC LIMIT 3",
+  "reproduced": true,
+  "seed": 1549,
+  "schema": {
+   "t0": {
+    "columns": {
+     "d": "DATE",
+     "n": "VARCHAR",
+     "name": "DOUBLE",
+     "v": "INTEGER",
+     "y": "VARCHAR"
+    },
+    "keys": [
+     [
+      "d"
+     ]
+    ]
+   },
+   "t1": {
+    "columns": {
+     "code": "VARCHAR",
+     "flag": "DOUBLE",
+     "name": "DATE",
+     "x": "VARCHAR"
+    },
+    "keys": [
+     [
+      "code"
+     ]
+    ]
+   }
+  },
+  "instance": {
+   "t0": [
+    [
+     {
+      "date": "2026-01-06"
+     },
+     "aB",
+     {
+      "double": "-0.0"
+     },
+     2,
+     "b "
+    ],
+    [
+     {
+      "date": "2026-01-08"
+     },
+     "",
+     {
+      "double": "0.0"
+     },
+     0,
+     "b "
+    ]
+   ],
+   "t1": [
+    [
+     "b ",
+     {
+      "double": "-0.0"
+     },
+     {
+      "date": "2026-01-01"
+     },
+     "a"
+    ]
+   ]
+  }
+ },
+ {
+  "sql": "SELECT a0.d, a1.d, (SELECT s0.d FROM t2 s0 WHERE s0.id = a0.name), a0.n FROM t0 a0 CROSS JOIN t2 a1 WHERE a1.id < 3 ORDER BY 1 ASC LIMIT 5",
+  "verdict": "NARROW",
+  "tie": [
+   "\"a0\".\"code\""
+  ],
+  "run": "SELECT a0.d, a1.d, (SELECT s0.d FROM t2 AS s0 WHERE s0.id = a0.name), a0.n FROM t0 AS a0 CROSS JOIN t2 AS a1 WHERE a1.id < 3 ORDER BY 1 ASC, \"a0\".\"code\" ASC LIMIT 5",
+  "reproduced": true,
+  "seed": 1558,
+  "schema": {
+   "t0": {
+    "columns": {
+     "code": "VARCHAR",
+     "w": "DOUBLE",
+     "n": "DOUBLE",
+     "d": "INTEGER",
+     "x": "DOUBLE",
+     "name": "INTEGER"
+    },
+    "keys": [
+     [
+      "code"
+     ]
+    ]
+   },
+   "t2": {
+    "columns": {
+     "id": "INTEGER",
+     "d": "BOOLEAN",
+     "amt": "DOUBLE",
+     "flag": "INTEGER",
+     "w": "BOOLEAN"
+    },
+    "keys": [
+     [
+      "id"
+     ]
+    ]
+   }
+  },
+  "instance": {
+   "t0": [
+    [
+     "x",
+     {
+      "double": "-0.0"
+     },
+     {
+      "double": "0.0"
+     },
+     6,
+     {
+      "double": "1.5"
+     },
+     5
+    ]
+   ],
+   "t2": [
+    [
+     1,
+     true,
+     {
+      "double": "-0.0"
+     },
+     8,
+     false
+    ],
+    [
+     2,
+     false,
+     {
+      "double": "-0.0"
+     },
+     8,
+     false
+    ]
+   ]
+  }
+ },
+ {
+  "sql": "SELECT DISTINCT * FROM t1 a0 JOIN t1 a1 ON a0.flag < a1.id WHERE a0.flag = -1 ORDER BY 1, 1 DESC LIMIT 1",
+  "verdict": "NARROW",
+  "tie": [
+   "9",
+   "1",
+   "2"
+  ],
+  "run": "SELECT DISTINCT * FROM t1 AS a0 JOIN t1 AS a1 ON a0.flag < a1.id WHERE a0.flag = -1 ORDER BY 1, 1 DESC, 9 ASC, 1 ASC, 2 ASC LIMIT 1",
+  "reproduced": true,
+  "seed": 1610,
+  "schema": {
+   "t1": {
+    "columns": {
+     "id": "INTEGER",
+     "s": "VARCHAR",
+     "flag": "INTEGER",
+     "name": "VARCHAR",
+     "d": "VARCHAR",
+     "y": "DECIMAL(10,2)",
+     "v": "DOUBLE"
+    },
+    "keys": [
+     [
+      "id",
+      "s"
+     ]
+    ]
+   }
+  },
+  "instance": {
+   "t1": [
+    [
+     1,
+     "A",
+     0,
+     "1",
+     "aB",
+     {
+      "decimal": "0.00"
+     },
+     {
+      "double": "-1.5"
+     }
+    ],
+    [
+     3,
+     "A",
+     -1,
+     "01",
+     "aB",
+     {
+      "decimal": "0.00"
+     },
+     {
+      "double": "-0.0"
+     }
+    ]
+   ]
+  }
+ },
+ {
+  "sql": "SELECT DISTINCT * FROM t1 a0 JOIN t0 a1 ON a0.y = a1.amt JOIN t1 a2 ON a1.x = a2.name WHERE a0.n IS NOT NULL ORDER BY 1 NULLS LAST LIMIT 10 OFFSET 2",
+  "verdict": "NARROW",
+  "tie": [
+   "7",
+   "14",
+   "4",
+   "1",
+   "2"
+  ],
+  "run": "SELECT DISTINCT * FROM t1 AS a0 JOIN t0 AS a1 ON a0.y = a1.amt JOIN t1 AS a2 ON a1.x = a2.name WHERE NOT a0.n IS NULL ORDER BY 1, 7 ASC, 14 ASC, 4 ASC, 1 ASC, 2 ASC LIMIT 10 OFFSET 2",
+  "reproduced": true,
+  "seed": 1656,
+  "schema": {
+   "t0": {
+    "columns": {
+     "code": "VARCHAR",
+     "n": "BOOLEAN",
+     "s": "BOOLEAN",
+     "x": "VARCHAR",
+     "amt": "VARCHAR",
+     "v": "DATE"
+    },
+    "keys": [
+     [
+      "code"
+     ]
+    ]
+   },
+   "t1": {
+    "columns": {
+     "id": "INTEGER",
+     "n": "INTEGER",
+     "amt": "DECIMAL(10,2)",
+     "v": "BOOLEAN",
+     "name": "VARCHAR",
+     "y": "VARCHAR"
+    },
+    "keys": [
+     [
+      "id",
+      "n"
+     ]
+    ]
+   }
+  },
+  "instance": {
+   "t0": [
+    [
+     "z",
+     null,
+     true,
+     "A",
+     "ab",
+     {
+      "date": "2026-01-02"
+     }
+    ]
+   ],
+   "t1": [
+    [
+     3,
+     2,
+     {
+      "decimal": "0.50"
+     },
+     false,
+     "A",
+     "A"
+    ],
+    [
+     2,
+     1,
+     {
+      "decimal": "-1.50"
+     },
+     false,
+     "A",
+     "ab"
+    ],
+    [
+     6,
+     2,
+     {
+      "decimal": "10.00"
+     },
+     false,
+     "A",
+     "ba"
+    ]
+   ]
+  }
+ },
+ {
+  "sql": "SELECT flag, 'b' AS flag, a0.flag FROM t0 a0 WHERE d = TRUE ORDER BY flag NULLS FIRST, a0.x, flag DESC NULLS FIRST",
+  "verdict": "DET",
+  "tie": [],
+  "run": "SELECT flag, 'b' AS flag, a0.flag FROM t0 a0 WHERE d = TRUE ORDER BY flag NULLS FIRST, a0.x, flag DESC NULLS FIRST",
+  "reproduced": true,
+  "seed": 1667,
+  "schema": {
+   "t0": {
+    "columns": {
+     "code": "VARCHAR",
+     "d": "BOOLEAN",
+     "flag": "INTEGER",
+     "x": "VARCHAR",
+     "n": "DOUBLE",
+     "id": "DOUBLE"
+    },
+    "keys": [
+     [
+      "code"
+     ]
+    ]
+   }
+  },
+  "instance": {
+   "t0": [
+    [
+     "B",
+     true,
+     null,
+     "a",
+     {
+      "double": "0.0"
+     },
+     {
+      "double": "-0.0"
+     }
+    ],
+    [
+     "A",
+     true,
+     2,
+     "a",
+     {
+      "double": "0.0"
+     },
+     {
+      "double": "-0.0"
+     }
+    ]
+   ]
+  }
+ },
+ {
+  "sql": "SELECT DISTINCT * FROM t0 a0 JOIN t4 a1 ON a0.id = a1.t0_id ORDER BY 1 NULLS LAST, 1, 1",
+  "verdict": "NARROW",
+  "tie": [
+   "8"
+  ],
+  "run": "SELECT DISTINCT * FROM t0 AS a0 JOIN t4 AS a1 ON a0.id = a1.t0_id ORDER BY 1, 1, 1, 8 ASC",
+  "reproduced": true,
+  "seed": 1702,
+  "schema": {
+   "t0": {
+    "columns": {
+     "id": "INTEGER",
+     "flag": "VARCHAR",
+     "x": "DOUBLE",
+     "amt": "VARCHAR",
+     "v": "VARCHAR",
+     "name": "VARCHAR"
+    },
+    "keys": [
+     [
+      "id"
+     ]
+    ]
+   },
+   "t4": {
+    "columns": {
+     "id": "INTEGER",
+     "n": "INTEGER",
+     "t0_id": "INTEGER",
+     "s": "DATE",
+     "d": "INTEGER",
+     "name": "VARCHAR",
+     "v": "INTEGER"
+    },
+    "keys": [
+     [
+      "id",
+      "n"
+     ]
+    ]
+   }
+  },
+  "instance": {
+   "t0": [
+    [
+     26,
+     null,
+     {
+      "double": "0.0"
+     },
+     "1",
+     "b",
+     ""
+    ]
+   ],
+   "t4": [
+    [
+     4,
+     3,
+     26,
+     {
+      "date": "2026-01-02"
+     },
+     null,
+     "B",
+     -1
+    ],
+    [
+     7,
+     3,
+     26,
+     {
+      "date": "2027-01-01"
+     },
+     0,
+     "b",
+     -1
+    ]
+   ]
+  }
+ },
+ {
+  "sql": "SELECT DISTINCT a0.d AS w, a0.flag, w FROM t1 a0 WHERE a0.v IS NULL AND a0.s IS NOT NULL ORDER BY 1 ASC NULLS FIRST LIMIT 10",
+  "verdict": "NARROW",
+  "tie": [
+   "2",
+   "1"
+  ],
+  "run": "SELECT DISTINCT a0.d AS w, a0.flag, w FROM t1 AS a0 WHERE a0.v IS NULL AND NOT a0.s IS NULL ORDER BY 1 ASC NULLS FIRST, 2 ASC, 1 ASC LIMIT 10",
+  "reproduced": true,
+  "seed": 1729,
+  "schema": {
+   "t1": {
+    "columns": {
+     "id": "INTEGER",
+     "v": "DOUBLE",
+     "w": "BOOLEAN",
+     "d": "DOUBLE",
+     "flag": "DATE",
+     "s": "BOOLEAN"
+    },
+    "keys": [
+     [
+      "id"
+     ]
+    ]
+   }
+  },
+  "instance": {
+   "t1": [
+    [
+     34,
+     null,
+     true,
+     {
+      "double": "0.25"
+     },
+     {
+      "date": "2026-01-01"
+     },
+     true
+    ],
+    [
+     3,
+     null,
+     false,
+     {
+      "double": "0.25"
+     },
+     {
+      "date": "2026-01-01"
+     },
+     true
+    ]
+   ]
+  }
+ },
+ {
+  "sql": "SELECT * FROM t0 a0 CROSS JOIN t2 a1 WHERE a1.s NOT IN ('A', 'ab') ORDER BY 1 NULLS LAST",
+  "verdict": "NARROW",
+  "tie": [
+   "\"a0\".\"id\""
+  ],
+  "run": "SELECT * FROM t0 AS a0 CROSS JOIN t2 AS a1 WHERE NOT a1.s IN ('A', 'ab') ORDER BY 1, \"a0\".\"id\" ASC",
+  "reproduced": true,
+  "seed": 1757,
+  "schema": {
+   "t0": {
+    "columns": {
+     "id": "INTEGER",
+     "y": "DOUBLE",
+     "flag": "BOOLEAN",
+     "name": "VARCHAR"
+    },
+    "keys": [
+     [
+      "id"
+     ]
+    ]
+   },
+   "t2": {
+    "columns": {
+     "id": "INTEGER",
+     "u": "VARCHAR",
+     "t0_id": "INTEGER",
+     "s": "VARCHAR",
+     "v": "BOOLEAN",
+     "name": "BOOLEAN"
+    },
+    "keys": [
+     [
+      "id"
+     ],
+     [
+      "u"
+     ]
+    ]
+   }
+  },
+  "instance": {
+   "t0": [
+    [
+     39,
+     {
+      "double": "0.25"
+     },
+     true,
+     "a"
+    ]
+   ],
+   "t2": [
+    [
+     38,
+     "K1",
+     6,
+     "aB",
+     false,
+     false
+    ],
+    [
+     22,
+     "zz",
+     36,
+     "aB",
+     true,
+     true
+    ]
+   ]
+  }
+ },
+ {
+  "sql": "SELECT a0.x AS c3, (1 / a0.x) AS y, a0.y FROM t4 a0 WHERE a0.s = a0.y AND a0.t0_id NOT IN (SELECT s0.t0_id FROM t1 s0) AND DATE '2026-01-02' = DATE '2026-01-02' ORDER BY (y) LIMIT 5",
+  "verdict": "NARROW",
+  "tie": [
+   "1",
+   "2"
+  ],
+  "run": "SELECT a0.x AS c3, (1 / a0.x) AS y, a0.y FROM t4 AS a0 WHERE a0.s = a0.y AND NOT a0.t0_id IN (SELECT s0.t0_id FROM t1 AS s0) AND CAST('2026-01-02' AS DATE) = CAST('2026-01-02' AS DATE) ORDER BY (y), 1 ASC, 2 ASC LIMIT 5",
+  "reproduced": true,
+  "seed": 1806,
+  "schema": {
+   "t1": {
+    "columns": {
+     "id": "INTEGER",
+     "n": "INTEGER",
+     "u": "VARCHAR",
+     "t0_id": "INTEGER",
+     "name": "VARCHAR",
+     "s": "VARCHAR",
+     "w": "DOUBLE",
+     "flag": "DOUBLE"
+    },
+    "keys": [
+     [
+      "id",
+      "n"
+     ],
+     [
+      "u"
+     ]
+    ]
+   },
+   "t4": {
+    "columns": {
+     "t0_id": "INTEGER",
+     "t3_id": "INTEGER",
+     "d": "BOOLEAN",
+     "y": "INTEGER",
+     "x": "DOUBLE",
+     "s": "INTEGER",
+     "id": "VARCHAR"
+    },
+    "keys": []
+   }
+  },
+  "instance": {
+   "t1": [],
+   "t4": [
+    [
+     26,
+     36,
+     true,
+     0,
+     {
+      "double": "-0.0"
+     },
+     0,
+     "aB"
+    ],
+    [
+     17,
+     8,
+     false,
+     -2,
+     {
+      "double": "-0.0"
+     },
+     -2,
+     null
+    ]
+   ]
+  }
+ },
+ {
+  "sql": "SELECT DISTINCT a0.id, a1.id, a1.amt FROM t2 a0 JOIN t3 a1 ON a0.name = a1.name ORDER BY 3 ASC, 1",
+  "verdict": "NARROW",
+  "tie": [
+   "1"
+  ],
+  "run": "SELECT DISTINCT a0.id, a1.id, a1.amt FROM t2 AS a0 JOIN t3 AS a1 ON a0.name = a1.name ORDER BY 3 ASC, 1, 1 ASC",
+  "reproduced": true,
+  "seed": 1809,
+  "schema": {
+   "t2": {
+    "columns": {
+     "code": "VARCHAR",
+     "w": "VARCHAR",
+     "id": "DECIMAL(10,2)",
+     "s": "INTEGER",
+     "name": "DOUBLE",
+     "flag": "INTEGER"
+    },
+    "keys": [
+     [
+      "code"
+     ]
+    ]
+   },
+   "t3": {
+    "columns": {
+     "id": "INTEGER",
+     "t0_id": "INTEGER",
+     "x": "DATE",
+     "n": "INTEGER",
+     "name": "DOUBLE",
+     "amt": "VARCHAR"
+    },
+    "keys": [
+     [
+      "id"
+     ]
+    ]
+   }
+  },
+  "instance": {
+   "t2": [
+    [
+     "C",
+     "",
+     {
+      "decimal": "1.00"
+     },
+     -2,
+     {
+      "double": "0.0"
+     },
+     1
+    ]
+   ],
+   "t3": [
+    [
+     4,
+     35,
+     {
+      "date": "2026-02-01"
+     },
+     4,
+     {
+      "double": "0.0"
+     },
+     "b "
+    ],
+    [
+     17,
+     null,
+     null,
+     4,
+     {
+      "double": "-0.0"
+     },
+     "b "
+    ]
+   ]
+  }
+ },
+ {
+  "sql": "SELECT DISTINCT * FROM t1 a0, t1 a1 ORDER BY 1 DESC NULLS FIRST",
+  "verdict": "NARROW",
+  "tie": [
+   "1"
+  ],
+  "run": "SELECT DISTINCT * FROM t1 AS a0, t1 AS a1 ORDER BY 1 DESC NULLS FIRST, 1 ASC",
+  "reproduced": true,
+  "seed": 1822,
+  "schema": {
+   "t1": {
+    "columns": {
+     "id": "INTEGER",
+     "n": "BOOLEAN",
+     "flag": "INTEGER",
+     "x": "DECIMAL(10,2)"
+    },
+    "keys": [
+     [
+      "id"
+     ]
+    ]
+   }
+  },
+  "instance": {
+   "t1": [
+    [
+     37,
+     false,
+     -1,
+     {
+      "decimal": "0.00"
+     }
+    ],
+    [
+     28,
+     true,
+     7,
+     {
+      "decimal": "1.25"
+     }
+    ]
+   ]
+  }
+ },
+ {
+  "sql": "SELECT DISTINCT a0.v, a0.s AS v FROM t3 a0 WHERE a0.d = 3 AND a0.v IS NOT NULL AND a0.amt = '1' ORDER BY 1 ASC LIMIT 5",
+  "verdict": "NARROW",
+  "tie": [
+   "1"
+  ],
+  "run": "SELECT DISTINCT a0.v, a0.s AS v FROM t3 AS a0 WHERE a0.d = 3 AND NOT a0.v IS NULL AND a0.amt = '1' ORDER BY 1 ASC, 1 ASC LIMIT 5",
+  "reproduced": true,
+  "seed": 1832,
+  "schema": {
+   "t3": {
+    "columns": {
+     "id": "INTEGER",
+     "s": "VARCHAR",
+     "v": "VARCHAR",
+     "w": "DOUBLE",
+     "amt": "VARCHAR",
+     "d": "INTEGER"
+    },
+    "keys": [
+     [
+      "id",
+      "s"
+     ]
+    ]
+   }
+  },
+  "instance": {
+   "t3": [
+    [
+     3,
+     "a",
+     "a",
+     {
+      "double": "-0.0"
+     },
+     "1",
+     3
+    ],
+    [
+     7,
+     "b",
+     "a",
+     {
+      "double": "2.0"
+     },
+     "1",
+     3
+    ]
+   ]
+  }
+ },
+ {
+  "sql": "SELECT w, CAST((n - a0.n) AS DECIMAL(10,2)) AS w, a0.t0_id AS c4 FROM t1 a0 JOIN t3 a1 ON a0.name < a1.d ORDER BY c4 NULLS LAST, 1",
+  "verdict": "NARROW",
+  "tie": [
+   "\"a1\".\"code\""
+  ],
+  "run": "SELECT w, CAST((n - a0.n) AS DECIMAL(10, 2)) AS w, a0.t0_id AS c4 FROM t1 AS a0 JOIN t3 AS a1 ON a0.name < a1.d ORDER BY c4, 1, \"a1\".\"code\" ASC",
+  "reproduced": true,
+  "seed": 1902,
+  "schema": {
+   "t1": {
+    "columns": {
+     "code": "VARCHAR",
+     "t0_id": "INTEGER",
+     "n": "DOUBLE",
+     "name": "DATE",
+     "d": "BOOLEAN"
+    },
+    "keys": [
+     [
+      "code"
+     ]
+    ]
+   },
+   "t3": {
+    "columns": {
+     "code": "VARCHAR",
+     "amt": "INTEGER",
+     "d": "DATE",
+     "flag": "DECIMAL(10,2)",
+     "y": "VARCHAR",
+     "w": "VARCHAR"
+    },
+    "keys": [
+     [
+      "code"
+     ]
+    ]
+   }
+  },
+  "instance": {
+   "t1": [
+    [
+     "k2",
+     31,
+     null,
+     {
+      "date": "2026-01-02"
+     },
+     true
+    ],
+    [
+     "z",
+     31,
+     {
+      "double": "1.5"
+     },
+     {
+      "date": "2026-01-01"
+     },
+     false
+    ]
+   ],
+   "t3": [
+    [
+     "k10",
+     4,
+     {
+      "date": "2027-01-01"
+     },
+     {
+      "decimal": "0.50"
+     },
+     "",
+     "A"
+    ]
+   ]
+  }
+ },
+ {
+  "sql": "SELECT DISTINCT SUM(a0.v) AS id, a0.id FROM t0 a0 WHERE NOT EXISTS (SELECT 1 FROM t4 s0 WHERE s0.t0_id = a0.id AND s0.t0_id <> 4) GROUP BY a0.id HAVING MIN(a0.id) > 3 ORDER BY 1 DESC NULLS FIRST",
+  "verdict": "NARROW",
+  "tie": [
+   "1"
+  ],
+  "run": "SELECT DISTINCT SUM(a0.v) AS id, a0.id FROM t0 AS a0 WHERE NOT EXISTS(SELECT 1 FROM t4 AS s0 WHERE s0.t0_id = a0.id AND s0.t0_id <> 4) GROUP BY a0.id HAVING MIN(a0.id) > 3 ORDER BY 1 DESC NULLS FIRST, 1 ASC",
+  "reproduced": true,
+  "seed": 1908,
+  "schema": {
+   "t0": {
+    "columns": {
+     "id": "INTEGER",
+     "x": "VARCHAR",
+     "v": "DECIMAL(10,2)",
+     "y": "VARCHAR",
+     "flag": "DECIMAL(10,2)"
+    },
+    "keys": [
+     [
+      "id"
+     ]
+    ]
+   },
+   "t4": {
+    "columns": {
+     "d": "DATE",
+     "t0_id": "INTEGER",
+     "t1_id": "INTEGER",
+     "x": "BOOLEAN",
+     "id": "INTEGER",
+     "y": "DATE",
+     "w": "DATE"
+    },
+    "keys": [
+     [
+      "d"
+     ]
+    ]
+   }
+  },
+  "instance": {
+   "t0": [
+    [
+     33,
+     "ab",
+     {
+      "decimal": "-1.50"
+     },
+     "ba",
+     {
+      "decimal": "2.00"
+     }
+    ],
+    [
+     4,
+     "ab",
+     {
+      "decimal": "-1.50"
+     },
+     "a",
+     {
+      "decimal": "2.00"
+     }
+    ]
+   ],
+   "t4": []
+  }
+ },
+ {
+  "sql": "SELECT DISTINCT a1.flag AS t0_id, (NOT FALSE), a1.t0_id FROM t0 a0, t4 a1 WHERE a0.id <> a1.n AND a0.id = 1 AND n <> -1 AND a1.w = DATE '2026-01-01' ORDER BY t0_id NULLS FIRST",
+  "verdict": "NARROW",
+  "tie": [
+   "1"
+  ],
+  "run": "SELECT DISTINCT a1.flag AS t0_id, (NOT FALSE), a1.t0_id FROM t0 AS a0, t4 AS a1 WHERE a0.id <> a1.n AND a0.id = 1 AND n <> -1 AND a1.w = CAST('2026-01-01' AS DATE) ORDER BY t0_id NULLS FIRST, 1 ASC",
+  "reproduced": true,
+  "seed": 1932,
+  "schema": {
+   "t0": {
+    "columns": {
+     "id": "INTEGER",
+     "v": "DATE",
+     "s": "INTEGER",
+     "w": "DOUBLE"
+    },
+    "keys": [
+     [
+      "id"
+     ]
+    ]
+   },
+   "t4": {
+    "columns": {
+     "id": "INTEGER",
+     "n": "INTEGER",
+     "u": "VARCHAR",
+     "t0_id": "INTEGER",
+     "x": "INTEGER",
+     "flag": "DATE",
+     "s": "INTEGER",
+     "w": "DATE",
+     "y": "BOOLEAN"
+    },
+    "keys": [
+     [
+      "id",
+      "n"
+     ],
+     [
+      "u"
+     ]
+    ]
+   }
+  },
+  "instance": {
+   "t0": [
+    [
+     1,
+     {
+      "date": "2026-01-02"
+     },
+     null,
+     {
+      "double": "-0.0"
+     }
+    ]
+   ],
+   "t4": [
+    [
+     6,
+     2,
+     "k1",
+     99,
+     1,
+     {
+      "date": "2026-01-02"
+     },
+     2,
+     {
+      "date": "2026-01-01"
+     },
+     true
+    ],
+    [
+     3,
+     2,
+     "aa",
+     9,
+     -2,
+     {
+      "date": "2026-01-02"
+     },
+     3,
+     {
+      "date": "2026-01-01"
+     },
+     false
+    ]
+   ]
+  }
+ },
+ {
+  "sql": "SELECT DISTINCT * FROM t3 a0, t0 a1 WHERE EXISTS (SELECT 1 FROM t3 s0 WHERE s0.s = a0.s) AND a1.name NOT IN (SELECT s1.name FROM t4 s1) ORDER BY 1 ASC NULLS LAST",
+  "verdict": "NARROW",
+  "tie": [
+   "1"
+  ],
+  "run": "SELECT DISTINCT * FROM t3 AS a0, t0 AS a1 WHERE EXISTS(SELECT 1 FROM t3 AS s0 WHERE s0.s = a0.s) AND NOT a1.name IN (SELECT s1.name FROM t4 AS s1) ORDER BY 1 ASC, 1 ASC",
+  "reproduced": true,
+  "seed": 1936,
+  "schema": {
+   "t0": {
+    "columns": {
+     "id": "INTEGER",
+     "x": "DOUBLE",
+     "name": "VARCHAR",
+     "n": "DATE",
+     "v": "INTEGER",
+     "s": "VARCHAR"
+    },
+    "keys": [
+     [
+      "id"
+     ]
+    ]
+   },
+   "t3": {
+    "columns": {
+     "id": "INTEGER",
+     "u": "VARCHAR",
+     "s": "VARCHAR",
+     "w": "DECIMAL(10,2)",
+     "y": "DOUBLE",
+     "d": "DECIMAL(10,2)"
+    },
+    "keys": [
+     [
+      "id"
+     ],
+     [
+      "u"
+     ]
+    ]
+   },
+   "t4": {
+    "columns": {
+     "id": "INTEGER",
+     "s": "VARCHAR",
+     "u": "VARCHAR",
+     "t0_id": "INTEGER",
+     "t2_id": "INTEGER",
+     "t3_id": "INTEGER",
+     "d": "VARCHAR",
+     "name": "VARCHAR",
+     "v": "DOUBLE",
+     "x": "BOOLEAN",
+     "n": "VARCHAR"
+    },
+    "keys": [
+     [
+      "id",
+      "s"
+     ],
+     [
+      "u"
+     ]
+    ]
+   }
+  },
+  "instance": {
+   "t0": [
+    [
+     26,
+     {
+      "double": "2.0"
+     },
+     "b ",
+     {
+      "date": "2026-01-02"
+     },
+     3,
+     "ba"
+    ],
+    [
+     27,
+     {
+      "double": "-0.0"
+     },
+     "ba",
+     {
+      "date": "2026-02-01"
+     },
+     -1,
+     "01"
+    ]
+   ],
+   "t3": [
+    [
+     20,
+     "aa",
+     "01",
+     {
+      "decimal": "-1.50"
+     },
+     null,
+     {
+      "decimal": "2.00"
+     }
+    ]
+   ],
+   "t4": []
+  }
+ },
+ {
+  "sql": "SELECT a0.amt, CASE WHEN (a0.amt < a0.amt) THEN DATE '2027-01-01' ELSE (DATE '2026-02-01' + 1) END, a0.id AS amt FROM t0 a0 WHERE a0.d = FALSE ORDER BY 1 NULLS FIRST",
+  "verdict": "DET",
+  "tie": [],
+  "run": "SELECT a0.amt, CASE WHEN (a0.amt < a0.amt) THEN DATE '2027-01-01' ELSE (DATE '2026-02-01' + 1) END, a0.id AS amt FROM t0 a0 WHERE a0.d = FALSE ORDER BY 1 NULLS FIRST",
+  "reproduced": true,
+  "seed": 1942,
+  "schema": {
+   "t0": {
+    "columns": {
+     "id": "INTEGER",
+     "v": "BOOLEAN",
+     "s": "DOUBLE",
+     "amt": "INTEGER",
+     "d": "BOOLEAN"
+    },
+    "keys": [
+     [
+      "id"
+     ]
+    ]
+   }
+  },
+  "instance": {
+   "t0": [
+    [
+     29,
+     true,
+     {
+      "double": "-0.0"
+     },
+     4,
+     false
+    ],
+    [
+     18,
+     true,
+     null,
+     4,
+     false
+    ]
+   ]
+  }
+ },
+ {
+  "sql": "SELECT a1.x, a0.name AS c2, a0.n, a0.id AS x FROM t3 a0, t1 a1, t0 a2 WHERE a1.id >= a2.id AND a1.x <> (SELECT MIN(TRUE) FROM t3 s0 WHERE s0.n = a0.n) AND a2.id NOT IN (1, 10) ORDER BY 1",
+  "verdict": "NARROW",
+  "tie": [
+   "3",
+   "1"
+  ],
+  "run": "SELECT a1.x, a0.name AS c2, a0.n, a0.id AS x FROM t3 AS a0, t1 AS a1, t0 AS a2 WHERE a1.id >= a2.id AND a1.x <> (SELECT MIN(TRUE) FROM t3 AS s0 WHERE s0.n = a0.n) AND NOT a2.id IN (1, 10) ORDER BY 1, 3 ASC, 1 ASC",
+  "reproduced": true,
+  "seed": 1993,
+  "schema": {
+   "t0": {
+    "columns": {
+     "id": "INTEGER",
+     "n": "INTEGER",
+     "d": "DATE",
+     "x": "DECIMAL(10,2)",
+     "flag": "DOUBLE",
+     "v": "DECIMAL(10,2)",
+     "s": "INTEGER"
+    },
+    "keys": [
+     [
+      "id",
+      "n"
+     ]
+    ]
+   },
+   "t1": {
+    "columns": {
+     "id": "INTEGER",
+     "n": "INTEGER",
+     "flag": "VARCHAR",
+     "name": "VARCHAR",
+     "x": "BOOLEAN"
+    },
+    "keys": [
+     [
+      "id",
+      "n"
+     ]
+    ]
+   },
+   "t3": {
+    "columns": {
+     "id": "INTEGER",
+     "n": "INTEGER",
+     "name": "DOUBLE",
+     "s": "VARCHAR",
+     "w": "DOUBLE",
+     "d": "DOUBLE"
+    },
+    "keys": [
+     [
+      "id",
+      "n"
+     ]
+    ]
+   }
+  },
+  "instance": {
+   "t0": [
+    [
+     4,
+     3,
+     {
+      "date": "2026-01-02"
+     },
+     {
+      "decimal": "1.00"
+     },
+     {
+      "double": "1.5"
+     },
+     {
+      "decimal": "2.00"
+     },
+     6
+    ]
+   ],
+   "t1": [
+    [
+     7,
+     2,
+     "",
+     "A",
+     false
+    ]
+   ],
+   "t3": [
+    [
+     7,
+     3,
+     null,
+     "ab",
+     {
+      "double": "1.5"
+     },
+     {
+      "double": "-1.5"
+     }
+    ],
+    [
+     5,
+     3,
+     {
+      "double": "2.0"
+     },
+     "1",
+     {
+      "double": "0.25"
+     },
+     {
+      "double": "-1.5"
+     }
+    ]
+   ]
+  }
+ }
+]
